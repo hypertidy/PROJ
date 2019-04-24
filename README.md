@@ -8,7 +8,7 @@
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system
-transformatiosn.
+transformations.
 
 ## Installation
 
@@ -61,11 +61,11 @@ rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALS
           sf = st_transform(sfx, dst))
 #> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 #>     test replications elapsed relative user.self sys.self user.child
-#> 4 lwgeom          100  15.631    5.318    15.528    0.095          0
-#> 1   PROJ          100   3.195    1.087     3.141    0.052          0
-#> 2 reproj          100   4.117    1.401     3.970    0.144          0
-#> 3  rgdal          100   2.939    1.000     2.922    0.016          0
-#> 5     sf          100  16.192    5.509    16.164    0.020          0
+#> 4 lwgeom          100  14.758    5.107    14.690    0.068          0
+#> 1   PROJ          100   3.137    1.085     3.083    0.052          0
+#> 2 reproj          100   3.742    1.295     3.622    0.120          0
+#> 3  rgdal          100   2.890    1.000     2.850    0.040          0
+#> 5     sf          100  15.504    5.365    15.484    0.020          0
 #>   sys.child
 #> 4         0
 #> 1         0
