@@ -59,8 +59,8 @@ List proj_trans(
    a = proj_coord (X[i], Y[i], Z[i], 0);
    b = proj_trans (P, PJ_INV, a);
 
-   bx[i] = b.lp.lam;
-   by[i] = b.lp.phi;
+   bx[i] = proj_todeg( b.lp.lam);
+   by[i] = proj_todeg(b.lp.phi);
   }
   }
   /* Clean up */
