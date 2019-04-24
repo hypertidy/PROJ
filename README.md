@@ -50,19 +50,6 @@ plot(lonlat$X, lonlat$Y, pch = ".")
 # Speed comparisons
 
 ``` r
-library(lwgeom)
-#> Linking to liblwgeom 2.5.0dev r16016, GEOS 3.7.0, PROJ 5.2.0
-library(rgdal)
-#> Loading required package: sp
-#> rgdal: version: 1.4-3, (SVN revision 828)
-#>  Geospatial Data Abstraction Library extensions to R successfully loaded
-#>  Loaded GDAL runtime: GDAL 2.4.0, released 2018/12/14
-#>  Path to GDAL shared files: /usr/share/gdal
-#>  GDAL binary built with GEOS: TRUE 
-#>  Loaded PROJ.4 runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
-#>  Path to PROJ.4 shared files: (autodetected)
-#>  Linking to sp version: 1.3-1
-library(reproj)
 ll <- cbind(lon, lat)
 llproj <- "+proj=longlat +datum=WGS84"
 stll <- sf::st_crs(llproj)
@@ -74,11 +61,11 @@ rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALS
           sf = st_transform(sfx, dst))
 #> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 #>     test replications elapsed relative user.self sys.self user.child
-#> 4 lwgeom          100  14.962    5.667    14.845    0.116          0
-#> 1   PROJ          100   2.640    1.000     2.600    0.040          0
-#> 2 reproj          100   3.795    1.437     3.679    0.116          0
-#> 3  rgdal          100   2.964    1.123     2.936    0.028          0
-#> 5     sf          100  15.972    6.050    15.892    0.080          0
+#> 4 lwgeom          100  15.631    5.318    15.528    0.095          0
+#> 1   PROJ          100   3.195    1.087     3.141    0.052          0
+#> 2 reproj          100   4.117    1.401     3.970    0.144          0
+#> 3  rgdal          100   2.939    1.000     2.922    0.016          0
+#> 5     sf          100  16.192    5.509    16.164    0.020          0
 #>   sys.child
 #> 4         0
 #> 1         0
