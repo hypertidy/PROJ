@@ -1,0 +1,24 @@
+Package: PROJ
+Title: Generic Coordinate System Transformations
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Michael D.",
+           family = "Sumner",
+           role = c("aut", "cre"),
+           email = "mdsumner@gmail.com",
+           comment = c(ORCID = "0000-0002-2471-7511"))
+Description: 'PROJ' is a generic coordinate transformation software that transforms 
+ geospatial coordinates from one coordinate reference system (CRS) to another. This 
+  includes cartographic projections as well as geodetic transformations.
+Depends: R (>= 2.10)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+LinkingTo: 
+    Rcpp
+Imports: 
+    Rcpp
+Suggests: 
+    testthat
