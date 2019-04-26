@@ -29,7 +29,7 @@ The goal of PROJ is to provide generic coordinate system transformations.
 
 ## Installation
 
-Too early. 
+WIP
 
 # Notes
 
@@ -69,7 +69,7 @@ A more realistic example with coastline map data.
 
 ```{r example}
 library(PROJ)
-w <- quadmesh::xymap
+w <- PROJ:::worlddata
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"

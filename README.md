@@ -14,7 +14,7 @@ transformations.
 
 ## Installation
 
-Too early.
+WIP
 
 # Notes
 
@@ -65,7 +65,7 @@ A more realistic example with coastline map data.
 
 ``` r
 library(PROJ)
-w <- quadmesh::xymap
+w <- PROJ:::worlddata
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
@@ -97,11 +97,11 @@ rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALS
           sf = st_transform(sfx, dst))
 #> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 #>     test replications elapsed relative user.self sys.self user.child
-#> 4 lwgeom          100  15.876    5.166    15.777    0.092          0
-#> 1   PROJ          100   3.119    1.015     3.086    0.032          0
-#> 2 reproj          100   4.010    1.305     3.916    0.092          0
-#> 3  rgdal          100   3.073    1.000     3.037    0.036          0
-#> 5     sf          100  16.083    5.234    16.075    0.004          0
+#> 4 lwgeom          100  16.427    5.527    16.284    0.139          0
+#> 1   PROJ          100   3.095    1.041     3.087    0.008          0
+#> 2 reproj          100   3.594    1.209     3.509    0.083          0
+#> 3  rgdal          100   2.972    1.000     2.947    0.024          0
+#> 5     sf          100  17.683    5.950    17.563    0.120          0
 #>   sys.child
 #> 4         0
 #> 1         0
