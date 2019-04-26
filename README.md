@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system
@@ -26,6 +28,40 @@ THINGS TO WORRY ABOUT:
 <https://proj4.org/development/quickstart.html>
 
 ## Example
+
+Minimal code example, two lon-lat coordinates to LAEA, and back.
+
+``` r
+library(PROJ)
+lon <- c(0, 147)
+lat <- c(0, -42)
+z <- rep(0, length(lon))
+dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
+
+## forward transformation
+(xy <- proj_trans(dst, lon, lat, z, INV = FALSE))
+#> $X
+#> [1] -8.013029e+06  2.108091e-09
+#> 
+#> $Y
+#> [1] -8225762        0
+#> 
+#> $Z
+#> [1] 0 0
+
+## inverse transformation
+proj_trans(dst, xy$X, xy$Y, z, INV = TRUE)
+#> $X
+#> [1]   0 147
+#> 
+#> $Y
+#> [1] -3.194835e-15 -4.200000e+01
+#> 
+#> $Z
+#> [1] 0 0
+```
+
+A more realistic example with coastline map data.
 
 ``` r
 library(PROJ)
@@ -61,11 +97,11 @@ rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALS
           sf = st_transform(sfx, dst))
 #> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 #>     test replications elapsed relative user.self sys.self user.child
-#> 4 lwgeom          100  14.758    5.107    14.690    0.068          0
-#> 1   PROJ          100   3.137    1.085     3.083    0.052          0
-#> 2 reproj          100   3.742    1.295     3.622    0.120          0
-#> 3  rgdal          100   2.890    1.000     2.850    0.040          0
-#> 5     sf          100  15.504    5.365    15.484    0.020          0
+#> 4 lwgeom          100  15.876    5.166    15.777    0.092          0
+#> 1   PROJ          100   3.119    1.015     3.086    0.032          0
+#> 2 reproj          100   4.010    1.305     3.916    0.092          0
+#> 3  rgdal          100   3.073    1.000     3.037    0.036          0
+#> 5     sf          100  16.083    5.234    16.075    0.004          0
 #>   sys.child
 #> 4         0
 #> 1         0
@@ -73,6 +109,61 @@ rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALS
 #> 3         0
 #> 5         0
 ```
+
+## Why PROJ?
+
+The [reproj](https://CRAN.R-project.org/package=reproj) package wraps
+the very efficient `proj::ptransform()` function for general coordinate
+system transformations. Several package now use reproj for its
+consistency (no format or plumbing issues) and efficiency (directly
+transforming bulk coordinates). The proj4 package used by reproj doesn’t
+provide the modern features of PROJ (PROJ.4), has not been updated on
+CRAN since 2012 and has an uncertain future. So reproj requires a new
+wrapper around PROJ (PROJ.4) itself.
+
+Since the 1990s [PROJ.4](https://proj4.org) has been the name of the
+common standard library for general coordinate system transformations
+(for geospatial). That 1994 release has been modernized and now has
+versions **PROJ 5** and **PROJ 6**. There’s a bit of traction in the
+name PROJ.4, so it has stuck
+
+I’ll use “PROJ (PROJ.4)” to distinguish the [system
+library](https://proj4.org) from [this
+package](https://github.com/mdsumner/PROJ).
+
+There are a few links to the PROJ (PROJ.4) library in R.
+
+  - [rgdal](https://CRAN.R-project.org/package=rgdal) Provides low level
+    `project(matrix, inv = TRUE/FALSE)`, and engine behind
+    `sp::spTransform()`.
+  - [proj4](https://CRAN.R-project.org/package=proj4) Provides low level
+    `project()` and `ptransform`.
+  - [sf](https://CRAN.R-project.org/package=sf) Provides high level
+    `st_transform()` which works via the GDAL library and its own
+    internal version of PROJ (PROJ.4). Converts coordinates in list
+    heirarchies of matrices into WKB for the transformations.
+  - [lwgeom](https://CRAN.R-project.org/package=lwgeom) Provides high
+    level `st_transform_proj()` also converts coordinates in list
+    heirarchies of matrices into WKB, but internally uses the PROJ
+    (PROJ.4) library directly.
+
+(The [mapproject](https://CRAN.R-project.org/package=mapproject) package
+uses all its own internal code).
+
+Only rgdal and proj4 provide raw access to coordinate transformations
+for R vectors. Rgdal only has project forward and project inverse and
+always works in degrees proj4 has the more general `ptransform()` but
+requires manual conversion of degree values into radians. PROJ (PROJ.4)
+internally works only with radians.
+
+The packages rgdal, sf, lwgeom are now compatible with PROJ 5 (and 6)
+and don’t need any further attention in this regard. They work fine
+within their chosen context.
+
+Are there any other wrappers around PROJ (PROJ.4) on CRAN or
+Bioconductor, or in the works? Let me know\!
+
+-----
 
 Please note that the ‘PROJ’ project is released with a [Contributor Code
 of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
