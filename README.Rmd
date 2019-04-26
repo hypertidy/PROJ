@@ -25,7 +25,9 @@ library(reproj)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of PROJ is to provide generic coordinate system transformations. 
+The goal of PROJ is to provide generic coordinate system transformations and overcome some current
+challenges and limitations in R. 
+
 
 ## Installation
 
@@ -52,14 +54,13 @@ Minimal code example, two lon-lat coordinates to LAEA, and back.
 library(PROJ)
 lon <- c(0, 147)
 lat <- c(0, -42)
-z <- rep(0, length(lon))
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
 
 ## forward transformation
-(xy <- proj_trans(dst, lon, lat, z, INV = FALSE))
+(xy <- proj_trans(dst, lon, lat, INV = FALSE))
 
 ## inverse transformation
-proj_trans(dst, xy$X, xy$Y, z, INV = TRUE)
+proj_trans(dst, xy[,1L], xy[,2L], INV = TRUE)
 
 
 ```
@@ -74,10 +75,10 @@ lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
 xyz <- proj_trans(dst, X = lon, Y = lat, Z = rep(0, length(lon)), INV = FALSE)
-plot(xyz$X, xyz$Y, pch = ".")
+plot(xyz, pch = ".")
 
-lonlat <- proj_trans(dst, X = xyz$X, Y = xyz$Y, Z = rep(0, length(lon)), INV = TRUE)
-plot(lonlat$X, lonlat$Y, pch = ".")
+lonlat <- proj_trans(dst, X = xyz[,1:2], INV = TRUE)
+plot(lonlat, pch = ".")
 ```
 
 
@@ -98,7 +99,13 @@ rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALS
 
 ## Why PROJ?
 
-The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package used by reproj doesn't provide the modern features of PROJ (PROJ.4), has not been updated on CRAN since 2012 and has an uncertain future. So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
+Limitations in R coordinate transformations. 
+
+* sp::spTransform will error on NA values, PROJ will tag them and return as NA
+* sp::spTransform will error if longlat values are out of range, even though PROJ (PROJ.4) will accept them and wrap (up to about 720 longitude, needs checking in modern versions), PROJ will let the library handle this
+* sp and sf have no 'st_transform()' for matrix of coordinates, POINT must be split on every row in a list, otherwise converted to MULTPOINT or LINESTRING, converted to WKB, etc. 
+
+The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package used by reproj doesn't provide the modern features of PROJ (PROJ.4), has not been updated on CRAN since 2012 and has an uncertain future. So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
 
 Since the 1990s [PROJ.4](https://proj4.org) has been the name of the common standard library for general coordinate system transformations (for geospatial). That 1994 release has been modernized and now has versions **PROJ 5** and **PROJ 6**. There's a bit of traction in the name PROJ.4, so it has stuck 
 

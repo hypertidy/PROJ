@@ -5,9 +5,9 @@
 
 using namespace Rcpp;
 
-// proj_trans
-List proj_trans(Rcpp::CharacterVector TARGET, Rcpp::DoubleVector X, Rcpp::DoubleVector Y, Rcpp::DoubleVector Z, Rcpp::LogicalVector INV);
-RcppExport SEXP _PROJ_proj_trans(SEXP TARGETSEXP, SEXP XSEXP, SEXP YSEXP, SEXP ZSEXP, SEXP INVSEXP) {
+// proj_trans_cpp
+List proj_trans_cpp(Rcpp::CharacterVector TARGET, Rcpp::DoubleVector X, Rcpp::DoubleVector Y, Rcpp::DoubleVector Z, Rcpp::LogicalVector INV);
+RcppExport SEXP _PROJ_proj_trans_cpp(SEXP TARGETSEXP, SEXP XSEXP, SEXP YSEXP, SEXP ZSEXP, SEXP INVSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -16,7 +16,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::DoubleVector >::type Y(YSEXP);
     Rcpp::traits::input_parameter< Rcpp::DoubleVector >::type Z(ZSEXP);
     Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type INV(INVSEXP);
-    rcpp_result_gen = Rcpp::wrap(proj_trans(TARGET, X, Y, Z, INV));
+    rcpp_result_gen = Rcpp::wrap(proj_trans_cpp(TARGET, X, Y, Z, INV));
     return rcpp_result_gen;
 END_RCPP
 }

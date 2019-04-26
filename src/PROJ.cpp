@@ -3,27 +3,8 @@ using namespace Rcpp;
 
 #include "proj.h"
 
-//' PROJ trans
-//'
-//' Coordinate transform in forward or inverse mode
-//'
-//'
-//' t is set to 0 internally
-//' https://proj4.org/development/quickstart.html
-//'
-//' @export
-//' @param TARGET target projection
-//' @param X x coordinate
-//' @param Y y coordinate
-//' @param Z z coordinate
-//' @param INV forward or inverse projection (default forward = FALSE)
-//' @return list of transformed x, y, z
-//' @examples
-//' dst<- "+proj=laea +datum=WGS84 +lon_0=1"
-//' proj_trans(dst, 0, 0, 0, FALSE)
-//' proj_trans(dst, -111318.1, 0, 0, TRUE)
 // [[Rcpp::export]]
-List proj_trans(
+List proj_trans_cpp(
                         Rcpp::CharacterVector TARGET,
                         Rcpp::DoubleVector X,
                         Rcpp::DoubleVector Y,
