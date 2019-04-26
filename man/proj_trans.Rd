@@ -4,16 +4,16 @@
 \alias{proj_trans}
 \title{PROJ trans}
 \usage{
-proj_trans(TARGET, X, Y = NULL, Z = NULL, ..., INV = FALSE)
+proj_trans(TARGET, X, Y, Z = 0, ..., INV = FALSE, check_proj = TRUE)
 }
 \arguments{
 \item{TARGET}{target projection}
 
-\item{X}{x coordinate}
+\item{X}{x coordinate, no default}
 
-\item{Y}{y coordinate}
+\item{Y}{y coordinate, no default}
 
-\item{Z}{z coordinate}
+\item{Z}{z coordinate, defaults to zero}
 
 \item{...}{unused, but ensures that 'INV' must be named}
 
@@ -28,6 +28,8 @@ Coordinate transform in forward or inverse mode
 \details{
 t is set to 0 internally
 https://proj4.org/development/quickstart.html
+
+The minimal input is three arguments, 'TARGET', 'X', 'Y'
 }
 \examples{
 dst<- "+proj=laea +datum=WGS84 +lon_0=1"

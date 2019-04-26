@@ -19,7 +19,7 @@ List proj_trans_cpp(
   /* use PJ objects from only one thread                          */
   C = proj_context_create();
   P = proj_create (C, TARGET[0]);
-  if (0==P) Rcpp::stop("oops\n");
+  if (0==P) Rcpp::stop("Failed to create CRS from TARGET\n");
 
   int n = X.length();
   NumericVector bx(n);

@@ -9,8 +9,8 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of PROJ is to provide generic coordinate system
-transformations.
+The goal of PROJ is to provide generic coordinate system transformations
+and overcome some current challenges and limitations in R.
 
 ## Installation
 
@@ -35,30 +35,19 @@ Minimal code example, two lon-lat coordinates to LAEA, and back.
 library(PROJ)
 lon <- c(0, 147)
 lat <- c(0, -42)
-z <- rep(0, length(lon))
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
 
 ## forward transformation
-(xy <- proj_trans(dst, lon, lat, z, INV = FALSE))
-#> $X
-#> [1] -8.013029e+06  2.108091e-09
-#> 
-#> $Y
-#> [1] -8225762        0
-#> 
-#> $Z
-#> [1] 0 0
+(xy <- proj_trans(dst, lon, lat, INV = FALSE))
+#>               [,1]     [,2]          [,3]
+#> [1,] -8.013029e+06 -8225762  0.000000e+00
+#> [2,]  2.108091e-09        0 6.631237e-314
 
 ## inverse transformation
-proj_trans(dst, xy$X, xy$Y, z, INV = TRUE)
-#> $X
-#> [1]   0 147
-#> 
-#> $Y
-#> [1] -3.194835e-15 -4.200000e+01
-#> 
-#> $Z
-#> [1] 0 0
+proj_trans(dst, xy[,1L], xy[,2L], xy[,3], INV = TRUE)
+#>      [,1]          [,2] [,3]
+#> [1,]    0 -3.194835e-15    0
+#> [2,]  147 -4.200000e+01    0
 ```
 
 A more realistic example with coastline map data.
@@ -70,15 +59,15 @@ lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
 xyz <- proj_trans(dst, X = lon, Y = lat, Z = rep(0, length(lon)), INV = FALSE)
-plot(xyz$X, xyz$Y, pch = ".")
+plot(xyz, pch = ".")
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
 ``` r
 
-lonlat <- proj_trans(dst, X = xyz$X, Y = xyz$Y, Z = rep(0, length(lon)), INV = TRUE)
-plot(lonlat$X, lonlat$Y, pch = ".")
+lonlat <- proj_trans(dst, X = xyz[,1], Y = xyz[,2], INV = TRUE)
+plot(lonlat, pch = ".")
 ```
 
 <img src="man/figures/README-example-2.png" width="100%" />
@@ -86,34 +75,36 @@ plot(lonlat$X, lonlat$Y, pch = ".")
 # Speed comparisons
 
 ``` r
+library(reproj)
+library(rgdal)
+library(lwgeom)
+library(sf)
+#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 ll <- cbind(lon, lat)
+z <- rep(0, length(lon))
 llproj <- "+proj=longlat +datum=WGS84"
 stll <- sf::st_crs(llproj)
 sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
-rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALSE), 
-          reproj = reproj(cbind(lon, lat), target = dst, source = llproj), 
+bench::mark(
+          PROJ = proj_trans(dst, lon, lat, z, FALSE,  check_proj = FALSE), 
+          reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
-          lwgeom = st_transform_proj(sfx, dst), 
-          sf = st_transform(sfx, dst))
-#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
-#>     test replications elapsed relative user.self sys.self user.child
-#> 4 lwgeom          100  16.427    5.527    16.284    0.139          0
-#> 1   PROJ          100   3.095    1.041     3.087    0.008          0
-#> 2 reproj          100   3.594    1.209     3.509    0.083          0
-#> 3  rgdal          100   2.972    1.000     2.947    0.024          0
-#> 5     sf          100  17.683    5.950    17.563    0.120          0
-#>   sys.child
-#> 4         0
-#> 1         0
-#> 2         0
-#> 3         0
-#> 5         0
+#          lwgeom = st_transform_proj(sfx, dst), 
+#          sf = st_transform(sfx, dst), 
+          iterations = 100, check = FALSE) %>% dplyr::arrange(`itr/sec`)
+#> # A tibble: 3 x 10
+#>   expression    min   mean median    max `itr/sec` mem_alloc  n_gc n_itr
+#>   <chr>      <bch:> <bch:> <bch:> <bch:>     <dbl> <bch:byt> <dbl> <int>
+#> 1 PROJ       33.4ms 34.4ms 34.3ms 38.3ms      29.1    9.82MB    41    59
+#> 2 reproj       31ms 31.8ms 31.5ms 33.7ms      31.5   14.29MB    67    34
+#> 3 rgdal      27.1ms 27.9ms 27.7ms 30.2ms      35.9    5.63MB    22    78
+#> # … with 1 more variable: total_time <bch:tm>
 ```
 
 ## Why PROJ?
 
 The [reproj](https://CRAN.R-project.org/package=reproj) package wraps
-the very efficient `proj::ptransform()` function for general coordinate
+the very efficient `proj4::ptransform()` function for general coordinate
 system transformations. Several package now use reproj for its
 consistency (no format or plumbing issues) and efficiency (directly
 transforming bulk coordinates). The proj4 package used by reproj doesn’t

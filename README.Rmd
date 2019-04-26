@@ -60,7 +60,7 @@ dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
 (xy <- proj_trans(dst, lon, lat, INV = FALSE))
 
 ## inverse transformation
-proj_trans(dst, xy[,1L], xy[,2L], INV = TRUE)
+proj_trans(dst, xy[,1L], xy[,2L], xy[,3], INV = TRUE)
 
 
 ```
@@ -77,7 +77,7 @@ dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
 xyz <- proj_trans(dst, X = lon, Y = lat, Z = rep(0, length(lon)), INV = FALSE)
 plot(xyz, pch = ".")
 
-lonlat <- proj_trans(dst, X = xyz[,1:2], INV = TRUE)
+lonlat <- proj_trans(dst, X = xyz[,1], Y = xyz[,2], INV = TRUE)
 plot(lonlat, pch = ".")
 ```
 
@@ -86,24 +86,26 @@ plot(lonlat, pch = ".")
 # Speed comparisons
 
 ```{r speed}
+library(reproj)
+library(rgdal)
+library(lwgeom)
+library(sf)
 ll <- cbind(lon, lat)
+z <- rep(0, length(lon))
 llproj <- "+proj=longlat +datum=WGS84"
 stll <- sf::st_crs(llproj)
 sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
-rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALSE), 
-          reproj = reproj(cbind(lon, lat), target = dst, source = llproj), 
+bench::mark(
+          PROJ = proj_trans(dst, lon, lat, z, FALSE,  check_proj = FALSE), 
+          reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
-          lwgeom = st_transform_proj(sfx, dst), 
-          sf = st_transform(sfx, dst))
+#          lwgeom = st_transform_proj(sfx, dst), 
+#          sf = st_transform(sfx, dst), 
+          iterations = 100, check = FALSE) %>% dplyr::arrange(`itr/sec`)
 ```
 
 ## Why PROJ?
 
-Limitations in R coordinate transformations. 
-
-* sp::spTransform will error on NA values, PROJ will tag them and return as NA
-* sp::spTransform will error if longlat values are out of range, even though PROJ (PROJ.4) will accept them and wrap (up to about 720 longitude, needs checking in modern versions), PROJ will let the library handle this
-* sp and sf have no 'st_transform()' for matrix of coordinates, POINT must be split on every row in a list, otherwise converted to MULTPOINT or LINESTRING, converted to WKB, etc. 
 
 The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package used by reproj doesn't provide the modern features of PROJ (PROJ.4), has not been updated on CRAN since 2012 and has an uncertain future. So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
 
