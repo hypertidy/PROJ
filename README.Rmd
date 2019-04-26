@@ -44,6 +44,27 @@ https://proj4.org/development/quickstart.html
 
 ## Example
 
+Minimal code example, two lon-lat coordinates to LAEA, and back. 
+
+
+```{r minimal}
+library(PROJ)
+lon <- c(0, 147)
+lat <- c(0, -42)
+z <- rep(0, length(lon))
+dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
+
+## forward transformation
+(xy <- proj_trans(dst, lon, lat, z, INV = FALSE))
+
+## inverse transformation
+proj_trans(dst, xy$X, xy$Y, z, INV = TRUE)
+
+
+```
+
+A more realistic example with coastline map data. 
+
 
 ```{r example}
 library(PROJ)
@@ -73,6 +94,15 @@ rbenchmark::benchmark(PROJ = proj_trans(dst, lon, lat, rep(0, length(lon)), FALS
           lwgeom = st_transform_proj(sfx, dst), 
           sf = st_transform(sfx, dst))
 ```
+
+## Why PROJ?
+
+For many years [PROJ.4](https://proj4.org) has been the name of the common standard library for general coordinate system transformations (for geospatial). That name was given in the 1970s and is now encapsulated by a new modernized version of the library
+that probably should be called "PROJ", and now has versions **PROJ 5** and **PROJ 6**. 
+
+There are various links to the PROJ.4 library in R. 
+
+* [rgdal](https://CRAN.R-project.org/package=rgdal)
 
 Please note that the 'PROJ' project is released with a
   [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
