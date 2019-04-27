@@ -124,6 +124,9 @@ There are a few links to the PROJ (PROJ.4) library in R.
 
 Only rgdal and proj4 provide raw access to coordinate transformations for R vectors. Rgdal only has project forward and project inverse and always works in degrees proj4 has the more general `ptransform()` but requires manual conversion of degree values into radians. PROJ (PROJ.4) internally works only with radians. 
 
+The rgdal function `project()` won't transform with a third Z coordinate. The sf function `st_transform()` cannot work 
+with geocentric coordinates. 
+
 The packages rgdal, sf, lwgeom are now compatible with PROJ 5 (and 6) and don't need any further attention in this regard. They work fine within their chosen context. 
 
 Are there any other wrappers around PROJ (PROJ.4) on CRAN or Bioconductor, or in the works? Let me know! 

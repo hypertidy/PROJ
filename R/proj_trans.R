@@ -27,6 +27,10 @@
    x
 }
 
+
+base_proj_trans <- function(dst, x, y, z) {
+   .Call ("R_proj_trans_FWD", as.character(dst[1]), as.double(x), as.double(y), as.double(z))
+}
 #' PROJ trans
 #'
 #' Coordinate transform in forward or inverse mode
@@ -48,29 +52,33 @@
 #' dst<- "+proj=laea +datum=WGS84 +lon_0=1"
 #' proj_trans(dst, 0, 0)
 #' proj_trans(dst, -111318.1, 0, INV = TRUE)
-proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE, check_proj = TRUE) {
- if (check_proj) TARGET <- .proj_string(TARGET, xname = "TARGET")
+proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = TRUE) {
+  TARGET <- .proj_string(TARGET, xname = "TARGET")
   # handle lengths of inputs and defaults for Z
- XYZ <- cbind(X, Y, Z)
- if (!is.numeric(XYZ)) stop("bad inputs for X, Y, or Z")
- len <- dim(XYZ)[1L]
- #bad <- is.na(XYZ[, 1L]) | is.na(XYZ[, 2L]) | is.na(XYZ[,3L])
- bad <- .rowSums(is.na(XYZ), len, 3L) > 0
- somebad <- any(bad)
- if (any(somebad)) {
-   if (all(bad)) stop("no valid coordinates, nothing to do")
-   warning(sprintf("some invalid or values, ignoring %i coordinates that will be NA in output", sum(bad)))
-   XYZ <- XYZ[!bad, , drop = FALSE]
-   X <- XYZ[,1L, drop = TRUE]
-   Y <- XYZ[,2L, drop = TRUE]
-   Z <- XYZ[,3L, drop = TRUE]
+  len <- length(X)
+  if (length(Z) == 1L) Z <- rep(Z, len)
+  if (!length(Y) == len) stop("length of Y must match length of X")
+  if (!length(Z) == len) stop("length of Z must match length of X")
+  somebad <- FALSE
+  if (anyNA(X) || anyNA(Y) || anyNA(Z)) {
+     somebad <- TRUE
+     bad <- is.na(X) | is.na(Y) | is.na(Z)
+     if (all(bad)) stop("no valid coordinates, nothing to do")
+     warning(sprintf("some invalid or values, ignoring %i coordinates that will be NA in output", sum(bad)))
+     X[bad] <- 0.0
+     Y[bad] <- 0.0
+     Z[bad] <- 0.0
  }
- result <- proj_trans_cpp(TARGET, X = X, Y = Y, Z = Z, INV = INV)
- if (!somebad) {
-   out <- cbind(result$X, result$Y, result$Z)
+ if (use_rcpp) {
+    result <- proj_trans_cpp(TARGET, X = X, Y = Y, Z = Z, INV = INV)
+
  } else {
-   out <- matrix(NA_real_, nrow = len, ncol = 3L)
-   out[!bad, ] <- cbind(result$X, result$Y, result$Z)
+    if (INV) stop("base API not available yet for PJ_INV")
+    result <- base_proj_trans(TARGET, X, Y, Z)
+ }
+  out <- cbind(result[["X"]], result[["Y"]], result[["Z"]])
+ if (somebad) {
+   out[bad, ] <- rep(NA_real_, sum(bad) * 3L)
  }
  ## maybe zapsmall here
  out
