@@ -28,9 +28,13 @@
 }
 
 
-base_proj_trans <- function(dst, x, y, z) {
+base_proj_trans_fwd <- function(dst, x, y, z) {
    .Call ("R_proj_trans_FWD", as.character(dst[1]), as.double(x), as.double(y), as.double(z))
 }
+base_proj_trans_inv <- function(dst, x, y, z) {
+   .Call ("R_proj_trans_INV", as.character(dst[1]), as.double(x), as.double(y), as.double(z))
+}
+
 #' PROJ trans
 #'
 #' Coordinate transform in forward or inverse mode
@@ -52,7 +56,7 @@ base_proj_trans <- function(dst, x, y, z) {
 #' dst<- "+proj=laea +datum=WGS84 +lon_0=1"
 #' proj_trans(dst, 0, 0)
 #' proj_trans(dst, -111318.1, 0, INV = TRUE)
-proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = TRUE) {
+proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = FALSE) {
   TARGET <- .proj_string(TARGET, xname = "TARGET")
   # handle lengths of inputs and defaults for Z
   len <- length(X)
@@ -73,8 +77,11 @@ proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = TRUE
     result <- proj_trans_cpp(TARGET, X = X, Y = Y, Z = Z, INV = INV)
 
  } else {
-    if (INV) stop("base API not available yet for PJ_INV")
-    result <- base_proj_trans(TARGET, X, Y, Z)
+    if (INV) {
+       result <- base_proj_trans_inv(TARGET, X, Y, Z)
+    } else {
+       result <- base_proj_trans_fwd(TARGET, X, Y, Z)
+    }
  }
   out <- cbind(result[["X"]], result[["Y"]], result[["Z"]])
  if (somebad) {

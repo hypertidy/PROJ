@@ -90,19 +90,32 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
+lon <- w[,1]
+lat <- w[,2]
+lon <- rep(lon, 5)
+lat <- rep(lat, 5)
 ll <- cbind(lon, lat)
 z <- rep(0, length(lon))
-llproj <- "+proj=longlat +datum=WGS84"
-stll <- sf::st_crs(llproj)
-sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
+# llproj <- "+proj=longlat +datum=WGS84"
+# stll <- sf::st_crs(llproj)
+# sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
 bench::mark(
-          PROJ = proj_trans(dst, lon, lat, z, FALSE,  check_proj = FALSE), 
+          PROJ = proj_trans(dst, lon, lat, z, INV = FALSE), 
+          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE),
           reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
-#          lwgeom = st_transform_proj(sfx, dst), 
-#          sf = st_transform(sfx, dst), 
-          iterations = 100, check = FALSE) %>% dplyr::arrange(`itr/sec`)
+        # lwgeom = st_transform_proj(sfx, dst), 
+        # sf = st_transform(sfx, dst), 
+          iterations = 100, check = FALSE) %>% dplyr::arrange(total_time)
 ```
+
+The comparison with rgdal is not exactly stunning, but with PROJ we can also do 3D transformations. 
+
+```{r geocentric}
+xyz <- proj_trans("+proj=geocent +datum=WGS84", lon, lat, z, INV = FALSE)
+plot(as.data.frame(xyz), pch = ".")
+```
+Geocentric transformations aren't used in R much, but some examples are found in the  [quadmesh](https://CRAN.R-project.org/package=quadmesh) and [anglr](https://github.com/hypertidy/anglr) packages. 
 
 ## Why PROJ?
 
