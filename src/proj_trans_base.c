@@ -1,7 +1,7 @@
 #include <R.h>
 #include <Rinternals.h>
 
-#include <proj.h>
+#include "proj.h"
 
 //' R_proj_trans_base
 //' @param s_ PROJ string
