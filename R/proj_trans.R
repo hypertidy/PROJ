@@ -51,13 +51,13 @@ base_proj_trans_inv <- function(dst, x, y, z) {
 #' @param Z z coordinate, defaults to zero
 #' @param ... unused, but ensures that 'INV' must be named
 #' @param INV forward or inverse projection (default forward = FALSE)
-#' @param verbose logical, emit messages and warnings, set to `FALSE` for not
+#' @param quiet logical, emit messages and warnings, set to `TRUE` for not
 #' @return list of transformed x, y, z
 #' @examples
 #' dst<- "+proj=laea +datum=WGS84 +lon_0=1"
 #' proj_trans(dst, 0, 0)
 #' proj_trans(dst, -111318.1, 0, INV = TRUE)
-proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = FALSE, verbose = TRUE) {
+proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = FALSE, quiet = FALSE) {
   TARGET <- .proj_string(TARGET, xname = "TARGET")
   # handle lengths of inputs and defaults for Z
   len <- length(X)

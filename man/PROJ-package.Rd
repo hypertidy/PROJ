@@ -4,11 +4,12 @@
 \name{PROJ-package}
 \alias{PROJ}
 \alias{PROJ-package}
-\title{PROJ: Generic Coordinate System Transformations}
+\title{PROJ: Generic Coordinate System Transformations Using 'PROJ'}
 \description{
-'PROJ (PROJ.4)' is a generic coordinate transformation software that transforms 
+'PROJ' is a generic coordinate transformation software that transforms 
  geospatial coordinates from one coordinate reference system (CRS) to another. This 
-  includes cartographic projections as well as geodetic transformations.
+  includes cartographic projections as well as geodetic transformations. Version 5.0.0 or 
+  higher is required.
 }
 \author{
 \strong{Maintainer}: Michael D. Sumner \email{mdsumner@gmail.com} (0000-0002-2471-7511)
