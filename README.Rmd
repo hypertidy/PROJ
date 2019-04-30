@@ -96,7 +96,7 @@ lon <- rep(lon, 5)
 lat <- rep(lat, 5)
 ll <- cbind(lon, lat)
 z <- rep(0, length(lon))
-# llproj <- "+proj=longlat +datum=WGS84"
+llproj <- "+proj=longlat +datum=WGS84"
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
 bench::mark(
@@ -109,7 +109,7 @@ bench::mark(
           iterations = 100, check = FALSE) %>% dplyr::arrange(total_time)
 ```
 
-The comparison with rgdal is not exactly stunning, but with PROJ we can also do 3D transformations. 
+The comparison with rgdal is not exactly stunning, but with PROJ we can also do 3D transformations and (eventually, if needed) datum transformations and use the pipeline and other new features of PROJ (PROJ.4). 
 
 ```{r geocentric}
 xyz <- proj_trans("+proj=geocent +datum=WGS84", lon, lat, z, INV = FALSE)
