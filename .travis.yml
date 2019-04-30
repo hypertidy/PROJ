@@ -10,7 +10,7 @@ addons:
 
     packages:
        - libproj-dev
-       - libgdal-dev
+
 matrix:
     include:
         - os: linux
