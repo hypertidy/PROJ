@@ -7,6 +7,14 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build
+status](https://travis-ci.org/mdsumner/PROJ.svg?branch=master)](https://travis-ci.org/mdsumner/PROJ)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/mdsumner/PROJ?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/PROJ)
+[![Codecov test
+coverage](https://codecov.io/gh/mdsumner/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/mdsumner/PROJ?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
@@ -98,9 +106,9 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>     test elapsed replications
-#> 1  rgdal  13.870          100
-#> 2   PROJ  16.877          100
-#> 3 reproj  18.466          100
+#> 1  rgdal  15.037          100
+#> 2   PROJ  16.958          100
+#> 3 reproj  18.500          100
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can

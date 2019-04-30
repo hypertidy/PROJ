@@ -19,4 +19,5 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 SystemRequirements: PROJ (>= 5.0.0)
 Suggests: 
-    testthat
+    testthat,
+    covr
