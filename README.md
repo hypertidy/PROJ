@@ -90,8 +90,8 @@ llproj <- "+proj=longlat +datum=WGS84"
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
 bench::mark(
-          PROJ = proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE), 
-          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE, verbose = FALSE),
+          PROJ = proj_trans(dst, lon, lat, z, INV = FALSE, quiet = TRUE), 
+          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rcpp = TRUE, quiet = TRUE),
           reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
         # lwgeom = st_transform_proj(sfx, dst), 
@@ -100,10 +100,10 @@ bench::mark(
 #> # A tibble: 4 x 6
 #>   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 reproj        160ms    163ms      5.87    70.8MB    29.0 
-#> 2 PROJ          148ms    151ms      6.49    42.8MB    10.5 
-#> 3 PROJ_rcpp     148ms    150ms      6.66    42.8MB     8.36
-#> 4 rgdal         133ms    136ms      7.29    22.1MB     2.18
+#> 1 reproj        160ms    165ms      5.90    70.8MB    11.8 
+#> 2 PROJ          150ms    153ms      6.43    42.8MB    10.4 
+#> 3 PROJ_rcpp     169ms    171ms      5.81    42.8MB     6.64
+#> 4 rgdal         133ms    137ms      7.25    22.1MB     1.59
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can

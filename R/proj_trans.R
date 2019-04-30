@@ -69,7 +69,7 @@ proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = FALS
      somebad <- TRUE
      bad <- is.na(X) | is.na(Y) | is.na(Z)
      if (all(bad)) stop("no valid coordinates, nothing to do")
-    if (verbose) warning(sprintf("some invalid or values, ignoring %i coordinates that will be NA in output", sum(bad)))
+    if (!quiet) warning(sprintf("some invalid or values, ignoring %i coordinates that will be NA in output", sum(bad)))
      X[bad] <- 0.0
      Y[bad] <- 0.0
      Z[bad] <- 0.0
