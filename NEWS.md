@@ -1,3 +1,7 @@
+# PROJ 0.0.1.9001
+
+* Remove Rcpp. 
+
 # PROJ 0.0.1
 
 * R function `proj_trans()` gains a `quiet` argument to control output of warnings about missing

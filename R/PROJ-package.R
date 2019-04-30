@@ -5,6 +5,5 @@
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
 #' @useDynLib PROJ, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
 ## usethis namespace: end
 NULL

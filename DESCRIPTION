@@ -1,6 +1,6 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.0.1
+Version: 0.0.1.9001
 Authors@R: 
     person(given = "Michael D.",
            family = "Sumner",
@@ -18,9 +18,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 SystemRequirements: PROJ (>= 5.0.0)
-LinkingTo: 
-    Rcpp
-Imports: 
-    Rcpp
 Suggests: 
     testthat

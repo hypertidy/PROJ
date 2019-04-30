@@ -23,6 +23,7 @@ library(reproj)
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build status](https://travis-ci.org/mdsumner/PROJ.svg?branch=master)](https://travis-ci.org/mdsumner/PROJ)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations and overcome some current
@@ -99,14 +100,14 @@ z <- rep(0, length(lon))
 llproj <- "+proj=longlat +datum=WGS84"
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
-bench::mark(
+rbenchmark::benchmark(
           PROJ = proj_trans(dst, lon, lat, z, INV = FALSE, quiet = TRUE), 
-          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rcpp = TRUE, quiet = TRUE),
           reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
         # lwgeom = st_transform_proj(sfx, dst), 
         # sf = st_transform(sfx, dst), 
-          iterations = 100, check = FALSE) %>% dplyr::arrange(total_time)
+        replications = 100) %>% 
+  dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can also do 3D transformations and (eventually, if needed) datum transformations and use the pipeline and other new features of PROJ (PROJ.4). 
@@ -115,7 +116,8 @@ The comparison with rgdal is not exactly stunning, but with PROJ we can also do 
 xyz <- proj_trans("+proj=geocent +datum=WGS84", lon, lat, z, INV = FALSE)
 plot(as.data.frame(xyz), pch = ".")
 ```
-Geocentric transformations aren't used in R much, but some examples are found in the  [quadmesh](https://CRAN.R-project.org/package=quadmesh) and [anglr](https://github.com/hypertidy/anglr) packages. 
+
+Geocentric transformations aren't used in R much, but some examples are found in the [quadmesh](https://CRAN.R-project.org/package=quadmesh) and [anglr](https://github.com/hypertidy/anglr) packages. 
 
 ## Why PROJ?
 

@@ -89,21 +89,18 @@ z <- rep(0, length(lon))
 llproj <- "+proj=longlat +datum=WGS84"
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
-bench::mark(
+rbenchmark::benchmark(
           PROJ = proj_trans(dst, lon, lat, z, INV = FALSE, quiet = TRUE), 
-          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rcpp = TRUE, quiet = TRUE),
           reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
         # lwgeom = st_transform_proj(sfx, dst), 
         # sf = st_transform(sfx, dst), 
-          iterations = 100, check = FALSE) %>% dplyr::arrange(total_time)
-#> # A tibble: 4 x 6
-#>   expression      min   median `itr/sec` mem_alloc `gc/sec`
-#>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 reproj        160ms    165ms      5.90    70.8MB    11.8 
-#> 2 PROJ          150ms    153ms      6.43    42.8MB    10.4 
-#> 3 PROJ_rcpp     169ms    171ms      5.81    42.8MB     6.64
-#> 4 rgdal         133ms    137ms      7.25    22.1MB     1.59
+        replications = 100) %>% 
+  dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
+#>     test elapsed replications
+#> 1  rgdal  13.870          100
+#> 2   PROJ  16.877          100
+#> 3 reproj  18.466          100
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can
@@ -120,6 +117,7 @@ plot(as.data.frame(xyz), pch = ".")
 ```
 
 <img src="man/figures/README-geocentric-1.png" width="100%" />
+
 Geocentric transformations aren’t used in R much, but some examples are
 found in the [quadmesh](https://CRAN.R-project.org/package=quadmesh) and
 [anglr](https://github.com/hypertidy/anglr) packages.

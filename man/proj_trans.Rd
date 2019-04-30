@@ -4,8 +4,7 @@
 \alias{proj_trans}
 \title{PROJ trans}
 \usage{
-proj_trans(TARGET, X, Y, Z = 0, ..., INV = FALSE, use_rcpp = FALSE,
-  quiet = FALSE)
+proj_trans(TARGET, X, Y, Z = 0, ..., INV = FALSE, quiet = FALSE)
 }
 \arguments{
 \item{TARGET}{target projection}
