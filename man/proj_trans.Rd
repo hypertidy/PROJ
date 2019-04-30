@@ -4,7 +4,8 @@
 \alias{proj_trans}
 \title{PROJ trans}
 \usage{
-proj_trans(TARGET, X, Y, Z = 0, ..., INV = FALSE, use_rcpp = FALSE)
+proj_trans(TARGET, X, Y, Z = 0, ..., INV = FALSE, use_rcpp = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{TARGET}{target projection}
@@ -18,6 +19,8 @@ proj_trans(TARGET, X, Y, Z = 0, ..., INV = FALSE, use_rcpp = FALSE)
 \item{...}{unused, but ensures that 'INV' must be named}
 
 \item{INV}{forward or inverse projection (default forward = FALSE)}
+
+\item{verbose}{logical, emit messages and warnings, set to \code{FALSE} for not}
 }
 \value{
 list of transformed x, y, z

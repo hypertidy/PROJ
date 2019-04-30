@@ -90,622 +90,723 @@ llproj <- "+proj=longlat +datum=WGS84"
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
 bench::mark(
-          PROJ = proj_trans(dst, lon, lat, z, INV = FALSE), 
-          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE),
+          PROJ = proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE), 
+          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE, verbose = FALSE),
           reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
         # lwgeom = st_transform_proj(sfx, dst), 
         # sf = st_transform(sfx, dst), 
           iterations = 100, check = FALSE) %>% dplyr::arrange(total_time)
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE): some invalid or
-#> values, ignoring 9860 coordinates that will be NA in output
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
 
-#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE): some
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE): some
 #> invalid or values, ignoring 9860 coordinates that will be NA in output
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
+
+#> Warning in proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE,
+#> verbose = FALSE): some invalid or values, ignoring 9860 coordinates that
+#> will be NA in output
 #> # A tibble: 4 x 6
 #>   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 reproj        161ms    163ms      6.09    70.8MB    20.8 
-#> 2 PROJ          150ms    152ms      6.44    42.8MB    10.6 
-#> 3 PROJ_rcpp     150ms    151ms      6.55    42.8MB     6.68
-#> 4 rgdal         146ms    149ms      6.69    22.1MB     1.78
+#> 1 reproj        161ms    163ms      6.08    70.8MB    20.8 
+#> 2 PROJ          143ms    147ms      6.67    42.8MB    11.0 
+#> 3 PROJ_rcpp     143ms    145ms      6.86    42.8MB     7.00
+#> 4 rgdal         133ms    136ms      7.33    22.1MB     1.95
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can

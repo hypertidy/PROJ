@@ -100,8 +100,8 @@ llproj <- "+proj=longlat +datum=WGS84"
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
 bench::mark(
-          PROJ = proj_trans(dst, lon, lat, z, INV = FALSE), 
-          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE),
+          PROJ = proj_trans(dst, lon, lat, z, INV = FALSE, verbose = FALSE), 
+          PROJ_rcpp = proj_trans(dst, lon, lat, z, INV = FALSE, use_rccp = TRUE, verbose = FALSE),
           reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
         # lwgeom = st_transform_proj(sfx, dst), 

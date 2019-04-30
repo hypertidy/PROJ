@@ -51,12 +51,13 @@ base_proj_trans_inv <- function(dst, x, y, z) {
 #' @param Z z coordinate, defaults to zero
 #' @param ... unused, but ensures that 'INV' must be named
 #' @param INV forward or inverse projection (default forward = FALSE)
+#' @param verbose logical, emit messages and warnings, set to `FALSE` for not
 #' @return list of transformed x, y, z
 #' @examples
 #' dst<- "+proj=laea +datum=WGS84 +lon_0=1"
 #' proj_trans(dst, 0, 0)
 #' proj_trans(dst, -111318.1, 0, INV = TRUE)
-proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = FALSE) {
+proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = FALSE, verbose = TRUE) {
   TARGET <- .proj_string(TARGET, xname = "TARGET")
   # handle lengths of inputs and defaults for Z
   len <- length(X)
@@ -68,7 +69,7 @@ proj_trans <- function(TARGET, X, Y, Z = 0.0, ..., INV = FALSE,  use_rcpp = FALS
      somebad <- TRUE
      bad <- is.na(X) | is.na(Y) | is.na(Z)
      if (all(bad)) stop("no valid coordinates, nothing to do")
-     warning(sprintf("some invalid or values, ignoring %i coordinates that will be NA in output", sum(bad)))
+    if (verbose) warning(sprintf("some invalid or values, ignoring %i coordinates that will be NA in output", sum(bad)))
      X[bad] <- 0.0
      Y[bad] <- 0.0
      Z[bad] <- 0.0
