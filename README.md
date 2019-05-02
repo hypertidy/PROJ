@@ -101,14 +101,16 @@ rbenchmark::benchmark(
           PROJ = proj_trans(dst, lon, lat, z, INV = FALSE, quiet = TRUE), 
           reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
+          sf_project = sf_project(llproj, dst, ll),
         # lwgeom = st_transform_proj(sfx, dst), 
         # sf = st_transform(sfx, dst), 
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
-#>     test elapsed replications
-#> 1  rgdal  15.037          100
-#> 2   PROJ  16.958          100
-#> 3 reproj  18.500          100
+#>         test elapsed replications
+#> 1 sf_project  13.670          100
+#> 2      rgdal  13.979          100
+#> 3       PROJ  18.379          100
+#> 4     reproj  20.438          100
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can
@@ -158,10 +160,12 @@ There are a few links to the PROJ (PROJ.4) library in R.
     `sp::spTransform()`.
   - [proj4](https://CRAN.R-project.org/package=proj4) Provides low level
     `project()` and `ptransform`.
-  - [sf](https://CRAN.R-project.org/package=sf) Provides high level
+  - [sf](https://CRAN.R-project.org/package=sf) Provides low level
+    `sf::sf_project()` transformation of matrices. Provides high level
     `st_transform()` which works via the GDAL library and its own
-    internal version of PROJ (PROJ.4). Converts coordinates in list
-    heirarchies of matrices into WKB for the transformations.
+    internal version of PROJ (PROJ.4). The high level function converts
+    coordinates in list heirarchies of matrices into WKB for the
+    transformations.
   - [lwgeom](https://CRAN.R-project.org/package=lwgeom) Provides high
     level `st_transform_proj()` also converts coordinates in list
     heirarchies of matrices into WKB, but internally uses the PROJ
@@ -170,15 +174,16 @@ There are a few links to the PROJ (PROJ.4) library in R.
 (The [mapproject](https://CRAN.R-project.org/package=mapproject) package
 uses all its own internal code).
 
-Only rgdal and proj4 provide raw access to coordinate transformations
-for R vectors. Rgdal only has project forward and project inverse and
-always works in degrees proj4 has the more general `ptransform()` but
-requires manual conversion of degree values into radians. PROJ (PROJ.4)
-internally works only with radians.
+Packages sf, rgdal and proj4 provide raw access to coordinate
+transformations for R vectors. `sf::sf_project()` is the winner, but is
+embedded in a package that does many other things. Rgdal only has
+project forward and project inverse and always works in degrees proj4
+has the more general `ptransform()` but requires manual conversion of
+degree values into radians. PROJ (PROJ.4) internally works only with
+radians.
 
 The rgdal function `project()` won’t transform with a third Z
-coordinate. The sf function `st_transform()` cannot work with geocentric
-coordinates.
+coordinate. The sf functions do work with geocentric coords.
 
 The packages rgdal, sf, lwgeom are now compatible with PROJ 5 (and 6)
 and don’t need any further attention in this regard. They work fine
