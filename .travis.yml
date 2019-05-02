@@ -7,7 +7,6 @@ addons:
   apt:
     sources:
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
-
     packages:
        - libproj-dev
 
