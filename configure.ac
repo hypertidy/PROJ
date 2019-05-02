@@ -21,13 +21,13 @@ LIBS="${LIBS} ${PKG_LIBS}"
 # since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
 CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
 
-proj4ok=yes
-AC_CHECK_HEADERS(proj.h,,proj4ok=no)
-AC_CHECK_LIB(proj,proj_todeg,,proj4ok=no)
-if test "${proj4ok}" = no; then
+projok=yes
+AC_CHECK_HEADERS(proj.h,,projok=no)
+AC_CHECK_LIB(proj,proj_todeg,,projok=no)
+if test "${projok}" = no; then
    AC_MSG_ERROR([libproj and/or proj.h not found in standard search locations.
 
-*** Install PROJ.4 and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
+*** Install PROJ 5.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
 fi
 
 AC_ARG_VAR([PKG_CPPFLAGS],[custom C preprocessor flags for packages compilation])

@@ -1,3 +1,5 @@
 .Rproj.user
 autom4te.cache
 .Rhistory
+config.log
+config.status
