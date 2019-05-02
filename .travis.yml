@@ -8,7 +8,7 @@ addons:
     sources:
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
-       - libproj-dev
+      - libproj-dev
 
 matrix:
     include:
