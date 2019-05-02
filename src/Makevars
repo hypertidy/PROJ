@@ -1,3 +1,2 @@
-PKG_CPPFLAGS= -I/usr/include/gdal
-PKG_LIBS=-lproj   -L/usr/lib -lgdal
-CXX_STD=CXX11
+PKG_LIBS = -lproj  
+PKG_CPPFLAGS =  
