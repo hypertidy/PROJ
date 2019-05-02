@@ -1,12 +1,12 @@
-language: R
+language: r
 warnings_are_errors: true
 sudo: true
-cache: packages
 
 addons:
   apt:
     sources:
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+      - sourceline: 'ppa:opencpu/jq'
     packages:
       - libproj-dev
 
