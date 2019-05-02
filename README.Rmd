@@ -28,7 +28,7 @@ library(reproj)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mdsumner/PROJ?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/PROJ)
 [![Codecov test coverage](https://codecov.io/gh/mdsumner/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/mdsumner/PROJ?branch=master)
 [![CRAN status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
-[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations and overcome some current

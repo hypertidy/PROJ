@@ -17,7 +17,7 @@ status](https://ci.appveyor.com/api/projects/status/github/mdsumner/PROJ?branch=
 coverage](https://codecov.io/gh/mdsumner/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/mdsumner/PROJ?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
-\[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)\](<https://cran.r-project.org/package=PROJ>
+[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
@@ -110,10 +110,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project  13.663          100
-#> 2      rgdal  13.880          100
-#> 3       PROJ  16.935          100
-#> 4     reproj  18.708          100
+#> 1 sf_project  13.588          100
+#> 2      rgdal  13.908          100
+#> 3       PROJ  17.189          100
+#> 4     reproj  18.613          100
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can
