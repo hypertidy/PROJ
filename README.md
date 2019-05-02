@@ -9,12 +9,15 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
 status](https://travis-ci.org/mdsumner/PROJ.svg?branch=master)](https://travis-ci.org/mdsumner/PROJ)
+[![OSX Build
+Status](http://badges.herokuapp.com/travis/mdsumner/PROJ?branch=master&env=BUILD_NAME=osx_release&label=osx)](https://travis-ci.org/mdsumner/PROJ)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/mdsumner/PROJ?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/PROJ)
 [![Codecov test
 coverage](https://codecov.io/gh/mdsumner/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/mdsumner/PROJ?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
+\[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)\](<https://cran.r-project.org/package=PROJ>
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
@@ -107,10 +110,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project  13.670          100
-#> 2      rgdal  13.979          100
-#> 3       PROJ  18.379          100
-#> 4     reproj  20.438          100
+#> 1 sf_project  13.663          100
+#> 2      rgdal  13.880          100
+#> 3       PROJ  16.935          100
+#> 4     reproj  18.708          100
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can
