@@ -1,9 +1,9 @@
 language: r
 warnings_are_errors: false
 sudo: true
-dist: cosmic
+dist: xenial
 latex: false
-
+cache: packages
 
 ## stick to source, disco nope
 before_install:
