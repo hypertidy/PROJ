@@ -1,0 +1,15 @@
+language: r
+warnings_are_errors: true
+sudo: true
+dist: xenial
+
+
+## stick to source, unless a serious answer comes https://lists.osgeo.org/pipermail/proj/2019-May/008501.html
+before_install:
+  - sudo apt-get update
+  - wget https://github.com/OSGeo/proj.4/releases/download/6.0.0/proj-6.0.0.tar.gz
+  - tar -xzvf proj-6.0.0.tar.gz
+  - pushd proj-6.0.0 && ./configure --prefix=/usr && make && sudo make install && popd
+
+after_success:
+  - Rscript -e 'covr::codecov()'
