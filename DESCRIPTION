@@ -1,6 +1,6 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.0.2
+Version: 0.0.2.9001
 Authors@R: 
     person(given = "Michael D.",
            family = "Sumner",
@@ -21,3 +21,5 @@ SystemRequirements: PROJ (>= 5.0.0)
 Suggests: 
     testthat,
     covr
+URL: https://github.com/hypertidy/PROJ
+BugReports: https://github.com/hypertidy/PROJ/issues

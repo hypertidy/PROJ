@@ -8,9 +8,9 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
-status](https://travis-ci.org/mdsumner/PROJ.svg?branch=master)](https://travis-ci.org/mdsumner/PROJ)
+status](https://travis-ci.org/hypertidy/PROJ.svg?branch=master)](https://travis-ci.org/hypertidy/PROJ)
 [![Codecov test
-coverage](https://codecov.io/gh/mdsumner/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/mdsumner/PROJ?branch=master)
+coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/hypertidy/PROJ?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
@@ -61,7 +61,7 @@ A more realistic example with coastline map data.
 
 ``` r
 library(PROJ)
-w <- PROJ:::worlddata
+w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
@@ -106,10 +106,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project  13.648          100
-#> 2      rgdal  14.069          100
-#> 3       PROJ  16.630          100
-#> 4     reproj  19.087          100
+#> 1 sf_project   0.957          100
+#> 2      rgdal   1.004          100
+#> 3       PROJ   1.174          100
+#> 4     reproj   1.353          100
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can
@@ -120,8 +120,8 @@ transformations and use the pipeline and other new features of PROJ
 ``` r
 xyz <- proj_trans("+proj=geocent +datum=WGS84", lon, lat, z, INV = FALSE)
 #> Warning in proj_trans("+proj=geocent +datum=WGS84", lon, lat, z, INV =
-#> FALSE): some invalid or values, ignoring 9860 coordinates that will be NA
-#> in output
+#> FALSE): some invalid or values, ignoring 640 coordinates that will be NA in
+#> output
 plot(as.data.frame(xyz), pch = ".")
 ```
 
@@ -150,7 +150,7 @@ name PROJ.4, so it has stuck
 
 I’ll use “PROJ (PROJ.4)” to distinguish the [system
 library](https://proj4.org) from [this
-package](https://github.com/mdsumner/PROJ).
+package](https://github.com/hypertidy/PROJ).
 
 There are a few links to the PROJ (PROJ.4) library in R.
 
