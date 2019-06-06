@@ -7,3 +7,12 @@
 #' @useDynLib PROJ, .registration = TRUE
 ## usethis namespace: end
 NULL
+
+#' xymap data for testing
+#'
+#' A copy of the xymap data set from the quadmesh package.
+#'
+#' A matrix of longitude/latitude values of the world coastline.
+#' @docType data
+#' @name xymap
+NULL

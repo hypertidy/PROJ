@@ -1,4 +1,6 @@
 ## code to prepare `DATASET` dataset goes here
-worlddata <- quadmesh::xymap
+xymap <- quadmesh::xymap
 
-usethis::use_data(worlddata, internal = TRUE)
+xymap <- xymap[seq(1, nrow(xymap), by = 15), ]
+
+usethis::use_data(xymap)

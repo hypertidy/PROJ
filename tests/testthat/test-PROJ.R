@@ -1,6 +1,6 @@
 context("test-PROJ")
 
-w <- worlddata
+w <- xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
