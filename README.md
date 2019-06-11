@@ -10,7 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![Travis build
 status](https://travis-ci.org/hypertidy/PROJ.svg?branch=master)](https://travis-ci.org/hypertidy/PROJ)[![AppVeyor
 build
-status](https://ci.appveyor.com/api/projects/status/github/mdsumner/PROJ?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/PROJ)[![Codecov
+status](https://ci.appveyor.com/api/projects/status/jb3sg8r0exigdbb0/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/proj-448mq)[![Codecov
 test
 coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/hypertidy/PROJ?branch=master)
 [![CRAN
@@ -108,10 +108,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   0.958          100
-#> 2      rgdal   1.023          100
-#> 3       PROJ   1.195          100
-#> 4     reproj   1.424          100
+#> 1 sf_project   0.942          100
+#> 2      rgdal   0.989          100
+#> 3       PROJ   1.150          100
+#> 4     reproj   1.365          100
 ```
 
 The comparison with rgdal is not exactly stunning, but with PROJ we can
