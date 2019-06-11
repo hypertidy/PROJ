@@ -3,3 +3,5 @@ autom4te.cache
 .Rhistory
 config.log
 config.status
+windows
+inst/proj
