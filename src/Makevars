@@ -1,2 +1,0 @@
-PKG_LIBS = -lproj  
-PKG_CPPFLAGS =  

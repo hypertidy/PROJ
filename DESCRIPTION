@@ -1,12 +1,14 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.0.2.9001
+Version: 0.0.2.9002
 Authors@R: 
-    person(given = "Michael D.",
+    c(person(given = "Michael D.",
            family = "Sumner",
            role = c("aut", "cre"),
            email = "mdsumner@gmail.com",
-           comment = c(ORCID = "0000-0002-2471-7511"))
+           comment = c(ORCID = "0000-0002-2471-7511")), 
+    person("Jeroen", "Ooms", role = c("ctb"), 
+           comment = "provided PROJ library support on Windows"))
 Description: 'PROJ' is a generic coordinate transformation software that transforms 
  geospatial coordinates from one coordinate reference system (CRS) to another. This 
   includes cartographic projections as well as geodetic transformations. Version 5.0.0 or 
