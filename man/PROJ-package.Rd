@@ -11,6 +11,14 @@
   includes cartographic projections as well as geodetic transformations. Version 5.0.0 or 
   higher is required.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/hypertidy/PROJ}
+  \item Report bugs at \url{https://github.com/hypertidy/PROJ/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Michael D. Sumner \email{mdsumner@gmail.com} (0000-0002-2471-7511)
 
