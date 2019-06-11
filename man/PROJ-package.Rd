@@ -22,5 +22,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Michael D. Sumner \email{mdsumner@gmail.com} (0000-0002-2471-7511)
 
+Other contributors:
+\itemize{
+  \item Jeroen Ooms (provided PROJ library support on Windows) [contributor]
+}
+
 }
 \keyword{internal}

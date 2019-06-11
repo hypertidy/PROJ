@@ -1,3 +1,7 @@
+# PROJ 0.0.2.9002
+
+* Included PROJ library tooling for Windows, thanks to Jeroen Ooms. 
+
 # PROJ 0.0.1.9001
 
 * Remove Rcpp. 
