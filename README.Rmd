@@ -23,9 +23,7 @@ library(reproj)
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build status](https://travis-ci.org/hypertidy/PROJ.svg?branch=master)](https://travis-ci.org/hypertidy/PROJ)
-![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mdsumner/PROJ?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/vapour)
-[![Codecov test coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/hypertidy/PROJ?branch=master)
+[![Travis build status](https://travis-ci.org/hypertidy/PROJ.svg?branch=master)](https://travis-ci.org/hypertidy/PROJ)[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mdsumner/PROJ?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/PROJ)[![Codecov test coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/hypertidy/PROJ?branch=master)
 [![CRAN status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
 <!-- badges: end -->
