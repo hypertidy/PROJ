@@ -13,7 +13,5 @@ test_that("multiplication works", {
   expect_true(all(lonlat[, 2L] < 90))
   expect_true(all(lonlat[, 2L] > -90))
 
-  expect_equivalent(as.integer(range(xyz[, 1L])), c(-12590739L, 12193021L))
-  expect_equivalent(as.integer(range(xyz[, 2L])), c(-11867430L, 12440125L))
 
 })

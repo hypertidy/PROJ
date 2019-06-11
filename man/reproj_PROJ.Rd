@@ -25,25 +25,25 @@ Coordinate transformation via the PROJ library
 Designed for use by the reproj package.
 }
 \examples{
-m <- cbind(w$x, w$y)
+m <- cbind(147, -42)
 plot(m, pch = ".")
 s0 <- "+init=epsg:4326"
 t1 <- "+proj=laea"
-m <- rePROJ(m, t1, source = s0); s0 <- t1
+m <- reproj_PROJ(m, t1, source = s0); s0 <- t1
 plot(m, pch = ".")
 t1 <- "+proj=lcc +lon_0=147"
-m <- rePROJ(m, t1, source = s0); s0 <- t1
+m <- reproj_PROJ(m, t1, source = s0); s0 <- t1
 plot(m, pch = ".")
 t1 <- "+proj=gnom +lon_0=147"
-m <- rePROJ(m, t1, source = s0); s0 <- t1
+m <- reproj_PROJ(m, t1, source = s0); s0 <- t1
 plot(m, pch = ".")
 t1 <- "+proj=laea +lon_0=147"
-m <- rePROJ(m, t1, source = s0); s0 <- t1
+m <- reproj_PROJ(m, t1, source = s0); s0 <- t1
 plot(m, pch = ".")
 t1 <- "+proj=ortho +lon_0=147"
-m <- rePROJ(m, t1, source = s0); s0 <- t1
+m <- reproj_PROJ(m, t1, source = s0); s0 <- t1
 plot(m, pch = ".")
 t1 <- "+proj=merc +lon_0=147"
-m <- rePROJ(m, t1, source = s0); s0 <- t1
+m <- reproj_PROJ(m, t1, source = s0); s0 <- t1
 plot(m, pch = ".")
 }
