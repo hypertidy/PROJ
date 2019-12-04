@@ -23,17 +23,18 @@ CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
 
 projok=yes
 AC_CHECK_HEADERS(proj.h,,projok=no)
-AC_CHECK_LIB(proj,proj_todeg,,projok=no)
+AC_CHECK_LIB(proj,proj_normalize_for_visualization,,projok=no)
 #if test "${projok}" = no; then
 #   AC_MSG_ERROR([libproj and/or proj.h not found in standard search locations.
 #
 #*** Install PROJ 6.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
 #fi
 
+#undef HAVE_PROJ6_API
 if test "${projok}" = yes; then
    CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
 else
-   CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=0"
+   CPPFLAGS="${PKG_CPPFLAGS}"
 fi
 AC_ARG_VAR([PKG_CPPFLAGS],[custom C preprocessor flags for packages compilation])
 AC_ARG_VAR([PKG_LIBS],[custom libraries for package compilation])

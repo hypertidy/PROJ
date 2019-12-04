@@ -3259,9 +3259,9 @@ fi
 
 done
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for proj_todeg in -lproj" >&5
-$as_echo_n "checking for proj_todeg in -lproj... " >&6; }
-if ${ac_cv_lib_proj_proj_todeg+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for proj_normalize_for_visualization in -lproj" >&5
+$as_echo_n "checking for proj_normalize_for_visualization in -lproj... " >&6; }
+if ${ac_cv_lib_proj_proj_normalize_for_visualization+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -3275,27 +3275,27 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char proj_todeg ();
+char proj_normalize_for_visualization ();
 int
 main ()
 {
-return proj_todeg ();
+return proj_normalize_for_visualization ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_proj_proj_todeg=yes
+  ac_cv_lib_proj_proj_normalize_for_visualization=yes
 else
-  ac_cv_lib_proj_proj_todeg=no
+  ac_cv_lib_proj_proj_normalize_for_visualization=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_proj_proj_todeg" >&5
-$as_echo "$ac_cv_lib_proj_proj_todeg" >&6; }
-if test "x$ac_cv_lib_proj_proj_todeg" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_proj_proj_normalize_for_visualization" >&5
+$as_echo "$ac_cv_lib_proj_proj_normalize_for_visualization" >&6; }
+if test "x$ac_cv_lib_proj_proj_normalize_for_visualization" = xyes; then :
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBPROJ 1
 _ACEOF
@@ -3312,10 +3312,11 @@ fi
 #*** Install PROJ 6.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
 #fi
 
+#undef HAVE_PROJ6_API
 if test "${projok}" = yes; then
    CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
 else
-   CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=0"
+   CPPFLAGS="${PKG_CPPFLAGS}"
 fi
 
 
