@@ -9,12 +9,12 @@
 #' @examples
 #' proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
 proj_trans_generic <- function(x, target, ..., source = NULL) {
+  ## don't run this if the basic test fails
+  tst <- getOption("PROJ.HAVE_PROJ6")
+  if (!tst) stop("no PROJ6 available (you could use proj4 package, via reproj)")
 
   if (missing(target) | !is.character(target)) stop("target must be a string")
   if (is.null(source) | !is.character(source)) stop("source must be provided as a string")
- ## don't run this if the basic test fails
-  tst <- ok_proj6()
-  if (!tst) stop("no PROJ6 available")
 
   x <- as.matrix(x)
   n <- dim(x)[1L]

@@ -28,4 +28,4 @@ Suggests:
     covr
 URL: https://github.com/hypertidy/PROJ
 BugReports: https://github.com/hypertidy/PROJ/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
