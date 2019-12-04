@@ -4,6 +4,7 @@
 #' @param source projection of input coordinates (must be named)
 #' @param target projection for output coordinates
 #' @param x input coordinates
+#' @param ... ignored
 #' @export
 #' @examples
 #' proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
