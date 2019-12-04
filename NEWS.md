@@ -1,4 +1,7 @@
-# PROJ 0.0.2.9002
+# PROJ dev
+
+* Removed proj_trans(), only function is proj_trans_generic() more closely aligned to the
+ API of PROJ itself (=> 6). 
 
 * Included PROJ library tooling for Windows, thanks to Jeroen Ooms. 
 
