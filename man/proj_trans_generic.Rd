@@ -11,6 +11,8 @@ proj_trans_generic(x, target, ..., source = NULL)
 
 \item{target}{projection for output coordinates}
 
+\item{...}{ignored}
+
 \item{source}{projection of input coordinates (must be named)}
 }
 \description{

@@ -13,3 +13,4 @@
 ^codecov\.yml$
 ^apt_.travis.yml$
 ^windows$
+^docs$
