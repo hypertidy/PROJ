@@ -19,5 +19,7 @@ proj_trans_generic(x, target, ..., source = NULL)
 A raw interface to proj_trans_generic in PROJ => 6, if it is available.
 }
 \examples{
-proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
+if (ok_proj6()) {
+ proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
+ }
 }
