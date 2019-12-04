@@ -2,3 +2,4 @@
 
 export(proj_trans)
 useDynLib(PROJ, .registration = TRUE)
+useDynLib(PROJ, C_proj_trans_generic)
