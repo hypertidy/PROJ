@@ -7,7 +7,9 @@
 #' @param ... ignored
 #' @export
 #' @examples
-#' proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
+#' if (ok_proj6()) {
+#'  proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
+#'  }
 proj_trans_generic <- function(x, target, ..., source = NULL) {
   ## don't run this if the basic test fails
   tst <- getOption("PROJ.HAVE_PROJ6")
@@ -47,13 +49,4 @@ proj_trans_generic <- function(x, target, ..., source = NULL) {
   cbind(result[["x_"]], result[["y_"]], result[["z_"]], result[["t_"]])
 }
 
-ok_proj6 <- function() {
-  test<- .C(PROJ_proj_trans_generic, "epsg:4326", "+proj=laea", as.integer(1L),
-    as.double(0), as.double(0), as.double(0), as.double(0), success = as.integer(0))
-  if (!test[["success"]] == 1L) {
-    out <- FALSE
-  } else {
-    out <- TRUE
-  }
-  out
-}
+
