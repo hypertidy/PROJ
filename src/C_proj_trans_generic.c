@@ -4,7 +4,7 @@
 #include <proj.h>
 
 
-void C_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, double *y_, double *z_, double *t_,
+void PROJ_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, double *y_, double *z_, double *t_,
                           int *success)
 {
 
@@ -39,7 +39,7 @@ void C_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, double *
                    x_, sizeof(*x_), N,
                    y_, sizeof(*y_), N,
                    z_, sizeof(*z_), N,
-                   0, 0, 0);
+                   t_, sizeof(*z_), N);
 
  // and we don't need radian output handling
 
@@ -49,7 +49,8 @@ void C_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, double *
 
  if (r)
   error(proj_errno_string(r));
- success[0] = 1;
+ int i1 = 1;
+ success[0] = i1;
 
 #else
 

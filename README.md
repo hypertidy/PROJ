@@ -19,7 +19,56 @@ status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/p
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
-and overcome some current challenges and limitations in R.
+and overcome some current challenges and limitations in R. The key
+aspect is the same goal as the
+[reproj](https://cran.r-project.org/package=reproj) - generic
+transformations of coordinates. Having methods for objects and types can
+come later, I need basic stuff for the way data is stored in R, as
+matrices or data frames with efficient vectors of coordinate fields.
+
+PROJ is strictly for version 6.0.0 or higher of the PROJ library. The
+intention is that this package will be used for when that version is
+available, and this package can be compiled and installed even though it
+cannot do anything. For older versions of PROJ (5, and 4) we can use the
+proj4 package.
+
+Because we are version 6 or above only, there is no forward/inverse
+transformation, only integrated source/target idioms. The source must be
+provided along with the target. We can use “auth:code” forms, PROJ.4
+strings, full WKT2, or the name of a CRS as found in the PROJ database,
+e.g “WGS84”, “NAD27”, etc. Full details are provided in the [PROJ
+documentation](https://proj.org/development/reference/functions.html#c.proj_create).
+
+## Things to be aware of
+
+  - Input can be a data frame or a matrix, but internally input is
+    assumed to be x, y, z, *and time*. So the output is always a
+    4-column matrix.
+  - You can’t use strings like “+init=epsg:4326” any more, it must be
+    “epsg:4326”.
+  - You should know what your target projection is, and also what your
+    source projection is. This is your responsibility.
+
+Personally, I need this low-level package in order to develop other
+projects. I don’t care about the big snafu regarding changes in version
+6 and whatever, we should have low-level tools and then we can tool
+around in R to sort stuff out. A text-handler for various versions and
+validations of CRS representations would be good, for instance we can
+just gsub out “+init=” for those sorts of things, and being able to
+write “WGS84” as a valid source or target is a massive bonus.
+
+## WAAT
+
+This package strips code out of the development version of proj4, with
+attribution to the author.
+
+  - Why not proj4? It’s not maintained in a way that works for me.
+  - Why not sf? It brings a lot of baggage, and can’t do geocentric
+    transformations.
+  - Why not rgdal? Still baggage, no transformations possible without
+    special data formats.
+  - Why not reproj? This is an extension for reproj, to bridge it from
+    PROJ version 4 and 5, to version 6 and 7 and beyond.
 
 ## Installation
 
@@ -27,12 +76,14 @@ WIP
 
 # Notes
 
-THINGS TO WORRY ABOUT:
+THINGS TO WORRY ABOUT for development here:
 
   - the *name* of this package
   - t and z
   - threading, see the PJ\_CONTEXT
   - coordinate order
+  - the zero value after transformation, it comes out like -3.19835e-15
+    (do we just zapsmall()?)
 
 <https://proj4.org/development/quickstart.html>
 
@@ -45,18 +96,19 @@ library(PROJ)
 lon <- c(0, 147)
 lat <- c(0, -42)
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
+src <- "WGS84"
 
 ## forward transformation
-(xy <- proj_trans(dst, lon, lat, INV = FALSE))
-#>               [,1]     [,2] [,3]
-#> [1,] -8.013029e+06 -8225762    0
-#> [2,]  2.108091e-09        0    0
+(xy <- proj_trans_generic( cbind(lon, lat), dst, source = src))
+#>          [,1]     [,2] [,3] [,4]
+#> [1,] -8013029 -8225762    0    0
+#> [2,]        0        0    0    0
 
 ## inverse transformation
-proj_trans(dst, xy[,1L], xy[,2L], xy[,3], INV = TRUE)
-#>      [,1]          [,2] [,3]
-#> [1,]    0 -3.194835e-15    0
-#> [2,]  147 -4.200000e+01    0
+proj_trans_generic(xy, src, source = dst)
+#>      [,1]          [,2] [,3] [,4]
+#> [1,]    0 -3.194835e-15    0    0
+#> [2,]  147 -4.200000e+01    0    0
 ```
 
 A more realistic example with coastline map data.
@@ -67,15 +119,15 @@ w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-xyz <- proj_trans(dst, X = lon, Y = lat, Z = rep(0, length(lon)), INV = FALSE)
-plot(xyz, pch = ".")
+xyzt <- proj_trans_generic(cbind(lon, lat, 0), dst, source = "epsg:4326")
+plot(xyzt[,1:2, drop = FALSE], pch = ".")
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
 ``` r
 
-lonlat <- proj_trans(dst, X = xyz[,1], Y = xyz[,2], INV = TRUE)
+lonlat <- proj_trans_generic(xyzt, src, source = dst)
 plot(lonlat, pch = ".")
 ```
 
@@ -88,7 +140,7 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
+#> Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1
 lon <- w[,1]
 lat <- w[,2]
 lon <- rep(lon, 5)
@@ -99,7 +151,7 @@ llproj <- "+proj=longlat +datum=WGS84"
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
 rbenchmark::benchmark(
-          PROJ = proj_trans(dst, lon, lat, z, INV = FALSE, quiet = TRUE), 
+          PROJ = proj_trans_generic(cbind(lon, lat, z), dst, source = llproj),
           reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
           rgdal = project(ll, dst), 
           sf_project = sf_project(llproj, dst, ll),
@@ -107,23 +159,323 @@ rbenchmark::benchmark(
         # sf = st_transform(sfx, dst), 
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
+
+#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
+#> is deprecated
 #>         test elapsed replications
-#> 1 sf_project   0.942          100
-#> 2      rgdal   0.989          100
-#> 3       PROJ   1.150          100
-#> 4     reproj   1.365          100
+#> 1      rgdal   1.162          100
+#> 2 sf_project   1.565          100
+#> 3     reproj   2.043          100
+#> 4       PROJ   4.931          100
 ```
 
-The comparison with rgdal is not exactly stunning, but with PROJ we can
-also do 3D transformations and (eventually, if needed) datum
-transformations and use the pipeline and other new features of PROJ
-(PROJ.4).
+The speed is not exactly stunning, but with PROJ we can also do 3D
+transformations. There’s some cruft in there for me to move out, you
+should be able to get the best speed with raw vector input, so it needs
+more
+functions.
 
 ``` r
-xyz <- proj_trans("+proj=geocent +datum=WGS84", lon, lat, z, INV = FALSE)
-#> Warning in proj_trans("+proj=geocent +datum=WGS84", lon, lat, z, INV =
-#> FALSE): some invalid or values, ignoring 640 coordinates that will be NA in
-#> output
+xyz <- proj_trans_generic(cbind(lon, lat, z), "+proj=geocent +datum=WGS84", source = "WGS84")
 plot(as.data.frame(xyz), pch = ".")
 ```
 
