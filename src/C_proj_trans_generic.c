@@ -4,13 +4,6 @@
 #include <proj.h>
 
 
-//' @param src_ PROJ crs
-//' @param tgt_ PROJ crs
-//' @param x_ x coordinate
-//' @param y_ y coordinate
-//' @param z_ z coordinate
-//' @param t_ t coordinate
-//' @noRd
 void C_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, double *y_, double *z_, double *t_,
                           int *success)
 {
@@ -28,7 +21,7 @@ void C_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, double *
   if (!(pj = proj_create_crs_to_crs(0, *src_, *tgt_, 0)))
     error(proj_errno_string(proj_errno(0)));
 
-// this only in 6, not 5
+ // this only in 6, not 5
   if (!(pj2 = proj_normalize_for_visualization(0, pj))) {
     int r = proj_errno(pj);
     proj_destroy(pj);
@@ -37,28 +30,31 @@ void C_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, double *
 
   proj_destroy(pj);
   pj = pj2;
-// only in 6 end
-// end written S.Urbanek
+ // only in 6 end
+ // end written S.Urbanek
 
-// we don't need radian input handling, always degrees
+ // we don't need radian input handling, always degrees
 
-proj_trans_generic(pj, PJ_FWD,
+ proj_trans_generic(pj, PJ_FWD,
                    x_, sizeof(*x_), N,
                    y_, sizeof(*y_), N,
                    z_, sizeof(*z_), N,
                    0, 0, 0);
 
-// and we don't need radian output handling
+ // and we don't need radian output handling
 
-r = proj_errno(pj);
+ r = proj_errno(pj);
 
-proj_destroy(pj);
+ proj_destroy(pj);
 
-if (r)
+ if (r)
   error(proj_errno_string(r));
-success[0] = 1;
+ success[0] = 1;
+
 #else
-success[0] = 0;
+
+ success[0] = 0;
+
 #endif
 
 }
