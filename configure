@@ -585,7 +585,7 @@ PACKAGE_STRING='PROJ 0.0.1'
 PACKAGE_BUGREPORT='mdsumner@gmail.com'
 PACKAGE_URL=''
 
-ac_unique_file="src/proj_trans_base.c"
+ac_unique_file="src/C_proj_trans_generic.c"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -3306,12 +3306,17 @@ else
   projok=no
 fi
 
-if test "${projok}" = no; then
-   as_fn_error $? "libproj and/or proj.h not found in standard search locations.
+#if test "${projok}" = no; then
+#   AC_MSG_ERROR([libproj and/or proj.h not found in standard search locations.
+#
+#*** Install PROJ 6.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
+#fi
 
-*** Install PROJ 5.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly." "$LINENO" 5
+if test "${projok}" = yes; then
+   CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
+else
+   CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=0"
 fi
-
 
 
 

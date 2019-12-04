@@ -1,6 +1,6 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.0.2.9002
+Version: 0.0.3
 Authors@R: 
     c(person(given = "Michael D.",
            family = "Sumner",
@@ -8,20 +8,24 @@ Authors@R:
            email = "mdsumner@gmail.com",
            comment = c(ORCID = "0000-0002-2471-7511")), 
     person("Jeroen", "Ooms", role = c("ctb"), 
-           comment = "provided PROJ library support on Windows"))
+           comment = "provided PROJ library support on Windows"), 
+    person("Simon", "Urbanek", role = c("ctb"), 
+           comment = "wrote original code versions for PROJ version 6"))
 Description: 'PROJ' is a generic coordinate transformation software that transforms 
  geospatial coordinates from one coordinate reference system (CRS) to another. This 
-  includes cartographic projections as well as geodetic transformations. Version 5.0.0 or 
-  higher is required. 
+  includes cartographic projections as well as geodetic transformations. Version 6.0.0 or 
+  higher is required. The intention is for this package to be used by user-packages such 
+  as 'reproj', and that the older 'PROJ.4' and version 5 pathways be provided by the 
+  legacy package. 
 Depends: R (>= 2.10)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.1
-SystemRequirements: PROJ (>= 5.0.0)
+SystemRequirements: PROJ (>= 6.0.0)
 Suggests: 
     testthat,
     covr
 URL: https://github.com/hypertidy/PROJ
 BugReports: https://github.com/hypertidy/PROJ/issues
+RoxygenNote: 6.1.1
