@@ -1,5 +1,5 @@
 AC_INIT(PROJ, 0.0.1, mdsumner@gmail.com)
-AC_CONFIG_SRCDIR(src/proj_trans_base.c)
+AC_CONFIG_SRCDIR(src/C_proj_trans_generic.c)
 
 # find R home and set correct compiler + flags
 : ${R_HOME=`R RHOME`}
@@ -24,12 +24,17 @@ CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
 projok=yes
 AC_CHECK_HEADERS(proj.h,,projok=no)
 AC_CHECK_LIB(proj,proj_todeg,,projok=no)
-if test "${projok}" = no; then
-   AC_MSG_ERROR([libproj and/or proj.h not found in standard search locations.
+#if test "${projok}" = no; then
+#   AC_MSG_ERROR([libproj and/or proj.h not found in standard search locations.
+#
+#*** Install PROJ 6.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
+#fi
 
-*** Install PROJ 5.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
+if test "${projok}" = yes; then
+   CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
+else
+   CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=0"
 fi
-
 AC_ARG_VAR([PKG_CPPFLAGS],[custom C preprocessor flags for packages compilation])
 AC_ARG_VAR([PKG_LIBS],[custom libraries for package compilation])
 
