@@ -23,6 +23,16 @@ matrix:
       cache:
         apt: true
       env:
+        - BUILD_NAME=proj5
+        - R_CODECOV=true
+        - DETAILS=""
+    - os: linux
+      r: release
+      sudo: required
+      dist: trusty
+      cache:
+        apt: true
+      env:
         - BUILD_NAME=proj6
         - R_CODECOV=true
         - DETAILS=""
