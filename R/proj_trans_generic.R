@@ -12,18 +12,18 @@
 #'  }
 proj_trans_generic <- function(x, target, ..., source = NULL) {
   ## don't run this if the basic test fails
-  tst <- getOption("PROJ.HAVE_PROJ6")
-  if (!tst) stop("no PROJ6 available (you could use proj4 package, via reproj)")
+  #tst <- getOption("PROJ.HAVE_PROJ6")
+  #if (!tst) stop("no PROJ6 available (you could use proj4 package, via reproj)")
 
   if (missing(target) | !is.character(target)) stop("target must be a string")
   if (is.null(source) | !is.character(source)) stop("source must be provided as a string")
 
-  x <- as.matrix(x)
+  if (is.data.frame(x)) x <- as.matrix(x)
   n <- dim(x)[1L]
   if (!is.numeric(x)) stop("input coordinates must be numeric")
   if (n < 1) stop("must be at least one coordinate")
   if (dim(x)[2L] > 4) x <- x[,1:4, drop = FALSE]
-  if (dim(x)[2L] == 1) x <- cbind(x, 0, 0, 0)
+  if (dim(x)[2L] == 1) stop("coordinates must be 2-columns, 3-columns or 4-columns")
   if (dim(x)[2L] == 2) x <- cbind(x, 0, 0)
   if (dim(x)[2L] == 3) x <- cbind(x, 0)
 

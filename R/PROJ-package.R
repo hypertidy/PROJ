@@ -5,6 +5,7 @@
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
 #' @useDynLib PROJ, PROJ_proj_trans_generic
+#' @useDynLib PROJ, PROJ_version
 
 ## usethis namespace: end
 NULL
