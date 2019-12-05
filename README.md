@@ -46,10 +46,10 @@ proj4 package.
 
 Because we are version 6 or above only, there is no forward/inverse
 transformation, only integrated source/target idioms. This is the same
-idiomatic approach taken by the reproj package- the source must be
-provided as well as the target. When a data set has an in-built CRS
-projection recorded, then methods can be written for that use-case with
-that format.
+approach taken by the reproj package- the source must be provided as
+well as the target. When a data set has an in-built CRS projection
+recorded, then methods can be written for that use-case with that
+format.
 
 We can use “auth:code” forms, PROJ.4 strings, full WKT2, or the name of
 a CRS as found in the PROJ database, e.g “WGS84”, “NAD27”, etc. Full
@@ -87,6 +87,8 @@ attribution to the author.
   - Why not lgeom? That package is format-specific, and does not work
     with generic data coordinates so is unsuitable for many
     straightforward and efficient data-handling schemes.
+  - Why not mapproject? This is unusable for real-world projections in
+    my experience, it seems to be written for some basic graphics cases.
   - Why not reproj? This is an extension for reproj, to bridge it from
     PROJ version 4 and 5, to version 6 and 7 and beyond.
 
@@ -183,21 +185,24 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.874          100
-#> 2 sf_project   7.469          100
-#> 3       PROJ   8.529          100
-#> 4     reproj  10.256          100
+#> 1      rgdal   5.478          100
+#> 2 sf_project   7.730          100
+#> 3       PROJ   9.643          100
+#> 4     reproj   9.987          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
 transformations and that’s good enough for me. I think it will be faster
 with the underlying API function `proj_trans_array()`, instead of
-`proj_trans_generic()`, but I don’t really
-know.
+`proj_trans_generic()`, but I don’t really know.
+
+A geocentric example, suitable for plotting in rgl and used extensively
+with quadmesh, silicate, and
+anglr.
 
 ``` r
-xyz <- proj_trans_generic(cbind(lon, lat, z), "+proj=geocent +datum=WGS84", source = "WGS84")
-plot(as.data.frame(xyz), pch = ".")
+xyzt <- proj_trans_generic(cbind(w[,1], w[,2], 0, 0), "+proj=geocent +datum=WGS84", source = "WGS84")
+plot(as.data.frame(xyzt), pch = ".", asp = 1)
 ```
 
 <img src="man/figures/README-geocentric-1.png" width="100%" />

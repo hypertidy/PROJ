@@ -46,7 +46,7 @@ is that this package will be used for when that version is available, and this
 package can be compiled and installed even when it cannot do anything. For older
 versions of PROJ (5, and 4) we can use the proj4 package.
 
-Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. This is the same idiomatic approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format. 
+Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. This is the same approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format. 
 
 We can use "auth:code" forms, PROJ.4 strings, full WKT2, or the name of a CRS as found in the PROJ database, e.g “WGS84”, “NAD27”, etc. Full details are provided in the [PROJ documentation](https://proj.org/development/reference/functions.html#c.proj_create). 
 
@@ -67,6 +67,8 @@ This package strips code out of the development version of proj4, with attributi
 * Why not sf?  It brings a lot of baggage, and can't do geocentric transformations. 
 * Why not rgdal? Still baggage, no transformations possible without special data formats. 
 * Why not lgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes. 
+* Why not mapproject? This is unusable for real-world projections in my experience, it seems
+to be written for some basic graphics cases.
 * Why not reproj? This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond. 
 
 
@@ -157,9 +159,11 @@ rbenchmark::benchmark(
 
 The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that's good enough for me.  I think it will be faster with the underlying API function `proj_trans_array()`, instead of `proj_trans_generic()`, but I don't really know. 
 
+A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr. 
+
 ```{r geocentric}
-xyz <- proj_trans_generic(cbind(lon, lat, z), "+proj=geocent +datum=WGS84", source = "WGS84")
-plot(as.data.frame(xyz), pch = ".")
+xyzt <- proj_trans_generic(cbind(w[,1], w[,2], 0, 0), "+proj=geocent +datum=WGS84", source = "WGS84")
+plot(as.data.frame(xyzt), pch = ".", asp = 1)
 ```
 
 Geocentric transformations aren't used in R much, but some examples are found in the [quadmesh](https://CRAN.R-project.org/package=quadmesh) and [anglr](https://github.com/hypertidy/anglr) packages. 
