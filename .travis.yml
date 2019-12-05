@@ -5,12 +5,42 @@ dist: xenial
 latex: false
 cache: packages
 
-## stick to source, disco nope
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      r: release
+      sudo: required
+      dist: xenial
+      cache:
+        apt: true
+      env:
+        - BUILD_NAME=proj5
+        - R_CODECOV=true
+        - DETAILS=""
+    - os: linux
+      r: release
+      sudo: required
+      dist: xenial
+      cache:
+        apt: true
+      env:
+        - BUILD_NAME=proj6
+        - R_CODECOV=true
+        - DETAILS=""
+    - os: linux
+      r: release
+      sudo: required
+      dist: xenial
+      cache:
+        apt: true
+      env:
+        - BUILD_NAME=proj7
+        - R_CODECOV=true
+        - DETAILS=""
+
 before_install:
-  - sudo apt-get update
-  - wget https://github.com/OSGeo/proj.4/releases/download/6.0.0/proj-6.0.0.tar.gz
-  - tar -xzvf proj-6.0.0.tar.gz
-  - pushd proj-6.0.0 && ./configure --prefix=/usr && make && sudo make install && popd
+  - ./ci/travis/${BUILD_NAME}/before_install.sh
 
 after_success:
   - Rscript -e 'covr::codecov()'
