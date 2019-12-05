@@ -90,7 +90,6 @@ https://proj4.org/development/quickstart.html
 
 Minimal code example, two lon-lat coordinates to LAEA, and back. 
 
-
 ```{r minimal}
 library(PROJ)
 lon <- c(0, 147)
