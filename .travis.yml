@@ -8,6 +8,16 @@ cache: packages
 matrix:
   fast_finish: true
   include:
+   - os: linux
+      r: release
+      sudo: required
+      dist: xenial
+      cache:
+        apt: true
+      env:
+        - BUILD_NAME=proj4
+        - R_CODECOV=true
+        - DETAILS=""
     - os: linux
       r: release
       sudo: required
