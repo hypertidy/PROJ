@@ -7,7 +7,7 @@
 
 export hr="$PWD"
 
-sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
+#sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
 
 sudo apt-get update
 sudo apt-get upgrade
