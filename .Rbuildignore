@@ -14,3 +14,4 @@
 ^apt_.travis.yml$
 ^windows$
 ^docs$
+^ci$
