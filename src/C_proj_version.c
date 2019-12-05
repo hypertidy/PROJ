@@ -1,7 +1,9 @@
 #include <R.h>
 #include <Rinternals.h>
-#include <proj.h>
 
+#ifdef HAVE_PROJ6_API
+#include <proj.h>
+#endif
 
 void PROJ_version(char **version) {
 #ifdef PROJ_VERSION_MAJOR
