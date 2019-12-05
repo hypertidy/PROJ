@@ -162,16 +162,18 @@ library(sf)
 #> Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1
 lon <- w[,1]
 lat <- w[,2]
-lon <- rep(lon, 5)
-lat <- rep(lat, 5)
+lon <- rep(lon, 25)
+lat <- rep(lat, 25)
 ll <- cbind(lon, lat)
 z <- rep(0, length(lon))
 llproj <- "+proj=longlat +datum=WGS84"
+xyz <- cbind(lon, lat, z)
+xyzt <- cbind(lon, lat, z, 0)
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
 rbenchmark::benchmark(
-          PROJ = proj_trans_generic(cbind(lon, lat, z), dst, source = llproj),
-          reproj = reproj(cbind(lon, lat, z), target = dst, source = llproj), 
+          PROJ = proj_trans_generic(xyzt, dst, source = llproj),
+          reproj = reproj(xyz, target = dst, source = llproj), 
           rgdal = project(ll, dst), 
           sf_project = sf_project(llproj, dst, ll),
         # lwgeom = st_transform_proj(sfx, dst), 
@@ -179,17 +181,17 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   1.173          100
-#> 2 sf_project   1.467          100
-#> 3       PROJ   1.811          100
-#> 4     reproj   2.081          100
+#> 1      rgdal   5.574          100
+#> 2 sf_project   7.436          100
+#> 3       PROJ   8.529          100
+#> 4     reproj   9.504          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
-transformations. There’s some cruft in there for me to move out, you
-should be able to get the best speed with raw vector input, so perhaps
-needs more
-functions.
+transformations and that’s good enough for me. I think it will be faster
+with the underlying API function `proj_trans_array()`, instead of
+`proj_trans_generic()`, but I don’t really
+know.
 
 ``` r
 xyz <- proj_trans_generic(cbind(lon, lat, z), "+proj=geocent +datum=WGS84", source = "WGS84")

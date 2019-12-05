@@ -34,7 +34,6 @@ void PROJ_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, doubl
  // end written S.Urbanek
 
  // we don't need radian input handling, always degrees
-
  proj_trans_generic(pj, PJ_FWD,
                    x_, sizeof(*x_), N,
                    y_, sizeof(*y_), N,
