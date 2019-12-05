@@ -17,8 +17,11 @@ coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](h
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
 
+Note that for PROJ5 (and lower) this package is non-functional (can use
+proj4).
+
 [![Travis
-PROJ5-non-func](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5-non-func)](https://travis-ci.org/hypertidy/PROJ)
+PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ)
 <br> [![Travis
 PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
 <br> [![Travis
@@ -26,15 +29,14 @@ PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
-in R. The key aspect is the same goal as the
-[reproj](https://cran.r-project.org/package=reproj) package - generic
-transformations of coordinates.
+in R. This is same goal as the
+[reproj](https://cran.r-project.org/package=reproj) package, but
+provided for later versions of the underlying library.
 
-I need basic stuff for the way data is stored in R, as matrices or data
-frames with efficient vectors of coordinate fields. Constantly unpacking
-and packing basic data from formats is labourious, error-prone, brittle,
-and stifles innovation. Transforming spatial data coordinates is a basic
-task and needs a basic tool.
+I need basic coordinate transformations for matrices or data frames with
+efficient vectors of coordinate fields. Constantly unpacking and packing
+basic data from formats is labourious, error-prone, and brittle.
+Transforming spatial data coordinates is a basic task.
 
 PROJ is strictly for version 6.0.0 or higher of the PROJ library. The
 intention is that this package will be used for when that version is
@@ -66,8 +68,8 @@ documentation](https://proj.org/development/reference/functions.html#c.proj_crea
 
 Personally, I need this low-level package in order to develop other
 projects. I don’t care about the big snafu regarding changes in version
-6 and whatever, we should have low-level tools and then we can tool
-around in R to sort stuff out. A text-handler for various versions and
+6 and whatever, we should have low-level tools and then we can code at
+the R level to sort stuff out. A text-handler for various versions and
 validations of CRS representations would be good, for instance we can
 just gsub out “+init=” for those sorts of things, and being able to
 write “WGS84” as a valid source or target is a massive bonus.
@@ -181,10 +183,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.574          100
-#> 2 sf_project   7.436          100
+#> 1      rgdal   5.874          100
+#> 2 sf_project   7.469          100
 #> 3       PROJ   8.529          100
-#> 4     reproj   9.504          100
+#> 4     reproj  10.256          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
