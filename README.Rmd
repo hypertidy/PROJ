@@ -31,9 +31,10 @@ library(reproj)
 The goal of PROJ is to provide generic coordinate system transformations and overcome some current
 challenges and limitations in R.  The key aspect is the same goal as the [reproj](https://cran.r-project.org/package=reproj) - generic transformations of coordinates. Having methods for objects and types can come later, I need basic stuff for the way data is stored in R, as matrices or data frames with efficient vectors of coordinate fields. 
 
-PROJ is strictly for version 6.0.0 or higher of the PROJ library. The intention is that this package will 
-be used for when that version is available, and this package can be compiled and installed even though it
-cannot do anything. For older versions of PROJ (5, and 4) we can use the proj4 package. 
+PROJ is strictly for version 6.0.0 or higher of the PROJ library. The intention
+is that this package will be used for when that version is available, and this
+package can be compiled and installed even when it cannot do anything. For older
+versions of PROJ (5, and 4) we can use the proj4 package.
 
 Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. The source must be provided along with the target. We can use "auth:code" forms, PROJ.4 strings, full WKT2, or the name of a CRS as found in the PROJ database, e.g “WGS84”, “NAD27”, etc. Full details are provided in the [PROJ documentation](https://proj.org/development/reference/functions.html#c.proj_create). 
 
