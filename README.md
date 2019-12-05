@@ -16,12 +16,13 @@ coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](h
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
+
 [![Travis
-PROJ5(non-func)](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5\(non-func\))](https://travis-ci.org/hypertidy/PROJ)
-[![Travis
-PROJ6](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj6&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
-[![Travis
-PROJ7](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
+PROJ5-non-func](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5-non-func)](https://travis-ci.org/hypertidy/PROJ)
+<br> [![Travis
+PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
+<br> [![Travis
+PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
@@ -166,10 +167,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   1.281          100
-#> 2 sf_project   1.596          100
-#> 3       PROJ   1.894          100
-#> 4     reproj   2.109          100
+#> 1      rgdal   1.261          100
+#> 2 sf_project   1.628          100
+#> 3       PROJ   2.031          100
+#> 4     reproj   2.389          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D

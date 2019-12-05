@@ -27,9 +27,12 @@ library(reproj)
 [![Travis build status](https://travis-ci.org/hypertidy/PROJ.svg?branch=master)](https://travis-ci.org/hypertidy/PROJ)[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/jb3sg8r0exigdbb0/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/proj-448mq)[![Codecov test coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/hypertidy/PROJ?branch=master)
 [![CRAN status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
-[![Travis PROJ5(non-func)](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5(non-func))](https://travis-ci.org/hypertidy/PROJ)
-[![Travis PROJ6](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj6&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
-[![Travis PROJ7](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
+
+[![Travis PROJ5-non-func](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5-non-func)](https://travis-ci.org/hypertidy/PROJ)
+<br>
+[![Travis PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
+<br>
+[![Travis PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations and overcome some current
