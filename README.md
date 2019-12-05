@@ -16,19 +16,25 @@ coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](h
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
+[![Travis
+PROJ5(non-func)](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5\(non-func\))](https://travis-ci.org/hypertidy/PROJ)
+[![Travis
+PROJ6](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj6&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
+[![Travis
+PROJ7](https://travis-ci.org/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
 and overcome some current challenges and limitations in R. The key
 aspect is the same goal as the
-[reproj](https://cran.r-project.org/package=reproj) - generic
+[reproj](https://cran.r-project.org/package=reproj) package - generic
 transformations of coordinates. Having methods for objects and types can
 come later, I need basic stuff for the way data is stored in R, as
 matrices or data frames with efficient vectors of coordinate fields.
 
 PROJ is strictly for version 6.0.0 or higher of the PROJ library. The
 intention is that this package will be used for when that version is
-available, and this package can be compiled and installed even though it
+available, and this package can be compiled and installed even when it
 cannot do anything. For older versions of PROJ (5, and 4) we can use the
 proj4 package.
 
@@ -159,319 +165,17 @@ rbenchmark::benchmark(
         # sf = st_transform(sfx, dst), 
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
-
-#> Warning in project(ll, dst): project() will not be adapted for PROJ 6 and
-#> is deprecated
 #>         test elapsed replications
-#> 1      rgdal   1.162          100
-#> 2 sf_project   1.565          100
-#> 3     reproj   2.043          100
-#> 4       PROJ   4.931          100
+#> 1      rgdal   1.281          100
+#> 2 sf_project   1.596          100
+#> 3       PROJ   1.894          100
+#> 4     reproj   2.109          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
 transformations. There’s some cruft in there for me to move out, you
-should be able to get the best speed with raw vector input, so it needs
-more
+should be able to get the best speed with raw vector input, so perhaps
+needs more
 functions.
 
 ``` r
