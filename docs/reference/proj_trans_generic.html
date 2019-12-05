@@ -131,6 +131,10 @@
       <td><p>projection for output coordinates</p></td>
     </tr>
     <tr>
+      <th>...</th>
+      <td><p>ignored</p></td>
+    </tr>
+    <tr>
       <th>source</th>
       <td><p>projection of input coordinates (must be named)</p></td>
     </tr>
@@ -138,7 +142,9 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>proj_trans_generic</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fl'>147</span>, -<span class='fl'>42</span>), <span class='st'>"+proj=laea"</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"epsg:4326"</span>)</div><div class='output co'>#&gt;         [,1]     [,2] [,3] [,4]
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='ok_proj6.html'>ok_proj6</a></span>()) {
+ <span class='fu'>proj_trans_generic</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fl'>147</span>, -<span class='fl'>42</span>), <span class='st'>"+proj=laea"</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"epsg:4326"</span>)
+ }</div><div class='output co'>#&gt;         [,1]     [,2] [,3] [,4]
 #&gt; [1,] 5969744 -9803200    0    0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

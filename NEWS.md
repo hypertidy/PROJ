@@ -1,5 +1,7 @@
 # PROJ dev
 
+* Cleaned up CI testing, so we get tested on versions 5, 6, and 7 of PROJ on travis. 
+
 * Removed proj_trans(), only function is proj_trans_generic() more closely aligned to the
  API of PROJ itself (=> 6). 
 

@@ -26,12 +26,15 @@ PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
-and overcome some current challenges and limitations in R. The key
-aspect is the same goal as the
+in R. The key aspect is the same goal as the
 [reproj](https://cran.r-project.org/package=reproj) package - generic
-transformations of coordinates. Having methods for objects and types can
-come later, I need basic stuff for the way data is stored in R, as
-matrices or data frames with efficient vectors of coordinate fields.
+transformations of coordinates.
+
+I need basic stuff for the way data is stored in R, as matrices or data
+frames with efficient vectors of coordinate fields. Constantly unpacking
+and packing basic data from formats is labourious, error-prone, brittle,
+and stifles innovation. Transforming spatial data coordinates is a basic
+task and needs a basic tool.
 
 PROJ is strictly for version 6.0.0 or higher of the PROJ library. The
 intention is that this package will be used for when that version is
@@ -40,10 +43,15 @@ cannot do anything. For older versions of PROJ (5, and 4) we can use the
 proj4 package.
 
 Because we are version 6 or above only, there is no forward/inverse
-transformation, only integrated source/target idioms. The source must be
-provided along with the target. We can use “auth:code” forms, PROJ.4
-strings, full WKT2, or the name of a CRS as found in the PROJ database,
-e.g “WGS84”, “NAD27”, etc. Full details are provided in the [PROJ
+transformation, only integrated source/target idioms. This is the same
+idiomatic approach taken by the reproj package- the source must be
+provided as well as the target. When a data set has an in-built CRS
+projection recorded, then methods can be written for that use-case with
+that format.
+
+We can use “auth:code” forms, PROJ.4 strings, full WKT2, or the name of
+a CRS as found in the PROJ database, e.g “WGS84”, “NAD27”, etc. Full
+details are provided in the [PROJ
 documentation](https://proj.org/development/reference/functions.html#c.proj_create).
 
 ## Things to be aware of
@@ -74,12 +82,16 @@ attribution to the author.
     transformations.
   - Why not rgdal? Still baggage, no transformations possible without
     special data formats.
+  - Why not lgeom? That package is format-specific, and does not work
+    with generic data coordinates so is unsuitable for many
+    straightforward and efficient data-handling schemes.
   - Why not reproj? This is an extension for reproj, to bridge it from
     PROJ version 4 and 5, to version 6 and 7 and beyond.
 
 ## Installation
 
-WIP
+WIP - see the matrix set up in .travis.yml, and the scripts in
+ci/travis/ - much gratitude to GDAL for examples of how to do all this\!
 
 # Notes
 
@@ -167,10 +179,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   1.261          100
-#> 2 sf_project   1.628          100
-#> 3       PROJ   2.031          100
-#> 4     reproj   2.389          100
+#> 1      rgdal   1.173          100
+#> 2 sf_project   1.467          100
+#> 3       PROJ   1.811          100
+#> 4     reproj   2.081          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
