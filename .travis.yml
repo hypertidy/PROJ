@@ -5,14 +5,6 @@ dist: xenial
 latex: false
 cache: packages
 
-## stick to source, disco nope
-#before_install:
-#  - sudo apt-get update
-#  - wget https://github.com/OSGeo/proj.4/releases/download/6.0.0/proj-6.0.0.tar.gz
-#  - tar -xzvf proj-6.0.0.tar.gz
-#  - pushd proj-6.0.0 && ./configure --prefix=/usr && make && sudo make install && popd
-
-
 matrix:
   fast_finish: true
   include:
@@ -49,12 +41,6 @@ matrix:
 
 before_install:
   - ./ci/travis/${BUILD_NAME}/before_install.sh
-  - cd pkg
-
-
-
-
-
 
 after_success:
   - Rscript -e 'covr::codecov()'
