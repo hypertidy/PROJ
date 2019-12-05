@@ -11,7 +11,7 @@ matrix:
     - os: linux
       r: release
       sudo: required
-      dist: trusty
+      dist: xenial
       cache:
         apt: true
       env:
@@ -21,7 +21,7 @@ matrix:
     - os: linux
       r: release
       sudo: required
-      dist: trusty
+      dist: xenial
       cache:
         apt: true
       env:
@@ -31,7 +31,7 @@ matrix:
     - os: linux
       r: release
       sudo: required
-      dist: trusty
+      dist: xenial
       cache:
         apt: true
       env:

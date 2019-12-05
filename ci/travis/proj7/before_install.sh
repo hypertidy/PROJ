@@ -7,12 +7,12 @@
 
 export hr="$PWD"
 
-sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
+#sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
 
 sudo apt-get update
 sudo apt-get upgrade
 
-sudo apt-get install sqlite3
+sudo apt-get install sqlite3 libsqlite3-dev
 
 cd /tmp
 
