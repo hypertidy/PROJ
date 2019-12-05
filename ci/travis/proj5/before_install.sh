@@ -17,6 +17,5 @@ wget http://download.osgeo.org/proj/proj-5.2.0.tar.gz
 (mv proj* /tmp; cd /tmp; tar xzf proj-5.2.0.tar.gz)
 (cd /tmp/proj-5.2.0; ./configure; make; sudo make install; sudo ldconfig)
 
-
 cd $hr
 
