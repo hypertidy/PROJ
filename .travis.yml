@@ -8,7 +8,7 @@ cache: packages
 matrix:
   fast_finish: true
   include:
-   - os: linux
+    - os: linux
       r: release
       sudo: required
       dist: xenial
