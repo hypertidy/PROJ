@@ -18,11 +18,17 @@ status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/p
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
 
 Note that for PROJ5 (and lower) this package is non-functional (can use
-proj4).
+proj4). The testing here on Travis ensures that the package installs
+successfully for various versions of PROJ, although underlying
+functionality is disabled for 4 and 5 (and for no PROJ).
 
 [![Travis
+NOPROJ](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj0&label=PROJ0)](https://travis-ci.org/hypertidy/PROJ)
+(no PROJ available) <br> [![Travis
+PROJ4](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj4&label=PROJ4)](https://travis-ci.org/hypertidy/PROJ)
+(PROJ.4 in system, no function) <br> [![Travis
 PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ)
-<br> [![Travis
+(PROJ 5 in system, no function) <br> [![Travis
 PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
 <br> [![Travis
 PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
@@ -185,10 +191,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.478          100
-#> 2 sf_project   7.730          100
-#> 3       PROJ   9.643          100
-#> 4     reproj   9.987          100
+#> 1      rgdal   5.978          100
+#> 2 sf_project   7.525          100
+#> 3       PROJ   8.543          100
+#> 4     reproj  10.990          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D

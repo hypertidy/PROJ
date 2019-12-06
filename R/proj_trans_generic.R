@@ -45,7 +45,7 @@ proj_trans_generic <- function(x, target, ..., source = NULL) {
            x_ = as.double(x), y_ = as.double(y), z_ = as.double(z), t_ = as.double(t),
            success = as.integer(0),
            NAOK=TRUE, PACKAGE = "PROJ")
-  if (!result[["success"]]) stop("problem in PROJ transformation")
+  if (!result[["success"]]) stop("problem in PROJ transformation:\n(likely you don't have system PROJ version 6 or higher), WIP: see help in reproj package")
   cbind(result[["x_"]], result[["y_"]], result[["z_"]], result[["t_"]])
 }
 
