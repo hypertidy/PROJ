@@ -1,5 +1,8 @@
 #' Is 'PROJ library >= 6' available
 #'
+#' It's not clear this is needed, because we've already tested the capability at package load time,
+#' when the data directory paths are set. Probably will remove this function, or override it's implementation.
+#'
 #' Test for availability of 'PROJ' system library version 6 or higher.
 #'
 #' If 'PROJ' library version 6 is not available, the package still compiles and installs
