@@ -1,5 +1,8 @@
 # PROJ dev
 
+* Now set data directory for installed share files, thanks to Jeroen Ooms for the nudge in the right
+ direction with the R API. 
+
 * Cleaned up CI testing, so we get tested on versions 5, 6, and 7 of PROJ on travis. 
 
 * Removed proj_trans(), only function is proj_trans_generic() more closely aligned to the

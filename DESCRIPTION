@@ -8,7 +8,7 @@ Authors@R:
            email = "mdsumner@gmail.com",
            comment = c(ORCID = "0000-0002-2471-7511")), 
     person("Jeroen", "Ooms", role = c("ctb"), 
-           comment = "provided PROJ library support on Windows"), 
+           comment = "provided PROJ library support on Windows, and assistance with Windows configuration"), 
     person("Simon", "Urbanek", role = c("ctb"), 
            comment = "wrote original code versions for PROJ version 6"))
 Description: 'PROJ' is a generic coordinate transformation software that transforms 
