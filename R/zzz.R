@@ -1,14 +1,20 @@
-.set_proj_data <- function(proj_data){
-     l <- try( .Call(PROJ_set_data_dir, proj_data));
-     if (!inherits(l, "try-error")) {
-       return(TRUE)
-     } else {
-       return(FALSE)
-     }
+.set_proj_data_on_windows <- function(proj_data){
+  ## return logical vector of length two
+  ok <- FALSE
+  if (.Platform[["OS.type"]] == "windows") {
+     l <- try( .Call(PROJ_set_data_dir, proj_data), silent = TRUE)
+     ok <- !inherits(l, "try-error")
+  }
+  c(windows = .Platform[["OS.type"]] == "windows",
+    ok = ok)
 }
 
 .onLoad <- function(libname, pkgname) {
-  ok <- .set_proj_data(system.file("proj", package = "PROJ", mustWork = TRUE))
-  if (ok) options(PROJ.HAVE_PROJ6 = ok)
+  windows_ok <- .set_proj_data_on_windows(system.file("proj", package = "PROJ", mustWork = TRUE))
+  if (windows_ok["windows"] && windows_ok["ok"]) options(PROJ.HAVE_PROJ6 = TRUE)
+  if (!windows_ok["windows"]) {
+    ok <- ok_proj6()
+    if (ok) options(PROJ.HAVE_PROJ6 = ok)
+  }
   invisible(NULL)
 }

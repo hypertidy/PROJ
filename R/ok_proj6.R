@@ -1,9 +1,10 @@
 #' Is 'PROJ library >= 6' available
 #'
-#' It's not clear this is needed, because we've already tested the capability at package load time,
-#' when the data directory paths are set. Probably will remove this function, or override it's implementation.
-#'
 #' Test for availability of 'PROJ' system library version 6 or higher.
+#'
+#' On unix-alikes, this function is run in `.onLoad()` to check that version 6 functionality is
+#' available. On Windows, the load process sets the data file location with the version 6 API, and that
+#' is used as a test instead.
 #'
 #' If 'PROJ' library version 6 is not available, the package still compiles and installs
 #' but is not functional.
