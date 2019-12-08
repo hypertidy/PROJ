@@ -1,4 +1,7 @@
+#ifdef HAVE_PROJ6_API
 #include <proj.h>
+#endif
+
 #include <R.h>
 #include <Rinternals.h>
 
