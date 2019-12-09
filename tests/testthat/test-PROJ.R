@@ -5,7 +5,7 @@ lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
 
-test_that("multiplication works", {
+test_that("PROJ works", {
   if (!ok_proj6()) skip("no PROJ6 available, no real testing to do")
 
   expect_silent(xyz <- proj_trans_generic(cbind(X = lon, Y = lat, Z = rep(0, length(lon))), dst, source = "WGS84"))
@@ -18,3 +18,12 @@ test_that("multiplication works", {
 
 
 })
+
+test_that("set proj does nothing on unix", {
+  if (!ok_proj6()) skip("no PROJ6 available, no real testing to do")
+  if (.Platform$OS.type == "unix") {
+    expect_equal(.set_proj_data_on_windows("tfile"), c(windows = FALSE, ok = FALSE))
+  }
+  ## don't test this on Windows
+})
+
