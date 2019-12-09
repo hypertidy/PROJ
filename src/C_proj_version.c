@@ -1,3 +1,4 @@
+/*
 #include <R.h>
 #include <Rinternals.h>
 
@@ -16,3 +17,4 @@ void PROJ_version(char **version) {
   Rprintf("%s", PJ_VERSION);
 #endif
 }
+ */
