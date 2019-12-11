@@ -186,7 +186,7 @@ There are a few links to the PROJ (PROJ.4) library in R.
 * [rgdal](https://CRAN.R-project.org/package=rgdal) Provides low level `project(matrix, inv = TRUE/FALSE)`, and engine behind `sp::spTransform()`. 
 * [proj4](https://CRAN.R-project.org/package=proj4) Provides low level `project()` and `ptransform`. 
 * [sf](https://CRAN.R-project.org/package=sf) Provides low level `sf::sf_project()` transformation of matrices. Provides high level `st_transform()` which works via the GDAL library and its own internal version of PROJ (PROJ.4). The high level function converts coordinates in list heirarchies of matrices into WKB for the transformations. 
-* [lwgeom](https://CRAN.R-project.org/package=lwgeom) Provides high level `st_transform_proj()` also converts coordinates in list heirarchies of matrices into WKB, but internally uses the PROJ (PROJ.4) library directly. 
+* [lwgeom](https://CRAN.R-project.org/package=lwgeom) Provides high level `st_transform_proj()` also converts coordinates in list hierarchies of matrices into WKB, but internally uses the PROJ (PROJ.4) library directly. 
 
 (The [mapproject](https://CRAN.R-project.org/package=mapproject) package uses all its own internal code). 
 
