@@ -43,8 +43,8 @@ proj_trans_generic <- function(x, target, ..., source = NULL) {
   # #.C(PROJ_proj_trans_generic, "epsg:4326", "+proj=laea", as.integer(1L),
   # as.double(0), as.double(0), as.double(0), as.double(0), as.integer(0))
   result <- .C(PROJ_proj_trans_generic,
-           as.character(source), as.character(target),
-           as.integer(n),
+           src_ = as.character(source), tgt_ = as.character(target),
+           n = as.integer(n),
            x_ = as.double(x), y_ = as.double(y), z_ = as.double(z), t_ = as.double(t),
            success = as.integer(0),
            NAOK=TRUE, PACKAGE = "PROJ")
