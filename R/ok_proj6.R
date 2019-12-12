@@ -14,7 +14,6 @@
 #' @examples
 #' ok_proj6()
 ok_proj6 <- function() {
-return(TRUE)
   test<- .C("PROJ_proj_trans_generic",
             src_ = as.character("epsg:4326"),
             tgt_ = as.character("+proj=laea"),
