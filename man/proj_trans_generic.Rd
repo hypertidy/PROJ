@@ -2,7 +2,7 @@
 % Please edit documentation in R/proj_trans_generic.R
 \name{proj_trans_generic}
 \alias{proj_trans_generic}
-\title{PROJ transform generic}
+\title{Transform a set of coordinates with 'PROJ'}
 \usage{
 proj_trans_generic(x, target, ..., source = NULL)
 }
@@ -15,11 +15,18 @@ proj_trans_generic(x, target, ..., source = NULL)
 
 \item{source}{projection of input coordinates (must be named)}
 }
+\value{
+matrix of transformed coordinates, with 4-columns x, y, z, t
+}
 \description{
-A raw interface to proj_trans_generic in PROJ => 6, if it is available.
+A raw interface to proj_trans_generic in 'PROJ => 6', if it is available.
 }
 \examples{
 if (ok_proj6()) {
  proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
  }
+}
+\references{
+see the \href{https://proj.org/development/reference/functions.html#coordinate-transformation}{PROJ library documentation}
+for details on the underlying functionality
 }

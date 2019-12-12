@@ -14,8 +14,13 @@
 #' @examples
 #' ok_proj6()
 ok_proj6 <- function() {
-  test<- .C(PROJ_proj_trans_generic, "epsg:4326", "+proj=laea", as.integer(1L),
-            as.double(0), as.double(0), as.double(0), as.double(0), success = as.integer(0))
+  test<- .C("PROJ_proj_trans_generic",
+            src_ = as.character("epsg:4326"),
+            tgt_ = as.character("+proj=laea"),
+            n = as.integer(1L),
+            x_ = as.double(0), y_ = as.double(0), z_ = as.double(0), t_ = as.double(0),
+            success = as.integer(0),
+            NAOK=TRUE, PACKAGE = "PROJ")
   if (!test[["success"]] == 1L) {
     out <- FALSE
   } else {

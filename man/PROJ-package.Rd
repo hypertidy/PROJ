@@ -12,7 +12,18 @@
   higher is required. The intention is for this package to be used by user-packages such 
   as 'reproj', and that the older 'PROJ.4' and version 5 pathways be provided by the 
   legacy package.
+
+The goal of PROJ is to provide generic coordinate system transformations in R
+without requiring bespoke formats for storing basic data.
 }
+\section{I. Functions}{
+
+\tabular{ll}{
+\code{\link{ok_proj6}} determine if PROJ version >=6 is available
+\code{\link{proj_trans_generic}} a light wrapper around the underlying transformation functionality of PROJ version 6 (or higher)
+}
+}
+
 \seealso{
 Useful links:
 \itemize{
@@ -22,7 +33,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Michael D. Sumner \email{mdsumner@gmail.com} (\href{https://orcid.org/0000-0002-2471-7511}{ORCID})
+\strong{Maintainer}: Michael D. Sumner \email{mdsumner@gmail.com} (0000-0002-2471-7511)
 
 Other contributors:
 \itemize{

@@ -1,6 +1,6 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.0.3
+Version: 0.1.0
 Authors@R: 
     c(person(given = "Michael D.",
            family = "Sumner",
@@ -25,7 +25,9 @@ Roxygen: list(markdown = TRUE)
 SystemRequirements: PROJ (>= 6.0.0)
 Suggests: 
     testthat (>= 2.1.0),
-    covr
+    covr,
+    spelling
 URL: https://github.com/hypertidy/PROJ
 BugReports: https://github.com/hypertidy/PROJ/issues
 RoxygenNote: 7.0.2
+Language: en-US

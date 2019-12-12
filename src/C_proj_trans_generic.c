@@ -5,8 +5,10 @@
 #include <proj.h>
 #endif
 
-void PROJ_proj_trans_generic(char **src_, char **tgt_, int *n, double *x_, double *y_, double *z_, double *t_,
-                          int *success)
+void PROJ_proj_trans_generic(char **src_, char **tgt_,
+                             int *n,
+                             double *x_, double *y_, double *z_, double *t_,
+                             int *success)
 {
 
 #ifdef HAVE_PROJ6_API
