@@ -38,11 +38,7 @@ proj_trans_generic <- function(x, target, ..., source = NULL) {
   z <- x[,3L, drop = TRUE]
   y <- x[,2L, drop = TRUE]
   x <- x[,1L, drop = TRUE]
-  # bad <- is.na(x) | is.na(y) | is.na(z) | is.na(t)
-  # if (all(bad)) stop("no valid coordinates given, all have missing values")
-  # #.C(PROJ_proj_trans_generic, "epsg:4326", "+proj=laea", as.integer(1L),
-  # as.double(0), as.double(0), as.double(0), as.double(0), as.integer(0))
-  result <- .C(PROJ_proj_trans_generic,
+  result <- .C("PROJ_proj_trans_generic",
            src_ = as.character(source), tgt_ = as.character(target),
            n = as.integer(n),
            x_ = as.double(x), y_ = as.double(y), z_ = as.double(z), t_ = as.double(t),

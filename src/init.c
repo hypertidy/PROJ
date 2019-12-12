@@ -1,16 +1,7 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-/*
-  The following symbols/expressions for .NAME have been omitted
-
-    PROJ_proj_trans_generic
-    PROJ_set_data_dir
-
-  Most likely possible values need to be added below.
-*/
-
-/* FIXME:
+/* FIXME: 
    Check these declarations against the C/Fortran source code.
 */
 
@@ -20,7 +11,7 @@ extern void PROJ_set_data_dir(void *);
 
 static const R_CMethodDef CEntries[] = {
     {"PROJ_proj_trans_generic", (DL_FUNC) &PROJ_proj_trans_generic, 8},
-    {"PROJ_set_data_dir", (DL_FUNC) &PROJ_set_data_dir, 1},
+    {"PROJ_set_data_dir",       (DL_FUNC) &PROJ_set_data_dir,       1},
     {NULL, NULL, 0}
 };
 
