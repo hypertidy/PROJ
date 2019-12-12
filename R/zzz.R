@@ -2,7 +2,7 @@
   ## return logical vector of length two
   ok <- FALSE
   if (.Platform[["OS.type"]] == "windows") {
-     l <- try( .Call(PROJ_set_data_dir, proj_data), silent = TRUE)
+     l <- try( .C("PROJ_set_data_dir", proj_data), silent = TRUE)
      ok <- !inherits(l, "try-error")
   }
   c(windows = .Platform[["OS.type"]] == "windows",

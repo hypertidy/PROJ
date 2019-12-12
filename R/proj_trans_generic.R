@@ -1,11 +1,14 @@
-#' PROJ transform generic
+#' Transform a set of coordinates with 'PROJ'
 #'
-#' A raw interface to proj_trans_generic in PROJ => 6, if it is available.
+#' A raw interface to proj_trans_generic in 'PROJ => 6', if it is available.
 #' @param source projection of input coordinates (must be named)
 #' @param target projection for output coordinates
 #' @param x input coordinates
 #' @param ... ignored
 #' @export
+#' @return matrix of transformed coordinates, with 4-columns x, y, z, t
+#' @references see the [PROJ library documentation](https://proj.org/development/reference/functions.html#coordinate-transformation)
+#' for details on the underlying functionality
 #' @examples
 #' if (ok_proj6()) {
 #'  proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
@@ -35,18 +38,15 @@ proj_trans_generic <- function(x, target, ..., source = NULL) {
   z <- x[,3L, drop = TRUE]
   y <- x[,2L, drop = TRUE]
   x <- x[,1L, drop = TRUE]
-  # bad <- is.na(x) | is.na(y) | is.na(z) | is.na(t)
-  # if (all(bad)) stop("no valid coordinates given, all have missing values")
-  # #.C(PROJ_proj_trans_generic, "epsg:4326", "+proj=laea", as.integer(1L),
-  # as.double(0), as.double(0), as.double(0), as.double(0), as.integer(0))
-  result <- .C(PROJ_proj_trans_generic,
-           as.character(source), as.character(target),
-           as.integer(n),
+  result <- .C("PROJ_proj_trans_generic",
+           src_ = as.character(source), tgt_ = as.character(target),
+           n = as.integer(n),
            x_ = as.double(x), y_ = as.double(y), z_ = as.double(z), t_ = as.double(t),
            success = as.integer(0),
            NAOK=TRUE, PACKAGE = "PROJ")
   if (!result[["success"]]) stop("problem in PROJ transformation:\n(likely you don't have system PROJ version 6 or higher), WIP: see help in reproj package")
-  cbind(result[["x_"]], result[["y_"]], result[["z_"]], result[["t_"]])
+  cbind(x = result[["x_"]], y = result[["y_"]],
+        z = result[["z_"]], z = result[["t_"]])
 }
 
 
