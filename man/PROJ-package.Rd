@@ -11,7 +11,7 @@
   includes cartographic projections as well as geodetic transformations. Version 6.0.0 or 
   higher is required. The intention is for this package to be used by user-packages such 
   as 'reproj', and that the older 'PROJ.4' and version 5 pathways be provided by the 
-  legacy package.
+  legacy package. The 'PROJ' library is available from <https://proj.org/>.
 
 The goal of PROJ is to provide generic coordinate system transformations in R
 without requiring bespoke formats for storing basic data.

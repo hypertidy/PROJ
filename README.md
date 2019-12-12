@@ -129,13 +129,13 @@ src <- "WGS84"
 
 ## forward transformation
 (xy <- proj_trans_generic( cbind(lon, lat), dst, source = src))
-#>             x        y z z
+#>             x        y z t
 #> [1,] -8013029 -8225762 0 0
 #> [2,]        0        0 0 0
 
 ## inverse transformation
 proj_trans_generic(xy, src, source = dst)
-#>        x             y z z
+#>        x             y z t
 #> [1,]   0 -3.194835e-15 0 0
 #> [2,] 147 -4.200000e+01 0 0
 ```
@@ -169,10 +169,7 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 2.4.2, PROJ 5.2.0
-#> WARNING: different compile-time and runtime versions for GEOS found:
-#> Linked against: 3.8.0-CAPI-1.13.1  compiled against: 3.7.1-CAPI-1.11.1
-#> It is probably a good idea to reinstall sf, and maybe rgeos and rgdal too
+#> Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1
 lon <- w[,1]
 lat <- w[,2]
 lon <- rep(lon, 25)
@@ -194,10 +191,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   4.558          100
-#> 2      rgdal   4.786          100
-#> 3       PROJ   8.060          100
-#> 4     reproj  10.810          100
+#> 1      rgdal   5.786          100
+#> 2 sf_project   7.357          100
+#> 3       PROJ   8.972          100
+#> 4     reproj  10.275          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D

@@ -16,7 +16,7 @@ Description: 'PROJ' is a generic coordinate transformation software that transfo
   includes cartographic projections as well as geodetic transformations. Version 6.0.0 or 
   higher is required. The intention is for this package to be used by user-packages such 
   as 'reproj', and that the older 'PROJ.4' and version 5 pathways be provided by the 
-  legacy package. 
+  legacy package. The 'PROJ' library is available from <https://proj.org/>. 
 Depends: R (>= 2.10)
 License: GPL-3
 Encoding: UTF-8
@@ -26,8 +26,11 @@ SystemRequirements: PROJ (>= 6.0.0)
 Suggests: 
     testthat (>= 2.1.0),
     covr,
-    spelling
+    spelling,
+    knitr,
+    rmarkdown
 URL: https://github.com/hypertidy/PROJ
 BugReports: https://github.com/hypertidy/PROJ/issues
 RoxygenNote: 7.0.2
 Language: en-US
+VignetteBuilder: knitr

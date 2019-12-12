@@ -1,4 +1,6 @@
-# PROJ dev
+# PROJ 0.1.0
+
+* Sorted out .C registration. 
 
 * Now set data directory for installed share files, thanks to Jeroen Ooms for the nudge in the right
  direction with the R API. 
