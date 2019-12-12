@@ -1,0 +1,66 @@
+---
+title: "PROJ"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{PROJ}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## What is PROJ?
+
+Generic map projection transformations on raw data. 
+
+We use the [PROJ library](https://proj.org/) to perform projection transformations on raw data. We can 
+use a matrix or data frame of 2, 3, or 4 columns and these are assumed (if present) to be "x", "y", "z", and "t" (time: modern transformations allow a *temporal* component as the shape of the earth and our models of it do change over time).
+
+The transformation idiom used is 1) provide raw coordinates; 2) specify their source projection; 3) specify their target projection. 
+
+We don't enter into the coordinate order debacle of the 'OGC standard for 4326'. Projection strings are able
+to carry this information, and passing in the right data is the responsibility of the user. 
+
+## Why PROJ?
+
+This package was created to leverage the modern transformation capabilities of [PROJ](https://proj.org/) itself
+from version 6 and above. There's no other package in R that allows generic transformations directly from the 
+PROJ library, and this package provides that along with these goals: 
+
+* no other dependencies (PROJ library is it, and R)
+* allow geocentric transformations
+* provide no interpretation or restrictions on source or target projection specification
+* do not require special formats, we use numeric vectors in matrix or data frame form
+
+## What systems are supported? 
+
+* Windows - on CRAN the PROJ package should just work, PROJ 6 (or higher) is bundled in with the binary package.
+* Linux - the PROJ package will use your system PROJ library, it must be version 6 (or higher).
+* Mac - we don't know yet, in the past CRAN makes this work for new packages.
+
+## How to use PROJ?
+
+Get the package installed, load it and use the function `proj_trans_generic()`. 
+
+If you don't have system PROJ version 6 (or higher) the function will fail. 
+
+```{r setup}
+library(PROJ)
+proj_trans_generic(cbind(c(0, 147), c(0, -42), 0), target = "+proj=laea +datum=WGS84", source = "WGS84")
+```
+
+Note that various forms of projection string are supported, we can use PROJ.4 style (as per target above), bare names from [EPSG](http://www.epsg.org/) (as per source above), full-blown [WKT2 strings](), or 'auth:code' forms such as "epsg:3857". (Note that "+init=..." forms cannot be used in 6 or above). 
+
+The goal is for the [reproj package](https://CRAN.r-project.org/package=reproj) to wrap this package. In time
+that will be the easiest way to run coordinate transformations with PROJ for versions 4, 5, 6, 7 or above. 
+
+To find out if your system supports PROJ 6 (or higher) use the function `ok_proj6()`. 
+
+```{r test-capability}
+ok_proj6()
+```

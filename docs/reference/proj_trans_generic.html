@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PROJ transform generic — proj_trans_generic • PROJ</title>
+<title>Transform a set of coordinates with 'PROJ' — proj_trans_generic • PROJ</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="PROJ transform generic — proj_trans_generic" />
-<meta property="og:description" content="A raw interface to proj_trans_generic in PROJ =&amp;gt; 6, if it is available." />
+<meta property="og:title" content="Transform a set of coordinates with 'PROJ' — proj_trans_generic" />
+<meta property="og:description" content="A raw interface to proj_trans_generic in 'PROJ =&amp;gt; 6', if it is available." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -80,6 +80,9 @@
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/PROJ.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -108,13 +111,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>PROJ transform generic</h1>
+    <h1>Transform a set of coordinates with 'PROJ'</h1>
     <small class="dont-index">Source: <a href='https://github.com/hypertidy/PROJ/blob/master/R/proj_trans_generic.R'><code>R/proj_trans_generic.R</code></a></small>
     <div class="hidden name"><code>proj_trans_generic.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A raw interface to proj_trans_generic in PROJ =&gt; 6, if it is available.</p>
+    <p>A raw interface to proj_trans_generic in 'PROJ =&gt; 6', if it is available.</p>
     </div>
 
     <pre class="usage"><span class='fu'>proj_trans_generic</span>(<span class='no'>x</span>, <span class='no'>target</span>, <span class='no'>...</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -140,17 +143,26 @@
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>matrix of transformed coordinates, with 4-columns x, y, z, t</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>see the <a href='https://proj.org/development/reference/functions.html#coordinate-transformation'>PROJ library documentation</a>
+for details on the underlying functionality</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='ok_proj6.html'>ok_proj6</a></span>()) {
  <span class='fu'>proj_trans_generic</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fl'>147</span>, -<span class='fl'>42</span>), <span class='st'>"+proj=laea"</span>, <span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"epsg:4326"</span>)
- }</div><div class='output co'>#&gt;         [,1]     [,2] [,3] [,4]
-#&gt; [1,] 5969744 -9803200    0    0</div></pre>
+ }</div><div class='output co'>#&gt;            x        y z t
+#&gt; [1,] 5969744 -9803200 0 0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
