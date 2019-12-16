@@ -6,8 +6,8 @@
 #include <Rinternals.h>
 
 SEXP PROJ_set_data_dir(SEXP data_dir){
-#if PROJ_VERSION_MAJOR >= 6
 
+#ifdef HAVE_PROJ6_API
   //const char* str = CHAR(STRING_ELT(data_dir, 0));
   //const char* const* a = {"b"};
   const char* const paths[] = {CHAR(STRING_ELT(data_dir, 0))};
