@@ -129,15 +129,31 @@ src <- "WGS84"
 
 ## forward transformation
 (xy <- proj_trans_generic( cbind(lon, lat), dst, source = src))
-#>             x        y z t
-#> [1,] -8013029 -8225762 0 0
-#> [2,]        0        0 0 0
+#> $x_
+#> [1] -8013029        0
+#> 
+#> $y_
+#> [1] -8225762        0
+#> 
+#> $z_
+#> [1] 0 0
+#> 
+#> $t_
+#> numeric(0)
 
 ## inverse transformation
-proj_trans_generic(xy, src, source = dst)
-#>        x             y z t
-#> [1,]   0 -3.194835e-15 0 0
-#> [2,] 147 -4.200000e+01 0 0
+proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
+#> $x_
+#> [1]   0 147
+#> 
+#> $y_
+#> [1] -3.194835e-15 -4.200000e+01
+#> 
+#> $z_
+#> [1] 0 0
+#> 
+#> $t_
+#> numeric(0)
 ```
 
 A more realistic example with coastline map data.
@@ -148,8 +164,8 @@ w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-xyzt <- proj_trans_generic(cbind(lon, lat, 0), dst, source = "epsg:4326")
-plot(xyzt[,1:2, drop = FALSE], pch = ".")
+xyzt <- proj_trans_generic(cbind(lon, lat), dst, source = "epsg:4326", z_ = 0)
+plot(xyzt$x_, xyzt$y_, pch = ".")
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
@@ -157,7 +173,7 @@ plot(xyzt[,1:2, drop = FALSE], pch = ".")
 ``` r
 
 lonlat <- proj_trans_generic(xyzt, src, source = dst)
-plot(lonlat, pch = ".")
+plot(lonlat$x_, lonlat$y_, pch = ".")
 ```
 
 <img src="man/figures/README-example-2.png" width="100%" />
@@ -180,24 +196,20 @@ lat <- rep(lat, 25)
 ll <- cbind(lon, lat)
 z <- rep(0, length(lon))
 llproj <- "+proj=longlat +datum=WGS84"
+
 xyz <- cbind(lon, lat, z)
 xyzt <- cbind(lon, lat, z, 0)
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
-rbenchmark::benchmark(
-          PROJ = proj_trans_generic(xyzt, dst, source = llproj),
-          reproj = reproj(xyz, target = dst, source = llproj), 
-          rgdal = project(ll, dst), 
-          sf_project = sf_project(llproj, dst, ll),
-        # lwgeom = st_transform_proj(sfx, dst), 
-        # sf = st_transform(sfx, dst), 
-        replications = 100) %>% 
-  dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
-#>         test elapsed replications
-#> 1 sf_project   4.861          100
-#> 2      rgdal   5.385          100
-#> 3       PROJ   8.511          100
-#> 4     reproj  10.939          100
+# rbenchmark::benchmark(
+#           PROJ = proj_trans_generic(ll, target = dst, source = llproj, z_ = z),
+#           reproj = reproj(xyz, target = dst, source = llproj), 
+#           rgdal = project(ll, dst), 
+#           sf_project = sf_project(llproj, dst, ll),
+#         # lwgeom = st_transform_proj(sfx, dst), 
+#         # sf = st_transform(sfx, dst), 
+#         replications = 100) %>% 
+#   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
@@ -210,8 +222,8 @@ with quadmesh, silicate, and
 anglr.
 
 ``` r
-xyzt <- proj_trans_generic(cbind(w[,1], w[,2], 0, 0), "+proj=geocent +datum=WGS84", source = "WGS84")
-plot(as.data.frame(xyzt), pch = ".", asp = 1)
+xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "WGS84")
+plot(as.data.frame(xyzt[1:3]), pch = ".", asp = 1)
 ```
 
 <img src="man/figures/README-geocentric-1.png" width="100%" />
