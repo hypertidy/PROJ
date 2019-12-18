@@ -4,7 +4,9 @@
 #'
 #' Input 'x' is assumed to be 2-columns of "x", then "y" coordinates. If "z" or
 #' "t" is required pass these in as named vectors with "z_" and "t_". These
-#' are left empty (zero-length) internally by default.
+#' are left empty (zero-length) internally by default, if possible but it seems that
+#' z must always match the length of `x` `y` if 'xyz' is the output, so for safety this
+#' is always initialized as a zero value vector.
 #' @param source projection of input coordinates (must be named)
 #' @param target projection for output coordinates
 #' @param x input coordinates (x,y, list or matrix see `z_` and `t_`)
@@ -36,6 +38,8 @@ proj_trans_generic <- function(x, target, ..., source = NULL, z_ = 0, t_ = numer
   if (n < 1) stop("must be at least one coordinate")
   y <- x[,2L, drop = TRUE]
   x <- x[,1L, drop = TRUE]
+  if (length(z_) < 1) z_ <- 0
+  if (length(z_) < length(x)) z_ <- rep(z_,  length.out = length(x))
   result <- .C("PROJ_proj_trans_generic",
            src_ = as.character(source), tgt_ = as.character(target),
            n = as.integer(n),
