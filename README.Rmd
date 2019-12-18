@@ -109,7 +109,7 @@ src <- "WGS84"
 (xy <- proj_trans_generic( cbind(lon, lat), dst, source = src))
 
 ## inverse transformation
-proj_trans_generic(xy, src, source = dst)
+proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
 
 
 ```
@@ -123,11 +123,11 @@ w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-xyzt <- proj_trans_generic(cbind(lon, lat, 0), dst, source = "epsg:4326")
-plot(xyzt[,1:2, drop = FALSE], pch = ".")
+xyzt <- proj_trans_generic(cbind(lon, lat), dst, source = "epsg:4326", z_ = 0)
+plot(xyzt$x_, xyzt$y_, pch = ".")
 
 lonlat <- proj_trans_generic(xyzt, src, source = dst)
-plot(lonlat, pch = ".")
+plot(lonlat$x_, lonlat$y_, pch = ".")
 ```
 
 
@@ -146,12 +146,13 @@ lat <- rep(lat, 25)
 ll <- cbind(lon, lat)
 z <- rep(0, length(lon))
 llproj <- "+proj=longlat +datum=WGS84"
+
 xyz <- cbind(lon, lat, z)
 xyzt <- cbind(lon, lat, z, 0)
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
 rbenchmark::benchmark(
-          PROJ = proj_trans_generic(xyzt, dst, source = llproj),
+          PROJ = proj_trans_generic(ll, target = dst, source = llproj, z_ = z, t = 0),
           reproj = reproj(xyz, target = dst, source = llproj), 
           rgdal = project(ll, dst), 
           sf_project = sf_project(llproj, dst, ll),
@@ -166,7 +167,7 @@ The speed is not exactly stunning, but with PROJ we can also do 3D transformatio
 A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr. 
 
 ```{r geocentric}
-xyzt <- proj_trans_generic(cbind(w[,1], w[,2], 0, 0), "+proj=geocent +datum=WGS84", source = "WGS84")
+xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target "+proj=geocent +datum=WGS84", source = "WGS84")
 plot(as.data.frame(xyzt), pch = ".", asp = 1)
 ```
 

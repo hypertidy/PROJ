@@ -7,7 +7,7 @@
 \title{PROJ: Generic Coordinate System Transformations Using 'PROJ'}
 \description{
 'PROJ' is a generic coordinate transformation software that transforms 
- geospatial coordinates from one coordinate reference system (CRS) to another. This 
+ geospatial coordinates from one coordinate reference system ('CRS') to another. This 
   includes cartographic projections as well as geodetic transformations. Version 6.0.0 or 
   higher is required. The intention is for this package to be used by user-packages such 
   as 'reproj', and that the older 'PROJ.4' and version 5 pathways be provided by the 
