@@ -200,15 +200,17 @@ llproj <- "+proj=longlat +datum=WGS84"
 xyz <- cbind(lon, lat, z)
 xyzt <- cbind(lon, lat, z, 0)
 # stll <- sf::st_crs(llproj)
-# sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll)  
+# sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll) 
+print(dim(ll))
+#> [1] 137350      2
 # rbenchmark::benchmark(
 #           PROJ = proj_trans_generic(ll, target = dst, source = llproj, z_ = z),
-#           reproj = reproj(xyz, target = dst, source = llproj), 
-#           rgdal = project(ll, dst), 
+#           reproj = reproj(xyz, target = dst, source = llproj),
+#           rgdal = project(ll, dst),
 #           sf_project = sf_project(llproj, dst, ll),
-#         # lwgeom = st_transform_proj(sfx, dst), 
-#         # sf = st_transform(sfx, dst), 
-#         replications = 100) %>% 
+#         # lwgeom = st_transform_proj(sfx, dst),
+#         # sf = st_transform(sfx, dst),
+#         replications = 100) %>%
 #   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 ```
 

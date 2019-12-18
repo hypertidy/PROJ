@@ -56,7 +56,7 @@ library(PROJ)
 proj_trans_generic(cbind(c(0, 147), c(0, -42), 0), target = "+proj=laea +datum=WGS84", source = "WGS84")
 ```
 
-Note that various forms of projection string are supported, we can use PROJ.4 style (as per target above), bare names from [EPSG](http://www.epsg.org/) (as per source above), full-blown [WKT2 strings](), or 'auth:code' forms such as "epsg:3857". (Note that "+init=..." forms cannot be used in 6 or above).
+Note that various forms of projection string are supported, we can use PROJ.4 style (as per target above), bare names from [EPSG](http://www.epsg.org/) (as per source above), full-blown WKT2 strings, or 'auth:code' forms such as "epsg:3857". (Note that "+init=..." forms cannot be used in 6 or above).
 
 The goal is for the [reproj package](https://CRAN.r-project.org/package=reproj) to wrap this package. In time
 that will be the easiest way to run coordinate transformations with PROJ for versions 4, 5, 6, 7 or above.
