@@ -2,15 +2,15 @@
   ## return logical vector of length two
   ok <- FALSE
   if (.Platform[["OS.type"]] == "windows") {
-     l <- try( .C("PROJ_set_data_dir", proj_data), silent = TRUE)
-     ok <- !inherits(l, "try-error")
+     l <- .Call("PROJ_set_data_dir", proj_data)
+     ok <- TRUE; ## !inherits(l, "try-error")
   }
   c(windows = .Platform[["OS.type"]] == "windows",
     ok = ok)
 }
 
 .onLoad <- function(libname, pkgname) {
-  windows_ok <- .set_proj_data_on_windows(system.file("proj", package = "PROJ", mustWork = TRUE))
+  windows_ok <- .set_proj_data_on_windows(system.file("proj", package = "PROJ", mustWork = FALSE))
   if (windows_ok["windows"] && windows_ok["ok"]) options(PROJ.HAVE_PROJ6 = TRUE)
   if (!windows_ok["windows"]) {
     ok <- ok_proj6()
