@@ -8,7 +8,7 @@
 #'
 #' If 'PROJ' library version 6 is not available, the package still compiles and installs
 #' but is not functional.
-#' @return logical, `TRUE` if 'PROJ >= 6'
+#' @return logical, `TRUE` if the system library 'PROJ >= 6'
 #' @export
 #'
 #' @examples
