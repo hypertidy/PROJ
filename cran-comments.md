@@ -1,3 +1,12 @@
+# PROJ 0.1.0
+
+* Second submission
+* Link https://en.wikipedia.org/wiki/Open_Geospatial_Consortium removed 
+* Removed deprecated CPP variable. 
+
+Thank you very much. 
+
+
 ## Test environments
 * local R installation, R 3.6.1
 * ubuntu 16.04 (on travis-ci), R 3.6.1

@@ -201,17 +201,21 @@ xyz <- cbind(lon, lat, z)
 xyzt <- cbind(lon, lat, z, 0)
 # stll <- sf::st_crs(llproj)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll) 
-print(dim(ll))
-#> [1] 137350      2
-# rbenchmark::benchmark(
-#           PROJ = proj_trans_generic(ll, target = dst, source = llproj, z_ = z),
-#           reproj = reproj(xyz, target = dst, source = llproj),
-#           rgdal = project(ll, dst),
-#           sf_project = sf_project(llproj, dst, ll),
-#         # lwgeom = st_transform_proj(sfx, dst),
-#         # sf = st_transform(sfx, dst),
-#         replications = 100) %>%
-#   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
+
+rbenchmark::benchmark(
+          PROJ = proj_trans_generic(ll, target = dst, source = llproj, z_ = z),
+          reproj = reproj(xyz, target = dst, source = llproj),
+          rgdal = project(ll, dst),
+          sf_project = sf_project(llproj, dst, ll),
+        # lwgeom = st_transform_proj(sfx, dst),
+        # sf = st_transform(sfx, dst),
+        replications = 100) %>%
+  dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
+#>         test elapsed replications
+#> 1 sf_project   4.536          100
+#> 2      rgdal   4.962          100
+#> 3     reproj   6.097          100
+#> 4       PROJ   6.953          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
