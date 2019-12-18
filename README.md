@@ -93,8 +93,8 @@ attribution to the author.
   - Why not lgeom? That package is format-specific, and does not work
     with generic data coordinates so is unsuitable for many
     straightforward and efficient data-handling schemes.
-  - Why not mapproject? This is unusable for real-world projections in
-    my experience, it seems to be written for some basic graphics cases.
+  - Why not mapproj? This is unusable for real-world projections in my
+    experience, it seems to be written for some basic graphics cases.
   - Why not reproj? This is an extension for reproj, to bridge it from
     PROJ version 4 and 5, to version 6 and 7 and beyond.
 
@@ -114,7 +114,7 @@ THINGS TO WORRY ABOUT for development here:
   - the zero value after transformation, it comes out like -3.19835e-15
     (do we just zapsmall()?)
 
-<https://proj4.org/development/quickstart.html>
+<https://proj.org/development/quickstart.html>
 
 ## Example
 
@@ -169,7 +169,10 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1
+#> Linking to GEOS 3.8.0, GDAL 2.4.2, PROJ 5.2.0
+#> WARNING: different compile-time and runtime versions for GEOS found:
+#> Linked against: 3.8.0-CAPI-1.13.1  compiled against: 3.7.1-CAPI-1.11.1
+#> It is probably a good idea to reinstall sf, and maybe rgeos and rgdal too
 lon <- w[,1]
 lat <- w[,2]
 lon <- rep(lon, 25)
@@ -191,10 +194,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.786          100
-#> 2 sf_project   7.357          100
-#> 3       PROJ   8.972          100
-#> 4     reproj  10.275          100
+#> 1 sf_project   4.617          100
+#> 2      rgdal   4.920          100
+#> 3       PROJ   7.760          100
+#> 4     reproj  10.322          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
@@ -256,8 +259,8 @@ There are a few links to the PROJ (PROJ.4) library in R.
     hierarchies of matrices into WKB, but internally uses the PROJ
     (PROJ.4) library directly.
 
-(The [mapproject](https://CRAN.R-project.org/package=mapproject) package
-uses all its own internal code).
+(The [mapproj](https://CRAN.R-project.org/package=mapproj) package uses
+all its own internal code).
 
 Packages sf, rgdal and proj4 provide raw access to coordinate
 transformations for R vectors. `sf::sf_project()` is the winner, but is
@@ -280,5 +283,6 @@ Bioconductor, or in the works? Let me know\!
 -----
 
 Please note that the ‘PROJ’ project is released with a [Contributor Code
-of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
-agree to abide by its terms.
+of
+Conduct](https://github.com/hypertidy/PROJ/blob/master/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.

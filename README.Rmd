@@ -71,7 +71,7 @@ This package strips code out of the development version of proj4, with attributi
 * Why not sf?  It brings a lot of baggage, and can't do geocentric transformations. 
 * Why not rgdal? Still baggage, no transformations possible without special data formats. 
 * Why not lgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes. 
-* Why not mapproject? This is unusable for real-world projections in my experience, it seems
+* Why not mapproj? This is unusable for real-world projections in my experience, it seems
 to be written for some basic graphics cases.
 * Why not reproj? This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond. 
 
@@ -92,7 +92,7 @@ THINGS TO WORRY ABOUT for development here:
 * coordinate order
 * the zero value after transformation, it comes out like -3.19835e-15 (do we just zapsmall()?)
 
-https://proj4.org/development/quickstart.html
+https://proj.org/development/quickstart.html
 
 ## Example
 
@@ -188,7 +188,7 @@ There are a few links to the PROJ (PROJ.4) library in R.
 * [sf](https://CRAN.R-project.org/package=sf) Provides low level `sf::sf_project()` transformation of matrices. Provides high level `st_transform()` which works via the GDAL library and its own internal version of PROJ (PROJ.4). The high level function converts coordinates in list heirarchies of matrices into WKB for the transformations. 
 * [lwgeom](https://CRAN.R-project.org/package=lwgeom) Provides high level `st_transform_proj()` also converts coordinates in list hierarchies of matrices into WKB, but internally uses the PROJ (PROJ.4) library directly. 
 
-(The [mapproject](https://CRAN.R-project.org/package=mapproject) package uses all its own internal code). 
+(The [mapproj](https://CRAN.R-project.org/package=mapproj) package uses all its own internal code). 
 
 Packages sf, rgdal and proj4 provide raw access to coordinate transformations for R vectors. `sf::sf_project()` is the winner, but is embedded in a package that does many other things. Rgdal only has project forward and project inverse and always works in degrees proj4 has the more general `ptransform()` but requires manual conversion of degree values into radians. PROJ (PROJ.4) internally works only with radians. 
 
@@ -202,5 +202,5 @@ Are there any other wrappers around PROJ (PROJ.4) on CRAN or Bioconductor, or in
 ---
 
 Please note that the 'PROJ' project is released with a
-  [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+  [Contributor Code of Conduct](https://github.com/hypertidy/PROJ/blob/master/CODE_OF_CONDUCT.md).
   By contributing to this project, you agree to abide by its terms.
