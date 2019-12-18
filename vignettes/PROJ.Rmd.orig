@@ -7,7 +7,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 
+## NOTE: build with knitr::knit("vignettes/PROJ.Rmd.orig", output = "vignettes/PROJ.Rmd")
+```
 
 ## What is PROJ?
 
@@ -44,13 +51,9 @@ Get the package installed, load it and use the function `proj_trans_generic()`.
 
 If you don't have system PROJ version 6 (or higher) the function will fail.
 
-
-```r
+```{r setup}
 library(PROJ)
 proj_trans_generic(cbind(c(0, 147), c(0, -42), 0), target = "+proj=laea +datum=WGS84", source = "WGS84")
-#>            x        y z t
-#> [1,]       0        0 0 0
-#> [2,] 5969744 -9803200 0 0
 ```
 
 Note that various forms of projection string are supported, we can use PROJ.4 style (as per target above), bare names from [EPSG](http://www.epsg.org/) (as per source above), full-blown [WKT2 strings](), or 'auth:code' forms such as "epsg:3857". (Note that "+init=..." forms cannot be used in 6 or above).
@@ -60,8 +63,6 @@ that will be the easiest way to run coordinate transformations with PROJ for ver
 
 To find out if your system supports PROJ 6 (or higher) use the function `ok_proj6()`.
 
-
-```r
+```{r test-capability}
 ok_proj6()
-#> [1] TRUE
 ```
