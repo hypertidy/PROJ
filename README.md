@@ -194,10 +194,10 @@ rbenchmark::benchmark(
         replications = 100) %>% 
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   4.617          100
-#> 2      rgdal   4.920          100
-#> 3       PROJ   7.760          100
-#> 4     reproj  10.322          100
+#> 1 sf_project   4.861          100
+#> 2      rgdal   5.385          100
+#> 3       PROJ   8.511          100
+#> 4     reproj  10.939          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
