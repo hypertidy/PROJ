@@ -25,7 +25,7 @@ use a matrix or data frame of 2, 3, or 4 columns and these are assumed (if prese
 
 The transformation idiom used is 1) provide raw coordinates; 2) specify their source projection; 3) specify their target projection.
 
-We don't enter into the coordinate order debacle of the [OGC](https://en.wikipedia.org/wiki/Open_Geospatial_Consortium/) for longitude, latitude. Projection strings are able
+We don't enter into the coordinate order debacle of the [OGC](https://www.opengeospatial.org/) for longitude, latitude. Projection strings are able
 to carry this information, and passing in the right data is the responsibility of the user.
 
 ## Why PROJ?

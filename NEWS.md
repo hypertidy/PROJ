@@ -1,5 +1,7 @@
 # PROJ 0.1.0
 
+* Removed CPP variable from configure thanks to CRAN. 
+
 * Sorted out .C registration. 
 
 * Now set data directory for installed share files, thanks to Jeroen Ooms for the nudge in the right
