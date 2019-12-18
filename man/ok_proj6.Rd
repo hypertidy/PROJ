@@ -7,7 +7,7 @@
 ok_proj6()
 }
 \value{
-logical, \code{TRUE} if 'PROJ >= 6'
+logical, \code{TRUE} if the system library 'PROJ >= 6'
 }
 \description{
 Test for availability of 'PROJ' system library version 6 or higher.
