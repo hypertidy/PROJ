@@ -4,26 +4,44 @@
 \alias{proj_trans_generic}
 \title{Transform a set of coordinates with 'PROJ'}
 \usage{
-proj_trans_generic(x, target, ..., source = NULL)
+proj_trans_generic(
+  x,
+  target,
+  ...,
+  source = NULL,
+  z_ = numeric(0),
+  t_ = numeric(0)
+)
 }
 \arguments{
-\item{x}{input coordinates}
+\item{x}{input coordinates (x,y, list or matrix see \code{z_} and \code{t_})}
 
 \item{target}{projection for output coordinates}
 
 \item{...}{ignored}
 
 \item{source}{projection of input coordinates (must be named)}
+
+\item{z_}{optional z coordinate vector}
+
+\item{t_}{optional t coordinate vector}
 }
 \value{
-matrix of transformed coordinates, with 4-columns x, y, z, t
+list of transformed coordinates, with 4-elements \code{x_}, \code{y_}, \code{z_}, \code{t_}
 }
 \description{
 A raw interface to proj_trans_generic in 'PROJ => 6', if it is available.
 }
+\details{
+Input 'x' is assumed to be 2-columns of "x", then "y" coordinates. If "z" or
+"t" is required pass these in as named vectors with "z_" and "t_". These
+are left empty (zero-length) internally by default.
+}
 \examples{
 if (ok_proj6()) {
  proj_trans_generic(cbind(147, -42), "+proj=laea", source = "epsg:4326")
+ proj_trans_generic(cbind(147, -42), z_ = -2, "+proj=laea", source = "epsg:4326")
+ proj_trans_generic(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "epsg:4326")
  }
 }
 \references{
