@@ -38,7 +38,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item Jeroen Ooms (provided PROJ library support on Windows, and assistance with Windows configuration) [contributor]
-  \item Simon Urbanek (wrote original code versions for PROJ version 6) [contributor]
+  \item Simon Urbanek (wrote original code versions for PROJ version 6) [copyright holder, contributor]
 }
 
 }

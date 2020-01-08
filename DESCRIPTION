@@ -9,7 +9,7 @@ Authors@R:
            comment = c(ORCID = "0000-0002-2471-7511")), 
     person("Jeroen", "Ooms", role = c("ctb"), 
            comment = "provided PROJ library support on Windows, and assistance with Windows configuration"), 
-    person("Simon", "Urbanek", role = c("ctb"), 
+    person("Simon", "Urbanek", role = c("cph", "ctb"), 
            comment = "wrote original code versions for PROJ version 6"))
 Description: A wrapper around the generic coordinate transformation software 'PROJ'
  that transforms geospatial coordinates from one coordinate reference system ('CRS') to another. This 
