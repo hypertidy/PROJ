@@ -1,9 +1,10 @@
 # PROJ 0.1.0
 
-Second submission
+Third submission
 
-* Removed deprecated CPP variable. 
-* Link https://en.wikipedia.org/wiki/Open_Geospatial_Consortium removed 
+* Added copyright holder to DESCRIPTION (cph) as per CRAN instruction email 
+ 2019-12-24. 
+ 
 
 Thank you very much. 
 
