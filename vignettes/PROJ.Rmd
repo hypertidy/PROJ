@@ -47,9 +47,22 @@ If you don't have system PROJ version 6 (or higher) the function will fail.
 
 ```r
 library(PROJ)
-proj_trans_generic(cbind(c(0, 147), c(0, -42), 0), target = "+proj=laea +datum=WGS84", source = "WGS84")
-#> Error in proj_trans_generic(cbind(c(0, 147), c(0, -42), 0), target = "+proj=laea +datum=WGS84", : x coordinates must be 2-columns
+proj_trans_generic(cbind(c(0, 147), c(0, -42)), z_ = 0, target = "+proj=laea +datum=WGS84", source = "WGS84")
+#> $x_
+#> [1]       0 5969744
+#> 
+#> $y_
+#> [1]        0 -9803200
+#> 
+#> $z_
+#> [1] 0 0
+#> 
+#> $t_
+#> numeric(0)
 ```
+
+Note that we always assume input of `cbind(longitude, latitude)` and can optionally provide a vector of `z_` as well as `t_`. We
+cannot provide a 3 or 4 column matrix, z and t must be provided separately as named arguments.
 
 Note that various forms of projection string are supported, we can use PROJ.4 style (as per target above), bare names from [EPSG](http://www.epsg.org/) (as per source above), full-blown WKT2 strings, or 'auth:code' forms such as "epsg:3857". (Note that "+init=..." forms cannot be used in 6 or above).
 
