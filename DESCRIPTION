@@ -1,6 +1,6 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.1.0
+Version: 0.1.0.9001
 Authors@R: 
     c(person(given = "Michael D.",
            family = "Sumner",

@@ -4,6 +4,7 @@ auth
 ci
 Codecov
 coords
+CPP
 CRS
 dev
 epsg
@@ -41,5 +42,6 @@ WIP
 WKB
 WKT
 xymap
+xyz
 yml
 zapsmall
