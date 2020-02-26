@@ -12,11 +12,11 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Generic Coordinate System Transformations Using PROJ">
 <meta property="og:description" content="A wrapper around the generic coordinate transformation software PROJ
- that transforms geospatial coordinates from one coordinate reference system (CRS) to another. This 
-  includes cartographic projections as well as geodetic transformations. Version 6.0.0 or 
-  higher is required, earlier versions if available are not used leaving this 
-  package harmlessly non-functional. The intention is for this package to be used 
-  by user-packages such as reproj, and that the older PROJ.4 and version 5 
+  that transforms geospatial coordinates from one coordinate reference system (CRS) 
+  to another. This includes cartographic projections as well as geodetic transformations. 
+  Version 6.0.0 or higher is required, earlier versions if available are not used 
+  leaving this package harmlessly non-functional. The intention is for this package 
+  to be used by user-packages such as reproj, and that the older PROJ.4 and version 5 
   pathways be provided by the proj4 package. Separating this disruptive version
   change (from 4.0 and 5.0, to 6.0 and above) allows the use of existing and 
   stable code in proj4 alongside the new idioms and requirements of modern PROJ
@@ -87,9 +87,8 @@
 <a href="#proj" class="anchor"></a>PROJ</h1></div>
 <!-- badges: start -->
 
-<p>Note that for PROJ5 (and lower) this package is non-functional (can use proj4). The testing here on Travis ensures that the package installs successfully for various versions of PROJ, although underlying functionality is disabled for 4 and 5 (and for no PROJ).</p>
-<p><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj0&amp;label=PROJ0" alt="Travis NOPROJ"></a> (no PROJ available) <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj4&amp;label=PROJ4" alt="Travis PROJ4"></a> (PROJ.4 in system, no function) <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ5" alt="Travis PROJ5"></a> (PROJ 5 in system, no function) <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ6" alt="Travis PROJ6"></a> <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ7" alt="Travis PROJ7"></a> <!-- badges: end --></p>
-<p>The goal of PROJ is to provide generic coordinate system transformations in R. This is same goal as the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, but provided for later versions of the underlying library.</p>
+<p><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj0&amp;label=PROJ0" alt="Travis NOPROJ"></a> no PROJ available 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj4&amp;label=PROJ4" alt="Travis PROJ4"></a> PROJ.4 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ5" alt="Travis PROJ5"></a> PROJ 5 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ6" alt="Travis PROJ6"></a> PROJ version 6, full function 🚀 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ7" alt="Travis PROJ7"></a> PROJ version 7, full function 🤸 <!-- badges: end --></p>
+<p>The goal of PROJ is to provide generic coordinate system transformations in R. The functional requirement is for the system library PROJ &gt;= 6. This is same goal as the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, but provided for later versions of the underlying library. Reproj currently uses PROJ 5 or 6 via the proj4 package, so PROJ augments that coverage for the more modern library versions.</p>
 <p>I need basic coordinate transformations for matrices or data frames with efficient vectors of coordinate fields. Constantly unpacking and packing basic data from formats is labourious, error-prone, and brittle. Transforming spatial data coordinates is a basic task.</p>
 <p>PROJ is strictly for version 6.0.0 or higher of the PROJ library. The intention is that this package will be used for when that version is available, and this package can be compiled and installed even when it cannot do anything. For older versions of PROJ (5, and 4) we can use the proj4 package.</p>
 <p>Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. This is the same approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format.</p>
@@ -97,6 +96,7 @@
 <div id="things-to-be-aware-of" class="section level2">
 <h2 class="hasAnchor">
 <a href="#things-to-be-aware-of" class="anchor"></a>Things to be aware of</h2>
+<p>Note that for PROJ5 (and lower) this package is non-functional (can use proj4). The testing here on Travis ensures that the package installs successfully for various versions of PROJ, although underlying functionality is disabled for 4 and 5 (and for no PROJ).</p>
 <ul>
 <li>Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, <em>and time</em>. So the output is always a 4-column matrix.</li>
 <li>You can’t use strings like “+init=epsg:4326” any more, it must be “epsg:4326”.</li>
@@ -221,52 +221,7 @@
 <span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt;     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]</span></span>
 <span id="cb4-25"><a href="#cb4-25"></a></span>
 <span id="cb4-26"><a href="#cb4-26"></a><span class="kw"><a href="reference/proj_create.html">proj_create</a></span>(wkt2, <span class="dt">format =</span> 1L)</span>
-<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt; [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</span></span>
-<span id="cb4-28"><a href="#cb4-28"></a></span>
-<span id="cb4-29"><a href="#cb4-29"></a><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="reference/proj_create.html">proj_create</a></span>(wkt2, <span class="dt">format =</span> 2L))</span>
-<span id="cb4-30"><a href="#cb4-30"></a><span class="co">#&gt; {</span></span>
-<span id="cb4-31"><a href="#cb4-31"></a><span class="co">#&gt;   "$schema": "https://proj.org/schemas/v0.1/projjson.schema.json",</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a><span class="co">#&gt;   "type": "GeographicCRS",</span></span>
-<span id="cb4-33"><a href="#cb4-33"></a><span class="co">#&gt;   "name": "WGS 84",</span></span>
-<span id="cb4-34"><a href="#cb4-34"></a><span class="co">#&gt;   "datum": {</span></span>
-<span id="cb4-35"><a href="#cb4-35"></a><span class="co">#&gt;     "type": "GeodeticReferenceFrame",</span></span>
-<span id="cb4-36"><a href="#cb4-36"></a><span class="co">#&gt;     "name": "World Geodetic System 1984",</span></span>
-<span id="cb4-37"><a href="#cb4-37"></a><span class="co">#&gt;     "ellipsoid": {</span></span>
-<span id="cb4-38"><a href="#cb4-38"></a><span class="co">#&gt;       "name": "WGS 84",</span></span>
-<span id="cb4-39"><a href="#cb4-39"></a><span class="co">#&gt;       "semi_major_axis": 6378137,</span></span>
-<span id="cb4-40"><a href="#cb4-40"></a><span class="co">#&gt;       "inverse_flattening": 298.257223563</span></span>
-<span id="cb4-41"><a href="#cb4-41"></a><span class="co">#&gt;     }</span></span>
-<span id="cb4-42"><a href="#cb4-42"></a><span class="co">#&gt;   },</span></span>
-<span id="cb4-43"><a href="#cb4-43"></a><span class="co">#&gt;   "coordinate_system": {</span></span>
-<span id="cb4-44"><a href="#cb4-44"></a><span class="co">#&gt;     "subtype": "ellipsoidal",</span></span>
-<span id="cb4-45"><a href="#cb4-45"></a><span class="co">#&gt;     "axis": [</span></span>
-<span id="cb4-46"><a href="#cb4-46"></a><span class="co">#&gt;       {</span></span>
-<span id="cb4-47"><a href="#cb4-47"></a><span class="co">#&gt;         "name": "Geodetic latitude",</span></span>
-<span id="cb4-48"><a href="#cb4-48"></a><span class="co">#&gt;         "abbreviation": "Lat",</span></span>
-<span id="cb4-49"><a href="#cb4-49"></a><span class="co">#&gt;         "direction": "north",</span></span>
-<span id="cb4-50"><a href="#cb4-50"></a><span class="co">#&gt;         "unit": "degree"</span></span>
-<span id="cb4-51"><a href="#cb4-51"></a><span class="co">#&gt;       },</span></span>
-<span id="cb4-52"><a href="#cb4-52"></a><span class="co">#&gt;       {</span></span>
-<span id="cb4-53"><a href="#cb4-53"></a><span class="co">#&gt;         "name": "Geodetic longitude",</span></span>
-<span id="cb4-54"><a href="#cb4-54"></a><span class="co">#&gt;         "abbreviation": "Lon",</span></span>
-<span id="cb4-55"><a href="#cb4-55"></a><span class="co">#&gt;         "direction": "east",</span></span>
-<span id="cb4-56"><a href="#cb4-56"></a><span class="co">#&gt;         "unit": "degree"</span></span>
-<span id="cb4-57"><a href="#cb4-57"></a><span class="co">#&gt;       }</span></span>
-<span id="cb4-58"><a href="#cb4-58"></a><span class="co">#&gt;     ]</span></span>
-<span id="cb4-59"><a href="#cb4-59"></a><span class="co">#&gt;   },</span></span>
-<span id="cb4-60"><a href="#cb4-60"></a><span class="co">#&gt;   "scope": "unknown",</span></span>
-<span id="cb4-61"><a href="#cb4-61"></a><span class="co">#&gt;   "area": "World",</span></span>
-<span id="cb4-62"><a href="#cb4-62"></a><span class="co">#&gt;   "bbox": {</span></span>
-<span id="cb4-63"><a href="#cb4-63"></a><span class="co">#&gt;     "south_latitude": -90,</span></span>
-<span id="cb4-64"><a href="#cb4-64"></a><span class="co">#&gt;     "west_longitude": -180,</span></span>
-<span id="cb4-65"><a href="#cb4-65"></a><span class="co">#&gt;     "north_latitude": 90,</span></span>
-<span id="cb4-66"><a href="#cb4-66"></a><span class="co">#&gt;     "east_longitude": 180</span></span>
-<span id="cb4-67"><a href="#cb4-67"></a><span class="co">#&gt;   },</span></span>
-<span id="cb4-68"><a href="#cb4-68"></a><span class="co">#&gt;   "id": {</span></span>
-<span id="cb4-69"><a href="#cb4-69"></a><span class="co">#&gt;     "authority": "EPSG",</span></span>
-<span id="cb4-70"><a href="#cb4-70"></a><span class="co">#&gt;     "code": 4326</span></span>
-<span id="cb4-71"><a href="#cb4-71"></a><span class="co">#&gt;   }</span></span>
-<span id="cb4-72"><a href="#cb4-72"></a><span class="co">#&gt; }</span></span></code></pre></div>
+<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt; [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</span></span></code></pre></div>
 </div>
 </div>
 <div id="speed-comparisons" class="section level1">
@@ -300,10 +255,10 @@
 <span id="cb5-26"><a href="#cb5-26"></a>        <span class="dt">replications =</span> <span class="dv">100</span>) <span class="op">%&gt;%</span></span>
 <span id="cb5-27"><a href="#cb5-27"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(elapsed) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(test, elapsed, replications)</span>
 <span id="cb5-28"><a href="#cb5-28"></a><span class="co">#&gt;         test elapsed replications</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; 1      rgdal   5.209          100</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; 2     reproj   6.657          100</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; 3 sf_project   7.614          100</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#&gt; 4       PROJ   7.861          100</span></span></code></pre></div>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; 1      rgdal   4.595          100</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; 2     reproj   6.045          100</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; 3       PROJ   7.306          100</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#&gt; 4 sf_project   7.442          100</span></span></code></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>xyzt &lt;-<span class="st"> </span><span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(w[,<span class="dv">1</span>], w[,<span class="dv">2</span>]), <span class="dt">target =</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="dt">source =</span> <span class="st">"WGS84"</span>)</span>

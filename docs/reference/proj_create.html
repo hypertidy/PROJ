@@ -36,8 +36,8 @@
 
 
 <meta property="og:title" content="Generate a projection string. — proj_create" />
-<meta property="og:description" content="Input any accepted format of PROJ crs specification. Return value is a string
-in the requested format." />
+<meta property="og:description" content="Input any accepted format of 'PROJ' coordinate reference system specification.
+Return value is a string in the requested format." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,8 +118,8 @@ in the requested format." />
     </div>
 
     <div class="ref-description">
-    <p>Input any accepted format of PROJ crs specification. Return value is a string
-in the requested format.</p>
+    <p>Input any accepted format of 'PROJ' coordinate reference system specification.
+Return value is a string in the requested format.</p>
     </div>
 
     <pre class="usage"><span class='fu'>proj_create</span>(<span class='no'>source</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>0L</span>)</pre>
@@ -129,12 +129,12 @@ in the requested format.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>source</th>
-      <td><p>input projection specification one of (PROJ4, WKT2,
-EPSG, PROJJSON, ...)</p></td>
+      <td><p>input projection specification one of ('PROJ4', 'WKT2',
+'EPSG', 'PROJJSON', ... see the library documentation link in Details)</p></td>
     </tr>
     <tr>
       <th>format</th>
-      <td><p>integer, 0 for WKT, 1 for PROJ</p></td>
+      <td><p>integer, 0 for 'WKT', 1 for 'PROJ'</p></td>
     </tr>
     </table>
 
@@ -149,8 +149,8 @@ function simply returns 'NA'.</p>
 for details on input and output formats.</p>
 <p>Some nuances of the format are not available, currently we use formats
 '0: PJ_WKT2_2018', '1: PJ_PROJ_5'.</p>
-<p>A third option '2: PROJJSON' is not available, requiring PROJ 6.2.0.</p>
-<p>Some formats are hard to read, such as WKT for easy reading
+<p>A third option '2: PROJJSON' is not available, requiring 'PROJ 6.2.0' or above.</p>
+<p>Some formats are hard to read, such as WKT so for easy reading
 use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
