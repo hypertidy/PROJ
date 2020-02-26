@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9004</span>
       </span>
     </div>
 
@@ -296,10 +296,10 @@
 <span id="cb5-26"><a href="#cb5-26"></a>        <span class="dt">replications =</span> <span class="dv">100</span>) <span class="op">%&gt;%</span></span>
 <span id="cb5-27"><a href="#cb5-27"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(elapsed) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(test, elapsed, replications)</span>
 <span id="cb5-28"><a href="#cb5-28"></a><span class="co">#&gt;         test elapsed replications</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; 1      rgdal   5.023          100</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; 2     reproj   6.737          100</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; 3       PROJ   7.445          100</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#&gt; 4 sf_project   7.710          100</span></span></code></pre></div>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; 1      rgdal   5.079          100</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; 2     reproj   6.673          100</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; 3       PROJ   7.549          100</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#&gt; 4 sf_project   7.626          100</span></span></code></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>xyzt &lt;-<span class="st"> </span><span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(w[,<span class="dv">1</span>], w[,<span class="dv">2</span>]), <span class="dt">target =</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="dt">source =</span> <span class="st">"WGS84"</span>)</span>
