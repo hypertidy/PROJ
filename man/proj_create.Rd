@@ -10,7 +10,7 @@ proj_create(source, format = 0L)
 \item{source}{input projection specification one of (PROJ4, WKT2,
 EPSG, PROJJSON, ...)}
 
-\item{format}{integer, 0 for WKT, 1 for PROJ, 2 for PROJJSON}
+\item{format}{integer, 0 for WKT, 1 for PROJ}
 }
 \value{
 character string in requested format
@@ -27,7 +27,9 @@ See the \href{https://proj.org/development/reference/functions.html#transformati
 for details on input and output formats.
 
 Some nuances of the format are not available, currently we use formats
-'0: PJ_WKT2_2018', '1: PJ_PROJ_5', '2: PROJJSON'.
+'0: PJ_WKT2_2018', '1: PJ_PROJ_5'.
+
+A third option '2: PROJJSON' is not available, requiring PROJ 6.2.0.
 
 Some formats are hard to read, such as WKT for easy reading
 use \code{cat()}.
@@ -51,5 +53,4 @@ proj_create(wkt_method, format = 1L)
 s1 <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0"
 s2 <- "+y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs"
 cat(proj_create(paste(s1, s2)))
-cat(proj_create(wkt, format = 2L))
 }

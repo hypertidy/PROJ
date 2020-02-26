@@ -215,51 +215,6 @@ cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
 
 proj_create(wkt2, format = 1L)
 #> [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"
-
-cat(proj_create(wkt2, format = 2L))
-#> {
-#>   "$schema": "https://proj.org/schemas/v0.1/projjson.schema.json",
-#>   "type": "GeographicCRS",
-#>   "name": "WGS 84",
-#>   "datum": {
-#>     "type": "GeodeticReferenceFrame",
-#>     "name": "World Geodetic System 1984",
-#>     "ellipsoid": {
-#>       "name": "WGS 84",
-#>       "semi_major_axis": 6378137,
-#>       "inverse_flattening": 298.257223563
-#>     }
-#>   },
-#>   "coordinate_system": {
-#>     "subtype": "ellipsoidal",
-#>     "axis": [
-#>       {
-#>         "name": "Geodetic latitude",
-#>         "abbreviation": "Lat",
-#>         "direction": "north",
-#>         "unit": "degree"
-#>       },
-#>       {
-#>         "name": "Geodetic longitude",
-#>         "abbreviation": "Lon",
-#>         "direction": "east",
-#>         "unit": "degree"
-#>       }
-#>     ]
-#>   },
-#>   "scope": "unknown",
-#>   "area": "World",
-#>   "bbox": {
-#>     "south_latitude": -90,
-#>     "west_longitude": -180,
-#>     "north_latitude": 90,
-#>     "east_longitude": 180
-#>   },
-#>   "id": {
-#>     "authority": "EPSG",
-#>     "code": 4326
-#>   }
-#> }
 ```
 
 # Speed comparisons
@@ -293,10 +248,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.079          100
-#> 2     reproj   6.673          100
-#> 3       PROJ   7.549          100
-#> 4 sf_project   7.626          100
+#> 1      rgdal   4.999          100
+#> 2     reproj   6.395          100
+#> 3 sf_project   7.652          100
+#> 4       PROJ   7.694          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
