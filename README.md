@@ -17,27 +17,25 @@ coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](h
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
 
-Note that for PROJ5 (and lower) this package is non-functional (can use
-proj4). The testing here on Travis ensures that the package installs
-successfully for various versions of PROJ, although underlying
-functionality is disabled for 4 and 5 (and for no PROJ).
-
 [![Travis
 NOPROJ](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj0&label=PROJ0)](https://travis-ci.org/hypertidy/PROJ)
-(no PROJ available) <br> [![Travis
+no PROJ available 👍 <br> [![Travis
 PROJ4](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj4&label=PROJ4)](https://travis-ci.org/hypertidy/PROJ)
-(PROJ.4 in system, no function) <br> [![Travis
+PROJ.4 in system, no function 👍 <br> [![Travis
 PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ)
-(PROJ 5 in system, no function) <br> [![Travis
+PROJ 5 in system, no function 👍 <br> [![Travis
 PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
-<br> [![Travis
+PROJ version 6, full function 🚀 <br> [![Travis
 PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
-<!-- badges: end -->
+PROJ version 7, full function 🤸 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
-in R. This is same goal as the
+in R. The functional requirement is for the system library PROJ \>= 6.
+This is same goal as the
 [reproj](https://cran.r-project.org/package=reproj) package, but
-provided for later versions of the underlying library.
+provided for later versions of the underlying library. Reproj currently
+uses PROJ 5 or 6 via the proj4 package, so PROJ augments that coverage
+for the more modern library versions.
 
 I need basic coordinate transformations for matrices or data frames with
 efficient vectors of coordinate fields. Constantly unpacking and packing
@@ -63,6 +61,11 @@ details are provided in the [PROJ
 documentation](https://proj.org/development/reference/functions.html#c.proj_create).
 
 ## Things to be aware of
+
+Note that for PROJ5 (and lower) this package is non-functional (can use
+proj4). The testing here on Travis ensures that the package installs
+successfully for various versions of PROJ, although underlying
+functionality is disabled for 4 and 5 (and for no PROJ).
 
   - Input can be a data frame or a matrix, but internally input is
     assumed to be x, y, z, *and time*. So the output is always a
@@ -248,10 +251,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   4.999          100
-#> 2     reproj   6.395          100
-#> 3 sf_project   7.652          100
-#> 4       PROJ   7.694          100
+#> 1      rgdal   4.595          100
+#> 2     reproj   6.045          100
+#> 3       PROJ   7.306          100
+#> 4 sf_project   7.442          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D

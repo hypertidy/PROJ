@@ -28,20 +28,21 @@ library(reproj)
 [![CRAN status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
 
-Note that for PROJ5 (and lower) this package is non-functional (can use proj4). The testing here on Travis ensures that the package installs successfully for various versions of PROJ, although underlying functionality is disabled for 4 and 5 (and for no PROJ).
 
-[![Travis NOPROJ](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj0&label=PROJ0)](https://travis-ci.org/hypertidy/PROJ)  (no PROJ available)
+[![Travis NOPROJ](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj0&label=PROJ0)](https://travis-ci.org/hypertidy/PROJ)  no PROJ available 👍
 <br>
-[![Travis PROJ4](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj4&label=PROJ4)](https://travis-ci.org/hypertidy/PROJ) (PROJ.4 in system, no function)
+[![Travis PROJ4](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj4&label=PROJ4)](https://travis-ci.org/hypertidy/PROJ) PROJ.4 in system, no function 👍
 <br>
-[![Travis PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ) (PROJ 5 in system, no function)
+[![Travis PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ) PROJ 5 in system, no function 👍
 <br>
-[![Travis PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
+[![Travis PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ) PROJ version 6, full function 🚀
 <br>
-[![Travis PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
+[![Travis PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ) PROJ version 7, full function 🤸
 <!-- badges: end -->
 
-The goal of PROJ is to provide generic coordinate system transformations in R.  This is same goal as the [reproj](https://cran.r-project.org/package=reproj)  package, but provided for later versions of the underlying library. 
+The goal of PROJ is to provide generic coordinate system transformations in R. The 
+functional requirement is for the system library PROJ >= 6. This is same goal as the [reproj](https://cran.r-project.org/package=reproj)  package, but provided for later versions of the underlying library. Reproj currently uses PROJ 5 or 6 via the proj4 package, 
+so PROJ augments that coverage for the more modern library versions. 
 
 I need basic coordinate transformations for matrices or data frames with efficient vectors of coordinate fields. Constantly unpacking and packing basic data from formats is labourious, error-prone, and brittle. Transforming spatial data coordinates is a basic task.
 
@@ -56,6 +57,8 @@ We can use "auth:code" forms, PROJ.4 strings, full WKT2, or the name of a CRS as
 
 
 ## Things to be aware of
+
+Note that for PROJ5 (and lower) this package is non-functional (can use proj4). The testing here on Travis ensures that the package installs successfully for various versions of PROJ, although underlying functionality is disabled for 4 and 5 (and for no PROJ).
 
 * Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, *and time*. So the output is always a 4-column matrix. 
 * You can't use strings like "+init=epsg:4326" any more, it must be "epsg:4326". 

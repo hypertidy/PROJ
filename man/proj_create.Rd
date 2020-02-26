@@ -7,17 +7,17 @@
 proj_create(source, format = 0L)
 }
 \arguments{
-\item{source}{input projection specification one of (PROJ4, WKT2,
-EPSG, PROJJSON, ...)}
+\item{source}{input projection specification one of ('PROJ4', 'WKT2',
+'EPSG', 'PROJJSON', ... see the library documentation link in Details)}
 
-\item{format}{integer, 0 for WKT, 1 for PROJ}
+\item{format}{integer, 0 for 'WKT', 1 for 'PROJ'}
 }
 \value{
 character string in requested format
 }
 \description{
-Input any accepted format of PROJ crs specification. Return value is a string
-in the requested format.
+Input any accepted format of 'PROJ' coordinate reference system specification.
+Return value is a string in the requested format.
 }
 \details{
 This function requires PROJ version 6.0 or higher to be useful. If not, this
@@ -29,9 +29,9 @@ for details on input and output formats.
 Some nuances of the format are not available, currently we use formats
 '0: PJ_WKT2_2018', '1: PJ_PROJ_5'.
 
-A third option '2: PROJJSON' is not available, requiring PROJ 6.2.0.
+A third option '2: PROJJSON' is not available, requiring 'PROJ 6.2.0' or above.
 
-Some formats are hard to read, such as WKT for easy reading
+Some formats are hard to read, such as WKT so for easy reading
 use \code{cat()}.
 }
 \examples{
