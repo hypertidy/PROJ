@@ -32,8 +32,9 @@
 #'
 #' cat(wkt_method)
 #' proj_create(wkt_method, format = 1L)
-#'
-#' cat(proj_create("+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs"))
+#' s1 <- "+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0"
+#' s2 <- "+y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs"
+#' cat(proj_create(paste(s1, s2)))
 #' }
 proj_create <- function(source, format = 0L) {
   stopifnot(length(format) == 1L)
