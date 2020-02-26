@@ -28,11 +28,13 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
     // available types
     // PJ_WKT1_ESRI, PJ_WKT1_GDAL, PJ_WKT2_2015, PJ_WKT2_2015_SIMPLIFIED, PJ_WKT2_2018, PJ_WKT2_2018_SIMPLIFIED;
     outstring = proj_as_wkt(0, pj, PJ_WKT2_2018, NULL);
+
     success = 1L;
   }
   if (fmt == 1L) {
     //PJ_PROJ_4, PJ_PROJ_5;
     outstring = proj_as_proj_string(0, pj, PJ_PROJ_5, NULL);
+
     success = 1L;
   }
  // if (fmt ==  2L) {
@@ -41,12 +43,16 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
 //    success = 0L;
 //  }
 
-  proj_destroy(pj);
+
 #endif
 
   // form output as a character vector
   SEXP out = PROTECT(allocVector(STRSXP, 1));
   SET_STRING_ELT(out, 0, mkChar(outstring));
   UNPROTECT(1);
+
+#ifdef HAVE_PROJ6_API
+  proj_destroy(pj);
+#endif
   return(out);
 }
