@@ -34,7 +34,7 @@ in R. The functional requirement is for the system library PROJ \>= 6.
 This is same goal as the
 [reproj](https://cran.r-project.org/package=reproj) package, but
 provided for later versions of the underlying library. Reproj currently
-uses PROJ 5 or 6 via the proj4 package, so PROJ augments that coverage
+uses PROJ 4 or 5 via the proj4 package, so PROJ augments that coverage
 for the more modern library versions.
 
 I need basic coordinate transformations for matrices or data frames with
@@ -251,10 +251,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   4.595          100
-#> 2     reproj   6.045          100
-#> 3       PROJ   7.306          100
-#> 4 sf_project   7.442          100
+#> 1      rgdal   5.022          100
+#> 2     reproj   6.239          100
+#> 3       PROJ   7.561          100
+#> 4 sf_project   7.733          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
