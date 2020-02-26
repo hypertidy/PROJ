@@ -1,3 +1,8 @@
+# PROJ dev
+
+* New function [proj_create()] to generate CRS formats from various input types. 
+
+
 # PROJ 0.1.0
 
 * Removed CPP variable from configure thanks to CRAN. 
