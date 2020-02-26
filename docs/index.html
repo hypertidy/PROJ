@@ -251,10 +251,10 @@
 <span id="cb5-31"><a href="#cb5-31"></a>        <span class="dt">replications =</span> <span class="dv">100</span>) <span class="op">%&gt;%</span></span>
 <span id="cb5-32"><a href="#cb5-32"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(elapsed) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(test, elapsed, replications)</span>
 <span id="cb5-33"><a href="#cb5-33"></a><span class="co">#&gt;         test elapsed replications</span></span>
-<span id="cb5-34"><a href="#cb5-34"></a><span class="co">#&gt; 1      rgdal   4.677          100</span></span>
-<span id="cb5-35"><a href="#cb5-35"></a><span class="co">#&gt; 2     reproj   6.260          100</span></span>
-<span id="cb5-36"><a href="#cb5-36"></a><span class="co">#&gt; 3 sf_project   7.306          100</span></span>
-<span id="cb5-37"><a href="#cb5-37"></a><span class="co">#&gt; 4       PROJ   7.839          100</span></span></code></pre></div>
+<span id="cb5-34"><a href="#cb5-34"></a><span class="co">#&gt; 1      rgdal   4.521          100</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a><span class="co">#&gt; 2     reproj   5.877          100</span></span>
+<span id="cb5-36"><a href="#cb5-36"></a><span class="co">#&gt; 3 sf_project   6.897          100</span></span>
+<span id="cb5-37"><a href="#cb5-37"></a><span class="co">#&gt; 4       PROJ   7.317          100</span></span></code></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>xyzt &lt;-<span class="st"> </span><span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(w[,<span class="dv">1</span>], w[,<span class="dv">2</span>]), <span class="dt">target =</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="dt">source =</span> <span class="st">"WGS84"</span>)</span>
