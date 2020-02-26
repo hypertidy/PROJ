@@ -163,7 +163,10 @@ use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
 <span class='no'>wkt_method</span> <span class='kw'>&lt;-</span> <span class='fu'>proj_create</span>(<span class='st'>"+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='no'>wkt_method</span>)
-<span class='fu'>proj_create</span>(<span class='no'>wkt</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
+<span class='fu'>proj_create</span>(<span class='no'>wkt_method</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>1L</span>)
+<span class='no'>s1</span> <span class='kw'>&lt;-</span> <span class='st'>"+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0"</span>
+<span class='no'>s2</span> <span class='kw'>&lt;-</span> <span class='st'>"+y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs"</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'>proj_create</span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>s1</span>, <span class='no'>s2</span>)))
 }</div><div class='output co'>#&gt; PROJCRS["WGS 84 / Pseudo-Mercator",
 #&gt;     BASEGEOGCRS["WGS 84",
 #&gt;         DATUM["World Geodetic System 1984",
@@ -199,7 +202,38 @@ use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
 #&gt;         AREA["World - 85°S to 85°N"],
 #&gt;         BBOX[-85.06,-180,85.06,180]],
 #&gt;     ID["EPSG",3857]]CONVERSION["PROJ-based coordinate operation",
-#&gt;     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]</div><div class='output co'>#&gt; [1] "+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs"</div></pre>
+#&gt;     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]PROJCRS["WGS 84 / Pseudo-Mercator",
+#&gt;     BASEGEOGCRS["WGS 84",
+#&gt;         DATUM["World Geodetic System 1984",
+#&gt;             ELLIPSOID["WGS 84",6378137,298.257223563,
+#&gt;                 LENGTHUNIT["metre",1]]],
+#&gt;         PRIMEM["Greenwich",0,
+#&gt;             ANGLEUNIT["degree",0.0174532925199433]],
+#&gt;         ID["EPSG",4326]],
+#&gt;     CONVERSION["unnamed",
+#&gt;         METHOD["Popular Visualisation Pseudo Mercator",
+#&gt;             ID["EPSG",1024]],
+#&gt;         PARAMETER["Latitude of natural origin",0,
+#&gt;             ANGLEUNIT["degree",0.0174532925199433],
+#&gt;             ID["EPSG",8801]],
+#&gt;         PARAMETER["Longitude of natural origin",0,
+#&gt;             ANGLEUNIT["degree",0.0174532925199433],
+#&gt;             ID["EPSG",8802]],
+#&gt;         PARAMETER["False easting",0,
+#&gt;             LENGTHUNIT["metre",1],
+#&gt;             ID["EPSG",8806]],
+#&gt;         PARAMETER["False northing",0,
+#&gt;             LENGTHUNIT["metre",1],
+#&gt;             ID["EPSG",8807]]],
+#&gt;     CS[Cartesian,2],
+#&gt;         AXIS["(E)",east,
+#&gt;             ORDER[1],
+#&gt;             LENGTHUNIT["metre",1,
+#&gt;                 ID["EPSG",9001]]],
+#&gt;         AXIS["(N)",north,
+#&gt;             ORDER[2],
+#&gt;             LENGTHUNIT["metre",1,
+#&gt;                 ID["EPSG",9001]]]]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
