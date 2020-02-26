@@ -154,6 +154,11 @@ proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
 #> 
 #> $t_
 #> numeric(0)
+
+
+## note that NAs propagate in the usual way
+lon <- c(0, NA, 147)
+lat <- c(NA, 0, -42)
 ```
 
 A more realistic example with coastline map data.
@@ -210,6 +215,51 @@ cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
 
 proj_create(wkt2, format = 1L)
 #> [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+
+cat(proj_create(wkt2, format = 2L))
+#> {
+#>   "$schema": "https://proj.org/schemas/v0.1/projjson.schema.json",
+#>   "type": "GeographicCRS",
+#>   "name": "WGS 84",
+#>   "datum": {
+#>     "type": "GeodeticReferenceFrame",
+#>     "name": "World Geodetic System 1984",
+#>     "ellipsoid": {
+#>       "name": "WGS 84",
+#>       "semi_major_axis": 6378137,
+#>       "inverse_flattening": 298.257223563
+#>     }
+#>   },
+#>   "coordinate_system": {
+#>     "subtype": "ellipsoidal",
+#>     "axis": [
+#>       {
+#>         "name": "Geodetic latitude",
+#>         "abbreviation": "Lat",
+#>         "direction": "north",
+#>         "unit": "degree"
+#>       },
+#>       {
+#>         "name": "Geodetic longitude",
+#>         "abbreviation": "Lon",
+#>         "direction": "east",
+#>         "unit": "degree"
+#>       }
+#>     ]
+#>   },
+#>   "scope": "unknown",
+#>   "area": "World",
+#>   "bbox": {
+#>     "south_latitude": -90,
+#>     "west_longitude": -180,
+#>     "north_latitude": 90,
+#>     "east_longitude": 180
+#>   },
+#>   "id": {
+#>     "authority": "EPSG",
+#>     "code": 4326
+#>   }
+#> }
 ```
 
 # Speed comparisons
@@ -220,11 +270,6 @@ library(rgdal)
 library(lwgeom)
 library(sf)
 #> Linking to GEOS 3.8.0, GDAL 2.4.0, PROJ 6.2.1
-#> 
-#> Attaching package: 'sf'
-#> The following object is masked from 'package:lwgeom':
-#> 
-#>     st_make_valid
 lon <- w[,1]
 lat <- w[,2]
 lon <- rep(lon, 25)
@@ -248,10 +293,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   4.521          100
-#> 2     reproj   5.877          100
-#> 3 sf_project   6.897          100
-#> 4       PROJ   7.317          100
+#> 1      rgdal   5.023          100
+#> 2     reproj   6.737          100
+#> 3       PROJ   7.445          100
+#> 4 sf_project   7.710          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D

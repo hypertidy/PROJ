@@ -22,7 +22,7 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
 // there is no else
 #ifdef HAVE_PROJ6_API
   PJ *pj;
-  if (!(pj =   proj_create(0, *crs_in)))
+  if (!(pj =   proj_create(PJ_DEFAULT_CTX, *crs_in)))
     error(proj_errno_string(proj_errno(0)));
   if (fmt == 0L) {
     // available types
@@ -37,11 +37,11 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
 
     success = 1L;
   }
- // if (fmt ==  2L) {
-    // disabled for now 2010-02-26
-    //outstring = proj_as_projjson(0, pj, NULL);
-//    success = 0L;
-//  }
+  if (fmt ==  2L) {
+    //un // disabled for now 2010-02-26
+    outstring = proj_as_projjson(0, pj, NULL);
+    success = 1L;
+   }
 
 
 #endif

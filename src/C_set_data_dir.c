@@ -7,10 +7,7 @@
 
 SEXP PROJ_set_data_dir(SEXP data_dir){
 #ifdef HAVE_PROJ6_API
-  SEXP ab;
-  PROTECT(ab = STRING_ELT(data_dir, 0));
-  UNPROTECT(1);
-   const char* stra = CHAR(ab);
+   const char* stra = CHAR(STRING_ELT(data_dir, 0));
    const char*  paths[] = {stra};
   proj_context_set_search_paths(PJ_DEFAULT_CTX, 1, paths);
 #else
