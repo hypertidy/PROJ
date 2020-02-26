@@ -112,6 +112,11 @@ src <- "WGS84"
 proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
 
 
+## note that NAs propagate in the usual way
+lon <- c(0, NA, 147)
+lat <- c(NA, 0, -42)
+
+
 ```
 
 A more realistic example with coastline map data. 
@@ -141,6 +146,9 @@ cat(wkt2 <- proj_create("EPSG:4326"))
 cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
 
 proj_create(wkt2, format = 1L)
+
+cat(proj_create(wkt2, format = 2L))
+
 ```
 
 
