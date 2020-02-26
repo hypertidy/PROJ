@@ -41,7 +41,7 @@ library(reproj)
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations in R. The 
-functional requirement is for the system library PROJ >= 6. This is same goal as the [reproj](https://cran.r-project.org/package=reproj)  package, but provided for later versions of the underlying library. Reproj currently uses PROJ 5 or 6 via the proj4 package, 
+functional requirement is for the system library PROJ >= 6. This is same goal as the [reproj](https://cran.r-project.org/package=reproj)  package, but provided for later versions of the underlying library. Reproj currently uses PROJ 4 or 5 via the proj4 package, 
 so PROJ augments that coverage for the more modern library versions. 
 
 I need basic coordinate transformations for matrices or data frames with efficient vectors of coordinate fields. Constantly unpacking and packing basic data from formats is labourious, error-prone, and brittle. Transforming spatial data coordinates is a basic task.
