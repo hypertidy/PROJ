@@ -16,7 +16,8 @@ NULL
 #' @section I. Functions:
 #' \tabular{ll}{
 #'   \code{\link{ok_proj6}} determine if PROJ version >=6 is available
-#'    \code{\link{proj_trans_generic}} a light wrapper around the underlying transformation functionality of PROJ version 6 (or higher)
+#'   \code{\link{proj_trans_generic}} a light wrapper around the underlying transformation functionality of PROJ version 6 (or higher)
+#'   \code{\link{proj_create}} convert projection strings to WKT2 or PROJ format
 #'  }
 #' @name PROJ-package
 #' @docType package

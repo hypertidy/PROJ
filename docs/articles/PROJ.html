@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9002</span>
       </span>
     </div>
 
@@ -116,14 +116,25 @@
 <a href="#how-to-use-proj" class="anchor"></a>How to use PROJ?</h2>
 <p>Get the package installed, load it and use the function <code><a href="../reference/proj_trans_generic.html">proj_trans_generic()</a></code>.</p>
 <p>If you don’t have system PROJ version 6 (or higher) the function will fail.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PROJ)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="../reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">147</span>), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">-42</span>), <span class="dv">0</span>), <span class="dt">target =</span> <span class="st">"+proj=laea +datum=WGS84"</span>, <span class="dt">source =</span> <span class="st">"WGS84"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Error in proj_trans_generic(cbind(c(0, 147), c(0, -42), 0), target = "+proj=laea +datum=WGS84", : x coordinates must be 2-columns</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PROJ)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="../reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">147</span>), <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">-42</span>)), <span class="dt">z_ =</span> <span class="dv">0</span>, <span class="dt">target =</span> <span class="st">"+proj=laea +datum=WGS84"</span>, <span class="dt">source =</span> <span class="st">"WGS84"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; $x_</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; [1]       0 5969744</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; </span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; $y_</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; [1]        0 -9803200</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; </span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; $z_</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; [1] 0 0</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt; </span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt; $t_</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt; numeric(0)</span></span></code></pre></div>
+<p>Note that we always assume input of <code><a href="https://rdrr.io/r/base/cbind.html">cbind(longitude, latitude)</a></code> and can optionally provide a vector of <code>z_</code> as well as <code>t_</code>. We cannot provide a 3 or 4 column matrix, z and t must be provided separately as named arguments.</p>
 <p>Note that various forms of projection string are supported, we can use PROJ.4 style (as per target above), bare names from <a href="http://www.epsg.org/">EPSG</a> (as per source above), full-blown WKT2 strings, or ‘auth:code’ forms such as “epsg:3857”. (Note that “+init=…” forms cannot be used in 6 or above).</p>
 <p>The goal is for the <a href="https://CRAN.r-project.org/package=reproj">reproj package</a> to wrap this package. In time that will be the easiest way to run coordinate transformations with PROJ for versions 4, 5, 6, 7 or above.</p>
 <p>To find out if your system supports PROJ 6 (or higher) use the function <code><a href="../reference/ok_proj6.html">ok_proj6()</a></code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="../reference/ok_proj6.html">ok_proj6</a></span>()</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/ok_proj6.html">ok_proj6</a></span>()</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
   </div>
 

@@ -130,6 +130,18 @@ lonlat <- proj_trans_generic(xyzt, src, source = dst)
 plot(lonlat$x_, lonlat$y_, pch = ".")
 ```
 
+## Convert projection strings
+
+We can generate PROJ or WKT2 strings. 
+
+```{r WKT2}
+cat(wkt2 <- proj_create("EPSG:4326"))
+
+
+cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
+
+proj_create(wkt2, format = 1L)
+```
 
 
 # Speed comparisons
