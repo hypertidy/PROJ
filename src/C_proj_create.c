@@ -37,11 +37,11 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
 
     success = 1L;
   }
-  if (fmt ==  2L) {
+  //if (fmt ==  2L) {
     //un // disabled for now 2010-02-26
-    outstring = proj_as_projjson(0, pj, NULL);
-    success = 1L;
-   }
+    //outstring = proj_as_projjson(0, pj, NULL);
+    //success = 1L;
+   //}
 
 
 #endif

@@ -147,7 +147,6 @@ cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
 
 proj_create(wkt2, format = 1L)
 
-cat(proj_create(wkt2, format = 2L))
 
 ```
 

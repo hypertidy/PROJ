@@ -70,7 +70,7 @@ in the requested format." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9005</span>
       </span>
     </div>
 
@@ -134,7 +134,7 @@ EPSG, PROJJSON, ...)</p></td>
     </tr>
     <tr>
       <th>format</th>
-      <td><p>integer, 0 for WKT, 1 for PROJ, 2 for PROJJSON</p></td>
+      <td><p>integer, 0 for WKT, 1 for PROJ</p></td>
     </tr>
     </table>
 
@@ -148,7 +148,8 @@ function simply returns 'NA'.</p>
 <p>See the <a href='https://proj.org/development/reference/functions.html#transformation-setup'>library documentation</a>
 for details on input and output formats.</p>
 <p>Some nuances of the format are not available, currently we use formats
-'0: PJ_WKT2_2018', '1: PJ_PROJ_5', '2: PROJJSON'.</p>
+'0: PJ_WKT2_2018', '1: PJ_PROJ_5'.</p>
+<p>A third option '2: PROJJSON' is not available, requiring PROJ 6.2.0.</p>
 <p>Some formats are hard to read, such as WKT for easy reading
 use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
 
@@ -229,121 +230,7 @@ use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
 #&gt;         AXIS["(N)",north,
 #&gt;             ORDER[2],
 #&gt;             LENGTHUNIT["metre",1,
-#&gt;                 ID["EPSG",9001]]]]</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'>proj_create</span>(<span class='no'>wkt</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>2L</span>))</div><div class='output co'>#&gt; {
-#&gt;   "$schema": "https://proj.org/schemas/v0.1/projjson.schema.json",
-#&gt;   "type": "ProjectedCRS",
-#&gt;   "name": "WGS 84 / Pseudo-Mercator",
-#&gt;   "base_crs": {
-#&gt;     "name": "WGS 84",
-#&gt;     "datum": {
-#&gt;       "type": "GeodeticReferenceFrame",
-#&gt;       "name": "World Geodetic System 1984",
-#&gt;       "ellipsoid": {
-#&gt;         "name": "WGS 84",
-#&gt;         "semi_major_axis": 6378137,
-#&gt;         "inverse_flattening": 298.257223563
-#&gt;       }
-#&gt;     },
-#&gt;     "coordinate_system": {
-#&gt;       "subtype": "ellipsoidal",
-#&gt;       "axis": [
-#&gt;         {
-#&gt;           "name": "Latitude",
-#&gt;           "abbreviation": "lat",
-#&gt;           "direction": "north",
-#&gt;           "unit": "degree"
-#&gt;         },
-#&gt;         {
-#&gt;           "name": "Longitude",
-#&gt;           "abbreviation": "lon",
-#&gt;           "direction": "east",
-#&gt;           "unit": "degree"
-#&gt;         }
-#&gt;       ]
-#&gt;     },
-#&gt;     "id": {
-#&gt;       "authority": "EPSG",
-#&gt;       "code": 4326
-#&gt;     }
-#&gt;   },
-#&gt;   "conversion": {
-#&gt;     "name": "unnamed",
-#&gt;     "method": {
-#&gt;       "name": "Popular Visualisation Pseudo Mercator",
-#&gt;       "id": {
-#&gt;         "authority": "EPSG",
-#&gt;         "code": 1024
-#&gt;       }
-#&gt;     },
-#&gt;     "parameters": [
-#&gt;       {
-#&gt;         "name": "Latitude of natural origin",
-#&gt;         "value": 0,
-#&gt;         "unit": "degree",
-#&gt;         "id": {
-#&gt;           "authority": "EPSG",
-#&gt;           "code": 8801
-#&gt;         }
-#&gt;       },
-#&gt;       {
-#&gt;         "name": "Longitude of natural origin",
-#&gt;         "value": 0,
-#&gt;         "unit": "degree",
-#&gt;         "id": {
-#&gt;           "authority": "EPSG",
-#&gt;           "code": 8802
-#&gt;         }
-#&gt;       },
-#&gt;       {
-#&gt;         "name": "False easting",
-#&gt;         "value": 0,
-#&gt;         "unit": "metre",
-#&gt;         "id": {
-#&gt;           "authority": "EPSG",
-#&gt;           "code": 8806
-#&gt;         }
-#&gt;       },
-#&gt;       {
-#&gt;         "name": "False northing",
-#&gt;         "value": 0,
-#&gt;         "unit": "metre",
-#&gt;         "id": {
-#&gt;           "authority": "EPSG",
-#&gt;           "code": 8807
-#&gt;         }
-#&gt;       }
-#&gt;     ]
-#&gt;   },
-#&gt;   "coordinate_system": {
-#&gt;     "subtype": "Cartesian",
-#&gt;     "axis": [
-#&gt;       {
-#&gt;         "name": "Easting",
-#&gt;         "abbreviation": "E",
-#&gt;         "direction": "east",
-#&gt;         "unit": "metre"
-#&gt;       },
-#&gt;       {
-#&gt;         "name": "Northing",
-#&gt;         "abbreviation": "N",
-#&gt;         "direction": "north",
-#&gt;         "unit": "metre"
-#&gt;       }
-#&gt;     ]
-#&gt;   },
-#&gt;   "scope": "unknown",
-#&gt;   "area": "World - 85°S to 85°N",
-#&gt;   "bbox": {
-#&gt;     "south_latitude": -85.06,
-#&gt;     "west_longitude": -180,
-#&gt;     "north_latitude": 85.06,
-#&gt;     "east_longitude": 180
-#&gt;   },
-#&gt;   "id": {
-#&gt;     "authority": "EPSG",
-#&gt;     "code": 3857
-#&gt;   }
-#&gt; }</div></pre>
+#&gt;                 ID["EPSG",9001]]]]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

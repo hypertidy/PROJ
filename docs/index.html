@@ -14,9 +14,13 @@
 <meta property="og:description" content="A wrapper around the generic coordinate transformation software PROJ
  that transforms geospatial coordinates from one coordinate reference system (CRS) to another. This 
   includes cartographic projections as well as geodetic transformations. Version 6.0.0 or 
-  higher is required. The intention is for this package to be used by user-packages such 
-  as reproj, and that the older PROJ.4 and version 5 pathways be provided by the 
-  legacy package. The PROJ library is available from &lt;https://proj.org/&gt;. ">
+  higher is required, earlier versions if available are not used leaving this 
+  package harmlessly non-functional. The intention is for this package to be used 
+  by user-packages such as reproj, and that the older PROJ.4 and version 5 
+  pathways be provided by the proj4 package. Separating this disruptive version
+  change (from 4.0 and 5.0, to 6.0 and above) allows the use of existing and 
+  stable code in proj4 alongside the new idioms and requirements of modern PROJ
+  using this package. The PROJ library is available from &lt;https://proj.org/&gt;. ">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -36,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9005</span>
       </span>
     </div>
 
@@ -296,10 +300,10 @@
 <span id="cb5-26"><a href="#cb5-26"></a>        <span class="dt">replications =</span> <span class="dv">100</span>) <span class="op">%&gt;%</span></span>
 <span id="cb5-27"><a href="#cb5-27"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(elapsed) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(test, elapsed, replications)</span>
 <span id="cb5-28"><a href="#cb5-28"></a><span class="co">#&gt;         test elapsed replications</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; 1      rgdal   5.079          100</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; 2     reproj   6.673          100</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; 3       PROJ   7.549          100</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#&gt; 4 sf_project   7.626          100</span></span></code></pre></div>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; 1      rgdal   5.209          100</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; 2     reproj   6.657          100</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; 3 sf_project   7.614          100</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#&gt; 4       PROJ   7.861          100</span></span></code></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>xyzt &lt;-<span class="st"> </span><span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(w[,<span class="dv">1</span>], w[,<span class="dv">2</span>]), <span class="dt">target =</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="dt">source =</span> <span class="st">"WGS84"</span>)</span>
