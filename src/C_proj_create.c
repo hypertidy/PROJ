@@ -34,7 +34,7 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
     //  PJ_WKT2_2015_SIMPLIFIED;
     //  PJ_WKT2_2018;
     //  PJ_WKT2_2018_SIMPLIFIED;
-    outstring = proj_as_wkt(0, pj, PJ_WKT2_2018, NULL);
+    outstring = proj_as_wkt(0, pj, PJ_WKT1_GDAL, NULL);
     success = 1L;
   }
   if (fmt == 1L) {
@@ -44,8 +44,8 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
     success = 1L;
   }
   if (fmt ==  2L) {
-    outstring = proj_as_projjson(0, pj, NULL);
-    success = 1L;
+    //outstring = proj_as_projjson(0, pj, NULL);
+    success = 0L;
   }
 
 #else

@@ -7,9 +7,9 @@
 proj_create(source, format = 0L)
 }
 \arguments{
-\item{source}{input projection specification (PROJ4, WKT2, PROJJSON, ...)}
+\item{source}{input projection specification (PROJ4, WKT2, EPSG ...)}
 
-\item{format}{integer, 0 for WKT, 1 for PROJ, 2 for PROJJSON}
+\item{format}{integer, 0 for WKT, 1 for PROJ}
 }
 \value{
 character string in requested format
@@ -23,7 +23,10 @@ See the \href{https://proj.org/development/reference/functions.html#transformati
 for details on input and output formats.
 
 Some nuances of the format are not available, currently we use formats
-'0: PJ_WKT2_2018', '1: PJ_PROJ_5', '2: PROJJSON'.
+'0: PJ_WKT2_2018', '1: PJ_PROJ_5'.
+
+Some formats are hard to read, such as WKT for easy reading
+use \code{cat()}.
 }
 \examples{
 if (ok_proj6()) {
@@ -31,7 +34,7 @@ proj_create("EPSG:4326", format = 1)
 
 proj_create("urn:ogc:def:crs:EPSG::4326")
 
-proj_create("urn:ogc:def:crs:EPSG::4326", format = 2)
+proj_create("urn:ogc:def:crs:EPSG::4326", format = 1L)
 
 cat(wkt <- proj_create("EPSG:3857"))
 proj_create(wkt, format = 1L)
