@@ -41,6 +41,7 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
 //    success = 0L;
 //  }
 
+  proj_destroy(pj);
 #endif
 
   // form output as a character vector
