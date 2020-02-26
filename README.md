@@ -178,6 +178,40 @@ plot(lonlat$x_, lonlat$y_, pch = ".")
 
 <img src="man/figures/README-example-2.png" width="100%" />
 
+## Convert projection strings
+
+We can generate PROJ or WKT2 strings.
+
+``` r
+cat(wkt2 <- proj_create("EPSG:4326"))
+#> GEOGCRS["WGS 84",
+#>     DATUM["World Geodetic System 1984",
+#>         ELLIPSOID["WGS 84",6378137,298.257223563,
+#>             LENGTHUNIT["metre",1]]],
+#>     PRIMEM["Greenwich",0,
+#>         ANGLEUNIT["degree",0.0174532925199433]],
+#>     CS[ellipsoidal,2],
+#>         AXIS["geodetic latitude (Lat)",north,
+#>             ORDER[1],
+#>             ANGLEUNIT["degree",0.0174532925199433]],
+#>         AXIS["geodetic longitude (Lon)",east,
+#>             ORDER[2],
+#>             ANGLEUNIT["degree",0.0174532925199433]],
+#>     USAGE[
+#>         SCOPE["unknown"],
+#>         AREA["World"],
+#>         BBOX[-90,-180,90,180]],
+#>     ID["EPSG",4326]]
+
+
+cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
+#> CONVERSION["PROJ-based coordinate operation",
+#>     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]
+
+proj_create(wkt2, format = 1L)
+#> [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+```
+
 # Speed comparisons
 
 ``` r
@@ -185,10 +219,12 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 2.4.2, PROJ 5.2.0
-#> WARNING: different compile-time and runtime versions for GEOS found:
-#> Linked against: 3.8.0-CAPI-1.13.1  compiled against: 3.7.1-CAPI-1.11.1
-#> It is probably a good idea to reinstall sf, and maybe rgeos and rgdal too
+#> Linking to GEOS 3.8.0, GDAL 2.4.0, PROJ 6.2.1
+#> 
+#> Attaching package: 'sf'
+#> The following object is masked from 'package:lwgeom':
+#> 
+#>     st_make_valid
 lon <- w[,1]
 lat <- w[,2]
 lon <- rep(lon, 25)
@@ -212,10 +248,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   4.536          100
-#> 2      rgdal   4.962          100
-#> 3     reproj   6.097          100
-#> 4       PROJ   6.953          100
+#> 1      rgdal   4.931          100
+#> 2     reproj   6.653          100
+#> 3       PROJ   7.732          100
+#> 4 sf_project   7.965          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
@@ -224,8 +260,7 @@ with the underlying API function `proj_trans_array()`, instead of
 `proj_trans_generic()`, but I don’t really know.
 
 A geocentric example, suitable for plotting in rgl and used extensively
-with quadmesh, silicate, and
-anglr.
+with quadmesh, silicate, and anglr.
 
 ``` r
 xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "WGS84")
