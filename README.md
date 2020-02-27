@@ -251,10 +251,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.022          100
-#> 2     reproj   6.239          100
-#> 3       PROJ   7.561          100
-#> 4 sf_project   7.733          100
+#> 1      rgdal   4.732          100
+#> 2     reproj   6.193          100
+#> 3       PROJ   7.189          100
+#> 4 sf_project   7.382          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
@@ -338,7 +338,7 @@ Bioconductor, or in the works? Let me know\!
 
 -----
 
-Please note that the ‘PROJ’ project is released with a [Contributor Code
+Please note that the PROJ project is released with a [Contributor Code
 of
 Conduct](https://github.com/hypertidy/PROJ/blob/master/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.

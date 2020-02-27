@@ -13,13 +13,16 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
   //unused flag
   int success = 0L;
   // output string assigned by proj_as_*() below
-  const char  *outstring = {""};
+  const char  *outstring;
 
   // which format to output
   int fmt;
   fmt = Rf_asInteger(format);
 
-// there is no else
+  // allocate the R output
+  SEXP out = PROTECT(allocVector(STRSXP, 1));
+
+  // the else is to give out an NA string
 #ifdef HAVE_PROJ6_API
   PJ *pj;
   if (!(pj =   proj_create(PJ_DEFAULT_CTX, *crs_in)))
@@ -38,21 +41,25 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
     success = 1L;
   }
   //if (fmt ==  2L) {
-    //un // disabled for now 2010-02-26
-    //outstring = proj_as_projjson(0, pj, NULL);
-    //success = 1L;
-   //}
+  // disabled for now 2010-02-26 (needs PROJ 6.2.0 and rwinlib is at 6.1.0)
+  //outstring = proj_as_projjson(0, pj, NULL);
+  //success = 1L;
+  //}
+  // form output as a character vector *before* destroying proj object
+  // The returned string is valid while the input obj parameter is valid, and
+  // until a next call to proj_as_*() with the same input object.
+  // https://proj.org/development/reference/functions.html#_CPPv411proj_as_wktP10PJ_CONTEXTPK2PJ11PJ_WKT_TYPEPPCKc
 
-
-#endif
-
-  // form output as a character vector
-  SEXP out = PROTECT(allocVector(STRSXP, 1));
   SET_STRING_ELT(out, 0, mkChar(outstring));
-  UNPROTECT(1);
 
-#ifdef HAVE_PROJ6_API
   proj_destroy(pj);
+
+# else
+  // we don't have PROJ >= 6 so we return NA_character_
+  SET_STRING_ELT(out, 0, NA_STRING);
 #endif
+
+    UNPROTECT(1);
+
   return(out);
 }
