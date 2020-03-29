@@ -1,10 +1,14 @@
 # PROJ 0.1.5
 
-Patch release to fix errors on CRAN.  I had not included sufficient
-capability checks, and I've used a more generic initialization string
-in the CRAN-failing test. 
+* System requirements and logic for functionality are explained better than the 
+ last release. 
+* Patch release to fix errors on CRAN.  
+
+I had not included sufficient capability checks, and I've used a more generic
+initialization string in the CRAN-failing test.
 
 I hope this will fix it. 
+
 
 These had error: 
 
@@ -24,7 +28,6 @@ These had error:
      proj_create: unrecognized format / unknown name
      proj_create: unrecognized format / unknown name
 ```
-
  
 Thank you. 
 
@@ -37,3 +40,5 @@ Thank you.
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
+
+There are no reverse dependencies. 
