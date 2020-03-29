@@ -24,10 +24,10 @@
 #'  proj_trans_generic(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "epsg:4326")
 #'  }
 proj_trans_generic <- function(x, target, ..., source = NULL, z_ = 0, t_ = numeric(0)) {
-  ## don't run this if the basic test fails
-  #tst <- getOption("PROJ.HAVE_PROJ6")
-  #if (!tst) stop("no PROJ6 available (you could use proj4 package, via reproj)")
+  if (!ok_proj6()) {
+    stop("'proj_trans_generic()' is not functional on this system")
 
+  }
   if (missing(target) | !is.character(target)) stop("target must be a string")
   if (is.null(source) | !is.character(source)) stop("source must be provided as a string")
   if (is.list(x) && !is.data.frame(x)) x <- as.data.frame(x[1:2])

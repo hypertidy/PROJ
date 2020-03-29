@@ -15,7 +15,7 @@
 #' ok_proj6()
 ok_proj6 <- function() {
   test<- .C("PROJ_proj_trans_generic",
-            src_ = as.character("epsg:4326"),
+            src_ = as.character("+proj=longlat +datum=WGS84"),
             tgt_ = as.character("+proj=laea"),
             n = as.integer(1L),
             x_ = as.double(0), y_ = as.double(0), z_ = as.double(0), t_ = as.double(0),
