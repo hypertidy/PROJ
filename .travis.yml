@@ -58,16 +58,16 @@ matrix:
         - BUILD_NAME=proj7
         - R_CODECOV=true
         - DETAILS=""
-    - os: linux
-      r: release
-      sudo: required
-      dist: xenial
-      cache:
-        apt: true
-      env:
-        - BUILD_NAME=ppa-libproj-dev
-        - R_CODECOV=true
-        - DETAILS=""
+    # - os: linux
+    #   r: release
+    #   sudo: required
+    #   dist: xenial
+    #   cache:
+    #     apt: true
+    #   env:
+    #     - BUILD_NAME=ppa-libproj-dev
+    #     - R_CODECOV=true
+    #     - DETAILS=""
 
 before_install:
   - ./ci/travis/${BUILD_NAME}/before_install.sh
