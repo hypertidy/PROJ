@@ -27,9 +27,7 @@ PROJ 5 in system, no function 👍 <br> [![Travis
 PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj6&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
 PROJ version 6, full function 🚀 <br> [![Travis
 PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
-PROJ version 7, full function 🤸 <br> [![Travis
-ppa-libproj-dev](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=ppa-libproj-dev&label=PPA-PROJ7)](https://travis-ci.org/hypertidy/PROJ)
-PROJ version 7, full function 💥 <!-- badges: end -->
+PROJ version 7, full function 🤸 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
 in R. The functional requirement is for the system library PROJ \>= 6.
@@ -258,10 +256,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.009          100
-#> 2 sf_project   7.367          100
-#> 3       PROJ   7.494          100
-#> 4     reproj   8.327          100
+#> 1      rgdal   5.209          100
+#> 2       PROJ   7.572          100
+#> 3 sf_project   7.647          100
+#> 4     reproj   8.425          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
