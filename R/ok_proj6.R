@@ -25,6 +25,17 @@ ok_proj6 <- function() {
     out <- FALSE
   } else {
     out <- TRUE
+    ## sanity check - see issue #14
+    new_syntax <- try(
+
+      .Call("PROJ_proj_create",
+            crs_ = as.character("EPSG:4326"),
+            format = as.integer(1L),
+            PACKAGE = "PROJ")
+    )
+    if (inherits(new_syntax, "try-error")) {
+      out <- FALSE
+    }
   }
   out
 }
