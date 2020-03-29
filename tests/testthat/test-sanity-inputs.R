@@ -3,7 +3,7 @@ ss <- sample(seq_len(nrow(w)), 100)
 lon <- na.omit(w[ss,1])
 lat <- na.omit(w[ss,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-llproj <- "epsg:4326"
+llproj <- "+proj=longlat +datum=WGS84"
 
 xy <- cbind(lon, lat)
 #xyz <- cbind(lon, lat, 1)
@@ -45,21 +45,21 @@ test_that("PROJ6 checks work", {
 test_that("empty z or t works", {
   if (!ok_proj6()) skip("no PROJ6 available, no real testing to do")
   expect_silent(.C("PROJ_proj_trans_generic",
-                   src_ = as.character("epsg:4326"),
+                   src_ = as.character(llproj),
                    tgt_ = as.character("+proj=laea"),
                    n = as.integer(1L),
                    x_ = as.double(0), y_ = as.double(0), z_ = double(0), t_ = double(0),
                    success = as.integer(0),
                    NAOK=TRUE, PACKAGE = "PROJ"))
   expect_silent(.C("PROJ_proj_trans_generic",
-                   src_ = as.character("epsg:4326"),
+                   src_ = as.character(llproj),
                    tgt_ = as.character("+proj=laea"),
                    n = as.integer(1L),
                    x_ = as.double(0), y_ = as.double(0), z_ = as.double(0), t_ = double(0),
                    success = as.integer(0),
                    NAOK=TRUE, PACKAGE = "PROJ"))
   expect_silent(.C("PROJ_proj_trans_generic",
-                   src_ = as.character("epsg:4326"),
+                   src_ = as.character(llproj),
                    tgt_ = as.character("+proj=laea"),
                    n = as.integer(1L),
                    x_ = as.double(0), y_ = as.double(0), z_ = double(0), t_ = as.double(0),
