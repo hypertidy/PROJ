@@ -61,7 +61,7 @@ matrix:
     - os: linux
       r: release
       sudo: required
-      dist: bionic
+      dist: xenial
       cache:
         apt: true
       env:
