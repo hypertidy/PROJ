@@ -58,7 +58,8 @@ void PROJ_proj_trans_generic(char **src_, char **tgt_,
   r = proj_errno(pj);
   proj_destroy(pj);
   if (r) {
-    error(proj_errno_string(r));
+    // we don't want to error on "tolerance condition error" i.e. -180,0 to laea, we get Inf
+// error(proj_errno_string(r));
   }
   success[0] = 1L;
 #endif
