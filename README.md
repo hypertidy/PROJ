@@ -142,7 +142,7 @@ src <- "+proj=longlat +datum=WGS84"
 #> [1] 0 0
 #> 
 #> $t_
-#> numeric(0)
+#> [1] 0 0
 
 ## inverse transformation
 proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
@@ -156,7 +156,7 @@ proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
 #> [1] 0 0
 #> 
 #> $t_
-#> numeric(0)
+#> [1] 0 0
 
 
 ## note that NAs propagate in the usual way
@@ -256,10 +256,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.209          100
-#> 2       PROJ   7.572          100
-#> 3 sf_project   7.647          100
-#> 4     reproj   8.425          100
+#> 1      rgdal   5.001          100
+#> 2 sf_project   7.346          100
+#> 3       PROJ   7.772          100
+#> 4     reproj   8.417          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
