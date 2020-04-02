@@ -14,7 +14,7 @@
 ###  @examples
 ###  m <- cbind(147, -42)
 ###  plot(m, pch = ".")
-###  s0 <- "+init=epsg:4326"
+###  s0 <- "+proj=longlat +datum=WGS84"
 ###  t1 <- "+proj=laea"
 ###  m <- reproj_PROJ(m, t1, source = s0); s0 <- t1
 ###  plot(m, pch = ".")

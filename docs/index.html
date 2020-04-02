@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -87,8 +87,8 @@
 <a href="#proj" class="anchor"></a>PROJ</h1></div>
 <!-- badges: start -->
 
-<p><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj0&amp;label=PROJ0" alt="Travis NOPROJ"></a> no PROJ available 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj4&amp;label=PROJ4" alt="Travis PROJ4"></a> PROJ.4 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ5" alt="Travis PROJ5"></a> PROJ 5 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ6" alt="Travis PROJ6"></a> PROJ version 6, full function 🚀 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ7" alt="Travis PROJ7"></a> PROJ version 7, full function 🤸 <!-- badges: end --></p>
-<p>The goal of PROJ is to provide generic coordinate system transformations in R. The functional requirement is for the system library PROJ &gt;= 6. This is same goal as the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, but provided for later versions of the underlying library. Reproj currently uses PROJ 5 or 6 via the proj4 package, so PROJ augments that coverage for the more modern library versions.</p>
+<p><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj0&amp;label=PROJ0" alt="Travis NOPROJ"></a> no PROJ available 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj4&amp;label=PROJ4" alt="Travis PROJ4"></a> PROJ.4 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ5" alt="Travis PROJ5"></a> PROJ 5 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj6&amp;label=PROJ6" alt="Travis PROJ6"></a> PROJ version 6, full function 🚀 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj7&amp;label=PROJ7" alt="Travis PROJ7"></a> PROJ version 7, full function 🤸 <!-- badges: end --></p>
+<p>The goal of PROJ is to provide generic coordinate system transformations in R. The functional requirement is for the system library PROJ &gt;= 6. This is same goal as the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, but provided for later versions of the underlying library. Reproj currently uses PROJ 4 or 5 via the proj4 package, so PROJ augments that coverage for the more modern library versions.</p>
 <p>I need basic coordinate transformations for matrices or data frames with efficient vectors of coordinate fields. Constantly unpacking and packing basic data from formats is labourious, error-prone, and brittle. Transforming spatial data coordinates is a basic task.</p>
 <p>PROJ is strictly for version 6.0.0 or higher of the PROJ library. The intention is that this package will be used for when that version is available, and this package can be compiled and installed even when it cannot do anything. For older versions of PROJ (5, and 4) we can use the proj4 package.</p>
 <p>Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. This is the same approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format.</p>
@@ -143,7 +143,7 @@
 <span id="cb1-2"><a href="#cb1-2"></a>lon &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">147</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a>lat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">-42</span>)</span>
 <span id="cb1-4"><a href="#cb1-4"></a>dst &lt;-<span class="st"> "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>src &lt;-<span class="st"> "WGS84"</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>src &lt;-<span class="st"> "+proj=longlat +datum=WGS84"</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a></span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="co">## forward transformation</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a>(xy &lt;-<span class="st"> </span><span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>( <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(lon, lat), dst, <span class="dt">source =</span> src))</span>
@@ -231,37 +231,42 @@
 <span id="cb5-2"><a href="#cb5-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rgdal)</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(lwgeom)</span>
 <span id="cb5-4"><a href="#cb5-4"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf)</span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 2.4.0, PROJ 6.2.1</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a>lon &lt;-<span class="st"> </span>w[,<span class="dv">1</span>]</span>
-<span id="cb5-7"><a href="#cb5-7"></a>lat &lt;-<span class="st"> </span>w[,<span class="dv">2</span>]</span>
-<span id="cb5-8"><a href="#cb5-8"></a>lon &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(lon, <span class="dv">25</span>)</span>
-<span id="cb5-9"><a href="#cb5-9"></a>lat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(lat, <span class="dv">25</span>)</span>
-<span id="cb5-10"><a href="#cb5-10"></a>ll &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(lon, lat)</span>
-<span id="cb5-11"><a href="#cb5-11"></a>z &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(lon))</span>
-<span id="cb5-12"><a href="#cb5-12"></a>llproj &lt;-<span class="st"> "+proj=longlat +datum=WGS84"</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a></span>
-<span id="cb5-14"><a href="#cb5-14"></a>xyz &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(lon, lat, z)</span>
-<span id="cb5-15"><a href="#cb5-15"></a>xyzt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(lon, lat, z, <span class="dv">0</span>)</span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co"># stll &lt;- sf::st_crs(llproj)</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co"># sfx &lt;- sf::st_sfc(sf::st_multipoint(ll), crs = stll) </span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; </span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; Attaching package: 'sf'</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; The following object is masked from 'package:lwgeom':</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; </span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt;     st_make_valid</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>lon &lt;-<span class="st"> </span>w[,<span class="dv">1</span>]</span>
+<span id="cb5-12"><a href="#cb5-12"></a>lat &lt;-<span class="st"> </span>w[,<span class="dv">2</span>]</span>
+<span id="cb5-13"><a href="#cb5-13"></a>lon &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(lon, <span class="dv">25</span>)</span>
+<span id="cb5-14"><a href="#cb5-14"></a>lat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(lat, <span class="dv">25</span>)</span>
+<span id="cb5-15"><a href="#cb5-15"></a>ll &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(lon, lat)</span>
+<span id="cb5-16"><a href="#cb5-16"></a>z &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(lon))</span>
+<span id="cb5-17"><a href="#cb5-17"></a>llproj &lt;-<span class="st"> "+proj=longlat +datum=WGS84"</span></span>
 <span id="cb5-18"><a href="#cb5-18"></a></span>
-<span id="cb5-19"><a href="#cb5-19"></a>rbenchmark<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rbenchmark/man/benchmark.html">benchmark</a></span>(</span>
-<span id="cb5-20"><a href="#cb5-20"></a>          <span class="dt">PROJ =</span> <span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(ll, <span class="dt">target =</span> dst, <span class="dt">source =</span> llproj, <span class="dt">z_ =</span> z),</span>
-<span id="cb5-21"><a href="#cb5-21"></a>          <span class="dt">reproj =</span> <span class="kw"><a href="https://rdrr.io/pkg/reproj/man/reproj.html">reproj</a></span>(xyz, <span class="dt">target =</span> dst, <span class="dt">source =</span> llproj),</span>
-<span id="cb5-22"><a href="#cb5-22"></a>          <span class="dt">rgdal =</span> <span class="kw"><a href="https://rdrr.io/pkg/rgdal/man/project.html">project</a></span>(ll, dst),</span>
-<span id="cb5-23"><a href="#cb5-23"></a>          <span class="dt">sf_project =</span> <span class="kw"><a href="https://rdrr.io/pkg/sf/man/sf_project.html">sf_project</a></span>(llproj, dst, ll),</span>
-<span id="cb5-24"><a href="#cb5-24"></a>        <span class="co"># lwgeom = st_transform_proj(sfx, dst),</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a>        <span class="co"># sf = st_transform(sfx, dst),</span></span>
-<span id="cb5-26"><a href="#cb5-26"></a>        <span class="dt">replications =</span> <span class="dv">100</span>) <span class="op">%&gt;%</span></span>
-<span id="cb5-27"><a href="#cb5-27"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(elapsed) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(test, elapsed, replications)</span>
-<span id="cb5-28"><a href="#cb5-28"></a><span class="co">#&gt;         test elapsed replications</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; 1      rgdal   4.595          100</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; 2     reproj   6.045          100</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; 3       PROJ   7.306          100</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="co">#&gt; 4 sf_project   7.442          100</span></span></code></pre></div>
+<span id="cb5-19"><a href="#cb5-19"></a>xyz &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(lon, lat, z)</span>
+<span id="cb5-20"><a href="#cb5-20"></a>xyzt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(lon, lat, z, <span class="dv">0</span>)</span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="co"># stll &lt;- sf::st_crs(llproj)</span></span>
+<span id="cb5-22"><a href="#cb5-22"></a><span class="co"># sfx &lt;- sf::st_sfc(sf::st_multipoint(ll), crs = stll) </span></span>
+<span id="cb5-23"><a href="#cb5-23"></a></span>
+<span id="cb5-24"><a href="#cb5-24"></a>rbenchmark<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rbenchmark/man/benchmark.html">benchmark</a></span>(</span>
+<span id="cb5-25"><a href="#cb5-25"></a>          <span class="dt">PROJ =</span> <span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(ll, <span class="dt">target =</span> dst, <span class="dt">source =</span> llproj, <span class="dt">z_ =</span> z),</span>
+<span id="cb5-26"><a href="#cb5-26"></a>          <span class="dt">reproj =</span> <span class="kw"><a href="https://rdrr.io/pkg/reproj/man/reproj.html">reproj</a></span>(ll, <span class="dt">target =</span> dst, <span class="dt">source =</span> llproj),</span>
+<span id="cb5-27"><a href="#cb5-27"></a>          <span class="dt">rgdal =</span> <span class="kw"><a href="https://rdrr.io/pkg/rgdal/man/project.html">project</a></span>(ll, dst),</span>
+<span id="cb5-28"><a href="#cb5-28"></a>          <span class="dt">sf_project =</span> <span class="kw"><a href="https://rdrr.io/pkg/sf/man/sf_project.html">sf_project</a></span>(llproj, dst, ll),</span>
+<span id="cb5-29"><a href="#cb5-29"></a>        <span class="co"># lwgeom = st_transform_proj(sfx, dst),</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a>        <span class="co"># sf = st_transform(sfx, dst),</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a>        <span class="dt">replications =</span> <span class="dv">100</span>) <span class="op">%&gt;%</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(elapsed) <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(test, elapsed, replications)</span>
+<span id="cb5-33"><a href="#cb5-33"></a><span class="co">#&gt;         test elapsed replications</span></span>
+<span id="cb5-34"><a href="#cb5-34"></a><span class="co">#&gt; 1      rgdal   5.209          100</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a><span class="co">#&gt; 2       PROJ   7.572          100</span></span>
+<span id="cb5-36"><a href="#cb5-36"></a><span class="co">#&gt; 3 sf_project   7.647          100</span></span>
+<span id="cb5-37"><a href="#cb5-37"></a><span class="co">#&gt; 4     reproj   8.425          100</span></span></code></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>xyzt &lt;-<span class="st"> </span><span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(w[,<span class="dv">1</span>], w[,<span class="dv">2</span>]), <span class="dt">target =</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="dt">source =</span> <span class="st">"WGS84"</span>)</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>xyzt &lt;-<span class="st"> </span><span class="kw"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(w[,<span class="dv">1</span>], w[,<span class="dv">2</span>]), <span class="dt">target =</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="dt">source =</span> <span class="st">"EPSG:4326"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(xyzt[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]), <span class="dt">pch =</span> <span class="st">"."</span>, <span class="dt">asp =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="reference/figures/README-geocentric-1.png" width="100%"></p>
 <p>Geocentric transformations aren’t used in R much, but some examples are found in the <a href="https://CRAN.R-project.org/package=quadmesh">quadmesh</a> and <a href="https://github.com/hypertidy/anglr">anglr</a> packages.</p>
@@ -288,7 +293,7 @@
 <p>The packages rgdal, sf, lwgeom are now compatible with PROJ 5 (and 6) and don’t need any further attention in this regard. They work fine within their chosen context.</p>
 <p>Are there any other wrappers around PROJ (PROJ.4) on CRAN or Bioconductor, or in the works? Let me know!</p>
 <hr>
-<p>Please note that the ‘PROJ’ project is released with a <a href="https://github.com/hypertidy/PROJ/blob/master/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the PROJ project is released with a <a href="https://github.com/hypertidy/PROJ/blob/master/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 
