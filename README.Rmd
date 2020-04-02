@@ -35,9 +35,9 @@ library(reproj)
 <br>
 [![Travis PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ) PROJ 5 in system, no function 👍
 <br>
-[![Travis PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ) PROJ version 6, full function 🚀
+[![Travis PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj6&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ) PROJ version 6, full function 🚀
 <br>
-[![Travis PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ) PROJ version 7, full function 🤸
+[![Travis PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ) PROJ version 7, full function 🤸
 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations in R. The 
@@ -106,7 +106,7 @@ library(PROJ)
 lon <- c(0, 147)
 lat <- c(0, -42)
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-src <- "WGS84"
+src <- "+proj=longlat +datum=WGS84"
 
 ## forward transformation
 (xy <- proj_trans_generic( cbind(lon, lat), dst, source = src))
@@ -176,7 +176,7 @@ xyzt <- cbind(lon, lat, z, 0)
 
 rbenchmark::benchmark(
           PROJ = proj_trans_generic(ll, target = dst, source = llproj, z_ = z),
-          reproj = reproj(xyz, target = dst, source = llproj),
+          reproj = reproj(ll, target = dst, source = llproj),
           rgdal = project(ll, dst),
           sf_project = sf_project(llproj, dst, ll),
         # lwgeom = st_transform_proj(sfx, dst),
@@ -190,7 +190,7 @@ The speed is not exactly stunning, but with PROJ we can also do 3D transformatio
 A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr. 
 
 ```{r geocentric}
-xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "WGS84")
+xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "EPSG:4326")
 plot(as.data.frame(xyzt[1:3]), pch = ".", asp = 1)
 ```
 

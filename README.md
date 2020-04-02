@@ -24,9 +24,9 @@ PROJ4](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_
 PROJ.4 in system, no function 👍 <br> [![Travis
 PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ)
 PROJ 5 in system, no function 👍 <br> [![Travis
-PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
+PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj6&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
 PROJ version 6, full function 🚀 <br> [![Travis
-PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
+PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
 PROJ version 7, full function 🤸 <!-- badges: end -->
 
 The goal of PROJ is to provide generic coordinate system transformations
@@ -128,7 +128,7 @@ library(PROJ)
 lon <- c(0, 147)
 lat <- c(0, -42)
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-src <- "WGS84"
+src <- "+proj=longlat +datum=WGS84"
 
 ## forward transformation
 (xy <- proj_trans_generic( cbind(lon, lat), dst, source = src))
@@ -227,7 +227,12 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 2.4.0, PROJ 6.2.1
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+#> 
+#> Attaching package: 'sf'
+#> The following object is masked from 'package:lwgeom':
+#> 
+#>     st_make_valid
 lon <- w[,1]
 lat <- w[,2]
 lon <- rep(lon, 25)
@@ -243,7 +248,7 @@ xyzt <- cbind(lon, lat, z, 0)
 
 rbenchmark::benchmark(
           PROJ = proj_trans_generic(ll, target = dst, source = llproj, z_ = z),
-          reproj = reproj(xyz, target = dst, source = llproj),
+          reproj = reproj(ll, target = dst, source = llproj),
           rgdal = project(ll, dst),
           sf_project = sf_project(llproj, dst, ll),
         # lwgeom = st_transform_proj(sfx, dst),
@@ -251,10 +256,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   4.732          100
-#> 2     reproj   6.193          100
-#> 3       PROJ   7.189          100
-#> 4 sf_project   7.382          100
+#> 1      rgdal   5.209          100
+#> 2       PROJ   7.572          100
+#> 3 sf_project   7.647          100
+#> 4     reproj   8.425          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
@@ -266,7 +271,7 @@ A geocentric example, suitable for plotting in rgl and used extensively
 with quadmesh, silicate, and anglr.
 
 ``` r
-xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "WGS84")
+xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "EPSG:4326")
 plot(as.data.frame(xyzt[1:3]), pch = ".", asp = 1)
 ```
 

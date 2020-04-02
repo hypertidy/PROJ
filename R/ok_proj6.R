@@ -15,7 +15,7 @@
 #' ok_proj6()
 ok_proj6 <- function() {
   test<- .C("PROJ_proj_trans_generic",
-            src_ = as.character("epsg:4326"),
+            src_ = as.character("+proj=longlat +datum=WGS84"),
             tgt_ = as.character("+proj=laea"),
             n = as.integer(1L),
             x_ = as.double(0), y_ = as.double(0), z_ = as.double(0), t_ = as.double(0),
@@ -25,6 +25,17 @@ ok_proj6 <- function() {
     out <- FALSE
   } else {
     out <- TRUE
+    ## sanity check - see issue #14
+    new_syntax <- try(
+
+      .Call("PROJ_proj_create",
+            crs_ = as.character("EPSG:4326"),
+            format = as.integer(1L),
+            PACKAGE = "PROJ")
+    )
+    if (inherits(new_syntax, "try-error")) {
+      out <- FALSE
+    }
   }
   out
 }

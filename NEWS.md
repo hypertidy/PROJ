@@ -1,5 +1,8 @@
-# PROJ dev
+# PROJ 0.1.5
 
+* Attempt to fix errors on CRAN, add missing test for functionality 
+ with required lib-proj version and use more generic initialization string. 
+ 
 * New function [proj_create()] to generate CRS formats from various input types. 
 
 # PROJ 0.1.0
