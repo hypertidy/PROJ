@@ -68,11 +68,10 @@ void PROJ_proj_trans_generic(char **src_, char **tgt_,
   proj_destroy(pj);
   if (r) {
     Rprintf("Error detected, some values Inf (error code: %i)\n\n", r);
-    if (PROJ_VERSION_MAJOR < 7 & PROJ_VERSION_MINOR < 2) {
-/// avoid https://github.com/hypertidy/PROJ/issues/20
-      // we don't want to error on "tolerance condition error" i.e. -180,0 to laea, we can get Inf
-      error(proj_errno_string(r));
-    }
+    Rprintf("' %s\n\n '", proj_errno_string(r));
+    //if (PROJ_VERSION_MAJOR < 7 & PROJ_VERSION_MINOR < 2) {
+    /// avoid https://github.com/hypertidy/PROJ/issues/20 ??
+    //}
   }
   success[0] = 1L;
 #endif
