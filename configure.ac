@@ -40,3 +40,4 @@ AC_ARG_VAR([PKG_LIBS],[custom libraries for package compilation])
 
 AC_CONFIG_FILES(src/Makevars)
 AC_OUTPUT
+
