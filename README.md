@@ -3,6 +3,32 @@
 
 # PROJ
 
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/R-CMD-check/badge.svg)](https://github.com/hypertidy/PROJ/actions)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/test-coverage/badge.svg)](https://github.com/hypertidy/PROJ/actions)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/pkgdown/badge.svg)](https://github.com/hypertidy/PROJ/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
+[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
+
+[![Travis
+NOPROJ](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj0&label=PROJ0)](https://travis-ci.org/hypertidy/PROJ)
+no PROJ available 👍 <br> [![Travis
+PROJ4](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj4&label=PROJ4)](https://travis-ci.org/hypertidy/PROJ)
+PROJ.4 in system, no function 👍 <br> [![Travis
+PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ)
+PROJ 5 in system, no function 👍 <br> [![Travis
+PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj6&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
+PROJ version 6, full function 🚀 <br> [![Travis
+PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
+PROJ version 7, full function 🤸 <!-- badges: end -->
+
 The goal of PROJ is to provide generic coordinate system transformations
 in R with a functional requirement for the system library PROJ \>= 6.
 
@@ -230,10 +256,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1     reproj   6.304          100
-#> 2 sf_project   7.321          100
-#> 3      rgdal   7.641          100
-#> 4       PROJ   7.764          100
+#> 1     reproj   6.331          100
+#> 2 sf_project   7.348          100
+#> 3      rgdal   7.620          100
+#> 4       PROJ   7.918          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
