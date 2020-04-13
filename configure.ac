@@ -14,12 +14,12 @@ RBIN="${R_HOME}/bin/R"
 : ${CPPFLAGS=`"${RBIN}" CMD config CPPFLAGS`}
 : ${LDFLAGS=`"${RBIN}" CMD config LDFLAGS`}
 
+
 # honor PKG_xx overrides
 LIBS="${LIBS} ${PKG_LIBS}"
 # for CPPFLAGS we will superfluously double R's flags
 # since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
 CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
-
 
 projok=yes
 AC_CHECK_HEADERS(proj.h,,projok=no)
