@@ -29,6 +29,7 @@ AC_CHECK_LIB(proj,proj_normalize_for_visualization,,projok=no)
 #*** Install PROJ 6.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
 #fi
 
+
 #undef HAVE_PROJ6_API
 if test "${projok}" = yes; then
    CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
