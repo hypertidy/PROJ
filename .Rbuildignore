@@ -9,10 +9,8 @@
 ^data-raw$
 ^.Rhistory$
 ^\.travis\.yml$
-^appveyor\.yml$
-^codecov\.yml$
 ^windows$
-^docs$
 ^ci$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^\.github$

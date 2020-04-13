@@ -7,12 +7,12 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build
-status](https://travis-ci.org/hypertidy/PROJ.svg?branch=master)](https://travis-ci.org/hypertidy/PROJ)[![AppVeyor
-build
-status](https://ci.appveyor.com/api/projects/status/jb3sg8r0exigdbb0/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/proj-448mq)[![Codecov
-test
-coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/hypertidy/PROJ?branch=master)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/R-CMD-check/badge.svg)](https://github.com/hypertidy/PROJ/actions)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/test-coverage/badge.svg)](https://github.com/hypertidy/PROJ/actions)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/pkgdown/badge.svg)](https://github.com/hypertidy/PROJ/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
@@ -227,7 +227,7 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
 #> 
 #> Attaching package: 'sf'
 #> The following object is masked from 'package:lwgeom':
@@ -256,10 +256,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.001          100
-#> 2 sf_project   7.346          100
-#> 3       PROJ   7.772          100
-#> 4     reproj   8.417          100
+#> 1 sf_project    3.29          100
+#> 2      rgdal    3.81          100
+#> 3     reproj    4.77          100
+#> 4       PROJ    5.72          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
