@@ -85,6 +85,9 @@
 <div id="proj" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#proj" class="anchor"></a>PROJ</h1></div>
+<!-- badges: start -->
+
+<p><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj0&amp;label=PROJ0" alt="Travis NOPROJ"></a> no PROJ available 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj4&amp;label=PROJ4" alt="Travis PROJ4"></a> PROJ.4 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ5" alt="Travis PROJ5"></a> PROJ 5 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj6&amp;label=PROJ6" alt="Travis PROJ6"></a> PROJ version 6, full function 🚀 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj7&amp;label=PROJ7" alt="Travis PROJ7"></a> PROJ version 7, full function 🤸 <!-- badges: end --></p>
 <p>The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library PROJ &gt;= 6.</p>
 <p>This is same goal as the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, but provided for later versions of the underlying library. Reproj currently uses PROJ 4 or 5 via the proj4 package, so PROJ augments that coverage for the more modern library versions.</p>
 <p>I need basic coordinate transformations for matrices or data frames with efficient vectors of coordinate fields. Constantly unpacking and packing basic data from formats is labourious, error-prone, and brittle. Transforming spatial data coordinates is a basic task.</p>
@@ -256,10 +259,10 @@
         <span class="kw">replications</span> <span class="kw">=</span> <span class="fl">100</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">arrange</span>(<span class="no">elapsed</span>) <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">select</span>(<span class="no">test</span>, <span class="no">elapsed</span>, <span class="no">replications</span>)
 <span class="co">#&gt;         test elapsed replications</span>
-<span class="co">#&gt; 1     reproj   6.304          100</span>
-<span class="co">#&gt; 2 sf_project   7.321          100</span>
-<span class="co">#&gt; 3      rgdal   7.641          100</span>
-<span class="co">#&gt; 4       PROJ   7.764          100</span></pre></div>
+<span class="co">#&gt; 1     reproj   6.331          100</span>
+<span class="co">#&gt; 2 sf_project   7.348          100</span>
+<span class="co">#&gt; 3      rgdal   7.620          100</span>
+<span class="co">#&gt; 4       PROJ   7.918          100</span></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr.</p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">w</span>[,<span class="fl">1</span>], <span class="no">w</span>[,<span class="fl">2</span>]), <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"EPSG:4326"</span>)
@@ -327,7 +330,18 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://github.com/hypertidy/PROJ/actions"><img src="https://github.com/hypertidy/PROJ/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/hypertidy/PROJ/actions"><img src="https://github.com/hypertidy/PROJ/workflows/test-coverage/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/hypertidy/PROJ/actions"><img src="https://github.com/hypertidy/PROJ/workflows/pkgdown/badge.svg" alt="R build status"></a></li>
+<li><a href="https://cran.r-project.org/package=PROJ"><img src="https://www.r-pkg.org/badges/version/PROJ" alt="CRAN status"></a></li>
+<li><a href="https://cran.r-project.org/package=PROJ"><img src="http://cranlogs.r-pkg.org/badges/PROJ" alt="CRAN_Download_Badge"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
