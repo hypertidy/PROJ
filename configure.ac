@@ -20,6 +20,7 @@ LIBS="${LIBS} ${PKG_LIBS}"
 # since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
 CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
 
+
 projok=yes
 AC_CHECK_HEADERS(proj.h,,projok=no)
 AC_CHECK_LIB(proj,proj_normalize_for_visualization,,projok=no)
