@@ -4,7 +4,7 @@
 \alias{proj_trans_generic}
 \title{Transform a set of coordinates with 'PROJ'}
 \usage{
-proj_trans_generic(x, target, ..., source = NULL, z_ = 0, t_ = numeric(0))
+proj_trans_generic(x, target, ..., source = NULL, z_ = 0, t_ = 0)
 }
 \arguments{
 \item{x}{input coordinates (x,y, list or matrix see \code{z_} and \code{t_})}
@@ -27,10 +27,12 @@ A raw interface to proj_trans_generic in 'PROJ => 6', if it is available.
 }
 \details{
 Input 'x' is assumed to be 2-columns of "x", then "y" coordinates. If "z" or
-"t" is required pass these in as named vectors with "z_" and "t_". These
-are left empty (zero-length) internally by default, if possible but it seems that
-z must always match the length of \code{x} \code{y} if 'xyz' is the output, so for safety this
-is always initialized as a zero value vector.
+"t" is required pass these in as named vectors with "z_" and "t_". For simplifying reasons
+\code{z_} and \code{t_} must always match the length of \code{x} \code{y}. Both default to 0, and are automatically
+recycled to the number of rows in \code{x} so it's pretty flexible.
+
+Values that are detected out of bounds by library PROJ are allowed, we return \code{Inf} in this
+case, rather than the error "tolerance condition error".
 }
 \examples{
 if (ok_proj6()) {

@@ -7,12 +7,12 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build
-status](https://travis-ci.org/hypertidy/PROJ.svg?branch=master)](https://travis-ci.org/hypertidy/PROJ)[![AppVeyor
-build
-status](https://ci.appveyor.com/api/projects/status/jb3sg8r0exigdbb0/branch/master?svg=true)](https://ci.appveyor.com/project/mdsumner/proj-448mq)[![Codecov
-test
-coverage](https://codecov.io/gh/hypertidy/PROJ/branch/master/graph/badge.svg)](https://codecov.io/gh/hypertidy/PROJ?branch=master)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/R-CMD-check/badge.svg)](https://github.com/hypertidy/PROJ/actions)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/test-coverage/badge.svg)](https://github.com/hypertidy/PROJ/actions)
+[![R build
+status](https://github.com/hypertidy/PROJ/workflows/pkgdown/badge.svg)](https://github.com/hypertidy/PROJ/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
@@ -142,7 +142,7 @@ src <- "+proj=longlat +datum=WGS84"
 #> [1] 0 0
 #> 
 #> $t_
-#> numeric(0)
+#> [1] 0 0
 
 ## inverse transformation
 proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
@@ -156,7 +156,7 @@ proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
 #> [1] 0 0
 #> 
 #> $t_
-#> numeric(0)
+#> [1] 0 0
 
 
 ## note that NAs propagate in the usual way
@@ -227,7 +227,7 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
 #> 
 #> Attaching package: 'sf'
 #> The following object is masked from 'package:lwgeom':
@@ -256,10 +256,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1      rgdal   5.209          100
-#> 2       PROJ   7.572          100
-#> 3 sf_project   7.647          100
-#> 4     reproj   8.425          100
+#> 1      rgdal    3.87          100
+#> 2     reproj    4.97          100
+#> 3 sf_project    5.50          100
+#> 4       PROJ    6.39          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D

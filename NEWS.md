@@ -1,3 +1,7 @@
+# PROJ dev
+
+* Prevent error on out of bounds values from `proj_trans_generic()`. We get `Inf`. 
+
 # PROJ 0.1.5
 
 * Attempt to fix errors on CRAN, add missing test for functionality 

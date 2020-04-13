@@ -49,17 +49,29 @@ void PROJ_proj_trans_generic(char **src_, char **tgt_,
   // since 6.0
   // we don't need radian input handling, always degrees
   // and we don't need radian output handling
-  proj_trans_generic(pj, PJ_FWD,
-                     x_, sizeof(*x_), N,
-                     y_, sizeof(*y_), N,
-                     z_, sizeof(*z_), N,
-                     t_, sizeof(*z_), N);
+  //proj_trans_generic(pj, PJ_FWD,
+  //                   x_, sizeof(*x_), N,
+  //                   y_, sizeof(*y_), N,
+  //                   z_, sizeof(*z_), N,
+  //                   t_, sizeof(*z_), N);
+  PJ_COORD a, b;
+  for (int i = 0; i < N; i++) {
+    a = proj_coord(x_[i], y_[i], z_[i], t_[i]);
+    b = proj_trans(pj, PJ_FWD, a);
+    x_[i] = b.xyzt.x;
+    y_[i] = b.xyzt.y;
+    z_[i] = a.xyzt.z;
+    t_[i] = a.xyzt.t;
 
+  }
   r = proj_errno(pj);
   proj_destroy(pj);
   if (r) {
-    // we don't want to error on "tolerance condition error" i.e. -180,0 to laea, we get Inf
-// error(proj_errno_string(r));
+    Rprintf("Error detected, some values Inf (error code: %i)\n\n", r);
+    Rprintf("' %s\n\n '", proj_errno_string(r));
+    //if (PROJ_VERSION_MAJOR < 7 & PROJ_VERSION_MINOR < 2) {
+    /// avoid https://github.com/hypertidy/PROJ/issues/20 ??
+    //}
   }
   success[0] = 1L;
 #endif
