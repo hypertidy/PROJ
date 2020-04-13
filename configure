@@ -2050,6 +2050,7 @@ RBIN="${R_HOME}/bin/R"
 : ${CPPFLAGS=`"${RBIN}" CMD config CPPFLAGS`}
 : ${LDFLAGS=`"${RBIN}" CMD config LDFLAGS`}
 
+
 # honor PKG_xx overrides
 LIBS="${LIBS} ${PKG_LIBS}"
 # for CPPFLAGS we will superfluously double R's flags
@@ -3311,6 +3312,7 @@ fi
 #*** Install PROJ 6.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
 #fi
 
+
 #undef HAVE_PROJ6_API
 if test "${projok}" = yes; then
    CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
@@ -4476,4 +4478,5 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unrecognized options: $ac_unrecognized_opts" >&5
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
+
 
