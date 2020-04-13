@@ -42,9 +42,12 @@ library(reproj)
 [![Travis PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ) PROJ version 7, full function 🤸
 <!-- badges: end -->
 
-The goal of PROJ is to provide generic coordinate system transformations in R. The 
-functional requirement is for the system library PROJ >= 6. This is same goal as the [reproj](https://cran.r-project.org/package=reproj)  package, but provided for later versions of the underlying library. Reproj currently uses PROJ 4 or 5 via the proj4 package, 
-so PROJ augments that coverage for the more modern library versions. 
+The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library PROJ >= 6. 
+
+This is same goal as the [reproj](https://cran.r-project.org/package=reproj)
+package, but provided for later versions of the underlying library. Reproj
+currently uses PROJ 4 or 5 via the proj4 package, so PROJ augments that coverage
+for the more modern library versions.
 
 I need basic coordinate transformations for matrices or data frames with efficient vectors of coordinate fields. Constantly unpacking and packing basic data from formats is labourious, error-prone, and brittle. Transforming spatial data coordinates is a basic task.
 
@@ -53,46 +56,66 @@ is that this package will be used for when that version is available, and this
 package can be compiled and installed even when it cannot do anything. For older
 versions of PROJ (5, and 4) we can use the proj4 package.
 
-Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. This is the same approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format. 
+Because we are version 6 or above only, there is no forward/inverse
+transformation, only integrated source/target idioms. This is the same approach
+taken by the reproj package- the source must be provided as well as the target.
+When a data set has an in-built CRS projection recorded, then methods can be
+written for that use-case with that format.
 
-We can use "auth:code" forms, PROJ.4 strings, full WKT2, or the name of a CRS as found in the PROJ database, e.g “WGS84”, “NAD27”, etc. Full details are provided in the [PROJ documentation](https://proj.org/development/reference/functions.html#c.proj_create). 
+We can use "auth:code" forms, PROJ.4 strings, full WKT2, or the name of a CRS as
+found in the PROJ database, e.g “WGS84”, “NAD27”, etc. Full details are provided
+in the [PROJ
+documentation](https://proj.org/development/reference/functions.html#c.proj_create).
 
 
 ## Things to be aware of
 
-Note that for PROJ5 (and lower) this package is non-functional (can use proj4). The testing here on Travis ensures that the package installs successfully for various versions of PROJ, although underlying functionality is disabled for 4 and 5 (and for no PROJ).
+Note that for PROJ5 (and lower) this package is non-functional (can use proj4).
+The testing here on Travis ensures that the package installs successfully for
+various versions of PROJ, although underlying functionality is disabled for 4
+and 5 (and for no PROJ).
 
 * Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, *and time*. So the output is always a 4-column matrix. 
 * You can't use strings like "+init=epsg:4326" any more, it must be "epsg:4326". 
 * You should know what your target projection is, and also what your source projection is. This is your responsibility. 
 
-Personally, I need this low-level package in order to develop other projects. I don't care about the big snafu regarding changes in version 6 and whatever, we should have low-level tools and then we can code at the R level to sort stuff out. A text-handler for various versions and validations of CRS representations would be good, for instance we can just gsub out "+init=" for those sorts of things, and being able to write "WGS84" as a valid source or target is a massive bonus. 
+Personally, I need this low-level package in order to develop other projects. I
+don't care about the big snafu regarding changes in version 6 and whatever, we
+should have low-level tools and then we can code at the R level to sort stuff
+out. A text-handler for various versions and validations of CRS representations
+would be good, for instance we can just gsub out "+init=" for those sorts of
+things, and being able to write "WGS84" as a valid source or target is a massive
+bonus.
 
-## WAAT
+## WHY
 
-This package strips code out of the development version of proj4, with attribution to the author. 
+This package strips code out of the development version of proj4, with
+attribution to the author.
 
 * Why not proj4?  It's not maintained in a way that works for me. 
 * Why not sf?  It brings a lot of baggage, and can't do geocentric transformations. 
-* Why not rgdal? Still baggage, no transformations possible without special data formats. 
-* Why not lgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes. 
-* Why not mapproj? This is unusable for real-world projections in my experience, it seems
-to be written for some basic graphics cases.
-* Why not reproj? This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond. 
+* Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric. 
+* Why not lgeom? That package is format-specific, and does not work with generic
+data coordinates so is unsuitable for many straightforward and efficient
+data-handling schemes.
+* Why not mapproj? This is unusable for real-world projections in my experience,
+it seems to be written for some basic graphics cases.
+* Why not reproj? reproj will be improved by importing PROJ. This is an
+extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7
+and beyond.
 
 
 
 ## Installation
 
-WIP - see the matrix set up in .travis.yml, and the scripts in ci/travis/ - much gratitude to GDAL for examples of how to do all this!  
+WIP - see the matrix set up in .travis.yml, and the scripts in ci/travis/ - much
+gratitude to GDAL for examples of how to do all this!
+
 
 # Notes
 
+None of these things are dealt with. 
 
-THINGS TO WORRY ABOUT for development here:
-
-* the *name* of this package
-* t and z
 * threading, see the PJ_CONTEXT
 * coordinate order
 * the zero value after transformation, it comes out like -3.19835e-15 (do we just zapsmall()?)
@@ -142,12 +165,12 @@ plot(lonlat$x_, lonlat$y_, pch = ".")
 
 ## Convert projection strings
 
-We can generate PROJ or WKT2 strings. 
+We can generate PROJ or within limitations WKT2 strings. 
 
 ```{r WKT2}
 cat(wkt2 <- proj_create("EPSG:4326"))
 
-
+## this is not proper WKT2 and cannot be used, compare to sf::st_crs("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel")
 cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
 
 proj_create(wkt2, format = 1L)

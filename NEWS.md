@@ -1,6 +1,6 @@
-# PROJ dev
+# PROJ 0.1.6
 
-* We now us the PROJ::proj_trans internally, and just loop over vectors. 
+* We now use the PROJ::proj_trans internally, and just loop over vectors. 
 (so proj_trans_generic is a misnomer, technically). 
 
 * Prevent error on out of bounds values from `proj_trans_generic()`. We get `Inf`. 
