@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -117,6 +117,15 @@
       <small>Source: <a href='https://github.com/hypertidy/PROJ/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="proj-016" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.6">
+<a href="#proj-016" class="anchor"></a>PROJ 0.1.6<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>We now use the PROJ::proj_trans internally, and just loop over vectors. (so proj_trans_generic is a misnomer, technically).</p></li>
+<li><p>Prevent error on out of bounds values from <code><a href="../reference/proj_trans_generic.html">proj_trans_generic()</a></code>. We get <code>Inf</code>.</p></li>
+</ul>
+</div>
     <div id="proj-015" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.5">
 <a href="#proj-015" class="anchor"></a>PROJ 0.1.5<small> 2020-03-29 </small>
