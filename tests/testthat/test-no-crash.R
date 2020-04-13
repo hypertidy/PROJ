@@ -7,6 +7,7 @@ target <- "+proj=merc +datum=WGS84"
 
 
 test_that("out of bounds works", {
+  skip_if_not(ok_proj6())
   a <- expect_output({
 
     proj_trans_generic(x, target, source = source)
