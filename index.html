@@ -85,10 +85,8 @@
 <div id="proj" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#proj" class="anchor"></a>PROJ</h1></div>
-<!-- badges: start -->
-
-<p><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj0&amp;label=PROJ0" alt="Travis NOPROJ"></a> no PROJ available 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj4&amp;label=PROJ4" alt="Travis PROJ4"></a> PROJ.4 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ5" alt="Travis PROJ5"></a> PROJ 5 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj6&amp;label=PROJ6" alt="Travis PROJ6"></a> PROJ version 6, full function 🚀 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj7&amp;label=PROJ7" alt="Travis PROJ7"></a> PROJ version 7, full function 🤸 <!-- badges: end --></p>
-<p>The goal of PROJ is to provide generic coordinate system transformations in R. The functional requirement is for the system library PROJ &gt;= 6. This is same goal as the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, but provided for later versions of the underlying library. Reproj currently uses PROJ 4 or 5 via the proj4 package, so PROJ augments that coverage for the more modern library versions.</p>
+<p>The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library PROJ &gt;= 6.</p>
+<p>This is same goal as the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, but provided for later versions of the underlying library. Reproj currently uses PROJ 4 or 5 via the proj4 package, so PROJ augments that coverage for the more modern library versions.</p>
 <p>I need basic coordinate transformations for matrices or data frames with efficient vectors of coordinate fields. Constantly unpacking and packing basic data from formats is labourious, error-prone, and brittle. Transforming spatial data coordinates is a basic task.</p>
 <p>PROJ is strictly for version 6.0.0 or higher of the PROJ library. The intention is that this package will be used for when that version is available, and this package can be compiled and installed even when it cannot do anything. For older versions of PROJ (5, and 4) we can use the proj4 package.</p>
 <p>Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. This is the same approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format.</p>
@@ -104,17 +102,17 @@
 </ul>
 <p>Personally, I need this low-level package in order to develop other projects. I don’t care about the big snafu regarding changes in version 6 and whatever, we should have low-level tools and then we can code at the R level to sort stuff out. A text-handler for various versions and validations of CRS representations would be good, for instance we can just gsub out “+init=” for those sorts of things, and being able to write “WGS84” as a valid source or target is a massive bonus.</p>
 </div>
-<div id="waat" class="section level2">
+<div id="why" class="section level2">
 <h2 class="hasAnchor">
-<a href="#waat" class="anchor"></a>WAAT</h2>
+<a href="#why" class="anchor"></a>WHY</h2>
 <p>This package strips code out of the development version of proj4, with attribution to the author.</p>
 <ul>
 <li>Why not proj4? It’s not maintained in a way that works for me.</li>
 <li>Why not sf? It brings a lot of baggage, and can’t do geocentric transformations.</li>
-<li>Why not rgdal? Still baggage, no transformations possible without special data formats.</li>
+<li>Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric.</li>
 <li>Why not lgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes.</li>
 <li>Why not mapproj? This is unusable for real-world projections in my experience, it seems to be written for some basic graphics cases.</li>
-<li>Why not reproj? This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond.</li>
+<li>Why not reproj? reproj will be improved by importing PROJ. This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond.</li>
 </ul>
 </div>
 <div id="installation" class="section level2">
@@ -126,10 +124,8 @@
 <div id="notes" class="section level1">
 <h1 class="hasAnchor">
 <a href="#notes" class="anchor"></a>Notes</h1>
-<p>THINGS TO WORRY ABOUT for development here:</p>
+<p>None of these things are dealt with.</p>
 <ul>
-<li>the <em>name</em> of this package</li>
-<li>t and z</li>
 <li>threading, see the PJ_CONTEXT</li>
 <li>coordinate order</li>
 <li>the zero value after transformation, it comes out like -3.19835e-15 (do we just zapsmall()?)</li>
@@ -194,7 +190,7 @@
 <div id="convert-projection-strings" class="section level2">
 <h2 class="hasAnchor">
 <a href="#convert-projection-strings" class="anchor"></a>Convert projection strings</h2>
-<p>We can generate PROJ or WKT2 strings.</p>
+<p>We can generate PROJ or within limitations WKT2 strings.</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="no">wkt2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_create.html">proj_create</a></span>(<span class="st">"EPSG:4326"</span>))
 <span class="co">#&gt; GEOGCRS["WGS 84",</span>
 <span class="co">#&gt;     DATUM["World Geodetic System 1984",</span>
@@ -215,7 +211,7 @@
 <span class="co">#&gt;         BBOX[-90,-180,90,180]],</span>
 <span class="co">#&gt;     ID["EPSG",4326]]</span>
 
-
+<span class="co">## this is not proper WKT2 and cannot be used, compare to sf::st_crs("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel")</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu"><a href="reference/proj_create.html">proj_create</a></span>(<span class="st">"+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"</span>))
 <span class="co">#&gt; CONVERSION["PROJ-based coordinate operation",</span>
 <span class="co">#&gt;     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]</span>
@@ -231,7 +227,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rgdal</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">lwgeom</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
-<span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3</span>
+<span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'sf'</span>
 <span class="co">#&gt; The following object is masked from 'package:lwgeom':</span>
@@ -260,10 +256,10 @@
         <span class="kw">replications</span> <span class="kw">=</span> <span class="fl">100</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">arrange</span>(<span class="no">elapsed</span>) <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">select</span>(<span class="no">test</span>, <span class="no">elapsed</span>, <span class="no">replications</span>)
 <span class="co">#&gt;         test elapsed replications</span>
-<span class="co">#&gt; 1      rgdal    3.87          100</span>
-<span class="co">#&gt; 2     reproj    4.97          100</span>
-<span class="co">#&gt; 3 sf_project    5.50          100</span>
-<span class="co">#&gt; 4       PROJ    6.39          100</span></pre></div>
+<span class="co">#&gt; 1     reproj   6.304          100</span>
+<span class="co">#&gt; 2 sf_project   7.321          100</span>
+<span class="co">#&gt; 3      rgdal   7.641          100</span>
+<span class="co">#&gt; 4       PROJ   7.764          100</span></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr.</p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">w</span>[,<span class="fl">1</span>], <span class="no">w</span>[,<span class="fl">2</span>]), <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"EPSG:4326"</span>)
@@ -331,18 +327,7 @@
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://github.com/hypertidy/PROJ/actions"><img src="https://github.com/hypertidy/PROJ/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://github.com/hypertidy/PROJ/actions"><img src="https://github.com/hypertidy/PROJ/workflows/test-coverage/badge.svg" alt="R build status"></a></li>
-<li><a href="https://github.com/hypertidy/PROJ/actions"><img src="https://github.com/hypertidy/PROJ/workflows/pkgdown/badge.svg" alt="R build status"></a></li>
-<li><a href="https://cran.r-project.org/package=PROJ"><img src="https://www.r-pkg.org/badges/version/PROJ" alt="CRAN status"></a></li>
-<li><a href="https://cran.r-project.org/package=PROJ"><img src="http://cranlogs.r-pkg.org/badges/PROJ" alt="CRAN_Download_Badge"></a></li>
-</ul>
-</div>
-</div>
+  </div>
 </div>
 
 
