@@ -19,6 +19,9 @@ is used as a test instead.
 
 If 'PROJ' library version 6 is not available, the package still compiles and installs
 but is not functional.
+
+The lack of function can be simulated by setting
+\code{options(reproj.mock.noproj6 = TRUE)}, designed for use with the reproj package.
 }
 \examples{
 ok_proj6()

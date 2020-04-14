@@ -2,6 +2,8 @@
 
 * Patch release to fix crash on Windows when coordinates out of bounds.   
 
+Very sorry for such a quick turnaround, but it crashes R.
+
 Thank you. 
 
 
