@@ -136,6 +136,8 @@ available. On Windows, the load process sets the data file location with the ver
 is used as a test instead.</p>
 <p>If 'PROJ' library version 6 is not available, the package still compiles and installs
 but is not functional.</p>
+<p>The lack of function can be simulated by setting
+<code><a href='https://rdrr.io/r/base/options.html'>options(reproj.mock.noproj6 = TRUE)</a></code>, designed for use with the reproj package.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>ok_proj6</span>()</div><div class='output co'>#&gt; [1] FALSE</div></pre>
