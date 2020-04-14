@@ -8,12 +8,16 @@
 #'
 #' If 'PROJ' library version 6 is not available, the package still compiles and installs
 #' but is not functional.
+#'
+#' The lack of function can be simulated by setting
+#' `options(reproj.mock.noproj6 = TRUE)`, designed for use with the reproj package.
 #' @return logical, `TRUE` if the system library 'PROJ >= 6'
 #' @export
 #'
 #' @examples
 #' ok_proj6()
 ok_proj6 <- function() {
+
   test<- .C("PROJ_proj_trans_generic",
             src_ = as.character("+proj=longlat +datum=WGS84"),
             tgt_ = as.character("+proj=laea"),
@@ -36,6 +40,12 @@ ok_proj6 <- function() {
     if (inherits(new_syntax, "try-error")) {
       out <- FALSE
     }
+  }
+
+  mock_no_proj6 <- getOption("reproj.mock.noproj6")
+  if (out && !is.null(mock_no_proj6) && isTRUE(mock_no_proj6)) {
+    message("PROJ6 *is* available, but operating in mock-no-proj6 mode '?PROJ::ok_proj6'")
+    out <- FALSE
   }
   out
 }
