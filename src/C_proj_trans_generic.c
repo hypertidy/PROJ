@@ -47,8 +47,9 @@ void PROJ_proj_trans_generic(char **src_, char **tgt_,
   // end written S.Urbanek
 
   // since 6.0
-  // we don't need radian input handling, always degrees
-  // and we don't need radian output handling
+  // we don't need radian handling
+
+  // now use proj_trans (despite our name)
   //proj_trans_generic(pj, PJ_FWD,
   //                   x_, sizeof(*x_), N,
   //                   y_, sizeof(*y_), N,
@@ -60,18 +61,14 @@ void PROJ_proj_trans_generic(char **src_, char **tgt_,
     b = proj_trans(pj, PJ_FWD, a);
     x_[i] = b.xyzt.x;
     y_[i] = b.xyzt.y;
-    z_[i] = a.xyzt.z;
-    t_[i] = a.xyzt.t;
-
+    z_[i] = b.xyzt.z;
+    t_[i] = b.xyzt.t;
   }
   r = proj_errno(pj);
   proj_destroy(pj);
   if (r) {
     Rprintf("Error detected, some values Inf (error code: %i)\n\n", r);
     Rprintf("' %s\n\n '", proj_errno_string(r));
-    //if (PROJ_VERSION_MAJOR < 7 & PROJ_VERSION_MINOR < 2) {
-    /// avoid https://github.com/hypertidy/PROJ/issues/20 ??
-    //}
   }
   success[0] = 1L;
 #endif

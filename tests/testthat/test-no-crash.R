@@ -14,7 +14,8 @@ test_that("out of bounds works", {
     proj_trans_generic(x, target, source = source)
 
   })
-  expect_equal(unique(a$z_), 0)
+  ## fixed
+  expect_true(!all(is.finite(a$z_)))
 
   expect_output(  proj_trans_generic(cbind(2e10, 2e12),
                                      source = "+proj=stere +datum=WGS84",
