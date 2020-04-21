@@ -27,7 +27,8 @@
 #'  proj_trans_generic(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "epsg:4326")
 #'  }
 proj_trans_generic <- function(x, target, ..., source = NULL, z_ = 0, t_ = 0) {
-  if (!ok_proj6()) {
+#  if (!ok_proj6()) {
+  if (!getOption("PROJ.HAVE_PROJ6")){
     stop("'proj_trans_generic()' is not functional on this system")
 
   }
