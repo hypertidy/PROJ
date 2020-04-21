@@ -227,7 +227,7 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
 #> 
 #> Attaching package: 'sf'
 #> The following object is masked from 'package:lwgeom':
@@ -256,10 +256,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project    3.51          100
-#> 2      rgdal    3.66          100
-#> 3     reproj    4.53          100
-#> 4       PROJ    5.74          100
+#> 1 sf_project   7.538          100
+#> 2      rgdal   7.754          100
+#> 3       PROJ   8.022          100
+#> 4     reproj   8.942          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
@@ -267,8 +267,7 @@ transformations and that’s good enough for me. I think it will be faster
 with the underlying API function `proj_trans_array()`, instead of
 `proj_trans_generic()`, but I don’t really know.
 
-A geocentric example, suitable for plotting in rgl and used extensively
-with quadmesh, silicate, and anglr.
+A geocentric example, suitable for plotting in rgl.
 
 ``` r
 xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "EPSG:4326")

@@ -212,7 +212,7 @@ rbenchmark::benchmark(
 
 The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that's good enough for me.  I think it will be faster with the underlying API function `proj_trans_array()`, instead of `proj_trans_generic()`, but I don't really know. 
 
-A geocentric example, suitable for plotting in rgl and used extensively with quadmesh, silicate, and anglr. 
+A geocentric example, suitable for plotting in rgl. 
 
 ```{r geocentric}
 xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "EPSG:4326")

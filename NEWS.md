@@ -1,3 +1,7 @@
+# PROJ dev
+
+* Fixed bug not returning transformed z or t. 
+
 # PROJ 0.1.6
 
 * We now use the PROJ::proj_trans internally, and just loop over vectors. 
