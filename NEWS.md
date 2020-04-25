@@ -1,6 +1,7 @@
 # PROJ dev
 
 * Fixed bug not returning transformed z or t. 
+* Windows: update to proj 6.3.1
 
 # PROJ 0.1.6
 
