@@ -45,20 +45,40 @@ proj_trans_generic <- function(x, target, ..., source = NULL, z_ = 0, t_ = 0) {
   z_ <- rep(z_,  length.out = length(x))
   t_ <- rep(t_,  length.out = length(x))
 
- lx <- length(x)
+  lx <- length(x)
 
   if (!(lx > 0 && length(z_) == lx && length(t_) == lx && is.numeric(z_) && is.numeric(t_) )) {
     stop("x, z_, t_ must be numeric and compatible lengths")
   }
-  result <- .C("PROJ_proj_trans_generic",
-           src_ = as.character(source), tgt_ = as.character(target),
-           n = as.integer(n),
-           x_ = as.double(x), y_ = as.double(y),
-           z_ = as.double(z_), t_ = as.double(t_),
-           success = as.integer(0),
-           NAOK=TRUE, PACKAGE = "PROJ")
-  if (!result[["success"]]) stop("problem in PROJ transformation:\n(likely you don't have system PROJ version 6 or higher), WIP: see help in reproj package")
-  result[c("x_", "y_", "z_", "t_")]
+  result <- .Call("PROJ_proj_trans_list", x = list(x, y, z_, t_), src_ = source, tgt_ = target, PACKAGE = "PROJ")
+  if (is.null(result)) stop("problem in PROJ transformation")
+  names(result) <- c("x_", "y_", "z_", "t_")
+  result
 }
 
+proj_trans <- function(x, target, ..., source = NULL) {
+  if (!getOption("PROJ.HAVE_PROJ6")){
+    stop("'proj_trans()' is not functional on this system")
+
+  }
+  if (missing(target) | !is.character(target)) stop("target must be a string")
+  if (is.null(source) | !is.character(source)) stop("source must be provided as a string")
+  if (is.list(x) || is.data.frame(x)) x <- do.call(cbind, x)
+  nc <- dim(x)[2L]
+  if (!nc %in% c(2, 4)) stop("x coordinates must be 2- or  4-columns")
+  n <- dim(x)[1L]
+  if (!is.numeric(x)) stop("input coordinates must be numeric")
+  if (n < 1) stop("must be at least one coordinate")
+  xx <- split(x, rep(seq_len(nc), each = n))
+  if (nc == 2L) {
+    out <- .Call("proj_trans_xy", x = xx, src_ = source, tgt_ = target, package = "PROJ")
+  }
+  if (nc == 4L) {
+    out <- .Call("proj_trans_list", x = xx, src_ = source, tgt_ = target, package = "PROJ")
+  }
+
+  if (is.null(result)) stop("problem in PROJ transformation")
+  names(result) <- c("x_", "y_")
+  out
+}
 

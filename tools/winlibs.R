@@ -1,3 +1,5 @@
+## see src/Makevars.win
+##
 # Download libproj binaries
 VERSION <- commandArgs(TRUE)
 if(!file.exists(sprintf("../windows/proj-%s/include/proj.h", VERSION))){
