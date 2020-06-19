@@ -1,6 +1,9 @@
 # PROJ dev
 
+* Need proj version 6.1.0 or above thanks to Brian Ripley, and CRAN. 
+
 * Fixed bug not returning transformed z or t. 
+
 * Windows: update to proj 6.3.1
 
 # PROJ 0.1.6

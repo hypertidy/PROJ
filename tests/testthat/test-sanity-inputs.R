@@ -34,11 +34,9 @@ test_that("input checks work", {
 
 test_that("PROJ6 checks work", {
   if (!ok_proj6()) skip("no PROJ6 available, no real testing to do")
-  expect_error(proj_trans_generic(xy, "myfave", source = llproj),
-                              "generic error of unknown origin")
+  expect_error(proj_trans_generic(xy, "myfave", source = llproj))
 
-  expect_error(proj_trans_generic(xy, llproj, source = "myfave"),
-               "generic error of unknown origin")
+  expect_error(proj_trans_generic(xy, llproj, source = "myfave"))
 })
 
 

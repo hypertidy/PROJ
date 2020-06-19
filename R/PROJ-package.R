@@ -6,6 +6,8 @@
 ## usethis namespace: start
 #' @useDynLib PROJ, PROJ_proj_trans_generic
 #' @useDynLib PROJ, PROJ_set_data_dir
+#' @useDynLib PROJ, PROJ_proj_trans_xy
+#' @useDynLib PROJ, PROJ_proj_trans_list
 ## usethis namespace: end
 NULL
 
