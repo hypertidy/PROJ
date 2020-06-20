@@ -80,7 +80,6 @@ if test "${PATH_SEPARATOR+set}" != set; then
   }
 fi
 
-
 # IFS
 # We need space, tab and new line, in precisely that order.  Quoting is
 # there to prevent editors from complaining about space-tab.
