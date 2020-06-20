@@ -20,13 +20,14 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
-          - {os: macOS-latest, r: 'devel',   binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
-          - {os: macOS-latest, r: 'release', binary: 'brew', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
-          - {os: macOS-latest, r: 'devel',   binary: 'brew', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
-          - {os: ubuntu-16.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          - {os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+#          - {os: windows-latest, r: 'release'}
+#          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+#          - {os: macOS-latest, r: 'devel',   binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+#          - {os: macOS-latest, r: 'release', binary: 'brew', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+#          - {os: macOS-latest, r: 'devel',   binary: 'brew', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+#          - {os: ubuntu-16.04, r: 'release', libsrc: 'xenial', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+#          - {os: ubuntu-18.04, r: 'release', libsrc: 'bionic', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+          - {os: ubuntu-18.04, r: 'release', libsrc: 'proj6.3.2', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
 
 
     env:
@@ -57,14 +58,24 @@ jobs:
         run: |
            brew install proj
 
-      - name: Query R package dependencies
+      - name: Linux MINIM system dependencies
+        if: runner.os == 'Linux' && matrix.config.libsrc == 'proj6.3.2'
         run: |
-          install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
-        shell: Rscript {0}
+            curl http://download.osgeo.org/proj/proj-6.3.2.tar.gz > proj-6.3.2.tar.gz
+            tar xzf proj-6.3.2.tar.gz
+            mv proj-6.3.2 proj
+            cd proj
+            CC="ccache gcc" CXX="ccache g++" CFLAGS=-O0 CXXFLAGS=-O0 ./configure --without-static --prefix=/tmp/projinstall
+            echo "\nnproc:"
+            echo $nproc
+            echo "\n"
+            make -j$(nproc)
+            sudo make install -j$(nproc)
+            sudo ldconfig
+
 
       - name: Linux system dependencies
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && matrix.config.libsrc != 'proj6.3.2'
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc  ## required for sysreqs call below
         run: |
@@ -73,6 +84,12 @@ jobs:
           sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
           sudo apt update
           sudo -s eval "$sysreqs"
+
+      - name: Query R package dependencies
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
+        shell: Rscript {0}
 
       - name: Cache R package dependencies
         if: runner.os != 'Windows'
