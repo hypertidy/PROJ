@@ -58,15 +58,15 @@ jobs:
         run: |
            brew install proj
 
-      - name: Linux MINIM system dependencies
+      - name: Linux PROJ build system dependencies
         if: runner.os == 'Linux' && matrix.config.libsrc == 'proj6.3.2'
         run: |
             sudo apt update
             sudo apt install -y cppcheck libsqlite3-dev ccache
             curl http://download.osgeo.org/proj/proj-6.3.2.tar.gz > proj-6.3.2.tar.gz
             tar xzf proj-6.3.2.tar.gz
-            mv proj-6.3.2 proj
-            cd proj
+            mv proj-6.3.2 ../proj
+            cd ../proj
             CC="ccache gcc" CXX="ccache g++" CFLAGS=-O0 CXXFLAGS=-O0 ./configure --without-static --prefix=/tmp/projinstall
             echo "\nnproc:"
             echo $nproc
@@ -74,7 +74,7 @@ jobs:
             make -j$(nproc)
             sudo make install -j$(nproc)
             sudo ldconfig
-
+            cd ../PROJ
 
       - name: Linux system dependencies
         if: runner.os == 'Linux' && matrix.config.libsrc != 'proj6.3.2'
