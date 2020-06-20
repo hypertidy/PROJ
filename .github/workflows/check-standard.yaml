@@ -61,6 +61,9 @@ jobs:
       - name: Linux MINIM system dependencies
         if: runner.os == 'Linux' && matrix.config.libsrc == 'proj6.3.2'
         run: |
+            sudo apt update
+            sudo apt install -y build-essential
+            sudo apt-get install -y sqlite3
             curl http://download.osgeo.org/proj/proj-6.3.2.tar.gz > proj-6.3.2.tar.gz
             tar xzf proj-6.3.2.tar.gz
             mv proj-6.3.2 proj
