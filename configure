@@ -678,6 +678,8 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+with_data_copy
+with_proj_data
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1305,6 +1307,13 @@ if test -n "$ac_init_help"; then
      short | recursive ) echo "Configuration of PROJ 0.0.1:";;
    esac
   cat <<\_ACEOF
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-data-copy=yes/no local copy of data directories in package, default
+                          no
+  --with-proj-data=DIR    location of PROJ data directory
 
 Some influential environment variables:
   CC          C compiler command
@@ -3306,11 +3315,6 @@ else
   projok=no
 fi
 
-#if test "${projok}" = no; then
-#   AC_MSG_ERROR([libproj and/or proj.h not found in standard search locations.
-#
-#*** Install PROJ 6.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
-#fi
 
 
 #undef HAVE_PROJ6_API
@@ -3319,6 +3323,43 @@ if test "${projok}" = yes; then
 else
    CPPFLAGS="${PKG_CPPFLAGS}"
 fi
+
+
+data_copy=no
+
+# Check whether --with-data-copy was given.
+if test "${with_data_copy+set}" = set; then :
+  withval=$with_data_copy; data_copy=$withval
+fi
+
+if test "${data_copy}" = "yes" ; then
+{ $as_echo "$as_me:${as_lineno-$LINENO}: Copy data for:" >&5
+$as_echo "$as_me: Copy data for:" >&6;}
+  proj_lib0="${PROJ_LIB}"
+
+# Check whether --with-proj-data was given.
+if test "${with_proj_data+set}" = set; then :
+  withval=$with_proj_data; proj_lib1=$withval
+fi
+
+  if test -n "${proj_lib0}" ; then
+    proj_lib="${proj_lib0}"
+  else
+    proj_lib="${proj_lib1}"
+  fi
+  if test -n "${proj_lib}" ; then
+    if test -d "${proj_lib}" ; then
+      cp -r "${proj_lib}" "${R_PACKAGE_DIR}"
+      { $as_echo "$as_me:${as_lineno-$LINENO}:   PROJ.4: ${proj_lib}" >&5
+$as_echo "$as_me:   PROJ.4: ${proj_lib}" >&6;}
+    else
+      as_fn_error $? "PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." "$LINENO" 5
+    fi
+  else
+      as_fn_error $? "PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." "$LINENO" 5
+  fi
+fi
+
 
 
 

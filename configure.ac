@@ -24,11 +24,6 @@ CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
 projok=yes
 AC_CHECK_HEADERS(proj.h,,projok=no)
 AC_CHECK_LIB(proj,proj_normalize_for_visualization,,projok=no)
-#if test "${projok}" = no; then
-#   AC_MSG_ERROR([libproj and/or proj.h not found in standard search locations.
-#
-#*** Install PROJ 6.0.0 or higher and if necessary set PKG_CPPFLAGS/PKG_LIBS accordingly.])
-#fi
 
 
 #undef HAVE_PROJ6_API
@@ -37,6 +32,37 @@ if test "${projok}" = yes; then
 else
    CPPFLAGS="${PKG_CPPFLAGS}"
 fi
+
+
+data_copy=no
+AC_ARG_WITH([data-copy],
+    AC_HELP_STRING([--with-data-copy=yes/no],
+               [local copy of data directories in package, default no]),
+               [data_copy=$withval])
+if test "${data_copy}" = "yes" ; then
+AC_MSG_NOTICE([Copy data for:])
+  proj_lib0="${PROJ_LIB}"
+  AC_ARG_WITH([proj-data],
+    AC_HELP_STRING([--with-proj-data=DIR],
+                   [location of PROJ data directory]),
+    [proj_lib1=$withval])
+  if test -n "${proj_lib0}" ; then
+    proj_lib="${proj_lib0}"
+  else
+    proj_lib="${proj_lib1}"
+  fi
+  if test -n "${proj_lib}" ; then
+    if test -d "${proj_lib}" ; then
+      cp -r "${proj_lib}" "${R_PACKAGE_DIR}"
+      AC_MSG_NOTICE([  PROJ.4: ${proj_lib}])
+    else
+      AC_MSG_ERROR([PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR.])
+    fi
+  else
+      AC_MSG_ERROR([PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR.])
+  fi
+fi
+
 AC_ARG_VAR([PKG_CPPFLAGS],[custom C preprocessor flags for packages compilation])
 AC_ARG_VAR([PKG_LIBS],[custom libraries for package compilation])
 
