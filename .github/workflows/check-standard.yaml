@@ -1,7 +1,8 @@
+## copied from vapour 2020-06-20
+
+
 on:
   push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -12,27 +13,28 @@ jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
+
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: '3.6'}
-          - {os: windows-latest, r: '4.0'}
-          - {os: macOS-latest, r: '3.6'}
-          - {os: macOS-latest, r: '4.0'}
-          - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+          - {os: windows-latest, r: 'release'}
+          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+          - {os: macOS-latest, r: 'devel',   binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+          - {os: macOS-latest, r: 'release', binary: 'brew', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+          - {os: macOS-latest, r: 'devel',   binary: 'brew', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+          - {os: ubuntu-16.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
+          - {os: ubuntu-18.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      RSPM: ${{ matrix.config.rspm }}
+      CRAN: ${{ matrix.config.cran }}
 
     steps:
-      - name: Prepare git
-        run: git config --global core.autocrlf false
-
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 
       - uses: r-lib/actions/setup-r@master
         with:
@@ -40,43 +42,75 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - name: Query dependencies
+      - name: MacOS CRAN-binary system dependencies
+        if: runner.os == 'macOS' && matrix.config.binary == 'CRAN'
+        run: |
+           args=("proj")
+           pat=$(echo ${args[@]}|tr " " "|")
+           curl -sL  https://mac.r-project.org/libs-4/ |
+             sed -n 's/.*href=\([^>]*x86_64.tar.gz\).*/\1/p' |
+             grep -E "$pat" |
+             xargs -I % sh -c 'curl https://mac.r-project.org/libs-4/% --output %; sudo tar fvxz % -C /usr/local --strip 2'
+
+      - name: MacOS brew system dependencies
+        if: runner.os == 'macOS' && matrix.config.binary == 'brew'
+        run: |
+           brew install proj
+
+      - name: Query R package dependencies
         run: |
           install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
         shell: Rscript {0}
 
-      - name: Cache R packages
+      - name: Linux system dependencies
+        if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc  ## required for sysreqs call below
+        run: |
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+          sudo apt update
+          sudo -s eval "$sysreqs"
+
+      - name: Cache R package dependencies
         if: runner.os != 'Windows'
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('.github/depends.Rds') }}
+          key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{ hashFiles('depends.Rds') }}
           restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-
 
-      - name: Install system dependencies
-        if: runner.os == 'Linux'
-        env:
-          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+      - name: Install R package dependencies
         run: |
-          Rscript -e "remotes::install_github('r-hub/sysreqs')"
-          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
-          sudo -s eval "$sysreqs"
-
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE)
+          library(remotes)
+          deps <- readRDS("depends.Rds")
+          deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
+          update(deps)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
-      - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+      - name: R CMD check windows
+        if: runner.os == 'Windows'
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
+      - name: R CMD check (not Windows)
+        if: runner.os != 'Windows'
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "${{ matrix.config.args }}"), error_on = "warning", check_dir = "check", build_args = "${{ matrix.config.build_args }}")
+        shell: Rscript {0}
+
+#      - name: Build
+#        run: |
+#          pkg_path <- pkgbuild::build(binary = TRUE)
+#          dir.create("build")
+#          file.copy(pkg_path, "build")
+#        shell: Rscript {0}
+
+
       - name: Upload check results
-        if: failure()
+        if: failure() #success()
         uses: actions/upload-artifact@master
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
