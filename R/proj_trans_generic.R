@@ -50,7 +50,7 @@ proj_trans_generic <- function(x, target, ..., source = NULL, z_ = 0, t_ = 0) {
   if (!(lx > 0 && length(z_) == lx && length(t_) == lx && is.numeric(z_) && is.numeric(t_) )) {
     stop("x, z_, t_ must be numeric and compatible lengths")
   }
-  result <- .Call("PROJ_proj_trans_list", x = list(x, y, z_, t_), src_ = source, tgt_ = target, PACKAGE = "PROJ")
+  result <- .Call("PROJ_proj_trans_list", x = list(as.numeric(x), as.numeric(y), as.numeric(z_), as.numeric(t_)), src_ = source, tgt_ = target, PACKAGE = "PROJ")
   if (is.null(result)) stop("problem in PROJ transformation")
   names(result) <- c("x_", "y_", "z_", "t_")
   result
