@@ -2,9 +2,12 @@
 % Please edit documentation in R/proj_trans_generic.R
 \name{proj_trans_generic}
 \alias{proj_trans_generic}
+\alias{proj_trans}
 \title{Transform a set of coordinates with 'PROJ'}
 \usage{
 proj_trans_generic(x, target, ..., source = NULL, z_ = 0, t_ = 0)
+
+proj_trans(x, target, ..., source = NULL, z_ = NULL, t_ = NULL)
 }
 \arguments{
 \item{x}{input coordinates (x,y, list or matrix see \code{z_} and \code{t_})}
@@ -23,9 +26,16 @@ proj_trans_generic(x, target, ..., source = NULL, z_ = 0, t_ = 0)
 list of transformed coordinates, with 4-elements \code{x_}, \code{y_}, \code{z_}, \code{t_}
 }
 \description{
-A raw interface to proj_trans_generic in 'PROJ => 6', if it is available.
+A raw interface to 'proj_trans' in 'PROJ => 6', if it is available.
 }
 \details{
+'proj_trans_generic()' and 'proj_trans()' have the same arguments, but differ
+in the default values of \code{z_} and \code{t_}, \code{0} or \code{NULL}. 'proj_trans_generic()' always
+returns a list for 4 elements, 'proj_trans()' will return 2 or 4 depending on the input.
+
+'proj_trans_generic()' is a misnomer in that 'proj_trans' is the function from the PROJ
+library that is now used.
+
 Input 'x' is assumed to be 2-columns of "x", then "y" coordinates. If "z" or
 "t" is required pass these in as named vectors with "z_" and "t_". For simplifying reasons
 \code{z_} and \code{t_} must always match the length of \code{x} \code{y}. Both default to 0, and are automatically
