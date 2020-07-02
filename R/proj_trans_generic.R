@@ -56,29 +56,34 @@ proj_trans_generic <- function(x, target, ..., source = NULL, z_ = 0, t_ = 0) {
   result
 }
 
-proj_trans <- function(x, target, ..., source = NULL) {
+proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {
   if (!getOption("PROJ.HAVE_PROJ6")){
     stop("'proj_trans()' is not functional on this system")
 
   }
   if (missing(target) | !is.character(target)) stop("target must be a string")
   if (is.null(source) | !is.character(source)) stop("source must be provided as a string")
-  if (is.list(x) || is.data.frame(x)) x <- do.call(cbind, x)
+  if (is.list(x) || is.data.frame(x)) x <- do.call(cbind, x[1:2])
+  if (!is.null(z_) && is.null(t_)) t_ <- 0
+  if (is.null(z_) && !is.null(t_)) z_ <- 0
+  x <- cbind(x, z_, t_)
   nc <- dim(x)[2L]
-  if (!nc %in% c(2, 4)) stop("x coordinates must be 2- or  4-columns")
+
+  if (!nc %in% c(2, 4)) stop("x coordinates must be 2-column, with z_ and or t_ provide separately")
   n <- dim(x)[1L]
   if (!is.numeric(x)) stop("input coordinates must be numeric")
   if (n < 1) stop("must be at least one coordinate")
   xx <- split(x, rep(seq_len(nc), each = n))
+  xx <- lapply(xx, as.numeric)  ## no integer
   if (nc == 2L) {
-    out <- .Call("proj_trans_xy", x = xx, src_ = source, tgt_ = target, package = "PROJ")
+    out <- .Call("PROJ_proj_trans_xy", x_ = xx[[1L]], y_ = xx[[2L]], src_ = source, tgt_ = target, PACKAGE = "PROJ")
   }
   if (nc == 4L) {
-    out <- .Call("proj_trans_list", x = xx, src_ = source, tgt_ = target, package = "PROJ")
+    out <- .Call("PROJ_proj_trans_list", x = xx, src_ = source, tgt_ = target, PACKAGE = "PROJ")
   }
 
-  if (is.null(result)) stop("problem in PROJ transformation")
-  names(result) <- c("x_", "y_")
+  if (is.null(out)) stop("problem in PROJ transformation")
+  names(out) <- if (nc == 2L) c("x_", "y_") else c("x_", "y_", "z_", "t_")
   out
 }
 
