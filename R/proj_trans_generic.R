@@ -1,6 +1,13 @@
 #' Transform a set of coordinates with 'PROJ'
 #'
-#' A raw interface to proj_trans_generic in 'PROJ => 6', if it is available.
+#' A raw interface to 'proj_trans' in 'PROJ => 6', if it is available.
+#'
+#' 'proj_trans_generic()' and 'proj_trans()' have the same arguments, but differ
+#'  in the default values of `z_` and `t_`, `0` or `NULL`. 'proj_trans_generic()' always
+#'  returns a list for 4 elements, 'proj_trans()' will return 2 or 4 depending on the input.
+#'
+#'  'proj_trans_generic()' is a misnomer in that 'proj_trans' is the function from the PROJ
+#'  library that is now used.
 #'
 #' Input 'x' is assumed to be 2-columns of "x", then "y" coordinates. If "z" or
 #' "t" is required pass these in as named vectors with "z_" and "t_". For simplifying reasons
@@ -55,7 +62,8 @@ proj_trans_generic <- function(x, target, ..., source = NULL, z_ = 0, t_ = 0) {
   names(result) <- c("x_", "y_", "z_", "t_")
   result
 }
-
+#' @name proj_trans_generic
+#' @export
 proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {
   if (!getOption("PROJ.HAVE_PROJ6")){
     stop("'proj_trans()' is not functional on this system")

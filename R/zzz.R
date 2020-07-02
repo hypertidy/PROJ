@@ -1,18 +1,18 @@
-.set_proj_data_on_windows <- function(proj_data){
+.set_proj_data_on_os <- function(proj_data){
   ## return logical vector of length two
-  ok <- FALSE
-  if (.Platform[["OS.type"]] == "windows") {
+  ok <- winmac <- FALSE
+  if (tolower(Sys.info()[["sysname"]]) %in%  c("windows", "darwin")) {
      l <- .Call("PROJ_set_data_dir", proj_data)
      ok <- TRUE; ## !inherits(l, "try-error")
+     winmac <- TRUE
   }
-  c(windows = .Platform[["OS.type"]] == "windows",
-    ok = ok)
+  c(windows_or_mac = winmac, ok = ok)
 }
 
 .onLoad <- function(libname, pkgname) {
-  windows_ok <- .set_proj_data_on_windows(system.file("proj", package = "PROJ", mustWork = FALSE))
-  if (windows_ok["windows"] && windows_ok["ok"]) options(PROJ.HAVE_PROJ6 = TRUE)
-  if (!windows_ok["windows"]) {
+  windows_ok <- .set_proj_data_on_os(system.file("proj", package = "PROJ", mustWork = FALSE))
+  if (windows_ok["windows_or_mac"] && windows_ok["ok"]) options(PROJ.HAVE_PROJ6 = TRUE)
+  if (!windows_ok["windows_or_mac"]) {
     ok <- ok_proj6()
     if (ok) options(PROJ.HAVE_PROJ6 = ok)
   }

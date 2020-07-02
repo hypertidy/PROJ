@@ -2,6 +2,7 @@
 
 export(ok_proj6)
 export(proj_create)
+export(proj_trans)
 export(proj_trans_generic)
 useDynLib(PROJ, PROJ_proj_trans_generic)
 useDynLib(PROJ, PROJ_proj_trans_list)
