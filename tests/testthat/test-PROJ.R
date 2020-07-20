@@ -23,7 +23,7 @@ test_that("PROJ works", {
 test_that("set proj does nothing on unix", {
   if (!ok_proj6()) skip("no PROJ6 available, no real testing to do")
   if (.Platform$OS.type == "unix") {
-    expect_equal(.set_proj_data_on_windows("tfile"), c(windows = FALSE, ok = FALSE))
+    expect_equal(.set_proj_data_on_os("tfile"), c(windows = FALSE, ok = FALSE))
   }
   ## don't test this on Windows
 })
