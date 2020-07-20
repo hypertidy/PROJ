@@ -30,7 +30,6 @@ SystemRequirements: proj (>= 6.1.0 required for full operation, package will ins
  and pass check with lower versions or even if no PROJ available)
 Suggests: 
     testthat (>= 2.1.0),
-    covr,
     spelling,
     knitr,
     rmarkdown
