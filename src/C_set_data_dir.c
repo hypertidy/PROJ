@@ -11,7 +11,7 @@ SEXP PROJ_set_data_dir(SEXP data_dir){
    const char*  paths[] = {stra};
   proj_context_set_search_paths(PJ_DEFAULT_CTX, 1, paths);
 #else
-  Rf_error("Version of proj too old for proj_context_set_search_paths");
+  Rf_error("Version of proj too old (need 6.1.0) for proj_context_set_search_paths");
 #endif
  return data_dir;
 }
