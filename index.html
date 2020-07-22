@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
 <li>Why not proj4? It’s not maintained in a way that works for me.</li>
 <li>Why not sf? It brings a lot of baggage, and can’t do geocentric transformations.</li>
 <li>Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric.</li>
-<li>Why not lgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes.</li>
+<li>Why not lwgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes.</li>
 <li>Why not mapproj? This is unusable for real-world projections in my experience, it seems to be written for some basic graphics cases.</li>
 <li>Why not reproj? reproj will be improved by importing PROJ. This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond.</li>
 </ul>
@@ -122,6 +122,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>WIP - see the matrix set up in .travis.yml, and the scripts in ci/travis/ - much gratitude to GDAL for examples of how to do all this!</p>
+<p>See ./.github/workflows/check-standard.yaml for the Github Actions approach, many thanks to James Balamuta.</p>
 </div>
 </div>
 <div id="notes" class="section level1">
@@ -138,15 +139,14 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Minimal code example, two lon-lat coordinates to LAEA, and back.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/hypertidy/PROJ">PROJ</a></span>)
-<span class="kw">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">147</span>)
-<span class="kw">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="op">-</span><span class="fl">42</span>)
-<span class="kw">dst</span> <span class="op">&lt;-</span> <span class="st">"+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"</span>
-<span class="kw">src</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +datum=WGS84"</span>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PROJ</span>)
+<span class="no">lon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">147</span>)
+<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, -<span class="fl">42</span>)
+<span class="no">dst</span> <span class="kw">&lt;-</span> <span class="st">"+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"</span>
+<span class="no">src</span> <span class="kw">&lt;-</span> <span class="st">"+proj=longlat +datum=WGS84"</span>
 
 <span class="co">## forward transformation</span>
-(<span class="kw">xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>( <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">lon</span>, <span class="kw">lat</span>), <span class="kw">dst</span>, source = <span class="kw">src</span>))
+(<span class="no">xy</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>( <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">lon</span>, <span class="no">lat</span>), <span class="no">dst</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="no">src</span>))
 <span class="co">#&gt; $x_</span>
 <span class="co">#&gt; [1] -8013029        0</span>
 <span class="co">#&gt; </span>
@@ -160,7 +160,7 @@
 <span class="co">#&gt; [1] 0 0</span>
 
 <span class="co">## inverse transformation</span>
-<span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">xy</span><span class="op">$</span><span class="kw">x_</span>, <span class="kw">xy</span><span class="op">$</span><span class="kw">y_</span>), <span class="kw">src</span>, source = <span class="kw">dst</span>)
+<span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">xy</span>$<span class="no">x_</span>, <span class="no">xy</span>$<span class="no">y_</span>), <span class="no">src</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="no">dst</span>)
 <span class="co">#&gt; $x_</span>
 <span class="co">#&gt; [1]   0 147</span>
 <span class="co">#&gt; </span>
@@ -175,33 +175,27 @@
 
 
 <span class="co">## note that NAs propagate in the usual way</span>
-<span class="kw">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">NA</span>, <span class="fl">147</span>)
-<span class="kw">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">NA</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">42</span>)
-</pre></div>
+<span class="no">lon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">NA</span>, <span class="fl">147</span>)
+<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">NA</span>, <span class="fl">0</span>, -<span class="fl">42</span>)</pre></div>
 <p>A more realistic example with coastline map data.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/hypertidy/PROJ">PROJ</a></span>)
-<span class="kw">w</span> <span class="op">&lt;-</span> <span class="kw">PROJ</span>::<span class="kw"><a href="reference/xymap.html">xymap</a></span>
-<span class="kw">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="kw">w</span>[,<span class="fl">1</span>])
-<span class="kw">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="kw">w</span>[,<span class="fl">2</span>])
-<span class="kw">dst</span> <span class="op">&lt;-</span> <span class="st">"+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"</span>
-<span class="kw">xyzt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">lon</span>, <span class="kw">lat</span>), <span class="kw">dst</span>, source = <span class="st">"epsg:4326"</span>, z_ = <span class="fl">0</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">xyzt</span><span class="op">$</span><span class="kw">x_</span>, <span class="kw">xyzt</span><span class="op">$</span><span class="kw">y_</span>, pch = <span class="st">"."</span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PROJ</span>)
+<span class="no">w</span> <span class="kw">&lt;-</span> <span class="kw pkg">PROJ</span><span class="kw ns">::</span><span class="no"><a href="reference/xymap.html">xymap</a></span>
+<span class="no">lon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="no">w</span>[,<span class="fl">1</span>])
+<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="no">w</span>[,<span class="fl">2</span>])
+<span class="no">dst</span> <span class="kw">&lt;-</span> <span class="st">"+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"</span>
+<span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">lon</span>, <span class="no">lat</span>), <span class="no">dst</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"epsg:4326"</span>, <span class="kw">z_</span> <span class="kw">=</span> <span class="fl">0</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">xyzt</span>$<span class="no">x_</span>, <span class="no">xyzt</span>$<span class="no">y_</span>, <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>)</pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-
-<span class="kw">lonlat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw">xyzt</span>, <span class="kw">src</span>, source = <span class="kw">dst</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">lonlat</span><span class="op">$</span><span class="kw">x_</span>, <span class="kw">lonlat</span><span class="op">$</span><span class="kw">y_</span>, pch = <span class="st">"."</span>)
-</pre></div>
+<div class="sourceCode" id="cb3"><pre class="r">
+<span class="no">lonlat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="no">xyzt</span>, <span class="no">src</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="no">dst</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">lonlat</span>$<span class="no">x_</span>, <span class="no">lonlat</span>$<span class="no">y_</span>, <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>)</pre></div>
 <p><img src="reference/figures/README-example-2.png" width="100%"></p>
 </div>
 <div id="convert-projection-strings" class="section level2">
 <h2 class="hasAnchor">
 <a href="#convert-projection-strings" class="anchor"></a>Convert projection strings</h2>
 <p>We can generate PROJ or within limitations WKT2 strings.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw">wkt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_create.html">proj_create</a></span>(<span class="st">"EPSG:4326"</span>))
+<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="no">wkt2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_create.html">proj_create</a></span>(<span class="st">"EPSG:4326"</span>))
 <span class="co">#&gt; GEOGCRS["WGS 84",</span>
 <span class="co">#&gt;     DATUM["World Geodetic System 1984",</span>
 <span class="co">#&gt;         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
@@ -226,59 +220,49 @@
 <span class="co">#&gt; CONVERSION["PROJ-based coordinate operation",</span>
 <span class="co">#&gt;     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]</span>
 
-<span class="fu"><a href="reference/proj_create.html">proj_create</a></span>(<span class="kw">wkt2</span>, format = <span class="fl">1L</span>)
-<span class="co">#&gt; [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</span>
-</pre></div>
+<span class="fu"><a href="reference/proj_create.html">proj_create</a></span>(<span class="no">wkt2</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="fl">1L</span>)
+<span class="co">#&gt; [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</span></pre></div>
 </div>
 </div>
 <div id="speed-comparisons" class="section level1">
 <h1 class="hasAnchor">
 <a href="#speed-comparisons" class="anchor"></a>Speed comparisons</h1>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">reproj</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">rgdal</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">lwgeom</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">sf</span>)
+<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">reproj</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rgdal</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">lwgeom</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
 <span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'sf'</span>
-<span class="co">#&gt; The following object is masked from 'package:lwgeom':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     st_make_valid</span>
-<span class="kw">lon</span> <span class="op">&lt;-</span> <span class="kw">w</span>[,<span class="fl">1</span>]
-<span class="kw">lat</span> <span class="op">&lt;-</span> <span class="kw">w</span>[,<span class="fl">2</span>]
-<span class="kw">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="kw">lon</span>, <span class="fl">25</span>)
-<span class="kw">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="kw">lat</span>, <span class="fl">25</span>)
-<span class="kw">ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">lon</span>, <span class="kw">lat</span>)
-<span class="kw">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw">lon</span>))
-<span class="kw">llproj</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +datum=WGS84"</span>
+<span class="no">lon</span> <span class="kw">&lt;-</span> <span class="no">w</span>[,<span class="fl">1</span>]
+<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="no">w</span>[,<span class="fl">2</span>]
+<span class="no">lon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="no">lon</span>, <span class="fl">25</span>)
+<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="no">lat</span>, <span class="fl">25</span>)
+<span class="no">ll</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">lon</span>, <span class="no">lat</span>)
+<span class="no">z</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">lon</span>))
+<span class="no">llproj</span> <span class="kw">&lt;-</span> <span class="st">"+proj=longlat +datum=WGS84"</span>
 
-<span class="kw">xyz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">lon</span>, <span class="kw">lat</span>, <span class="kw">z</span>)
-<span class="kw">xyzt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">lon</span>, <span class="kw">lat</span>, <span class="kw">z</span>, <span class="fl">0</span>)
+<span class="no">xyz</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">lon</span>, <span class="no">lat</span>, <span class="no">z</span>)
+<span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">lon</span>, <span class="no">lat</span>, <span class="no">z</span>, <span class="fl">0</span>)
 <span class="co"># stll &lt;- sf::st_crs(llproj)</span>
 <span class="co"># sfx &lt;- sf::st_sfc(sf::st_multipoint(ll), crs = stll) </span>
 
-<span class="kw">rbenchmark</span>::<span class="fu">benchmark</span>(
-          PROJ = <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="kw">ll</span>, target = <span class="kw">dst</span>, source = <span class="kw">llproj</span>, z_ = <span class="kw">z</span>),
-          reproj = <span class="fu">reproj</span>(<span class="kw">ll</span>, target = <span class="kw">dst</span>, source = <span class="kw">llproj</span>),
-          rgdal = <span class="fu">project</span>(<span class="kw">ll</span>, <span class="kw">dst</span>),
-          sf_project = <span class="fu">sf_project</span>(<span class="kw">llproj</span>, <span class="kw">dst</span>, <span class="kw">ll</span>),
+<span class="kw pkg">rbenchmark</span><span class="kw ns">::</span><span class="fu">benchmark</span>(
+          <span class="kw">PROJ</span> <span class="kw">=</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="no">ll</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="no">dst</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="no">llproj</span>, <span class="kw">z_</span> <span class="kw">=</span> <span class="no">z</span>),
+          <span class="kw">reproj</span> <span class="kw">=</span> <span class="fu">reproj</span>(<span class="no">ll</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="no">dst</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="no">llproj</span>),
+          <span class="kw">rgdal</span> <span class="kw">=</span> <span class="fu">project</span>(<span class="no">ll</span>, <span class="no">dst</span>),
+          <span class="kw">sf_project</span> <span class="kw">=</span> <span class="fu">sf_project</span>(<span class="no">llproj</span>, <span class="no">dst</span>, <span class="no">ll</span>),
         <span class="co"># lwgeom = st_transform_proj(sfx, dst),</span>
         <span class="co"># sf = st_transform(sfx, dst),</span>
-        replications = <span class="fl">100</span>) <span class="op">%&gt;%</span>
-  <span class="kw">dplyr</span>::<span class="fu">arrange</span>(<span class="kw">elapsed</span>) <span class="op">%&gt;%</span> <span class="kw">dplyr</span>::<span class="fu">select</span>(<span class="kw">test</span>, <span class="kw">elapsed</span>, <span class="kw">replications</span>)
+        <span class="kw">replications</span> <span class="kw">=</span> <span class="fl">100</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">arrange</span>(<span class="no">elapsed</span>) <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">select</span>(<span class="no">test</span>, <span class="no">elapsed</span>, <span class="no">replications</span>)
 <span class="co">#&gt;         test elapsed replications</span>
-<span class="co">#&gt; 1 sf_project   7.538          100</span>
-<span class="co">#&gt; 2      rgdal   7.754          100</span>
-<span class="co">#&gt; 3       PROJ   8.022          100</span>
-<span class="co">#&gt; 4     reproj   8.942          100</span>
-</pre></div>
+<span class="co">#&gt; 1 sf_project   9.086          100</span>
+<span class="co">#&gt; 2      rgdal   9.160          100</span>
+<span class="co">#&gt; 3       PROJ   9.854          100</span>
+<span class="co">#&gt; 4     reproj  11.000          100</span></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">xyzt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw">w</span>[,<span class="fl">1</span>], <span class="kw">w</span>[,<span class="fl">2</span>]), target = <span class="st">"+proj=geocent +datum=WGS84"</span>, source = <span class="st">"EPSG:4326"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="kw">xyzt</span>[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>]), pch = <span class="st">"."</span>, asp = <span class="fl">1</span>)
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">w</span>[,<span class="fl">1</span>], <span class="no">w</span>[,<span class="fl">2</span>]), <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"EPSG:4326"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">xyzt</span>[<span class="fl">1</span>:<span class="fl">3</span>]), <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>, <span class="kw">asp</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
 <p><img src="reference/figures/README-geocentric-1.png" width="100%"></p>
 <p>Geocentric transformations aren’t used in R much, but some examples are found in the <a href="https://CRAN.R-project.org/package=quadmesh">quadmesh</a> and <a href="https://github.com/hypertidy/anglr">anglr</a> packages.</p>
 <div id="why-proj" class="section level2">
@@ -362,7 +346,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

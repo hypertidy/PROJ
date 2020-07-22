@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -117,13 +117,31 @@
       <small>Source: <a href='https://github.com/hypertidy/PROJ/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="proj-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#proj-020" class="anchor"></a>PROJ 0.2.0<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>Now using Github Actions to test linux, windows, macos. Many thanks to James Balamuta for guidance on how to do this.</p></li>
+<li><p>The internal C functionality calling the PROJ library now uses .Call rather than .C. The .C function <code>PROJ_proj_trans_generic()</code> is now not used and will be removed.</p></li>
+<li><p>On load behaviour has changed, on Windows and MacOS a check is made for a local copy of the proj/ PROJ data directory with metadata files. If this is present, the path to that folder is set using the underlying PROJ library function <code>proj_context_set_search_paths()</code>.</p></li>
+</ul>
+<p>This is only relevant to Windows and MacOS <strong>static builds</strong>, these are self-contained, the R package contains the PROJ library and everything it needs. Generally in other installations (brew on MacOS, apt install, or from source builds on Linux) the PROJ library self-configures and knows where to find this directory.</p>
+<p>This is automatic for source builds on Windows which download pre-built binaries and data from <a href="https://github.com/rwinlib" class="uri">https://github.com/rwinlib</a>, and so will be using a given PROJ version.</p>
+<p>On MacOS, this only occurs if configure options <code>--with-data-copy=yes</code> and <code>--with-proj-data=DIR</code> are used. This is done manually on CRAN by admins. The current version used can be found at <a href="https://mac.r-project.org/libs-4/" class="uri">https://mac.r-project.org/libs-4/</a>.</p>
+<ul>
+<li><p>Need proj version 6.1.0 or above, and a configuration fix on MacOS for libsqlite thanks to Brian Ripley, and CRAN.</p></li>
+<li><p>Fixed bug not returning transformed z or t.</p></li>
+<li><p>Windows: update to proj 6.3.1</p></li>
+</ul>
+</div>
     <div id="proj-016" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.6">
 <a href="#proj-016" class="anchor"></a>PROJ 0.1.6<small> 2020-04-15 </small>
 </h1>
 <ul>
 <li><p>We now use the PROJ::proj_trans internally, and just loop over vectors. (so proj_trans_generic is a misnomer, technically).</p></li>
-<li><p>Prevent error on out of bounds values from <code><a href="https://rdrr.io/pkg/PROJ/man/proj_trans_generic.html">proj_trans_generic()</a></code>. We get <code>Inf</code>.</p></li>
+<li><p>Prevent error on out of bounds values from <code><a href="../reference/proj_trans_generic.html">proj_trans_generic()</a></code>. We get <code>Inf</code>.</p></li>
 </ul>
 </div>
     <div id="proj-015" class="section level1">
@@ -161,7 +179,7 @@
 <a href="#proj-001" class="anchor"></a>PROJ 0.0.1<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>R function <code>proj_trans()</code> gains a <code>quiet</code> argument to control output of warnings about missing values.</p></li>
+<li><p>R function <code><a href="../reference/proj_trans_generic.html">proj_trans()</a></code> gains a <code>quiet</code> argument to control output of warnings about missing values.</p></li>
 <li><p>New C functions <code>R_proj_trans_FWD()</code> and <code>R_proj_trans_INV()</code> using the base R API. Interface is matrix in, matrix out always with three columns out as per reproj.</p></li>
 <li><p>First working code with Rcpp function <code>proj_trans_cpp()</code>.</p></li>
 </ul>
@@ -183,7 +201,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
