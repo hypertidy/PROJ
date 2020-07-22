@@ -32,18 +32,18 @@ PROJ version 7, full function 🤸 <!-- badges: end -->
 The goal of PROJ is to provide generic coordinate system transformations
 in R with a functional requirement for the system library PROJ \>= 6.
 
-This is same goal as the
-[reproj](https://cran.r-project.org/package=reproj) package, but
-provided for later versions of the underlying library. Reproj currently
-uses PROJ 4 or 5 via the proj4 package, so PROJ augments that coverage
-for the more modern library versions.
+This is a shared goal with the
+[reproj](https://cran.r-project.org/package=reproj) package, and PROJ
+provides the infrastructure for later versions of the underlying
+library. Reproj otherwise uses the
+[proj4](https://cran.r-project.org/package=roj4) package, for library
+versions less than 6.
 
-I need basic coordinate transformations for matrices or data frames with
-efficient vectors of coordinate fields. Constantly unpacking and packing
-basic data from formats is labourious, error-prone, and brittle.
-Transforming spatial data coordinates is a basic task.
+PROJ provides basic coordinate transformations for generic numeric data
+in matrices or data frames. Transforming spatial data coordinates is a
+basic task, and has nothing to do with storage format.
 
-PROJ is strictly for version 6.0.0 or higher of the PROJ library. The
+PROJ is strictly for version 6 or higher of the PROJ library. The
 intention is that this package will be used for when that version is
 available, and this package can be compiled and installed even when it
 cannot do anything. For older versions of PROJ (5, and 4) we can use the
@@ -86,8 +86,7 @@ write “WGS84” as a valid source or target is a massive bonus.
 
 ## WHY
 
-This package strips code out of the development version of proj4, with
-attribution to the author.
+A quick list, see more below.
 
   - Why not proj4? It’s not maintained in a way that works for me.
   - Why not sf? It brings a lot of baggage, and can’t do geocentric
@@ -104,6 +103,26 @@ attribution to the author.
     version 6 and 7 and beyond.
 
 ## Installation
+
+On Windows and MacOS, just do
+
+``` r
+install.packages("PROJ")
+```
+
+or
+
+``` r
+remotes::install_cran("PROJ")
+```
+
+to install the *static* binary version of the package. On Windows this
+ends in .zip, on MacOS it’s a .tgz. *Static* means all the stuff is in
+the package, there’s no pre-requirement installations.
+
+For a brew installation on MacOS, first do
+
+    brew install proj
 
 WIP - see the matrix set up in .travis.yml, and the scripts in
 ci/travis/ - much gratitude to GDAL for examples of how to do all this\!
@@ -254,10 +273,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   9.086          100
-#> 2      rgdal   9.160          100
-#> 3       PROJ   9.854          100
-#> 4     reproj  11.000          100
+#> 1 sf_project   8.403          100
+#> 2      rgdal   9.023          100
+#> 3       PROJ   9.606          100
+#> 4     reproj  10.387          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
