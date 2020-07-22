@@ -95,7 +95,7 @@ attribution to the author.
 * Why not proj4?  It's not maintained in a way that works for me. 
 * Why not sf?  It brings a lot of baggage, and can't do geocentric transformations. 
 * Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric. 
-* Why not lgeom? That package is format-specific, and does not work with generic
+* Why not lwgeom? That package is format-specific, and does not work with generic
 data coordinates so is unsuitable for many straightforward and efficient
 data-handling schemes.
 * Why not mapproj? This is unusable for real-world projections in my experience,
@@ -105,11 +105,12 @@ extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7
 and beyond.
 
 
-
 ## Installation
 
 WIP - see the matrix set up in .travis.yml, and the scripts in ci/travis/ - much
-gratitude to GDAL for examples of how to do all this!
+gratitude to GDAL for examples of how to do all this!  
+
+See ./.github/workflows/check-standard.yaml for the Github Actions approach, many thanks to James Balamuta. 
 
 
 # Notes

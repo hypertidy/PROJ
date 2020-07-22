@@ -1,5 +1,7 @@
 # PROJ 0.2.0
 
+* Now using Github Actions to test linux, windows, macos. Many thanks to James Balamuta for guidance on how to do this. 
+
 * The internal C functionality calling the PROJ library now uses .Call rather than .C. The .C function
  `PROJ_proj_trans_generic()` is now not used and will be removed. 
 
