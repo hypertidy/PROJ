@@ -94,7 +94,7 @@ attribution to the author.
     transformations.
   - Why not rgdal? Still baggage, no transformations possible without
     special data formats, no geocentric.
-  - Why not lgeom? That package is format-specific, and does not work
+  - Why not lwgeom? That package is format-specific, and does not work
     with generic data coordinates so is unsuitable for many
     straightforward and efficient data-handling schemes.
   - Why not mapproj? This is unusable for real-world projections in my
@@ -107,6 +107,9 @@ attribution to the author.
 
 WIP - see the matrix set up in .travis.yml, and the scripts in
 ci/travis/ - much gratitude to GDAL for examples of how to do all this\!
+
+See ./.github/workflows/check-standard.yaml for the Github Actions
+approach, many thanks to James Balamuta.
 
 # Notes
 
@@ -228,11 +231,6 @@ library(rgdal)
 library(lwgeom)
 library(sf)
 #> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
-#> 
-#> Attaching package: 'sf'
-#> The following object is masked from 'package:lwgeom':
-#> 
-#>     st_make_valid
 lon <- w[,1]
 lat <- w[,2]
 lon <- rep(lon, 25)
@@ -256,10 +254,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   7.538          100
-#> 2      rgdal   7.754          100
-#> 3       PROJ   8.022          100
-#> 4     reproj   8.942          100
+#> 1 sf_project   9.086          100
+#> 2      rgdal   9.160          100
+#> 3       PROJ   9.854          100
+#> 4     reproj  11.000          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
