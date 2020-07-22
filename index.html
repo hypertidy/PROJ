@@ -89,9 +89,9 @@
 
 <p><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj0&amp;label=PROJ0" alt="Travis NOPROJ"></a> no PROJ available 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj4&amp;label=PROJ4" alt="Travis PROJ4"></a> PROJ.4 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ5" alt="Travis PROJ5"></a> PROJ 5 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj6&amp;label=PROJ6" alt="Travis PROJ6"></a> PROJ version 6, full function 🚀 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj7&amp;label=PROJ7" alt="Travis PROJ7"></a> PROJ version 7, full function 🤸 <!-- badges: end --></p>
 <p>The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library PROJ &gt;= 6.</p>
-<p>This is same goal as the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, but provided for later versions of the underlying library. Reproj currently uses PROJ 4 or 5 via the proj4 package, so PROJ augments that coverage for the more modern library versions.</p>
-<p>I need basic coordinate transformations for matrices or data frames with efficient vectors of coordinate fields. Constantly unpacking and packing basic data from formats is labourious, error-prone, and brittle. Transforming spatial data coordinates is a basic task.</p>
-<p>PROJ is strictly for version 6.0.0 or higher of the PROJ library. The intention is that this package will be used for when that version is available, and this package can be compiled and installed even when it cannot do anything. For older versions of PROJ (5, and 4) we can use the proj4 package.</p>
+<p>This is a shared goal with the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, and PROJ provides the infrastructure for later versions of the underlying library. Reproj otherwise uses the <a href="https://cran.r-project.org/package=roj4">proj4</a> package, for library versions less than 6.</p>
+<p>PROJ provides basic coordinate transformations for generic numeric data in matrices or data frames. Transforming spatial data coordinates is a basic task, and has nothing to do with storage format.</p>
+<p>PROJ is strictly for version 6 or higher of the PROJ library. The intention is that this package will be used for when that version is available, and this package can be compiled and installed even when it cannot do anything. For older versions of PROJ (5, and 4) we can use the proj4 package.</p>
 <p>Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. This is the same approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format.</p>
 <p>We can use “auth:code” forms, PROJ.4 strings, full WKT2, or the name of a CRS as found in the PROJ database, e.g “WGS84”, “NAD27”, etc. Full details are provided in the <a href="https://proj.org/development/reference/functions.html#c.proj_create">PROJ documentation</a>.</p>
 <div id="things-to-be-aware-of" class="section level2">
@@ -108,7 +108,7 @@
 <div id="why" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why" class="anchor"></a>WHY</h2>
-<p>This package strips code out of the development version of proj4, with attribution to the author.</p>
+<p>A quick list, see more below.</p>
 <ul>
 <li>Why not proj4? It’s not maintained in a way that works for me.</li>
 <li>Why not sf? It brings a lot of baggage, and can’t do geocentric transformations.</li>
@@ -121,6 +121,13 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
+<p>On Windows and MacOS, just do</p>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"PROJ"</span>)</pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_cran.html">install_cran</a></span>(<span class="st">"PROJ"</span>)</pre></div>
+<p>to install the <em>static</em> binary version of the package. On Windows this ends in .zip, on MacOS it’s a .tgz. <em>Static</em> means all the stuff is in the package, there’s no pre-requirement installations.</p>
+<p>For a brew installation on MacOS, first do</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>brew install proj</span></code></pre></div>
 <p>WIP - see the matrix set up in .travis.yml, and the scripts in ci/travis/ - much gratitude to GDAL for examples of how to do all this!</p>
 <p>See ./.github/workflows/check-standard.yaml for the Github Actions approach, many thanks to James Balamuta.</p>
 </div>
@@ -139,7 +146,7 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Minimal code example, two lon-lat coordinates to LAEA, and back.</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PROJ</span>)
+<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PROJ</span>)
 <span class="no">lon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">147</span>)
 <span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, -<span class="fl">42</span>)
 <span class="no">dst</span> <span class="kw">&lt;-</span> <span class="st">"+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"</span>
@@ -178,7 +185,7 @@
 <span class="no">lon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">NA</span>, <span class="fl">147</span>)
 <span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">NA</span>, <span class="fl">0</span>, -<span class="fl">42</span>)</pre></div>
 <p>A more realistic example with coastline map data.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PROJ</span>)
+<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PROJ</span>)
 <span class="no">w</span> <span class="kw">&lt;-</span> <span class="kw pkg">PROJ</span><span class="kw ns">::</span><span class="no"><a href="reference/xymap.html">xymap</a></span>
 <span class="no">lon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="no">w</span>[,<span class="fl">1</span>])
 <span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="no">w</span>[,<span class="fl">2</span>])
@@ -186,7 +193,7 @@
 <span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">lon</span>, <span class="no">lat</span>), <span class="no">dst</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"epsg:4326"</span>, <span class="kw">z_</span> <span class="kw">=</span> <span class="fl">0</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">xyzt</span>$<span class="no">x_</span>, <span class="no">xyzt</span>$<span class="no">y_</span>, <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>)</pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
-<div class="sourceCode" id="cb3"><pre class="r">
+<div class="sourceCode" id="cb6"><pre class="r">
 <span class="no">lonlat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="no">xyzt</span>, <span class="no">src</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="no">dst</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">lonlat</span>$<span class="no">x_</span>, <span class="no">lonlat</span>$<span class="no">y_</span>, <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>)</pre></div>
 <p><img src="reference/figures/README-example-2.png" width="100%"></p>
@@ -195,7 +202,7 @@
 <h2 class="hasAnchor">
 <a href="#convert-projection-strings" class="anchor"></a>Convert projection strings</h2>
 <p>We can generate PROJ or within limitations WKT2 strings.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="no">wkt2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_create.html">proj_create</a></span>(<span class="st">"EPSG:4326"</span>))
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="no">wkt2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_create.html">proj_create</a></span>(<span class="st">"EPSG:4326"</span>))
 <span class="co">#&gt; GEOGCRS["WGS 84",</span>
 <span class="co">#&gt;     DATUM["World Geodetic System 1984",</span>
 <span class="co">#&gt;         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
@@ -227,7 +234,7 @@
 <div id="speed-comparisons" class="section level1">
 <h1 class="hasAnchor">
 <a href="#speed-comparisons" class="anchor"></a>Speed comparisons</h1>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">reproj</span>)
+<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">reproj</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rgdal</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">lwgeom</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
@@ -255,13 +262,13 @@
         <span class="kw">replications</span> <span class="kw">=</span> <span class="fl">100</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">arrange</span>(<span class="no">elapsed</span>) <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">select</span>(<span class="no">test</span>, <span class="no">elapsed</span>, <span class="no">replications</span>)
 <span class="co">#&gt;         test elapsed replications</span>
-<span class="co">#&gt; 1 sf_project   9.086          100</span>
-<span class="co">#&gt; 2      rgdal   9.160          100</span>
-<span class="co">#&gt; 3       PROJ   9.854          100</span>
-<span class="co">#&gt; 4     reproj  11.000          100</span></pre></div>
+<span class="co">#&gt; 1 sf_project   8.403          100</span>
+<span class="co">#&gt; 2      rgdal   9.023          100</span>
+<span class="co">#&gt; 3       PROJ   9.606          100</span>
+<span class="co">#&gt; 4     reproj  10.387          100</span></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">w</span>[,<span class="fl">1</span>], <span class="no">w</span>[,<span class="fl">2</span>]), <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"EPSG:4326"</span>)
+<div class="sourceCode" id="cb9"><pre class="r"><span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">w</span>[,<span class="fl">1</span>], <span class="no">w</span>[,<span class="fl">2</span>]), <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"EPSG:4326"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">xyzt</span>[<span class="fl">1</span>:<span class="fl">3</span>]), <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>, <span class="kw">asp</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
 <p><img src="reference/figures/README-geocentric-1.png" width="100%"></p>
 <p>Geocentric transformations aren’t used in R much, but some examples are found in the <a href="https://CRAN.R-project.org/package=quadmesh">quadmesh</a> and <a href="https://github.com/hypertidy/anglr">anglr</a> packages.</p>
