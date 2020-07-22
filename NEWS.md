@@ -1,6 +1,23 @@
-# PROJ dev
+# PROJ 0.2.0
 
-* Need proj version 6.1.0 or above thanks to Brian Ripley, and CRAN. 
+* The internal C functionality calling the PROJ library now uses .Call rather than .C. The .C function
+ `PROJ_proj_trans_generic()` is now not used and will be removed. 
+
+* On load behaviour has changed, on Windows and MacOS a check is made for a local copy of the proj/
+ PROJ data directory with metadata files. If this is present, the path to that folder is set using the
+ underlying PROJ library function `proj_context_set_search_paths()`. 
+ 
+ This is only relevant to Windows and MacOS **static builds**, these are self-contained, the R package contains the
+ PROJ library and everything it needs. Generally in other installations (brew on MacOS, apt install, or from source builds 
+ on Linux) the PROJ library self-configures and knows where to find this directory. 
+ 
+ This is automatic for source builds on Windows which download pre-built binaries and data from https://github.com/rwinlib, and
+ so will be using a given PROJ version. 
+ 
+ On MacOS, this only occurs if configure options `--with-data-copy=yes` and `--with-proj-data=DIR` are used. This 
+ is done manually on CRAN by admins. The current version used can be found at https://mac.r-project.org/libs-4/. 
+ 
+* Need proj version 6.1.0 or above, and a configuration fix on MacOS for libsqlite thanks to Brian Ripley, and CRAN. 
 
 * Fixed bug not returning transformed z or t. 
 
