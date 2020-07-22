@@ -1,4 +1,4 @@
-# PROJ 0.2.0
+# PROJ dev
 
 * The internal C functionality calling the PROJ library now uses .Call rather than .C. The .C function
  `PROJ_proj_trans_generic()` is now not used and will be removed. 

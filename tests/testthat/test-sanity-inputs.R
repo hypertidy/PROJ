@@ -38,29 +38,3 @@ test_that("PROJ6 checks work", {
 
   expect_error(proj_trans_generic(xy, llproj, source = "myfave"))
 })
-
-
-test_that("empty z or t works", {
-  if (!ok_proj6()) skip("no PROJ6 available, no real testing to do")
-  expect_silent(.C("PROJ_proj_trans_generic",
-                   src_ = as.character(llproj),
-                   tgt_ = as.character("+proj=laea"),
-                   n = as.integer(1L),
-                   x_ = as.double(0), y_ = as.double(0), z_ = double(0), t_ = double(0),
-                   success = as.integer(0),
-                   NAOK=TRUE, PACKAGE = "PROJ"))
-  expect_silent(.C("PROJ_proj_trans_generic",
-                   src_ = as.character(llproj),
-                   tgt_ = as.character("+proj=laea"),
-                   n = as.integer(1L),
-                   x_ = as.double(0), y_ = as.double(0), z_ = as.double(0), t_ = double(0),
-                   success = as.integer(0),
-                   NAOK=TRUE, PACKAGE = "PROJ"))
-  expect_silent(.C("PROJ_proj_trans_generic",
-                   src_ = as.character(llproj),
-                   tgt_ = as.character("+proj=laea"),
-                   n = as.integer(1L),
-                   x_ = as.double(0), y_ = as.double(0), z_ = double(0), t_ = as.double(0),
-                   success = as.integer(0),
-                   NAOK=TRUE, PACKAGE = "PROJ"))
-})
