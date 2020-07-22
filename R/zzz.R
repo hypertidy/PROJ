@@ -9,21 +9,16 @@
 }
 
 .onLoad <- function(libname, pkgname) {
-  ok_data <- FALSE
+  pkg_proj_lib <- FALSE
   if (tolower(Sys.info()[["sysname"]]) %in%  c("windows", "darwin")) {
     path <- system.file("proj", package = "PROJ", mustWork = FALSE)
     if (nchar(path) > 0) {
-      ok_data <- .set_proj_data(path)
+      pkg_proj_lib <- .set_proj_data(path)
     }
   } else {
-    # if (nchar(projdata <- Sys.getenv("PROJ_LIB")) < 1) {
-    #   Sys.setenv(PROJ_LIB = "/usr/share/proj")
-    #   print(Sys.getenv("PROJ_LIB"))
-    #
-    # }
-    ok_data <- TRUE
+   pkg_proj_lib <- TRUE
   }
-  ok <- ok_proj6() ##&& ok_data
-  options(PROJ.HAVE_PROJ6 = ok, PROJ.HAVE_PROJ_LIB_PKG = ok_data)
+  ok <- ok_proj6()
+  options(PROJ.HAVE_PROJ6 = ok, PROJ.HAVE_PROJ_LIB_PKG = pkg_proj_lib)
   invisible(NULL)
 }
