@@ -23,7 +23,7 @@
     # }
     ok_data <- TRUE
   }
-  ok <- ok_proj6() && ok_data
-  options(PROJ.HAVE_PROJ6 = ok)
+  ok <- ok_proj6() ##&& ok_data
+  options(PROJ.HAVE_PROJ6 = ok, PROJ.HAVE_PROJ_LIB_PKG = ok_data)
   invisible(NULL)
 }
