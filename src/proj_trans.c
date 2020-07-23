@@ -22,7 +22,7 @@ SEXP PROJ_proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
   PJ *P;
   PJ* P_for_GIS;
   PJ_COORD a, b;
-  C = proj_context_create();
+  C = PJ_DEFAULT_CTX; // proj_context_create();
 
   int ncolumns = length(x);
   if (ncolumns != 2 && ncolumns != 4) {
@@ -116,7 +116,7 @@ SEXP PROJ_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
   PJ *P;
   PJ* P_for_GIS;
   PJ_COORD a, b;
-  C = proj_context_create();
+  C = PJ_DEFAULT_CTX; //proj_context_create();
   /* FIXME: could in principle be a long vector */
     int N = length(x_);
     int r;

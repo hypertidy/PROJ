@@ -31,7 +31,7 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
     // available types
     // PJ_WKT1_ESRI, PJ_WKT1_GDAL, PJ_WKT2_2015, PJ_WKT2_2015_SIMPLIFIED, PJ_WKT2_2018, PJ_WKT2_2018_SIMPLIFIED;
    // outstring = proj_as_wkt(0, pj, PJ_WKT2_2018, NULL);
-
+    outstring = "";
     success = 1L;
   }
   // disabled, seems not to work in PROJ 6.3.1 (but I can't find definitive doc)
