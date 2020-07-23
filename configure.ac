@@ -1,4 +1,4 @@
-AC_INIT(PROJ, 0.0.1, mdsumner@gmail.com)
+AC_INIT(PROJ, 0.2.0, mdsumner@gmail.com)
 AC_CONFIG_SRCDIR(src/C_proj_trans_generic.c)
 
 # find R home and set correct compiler + flags
@@ -51,7 +51,7 @@ AC_MSG_NOTICE([Copy data for:])
   if test -n "${proj_lib}" ; then
     if test -d "${proj_lib}" ; then
       cp -r "${proj_lib}" "${R_PACKAGE_DIR}"
-      AC_MSG_NOTICE([  PROJ.4: ${proj_lib}])
+      AC_MSG_NOTICE([  PROJ lib: ${proj_lib}])
     else
       AC_MSG_ERROR([PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR.])
     fi
