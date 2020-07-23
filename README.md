@@ -238,8 +238,7 @@ cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
 #> CONVERSION["PROJ-based coordinate operation",
 #>     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]
 
-proj_create(wkt2, format = 1L)
-#> [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"
+#proj_create(wkt2, format = 1L)
 ```
 
 # Speed comparisons
@@ -273,10 +272,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   8.403          100
-#> 2      rgdal   9.023          100
-#> 3       PROJ   9.606          100
-#> 4     reproj  10.387          100
+#> 1 sf_project   8.945          100
+#> 2      rgdal   9.229          100
+#> 3       PROJ  10.264          100
+#> 4     reproj  11.106          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D
