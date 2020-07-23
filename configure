@@ -80,6 +80,7 @@ if test "${PATH_SEPARATOR+set}" != set; then
   }
 fi
 
+
 # IFS
 # We need space, tab and new line, in precisely that order.  Quoting is
 # there to prevent editors from complaining about space-tab.
@@ -3315,14 +3316,11 @@ else
 fi
 
 
+#require 6
+CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
 
-#undef HAVE_PROJ6_API
-if test "${projok}" = yes; then
-   CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
-else
-   CPPFLAGS="${PKG_CPPFLAGS}"
-fi
 
+## DATA COPY (PROJ_LIB)
 
 data_copy=no
 

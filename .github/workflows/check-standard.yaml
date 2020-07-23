@@ -46,7 +46,7 @@ jobs:
       - name: MacOS CRAN-binary system dependencies
         if: runner.os == 'macOS' && matrix.config.binary == 'CRAN'
         run: |
-           args=("proj-6.3.1", "sqlite3-3.32.3")
+           args=("proj-6.3.1" "sqlite3-3.32.3")
            pat=$(echo ${args[@]}|tr " " "|")
            curl -sL  https://mac.r-project.org/libs-4/ |
              sed -n 's/.*href=\([^>]*x86_64.tar.gz\).*/\1/p' |
