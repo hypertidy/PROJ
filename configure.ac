@@ -25,14 +25,11 @@ projok=yes
 AC_CHECK_HEADERS(proj.h,,projok=no)
 AC_CHECK_LIB(proj,proj_normalize_for_visualization,,projok=no)
 
+#require 6
+CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
 
-#undef HAVE_PROJ6_API
-if test "${projok}" = yes; then
-   CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
-else
-   CPPFLAGS="${PKG_CPPFLAGS}"
-fi
 
+## DATA COPY (PROJ_LIB)
 
 data_copy=no
 AC_ARG_WITH([data-copy],
