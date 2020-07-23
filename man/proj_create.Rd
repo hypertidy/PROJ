@@ -27,9 +27,9 @@ See the \href{https://proj.org/development/reference/functions.html#transformati
 for details on input and output formats.
 
 Some nuances of the format are not available, currently we use formats
-'0: PJ_WKT2_2018', '1: PJ_PROJ_5'.
+'0: PJ_WKT2_2018'.
 
-A third option '2: PROJJSON' is not available, requiring 'PROJ 6.2.0' or above.
+Options '1: PJ_PROJ_5', '2: PROJJSON' is not available, WIP.
 
 Some formats are hard to read, such as WKT so for easy reading
 use \code{cat()}.

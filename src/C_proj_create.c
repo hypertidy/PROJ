@@ -34,12 +34,13 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
 
     success = 1L;
   }
-  if (fmt == 1L) {
+  // disabled, seems not to work in PROJ 6.3.1 (but I can't find definitive doc)
+ // if (fmt == 1L) {
     //PJ_PROJ_4, PJ_PROJ_5;
-    outstring = proj_as_proj_string(0, pj, PJ_PROJ_5, NULL);
+ //   outstring = proj_as_proj_string(0, pj, PJ_PROJ_5, NULL);
 
-    success = 1L;
-  }
+ //   success = 1L;
+ // }
   //if (fmt ==  2L) {
   // disabled for now 2010-02-26 (needs PROJ 6.2.0 and rwinlib is at 6.1.0)
   //outstring = proj_as_projjson(0, pj, NULL);
