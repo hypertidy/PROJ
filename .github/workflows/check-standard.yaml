@@ -27,7 +27,7 @@ jobs:
 #          - {os: macOS-latest, r: 'oldrel',   binary: 'brew', args: '', build_args: ""}
 #          - {os: ubuntu-16.04, r: 'release', libsrc: 'xenial', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
 #          - {os: ubuntu-18.04, r: 'release', libsrc: 'bionic', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
-#          - {os: ubuntu-18.04, r: 'release', libsrc: 'proj6.3.2', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+          - {os: ubuntu-18.04, r: 'release', libsrc: 'proj6.3.1', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
 
 
     env:
@@ -59,13 +59,13 @@ jobs:
            brew install proj
 
       - name: Linux PROJ build system dependencies
-        if: runner.os == 'Linux' && matrix.config.libsrc == 'proj6.3.2'
+        if: runner.os == 'Linux' && matrix.config.libsrc == 'proj6.3.1'
         run: |
             sudo apt update
             sudo apt install -y cppcheck libsqlite3-dev ccache
-            curl http://download.osgeo.org/proj/proj-6.3.2.tar.gz > proj-6.3.2.tar.gz
-            tar xzf proj-6.3.2.tar.gz
-            mv proj-6.3.2 ../proj
+            curl http://download.osgeo.org/proj/proj-6.3.1.tar.gz > proj-6.3.1.tar.gz
+            tar xzf proj-6.3.1.tar.gz
+            mv proj-6.3.1 ../proj
             cd ../proj
             #CC="ccache gcc" CXX="ccache g++" CFLAGS=-O0 CXXFLAGS=-O0 ./configure --without-static  --prefix=/tmp/projinstall
             CC="ccache gcc" CXX="ccache g++" CFLAGS=-O0 CXXFLAGS=-O0 ./configure --without-static
@@ -78,7 +78,7 @@ jobs:
             cd ../PROJ
 
       - name: Linux system dependencies
-        if: runner.os == 'Linux' && matrix.config.libsrc != 'proj6.3.2'
+        if: runner.os == 'Linux' && matrix.config.libsrc != 'proj6.3.1'
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc  ## required for sysreqs call below
         run: |
