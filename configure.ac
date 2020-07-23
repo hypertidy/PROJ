@@ -10,6 +10,7 @@ RBIN="${R_HOME}/bin/R"
 
 # pick all flags for testing from R
 : ${CC=`"${RBIN}" CMD config CC`}
+: ${CXX=`"${RBIN}" CMD config CXX`}
 : ${CFLAGS=`"${RBIN}" CMD config CFLAGS`}
 : ${CPPFLAGS=`"${RBIN}" CMD config CPPFLAGS`}
 : ${LDFLAGS=`"${RBIN}" CMD config LDFLAGS`}
