@@ -52,6 +52,7 @@ jobs:
              sed -n 's/.*href=\([^>]*x86_64.tar.gz\).*/\1/p' |
              grep -E "$pat" |
              xargs -I % sh -c 'curl https://mac.r-project.org/libs-4/% --output %; sudo tar fvxz % -C /usr/local --strip 2'
+           ./configure --with-data-copy=yes --with-proj-data=/usr/local/share/proj
 
       - name: MacOS brew system dependencies
         if: runner.os == 'macOS' && matrix.config.binary == 'brew'
