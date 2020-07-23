@@ -30,7 +30,7 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
   if (fmt == 0L) {
     // available types
     // PJ_WKT1_ESRI, PJ_WKT1_GDAL, PJ_WKT2_2015, PJ_WKT2_2015_SIMPLIFIED, PJ_WKT2_2018, PJ_WKT2_2018_SIMPLIFIED;
-    outstring = proj_as_wkt(0, pj, PJ_WKT2_2018, NULL);
+   // outstring = proj_as_wkt(0, pj, PJ_WKT2_2018, NULL);
 
     success = 1L;
   }
