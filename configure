@@ -3347,8 +3347,8 @@ fi
   if test -n "${proj_lib}" ; then
     if test -d "${proj_lib}" ; then
       cp -r "${proj_lib}" "${R_PACKAGE_DIR}"
-      { $as_echo "$as_me:${as_lineno-$LINENO}:   PROJ.4: ${proj_lib}" >&5
-$as_echo "$as_me:   PROJ.4: ${proj_lib}" >&6;}
+      { $as_echo "$as_me:${as_lineno-$LINENO}:   PROJ lib: ${proj_lib}" >&5
+$as_echo "$as_me:   PROJ lib: ${proj_lib}" >&6;}
     else
       as_fn_error $? "PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." "$LINENO" 5
     fi
