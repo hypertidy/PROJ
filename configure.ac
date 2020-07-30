@@ -23,8 +23,11 @@ LIBS="${LIBS} ${PKG_LIBS}"
 CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
 
 projok=yes
-AC_CHECK_HEADERS(proj.h,,projok=no)
-AC_CHECK_LIB(proj,proj_normalize_for_visualization,,projok=no)
+AC_CHECK_HEADERS([proj.h],,projok=no)
+AC_CHECK_LIB([proj],[proj_normalize_for_visualization],,projok=no)
+if test "${projok}" = no; then # projok
+      AC_MSG_ERROR([proj_normalize_for_visualization not found in libproj.])
+fi
 
 #require 6
 CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
