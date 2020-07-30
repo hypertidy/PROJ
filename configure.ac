@@ -41,27 +41,17 @@ else
   fi
 fi
 
-# honor PKG_xx overrides
-# for CPPFLAGS we will superfluously double R's flags
-# since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
-
-#AC_ARG_WITH([proj-api],
-#    AC_HELP_STRING([--with-proj-api=yes/no],
-#               [use the deprecated proj_api.h even when PROJ 6 is available; default no]),
-#               [proj_api=$withval])
 
 PROJ6="no"
 PROJH="no"
-projok="no"
 if test "${proj_config_ok}" = yes; then
   PROJ_VERSION=`${PROJ_CONFIG} --modversion`
   PROJV1=`echo "${PROJ_VERSION}" | cut -c 1`
   if test "${PROJV1}" -ge 6; then
     PROJ6="yes"
-    PROJ_CPPFLAGS="${PROJ_CPPFLAGS} -DHAVE_PROJ_H"
+    PROJ_CPPFLAGS="${PROJ_CPPFLAGS} -DHAVE_PROJ6_API"
     AC_MSG_NOTICE([using proj.h.])
     PROJH="yes"
-    projok="yes"
   fi
 else
   if test "${PROJH}" = no ; then
@@ -69,14 +59,13 @@ else
     AC_CHECK_HEADERS(proj.h,,PROJH=no)
     if test "${PROJH}" = yes; then
       PROJ6="yes"
-      PROJ_CPPFLAGS="${PROJ_CPPFLAGS} -DHAVE_PROJ_H"
-      projok="yes"
+      PROJ_CPPFLAGS="${PROJ_CPPFLAGS} -DHAVE_PROJ6_API"
     fi
   fi
 fi
 
 
-if test "${PROJH}" = no
+if test "${PROJ6}" = no
 then
    AC_MSG_ERROR([PROJ version 6 (>=6.1.0) not available.])
 fi
@@ -99,17 +88,9 @@ else
   fi
 fi
 
-LIBS="${PROJ_LIBS} ${INLIBS} ${PKG_LIBS}"
+LIBS="${PROJ_LIBS} ${INLIBS}"
 
-#undef HAVE_PROJ6_API
-if test "${projok}" = yes; then
-   HAVE_PROJ6_API=1
-   CPPFLAGS="${PKG_CPPFLAGS} ${PROJ_CPPFLAGS} -DHAVE_PROJ6_API=1"
-else
-   CPPFLAGS="${PKG_CPPFLAGS} ${PROJ_CPPFLAGS}"
-fi
-
-
+CPPFLAGS="${PKG_CPPFLAGS} ${PROJ_CPPFLAGS}"
 
 ## DATA COPY (PROJ_LIB)
 
