@@ -36,7 +36,7 @@ This is a shared goal with the
 [reproj](https://cran.r-project.org/package=reproj) package, and PROJ
 provides the infrastructure for later versions of the underlying
 library. Reproj otherwise uses the
-[proj4](https://cran.r-project.org/package=roj4) package, for library
+[proj4](https://cran.r-project.org/package=proj4) package, for library
 versions less than 6.
 
 PROJ provides basic coordinate transformations for generic numeric data
@@ -212,31 +212,13 @@ plot(lonlat$x_, lonlat$y_, pch = ".")
 
 We can generate PROJ or within limitations WKT2 strings.
 
+disabled for now
+
 ``` r
-cat(wkt2 <- proj_create("EPSG:4326"))
-#> GEOGCRS["WGS 84",
-#>     DATUM["World Geodetic System 1984",
-#>         ELLIPSOID["WGS 84",6378137,298.257223563,
-#>             LENGTHUNIT["metre",1]]],
-#>     PRIMEM["Greenwich",0,
-#>         ANGLEUNIT["degree",0.0174532925199433]],
-#>     CS[ellipsoidal,2],
-#>         AXIS["geodetic latitude (Lat)",north,
-#>             ORDER[1],
-#>             ANGLEUNIT["degree",0.0174532925199433]],
-#>         AXIS["geodetic longitude (Lon)",east,
-#>             ORDER[2],
-#>             ANGLEUNIT["degree",0.0174532925199433]],
-#>     USAGE[
-#>         SCOPE["unknown"],
-#>         AREA["World"],
-#>         BBOX[-90,-180,90,180]],
-#>     ID["EPSG",4326]]
+#cat(wkt2 <- proj_create("EPSG:4326"))
 
 ## this is not proper WKT2 and cannot be used, compare to sf::st_crs("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel")
-cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
-#> CONVERSION["PROJ-based coordinate operation",
-#>     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]
+#cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
 
 #proj_create(wkt2, format = 1L)
 ```
@@ -272,10 +254,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   8.945          100
-#> 2      rgdal   9.229          100
-#> 3       PROJ  10.264          100
-#> 4     reproj  11.106          100
+#> 1 sf_project   9.762          100
+#> 2      rgdal  10.167          100
+#> 3       PROJ  10.550          100
+#> 4     reproj  11.560          100
 ```
 
 The speed is not exactly stunning, but with PROJ we can also do 3D

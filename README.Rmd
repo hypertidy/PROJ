@@ -46,7 +46,7 @@ The goal of PROJ is to provide generic coordinate system transformations in R wi
 
 This is a shared goal with the [reproj](https://cran.r-project.org/package=reproj)
 package, and PROJ provides the infrastructure for later versions of the underlying library. Reproj
-otherwise uses the [proj4](https://cran.r-project.org/package=roj4) package, for library versions less than 6. 
+otherwise uses the [proj4](https://cran.r-project.org/package=proj4) package, for library versions less than 6. 
 
 PROJ provides basic coordinate transformations for generic numeric data in matrices or data frames. Transforming spatial data coordinates is a basic task, and has nothing to do with storage format.
 
