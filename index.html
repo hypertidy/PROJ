@@ -89,7 +89,7 @@
 
 <p><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj0&amp;label=PROJ0" alt="Travis NOPROJ"></a> no PROJ available 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj4&amp;label=PROJ4" alt="Travis PROJ4"></a> PROJ.4 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj5&amp;label=PROJ5" alt="Travis PROJ5"></a> PROJ 5 in system, no function 👍 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj6&amp;label=PROJ6" alt="Travis PROJ6"></a> PROJ version 6, full function 🚀 <br><a href="https://travis-ci.org/hypertidy/PROJ"><img src="https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&amp;env=BUILD_NAME=proj7&amp;label=PROJ7" alt="Travis PROJ7"></a> PROJ version 7, full function 🤸 <!-- badges: end --></p>
 <p>The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library PROJ &gt;= 6.</p>
-<p>This is a shared goal with the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, and PROJ provides the infrastructure for later versions of the underlying library. Reproj otherwise uses the <a href="https://cran.r-project.org/package=roj4">proj4</a> package, for library versions less than 6.</p>
+<p>This is a shared goal with the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, and PROJ provides the infrastructure for later versions of the underlying library. Reproj otherwise uses the <a href="https://cran.r-project.org/package=proj4">proj4</a> package, for library versions less than 6.</p>
 <p>PROJ provides basic coordinate transformations for generic numeric data in matrices or data frames. Transforming spatial data coordinates is a basic task, and has nothing to do with storage format.</p>
 <p>PROJ is strictly for version 6 or higher of the PROJ library. The intention is that this package will be used for when that version is available, and this package can be compiled and installed even when it cannot do anything. For older versions of PROJ (5, and 4) we can use the proj4 package.</p>
 <p>Because we are version 6 or above only, there is no forward/inverse transformation, only integrated source/target idioms. This is the same approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format.</p>
@@ -202,32 +202,13 @@
 <h2 class="hasAnchor">
 <a href="#convert-projection-strings" class="anchor"></a>Convert projection strings</h2>
 <p>We can generate PROJ or within limitations WKT2 strings.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="no">wkt2</span> <span class="kw">&lt;-</span> <span class="fu">proj_create</span>(<span class="st">"EPSG:4326"</span>))
-<span class="co">#&gt; GEOGCRS["WGS 84",</span>
-<span class="co">#&gt;     DATUM["World Geodetic System 1984",</span>
-<span class="co">#&gt;         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
-<span class="co">#&gt;             LENGTHUNIT["metre",1]]],</span>
-<span class="co">#&gt;     PRIMEM["Greenwich",0,</span>
-<span class="co">#&gt;         ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="co">#&gt;     CS[ellipsoidal,2],</span>
-<span class="co">#&gt;         AXIS["geodetic latitude (Lat)",north,</span>
-<span class="co">#&gt;             ORDER[1],</span>
-<span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="co">#&gt;         AXIS["geodetic longitude (Lon)",east,</span>
-<span class="co">#&gt;             ORDER[2],</span>
-<span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span>
-<span class="co">#&gt;     USAGE[</span>
-<span class="co">#&gt;         SCOPE["unknown"],</span>
-<span class="co">#&gt;         AREA["World"],</span>
-<span class="co">#&gt;         BBOX[-90,-180,90,180]],</span>
-<span class="co">#&gt;     ID["EPSG",4326]]</span>
+<p>disabled for now</p>
+<div class="sourceCode" id="cb7"><pre class="r">#cat(wkt2 &lt;- proj_create("EPSG:4326"))
 
-<span class="co">## this is not proper WKT2 and cannot be used, compare to sf::st_crs("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel")</span>
-<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="fu">proj_create</span>(<span class="st">"+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"</span>))
-<span class="co">#&gt; CONVERSION["PROJ-based coordinate operation",</span>
-<span class="co">#&gt;     METHOD["PROJ-based operation method: +proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"]]</span>
+## this is not proper WKT2 and cannot be used, compare to sf::st_crs("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel")
+#cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
 
-<span class="co">#proj_create(wkt2, format = 1L)</span></pre></div>
+#proj_create(wkt2, format = 1L)</pre></div>
 </div>
 </div>
 <div id="speed-comparisons" class="section level1">
@@ -261,10 +242,10 @@
         <span class="kw">replications</span> <span class="kw">=</span> <span class="fl">100</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">arrange</span>(<span class="no">elapsed</span>) <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">select</span>(<span class="no">test</span>, <span class="no">elapsed</span>, <span class="no">replications</span>)
 <span class="co">#&gt;         test elapsed replications</span>
-<span class="co">#&gt; 1 sf_project   8.945          100</span>
-<span class="co">#&gt; 2      rgdal   9.229          100</span>
-<span class="co">#&gt; 3       PROJ  10.264          100</span>
-<span class="co">#&gt; 4     reproj  11.106          100</span></pre></div>
+<span class="co">#&gt; 1 sf_project   9.762          100</span>
+<span class="co">#&gt; 2      rgdal  10.167          100</span>
+<span class="co">#&gt; 3       PROJ  10.550          100</span>
+<span class="co">#&gt; 4     reproj  11.560          100</span></pre></div>
 <p>The speed is not exactly stunning, but with PROJ we can also do 3D transformations and that’s good enough for me. I think it will be faster with the underlying API function <code>proj_trans_array()</code>, instead of <code><a href="reference/proj_trans_generic.html">proj_trans_generic()</a></code>, but I don’t really know.</p>
 <p>A geocentric example, suitable for plotting in rgl.</p>
 <div class="sourceCode" id="cb9"><pre class="r"><span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans_generic.html">proj_trans_generic</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">w</span>[,<span class="fl">1</span>], <span class="no">w</span>[,<span class="fl">2</span>]), <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"EPSG:4326"</span>)
