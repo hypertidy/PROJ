@@ -21,8 +21,8 @@ jobs:
       matrix:
         config:
           - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj \"PKG_LIBS=-lsqlite3 -lproj -lstdc++\"\"', build_args: ""}
-#          - {os: macOS-latest, r: 'oldrel',   binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj PKG_LIBS=\"-lsqlite3 -lproj\"\"', build_args: ""}
+          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+#          - {os: macOS-latest, r: 'oldrel',   binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
 #          - {os: macOS-latest, r: 'release', binary: 'brew', args: '', build_args: ""}
 #          - {os: macOS-latest, r: 'oldrel',   binary: 'brew', args: '', build_args: ""}
           - {os: ubuntu-16.04, r: 'release', libsrc: 'xenial', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
@@ -52,6 +52,7 @@ jobs:
              sed -n 's/.*href=\([^>]*x86_64.tar.gz\).*/\1/p' |
              grep -E "$pat" |
              xargs -I % sh -c 'curl https://mac.r-project.org/libs-4/% --output %; sudo tar fvxz % -C /usr/local --strip 2'
+           PKG_LIBS="-lsqlite3 -lproj -lstdc++"
 
       - name: MacOS brew system dependencies
         if: runner.os == 'macOS' && matrix.config.binary == 'brew'
