@@ -3279,8 +3279,10 @@ fi
 
 if test "${PROJ6}" = no
 then
-   { $as_echo "$as_me:${as_lineno-$LINENO}: PROJ version 6 (>=6.1.0) not available." >&5
-$as_echo "$as_me: PROJ version 6 (>=6.1.0) not available." >&6;}
+   { $as_echo "$as_me:${as_lineno-$LINENO}: PROJ version 6 (>=6.1.0) not available, package will install but has no capabilities for the PROJ library." >&5
+$as_echo "$as_me: PROJ version 6 (>=6.1.0) not available, package will install but has no capabilities for the PROJ library." >&6;}
+   { $as_echo "$as_me:${as_lineno-$LINENO}: This limitation is by design, please use the reproj package for more general support." >&5
+$as_echo "$as_me: This limitation is by design, please use the reproj package for more general support." >&6;}
 fi
 
 if test "${PROJ6}" = yes
