@@ -52,6 +52,7 @@ fi
 
 PROJ6="no"
 PROJH="no"
+projok="no"
 if test "${proj_config_ok}" = yes; then
   PROJ_VERSION=`${PROJ_CONFIG} --modversion`
   PROJV1=`echo "${PROJ_VERSION}" | cut -c 1`
@@ -60,7 +61,7 @@ if test "${proj_config_ok}" = yes; then
     PROJ_CPPFLAGS="${PROJ_CPPFLAGS} -DHAVE_PROJ_H"
     AC_MSG_NOTICE([using proj.h.])
     PROJH="yes"
-
+    projok="yes"
   fi
 else
   if test "${PROJH}" = no ; then
@@ -69,11 +70,11 @@ else
     if test "${PROJH}" = yes; then
       PROJ6="yes"
       PROJ_CPPFLAGS="${PROJ_CPPFLAGS} -DHAVE_PROJ_H"
+      projok="yes"
     fi
   fi
 fi
 
-CPPFLAGS="${INCPPFLAGS} ${PKG_CPPFLAGS} ${PROJ_CPPFLAGS}"
 
 if test "${PROJH}" = no
 then
@@ -99,6 +100,14 @@ else
 fi
 
 LIBS="${PROJ_LIBS} ${INLIBS} ${PKG_LIBS}"
+
+#undef HAVE_PROJ6_API
+if test "${projok}" = yes; then
+   HAVE_PROJ6_API=1
+   CPPFLAGS="${PKG_CPPFLAGS} ${PROJ_CPPFLAGS} -DHAVE_PROJ6_API=1"
+else
+   CPPFLAGS="${PKG_CPPFLAGS} ${PROJ_CPPFLAGS}"
+fi
 
 
 
