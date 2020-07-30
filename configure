@@ -3316,6 +3316,9 @@ else
   projok=no
 fi
 
+if test "${projok}" = no; then # projok
+      as_fn_error $? "proj_normalize_for_visualization not found in libproj." "$LINENO" 5
+fi
 
 #require 6
 CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
