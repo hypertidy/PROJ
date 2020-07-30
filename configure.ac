@@ -67,26 +67,30 @@ fi
 
 if test "${PROJ6}" = no
 then
-   AC_MSG_ERROR([PROJ version 6 (>=6.1.0) not available.])
+   AC_MSG_NOTICE([PROJ version 6 (>=6.1.0) not available.])
 fi
 
-# dnl ditto for a library path
-AC_ARG_WITH([proj-lib],
-    AC_HELP_STRING([--with-proj-lib=LIB_PATH],
-               [the location of proj libraries]),
-               [proj_lib_path=$withval])
-if test [ -n "$proj_lib_path" ] ; then
-    AC_SUBST([PROJ_LIBS], ["-L${proj_lib_path} ${INPKG_LIBS} -lproj"])
-else
-  if test "${proj_config_ok}" = yes; then
-    PROJ_LIB_PATH=`${PROJ_CONFIG} --libs`
-    AC_SUBST([PROJ_LIBS], ["${PROJ_LIB_PATH} ${INPKG_LIBS}"])
-	proj_version=`${PROJ_CONFIG} --modversion`
-	AC_MSG_NOTICE([PROJ: ${proj_version}])
+if test "${PROJ6}" = yes
+then
+  # do we copy the data in (MacOS yes, Windows yes but via /tools)
+  AC_ARG_WITH([proj-lib],
+      AC_HELP_STRING([--with-proj-lib=LIB_PATH],
+                 [the location of proj libraries]),
+                 [proj_lib_path=$withval])
+  if test [ -n "$proj_lib_path" ] ; then
+      AC_SUBST([PROJ_LIBS], ["-L${proj_lib_path} ${INPKG_LIBS} -lproj"])
   else
-    PROJ_LIBS="${PKG_LIBS} -lproj"
+    if test "${proj_config_ok}" = yes; then
+      PROJ_LIB_PATH=`${PROJ_CONFIG} --libs`
+      AC_SUBST([PROJ_LIBS], ["${PROJ_LIB_PATH} ${INPKG_LIBS}"])
+  	proj_version=`${PROJ_CONFIG} --modversion`
+  	AC_MSG_NOTICE([PROJ: ${proj_version}])
+    else
+      PROJ_LIBS="${PKG_LIBS} -lproj"
+    fi
   fi
 fi
+
 
 LIBS="${PROJ_LIBS} ${INLIBS}"
 
@@ -116,10 +120,10 @@ AC_MSG_NOTICE([Copy data for:])
       cp -r "${proj_lib}" "${R_PACKAGE_DIR}"
       AC_MSG_NOTICE([  PROJ lib: ${proj_lib}])
     else
-      AC_MSG_ERROR([PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR.])
+      AC_MSG_NOTICE([PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR.])
     fi
   else
-      AC_MSG_ERROR([PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR.])
+      AC_MSG_NOTICE([PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR.])
   fi
 fi
 

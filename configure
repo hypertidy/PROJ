@@ -3279,31 +3279,36 @@ fi
 
 if test "${PROJ6}" = no
 then
-   as_fn_error $? "PROJ version 6 (>=6.1.0) not available." "$LINENO" 5
+   { $as_echo "$as_me:${as_lineno-$LINENO}: PROJ version 6 (>=6.1.0) not available." >&5
+$as_echo "$as_me: PROJ version 6 (>=6.1.0) not available." >&6;}
 fi
 
-# dnl ditto for a library path
+if test "${PROJ6}" = yes
+then
+  # do we copy the data in (MacOS yes, Windows yes but via /tools)
 
 # Check whether --with-proj-lib was given.
 if test "${with_proj_lib+set}" = set; then :
   withval=$with_proj_lib; proj_lib_path=$withval
 fi
 
-if test  -n "$proj_lib_path"  ; then
-    PROJ_LIBS="-L${proj_lib_path} ${INPKG_LIBS} -lproj"
+  if test  -n "$proj_lib_path"  ; then
+      PROJ_LIBS="-L${proj_lib_path} ${INPKG_LIBS} -lproj"
 
-else
-  if test "${proj_config_ok}" = yes; then
-    PROJ_LIB_PATH=`${PROJ_CONFIG} --libs`
-    PROJ_LIBS="${PROJ_LIB_PATH} ${INPKG_LIBS}"
-
-	proj_version=`${PROJ_CONFIG} --modversion`
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: PROJ: ${proj_version}" >&5
-$as_echo "$as_me: PROJ: ${proj_version}" >&6;}
   else
-    PROJ_LIBS="${PKG_LIBS} -lproj"
+    if test "${proj_config_ok}" = yes; then
+      PROJ_LIB_PATH=`${PROJ_CONFIG} --libs`
+      PROJ_LIBS="${PROJ_LIB_PATH} ${INPKG_LIBS}"
+
+  	proj_version=`${PROJ_CONFIG} --modversion`
+  	{ $as_echo "$as_me:${as_lineno-$LINENO}: PROJ: ${proj_version}" >&5
+$as_echo "$as_me: PROJ: ${proj_version}" >&6;}
+    else
+      PROJ_LIBS="${PKG_LIBS} -lproj"
+    fi
   fi
 fi
+
 
 LIBS="${PROJ_LIBS} ${INLIBS}"
 
@@ -3339,10 +3344,12 @@ fi
       { $as_echo "$as_me:${as_lineno-$LINENO}:   PROJ lib: ${proj_lib}" >&5
 $as_echo "$as_me:   PROJ lib: ${proj_lib}" >&6;}
     else
-      as_fn_error $? "PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." "$LINENO" 5
+      { $as_echo "$as_me:${as_lineno-$LINENO}: PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." >&5
+$as_echo "$as_me: PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." >&6;}
     fi
   else
-      as_fn_error $? "PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." "$LINENO" 5
+      { $as_echo "$as_me:${as_lineno-$LINENO}: PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." >&5
+$as_echo "$as_me: PROJ data files not found; set environment variable PROJ_LIB=DIR or --with-proj-data=DIR." >&6;}
   fi
 fi
 
