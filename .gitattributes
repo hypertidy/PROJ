@@ -1,1 +1,5 @@
 *.ac    eol=lf
+*.png binary
+*.rda binary
+*.rds binary
+

@@ -636,6 +636,8 @@ CPPFLAGS
 LDFLAGS
 CFLAGS
 CC
+PROJ_LIBS
+PROJ_CPPFLAGS
 target_alias
 host_alias
 build_alias
@@ -678,6 +680,8 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+with_proj_include
+with_proj_lib
 with_data_copy
 with_proj_data
 '
@@ -1311,6 +1315,9 @@ if test -n "$ac_init_help"; then
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-proj-include=DIR location of proj header files
+  --with-proj-lib=LIB_PATH
+                          the location of proj libraries
   --with-data-copy=yes/no local copy of data directories in package, default
                           no
   --with-proj-data=DIR    location of PROJ data directory
@@ -2061,11 +2068,66 @@ RBIN="${R_HOME}/bin/R"
 : ${LDFLAGS=`"${RBIN}" CMD config LDFLAGS`}
 
 
+PROJ_CONFIG="pkg-config proj"
+
+if `$PROJ_CONFIG --exists` ; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: pkg-config proj exists, will use it" >&5
+$as_echo "$as_me: pkg-config proj exists, will use it" >&6;}
+  proj_config_ok=yes
+else
+  proj_config_ok=no
+fi
+
+
+# Check whether --with-proj-include was given.
+if test "${with_proj_include+set}" = set; then :
+  withval=$with_proj_include; proj_include_path=$withval
+fi
+
+if test  -n "$proj_include_path"  ; then
+   PROJ_CPPFLAGS="-I${proj_include_path}"
+
+else
+  if test "${proj_config_ok}" = yes; then
+    PROJ_INCLUDE_PATH=`${PROJ_CONFIG} --cflags`
+    PROJ_CPPFLAGS="${PROJ_INCLUDE_PATH}"
+
+  fi
+fi
+
 # honor PKG_xx overrides
-LIBS="${LIBS} ${PKG_LIBS}"
 # for CPPFLAGS we will superfluously double R's flags
 # since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
-CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
+
+
+# dnl ditto for a library path
+
+# Check whether --with-proj-lib was given.
+if test "${with_proj_lib+set}" = set; then :
+  withval=$with_proj_lib; proj_lib_path=$withval
+fi
+
+if test  -n "$proj_lib_path"  ; then
+    PROJ_LIBS="-L${proj_lib_path} ${INPKG_LIBS} -lproj"
+
+else
+  if test "${proj_config_ok}" = yes; then
+    PROJ_LIB_PATH=`${PROJ_CONFIG} --libs`
+    PROJ_LIBS="${PROJ_LIB_PATH} ${INPKG_LIBS}"
+
+	proj_version=`${PROJ_CONFIG} --modversion`
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: PROJ: ${proj_version}" >&5
+$as_echo "$as_me: PROJ: ${proj_version}" >&6;}
+  else
+    PROJ_LIBS="${PKG_LIBS} -lproj"
+  fi
+fi
+
+# honor PKG_xx overrides
+LIBS="${PROJ_LIBS} ${INLIBS} ${PKG_LIBS}"
+# for CPPFLAGS we will superfluously double R's flags
+# since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
+CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}" -DHAVE_PROJ6_API=1"
 
 projok=yes
 ac_ext=c
@@ -3320,8 +3382,6 @@ if test "${projok}" = no; then # projok
       as_fn_error $? "proj_normalize_for_visualization not found in libproj." "$LINENO" 5
 fi
 
-#require 6
-CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
 
 
 ## DATA COPY (PROJ_LIB)

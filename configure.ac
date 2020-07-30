@@ -16,11 +16,56 @@ RBIN="${R_HOME}/bin/R"
 : ${LDFLAGS=`"${RBIN}" CMD config LDFLAGS`}
 
 
+PROJ_CONFIG="pkg-config proj"
+
+if `$PROJ_CONFIG --exists` ; then
+  AC_MSG_NOTICE([pkg-config proj exists, will use it])
+  proj_config_ok=yes
+else
+  proj_config_ok=no
+fi
+
+AC_ARG_WITH([proj-include],
+    AC_HELP_STRING([--with-proj-include=DIR],
+                   [location of proj header files]),
+    [proj_include_path=$withval])
+if test [ -n "$proj_include_path" ] ; then
+   AC_SUBST([PROJ_CPPFLAGS],["-I${proj_include_path}"])
+else
+  if test "${proj_config_ok}" = yes; then
+    PROJ_INCLUDE_PATH=`${PROJ_CONFIG} --cflags`
+    AC_SUBST([PROJ_CPPFLAGS],["${PROJ_INCLUDE_PATH}"])
+  fi
+fi
+
 # honor PKG_xx overrides
-LIBS="${LIBS} ${PKG_LIBS}"
 # for CPPFLAGS we will superfluously double R's flags
 # since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
-CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}"
+
+
+# dnl ditto for a library path
+AC_ARG_WITH([proj-lib],
+    AC_HELP_STRING([--with-proj-lib=LIB_PATH],
+               [the location of proj libraries]),
+               [proj_lib_path=$withval])
+if test [ -n "$proj_lib_path" ] ; then
+    AC_SUBST([PROJ_LIBS], ["-L${proj_lib_path} ${INPKG_LIBS} -lproj"])
+else
+  if test "${proj_config_ok}" = yes; then
+    PROJ_LIB_PATH=`${PROJ_CONFIG} --libs`
+    AC_SUBST([PROJ_LIBS], ["${PROJ_LIB_PATH} ${INPKG_LIBS}"])
+	proj_version=`${PROJ_CONFIG} --modversion`
+	AC_MSG_NOTICE([PROJ: ${proj_version}])
+  else
+    PROJ_LIBS="${PKG_LIBS} -lproj"
+  fi
+fi
+
+# honor PKG_xx overrides
+LIBS="${PROJ_LIBS} ${INLIBS} ${PKG_LIBS}"
+# for CPPFLAGS we will superfluously double R's flags
+# since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
+CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}" -DHAVE_PROJ6_API=1"
 
 projok=yes
 AC_CHECK_HEADERS([proj.h],,projok=no)
@@ -29,8 +74,6 @@ if test "${projok}" = no; then # projok
       AC_MSG_ERROR([proj_normalize_for_visualization not found in libproj.])
 fi
 
-#require 6
-CPPFLAGS="${PKG_CPPFLAGS} -DHAVE_PROJ6_API=1"
 
 
 ## DATA COPY (PROJ_LIB)
