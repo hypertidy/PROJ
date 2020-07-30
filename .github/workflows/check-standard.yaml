@@ -21,7 +21,7 @@ jobs:
       matrix:
         config:
 #          - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
+          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj PKG_LIBS=\"-lsqlite3\"\"', build_args: ""}
 #          - {os: macOS-latest, r: 'oldrel',   binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
 #          - {os: macOS-latest, r: 'release', binary: 'brew', args: '', build_args: ""}
 #          - {os: macOS-latest, r: 'oldrel',   binary: 'brew', args: '', build_args: ""}
