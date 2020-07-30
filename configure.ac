@@ -67,7 +67,8 @@ fi
 
 if test "${PROJ6}" = no
 then
-   AC_MSG_NOTICE([PROJ version 6 (>=6.1.0) not available.])
+   AC_MSG_NOTICE([PROJ version 6 (>=6.1.0) not available, package will install but has no capabilities for the PROJ library.])
+   AC_MSG_NOTICE([This limitation is by design, please use the reproj package for more general support.])
 fi
 
 if test "${PROJ6}" = yes
