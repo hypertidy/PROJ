@@ -15,6 +15,9 @@ RBIN="${R_HOME}/bin/R"
 : ${CPPFLAGS=`"${RBIN}" CMD config CPPFLAGS`}
 : ${LDFLAGS=`"${RBIN}" CMD config LDFLAGS`}
 
+#
+# PROJ
+#
 
 PROJ_CONFIG="pkg-config proj"
 
@@ -42,6 +45,40 @@ fi
 # for CPPFLAGS we will superfluously double R's flags
 # since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
 
+#AC_ARG_WITH([proj-api],
+#    AC_HELP_STRING([--with-proj-api=yes/no],
+#               [use the deprecated proj_api.h even when PROJ 6 is available; default no]),
+#               [proj_api=$withval])
+
+PROJ6="no"
+PROJH="no"
+if test "${proj_config_ok}" = yes; then
+  PROJ_VERSION=`${PROJ_CONFIG} --modversion`
+  PROJV1=`echo "${PROJ_VERSION}" | cut -c 1`
+  if test "${PROJV1}" -ge 6; then
+    PROJ6="yes"
+    PROJ_CPPFLAGS="${PROJ_CPPFLAGS} -DHAVE_PROJ_H"
+    AC_MSG_NOTICE([using proj.h.])
+    PROJH="yes"
+
+  fi
+else
+  if test "${PROJH}" = no ; then
+    PROJH=yes
+    AC_CHECK_HEADERS(proj.h,,PROJH=no)
+    if test "${PROJH}" = yes; then
+      PROJ6="yes"
+      PROJ_CPPFLAGS="${PROJ_CPPFLAGS} -DHAVE_PROJ_H"
+    fi
+  fi
+fi
+
+CPPFLAGS="${INCPPFLAGS} ${PKG_CPPFLAGS} ${PROJ_CPPFLAGS}"
+
+if test "${PROJH}" = no
+then
+   AC_MSG_ERROR([PROJ version 6 (>=6.1.0) not available.])
+fi
 
 # dnl ditto for a library path
 AC_ARG_WITH([proj-lib],
@@ -61,18 +98,7 @@ else
   fi
 fi
 
-# honor PKG_xx overrides
 LIBS="${PROJ_LIBS} ${INLIBS} ${PKG_LIBS}"
-# for CPPFLAGS we will superfluously double R's flags
-# since we'll set PKG_CPPFLAGS with this, but that shouldn't hurt
-CPPFLAGS="${CPPFLAGS} ${PKG_CPPFLAGS}" -DHAVE_PROJ6_API=1"
-
-projok=yes
-AC_CHECK_HEADERS([proj.h],,projok=no)
-AC_CHECK_LIB([proj],[proj_normalize_for_visualization],,projok=no)
-if test "${projok}" = no; then # projok
-      AC_MSG_ERROR([proj_normalize_for_visualization not found in libproj.])
-fi
 
 
 
