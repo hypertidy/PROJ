@@ -120,7 +120,11 @@ jobs:
 
       - name: R CMD check (not Windows)
         if: runner.os != 'Windows'
-        run: R CMD INSTALL PROJ --build --configure-args="--with-data-copy=yes --with-proj-data=/usr/local/share/proj" --configure-vars="PKG_LIBS=\"-lsqlite3 -lproj -lstdc++\""
+        run:
+          cd ..
+          R CMD build PROJ
+          R CMD check PROJ --configure-args="--with-data-copy=yes --with-proj-data=/usr/local/share/proj" --configure-vars="PKG_LIBS=\"-lsqlite3 -lproj -lstdc++\""
+
         #run: rcmdcheck::rcmdcheck(args = c("--no-manual", "${{ matrix.config.args }}"), error_on = "warning", check_dir = "check", build_args = "${{ matrix.config.build_args }}")
         #shell: Rscript {0}
 
