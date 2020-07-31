@@ -21,7 +21,8 @@ jobs:
       matrix:
         config:
 #          - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj --configure-vars=PKG_LIBS=\"-lsqlite3 -lproj -lstdc++\"\"', build_args: ""}
+          - {os: macOS-latest, r: 'release', binary: 'cran', args: '', build_args: ""}
+#          - {os: macOS-latest, r: 'release', binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj --configure-vars=PKG_LIBS=\"-lsqlite3 -lproj -lstdc++\"\"', build_args: ""}
 #          - {os: macOS-latest, r: 'oldrel',   binary: 'CRAN', args: '--install-args=\"--configure-args=--with-data-copy=yes --with-proj-data=/usr/local/share/proj\"', build_args: ""}
 #          - {os: macOS-latest, r: 'release', binary: 'brew', args: '', build_args: ""}
 #          - {os: macOS-latest, r: 'oldrel',   binary: 'brew', args: '', build_args: ""}
@@ -109,7 +110,7 @@ jobs:
           deps <- readRDS("depends.Rds")
           deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
           update(deps)
-          remotes::install_cran("rcmdcheck")
+          #remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
       - name: R CMD check windows
@@ -119,8 +120,9 @@ jobs:
 
       - name: R CMD check (not Windows)
         if: runner.os != 'Windows'
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "${{ matrix.config.args }}"), error_on = "warning", check_dir = "check", build_args = "${{ matrix.config.build_args }}")
-        shell: Rscript {0}
+        run: R CMD INSTALL PROJ --build --configure-args="--with-data-copy=yes --with-proj-data=/usr/local/share/proj" --configure-vars="PKG_LIBS=\"-lsqlite3 -lproj -lstdc++\""
+        #run: rcmdcheck::rcmdcheck(args = c("--no-manual", "${{ matrix.config.args }}"), error_on = "warning", check_dir = "check", build_args = "${{ matrix.config.build_args }}")
+        #shell: Rscript {0}
 
       - name: Build
         run: |
