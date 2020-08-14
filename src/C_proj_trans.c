@@ -1,6 +1,5 @@
-#include <R.h>
-#include <Rdefines.h>
-#include <stdio.h>
+
+#include <Rinternals.h>
 
 #ifdef HAVE_PROJ6_API
 #include <proj.h>
@@ -147,7 +146,7 @@ SEXP PROJ_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
       b = proj_trans(P, PJ_FWD, a);
       REAL(x_copy)[i] = b.xyzt.x;
       REAL(y_copy)[i] = b.xyzt.y;
-         }
+    }
     r = proj_errno(P);
     proj_destroy(P);
     if (r) {
@@ -165,4 +164,3 @@ SEXP PROJ_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
   return(R_NilValue);
 #endif
 }
-

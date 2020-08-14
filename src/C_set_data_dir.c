@@ -2,10 +2,9 @@
 #include <proj.h>
 #endif
 
-#include <R.h>
 #include <Rinternals.h>
 
-SEXP PROJ_set_data_dir(SEXP data_dir){
+SEXP PROJ_proj_set_data_dir(SEXP data_dir){
 #ifdef HAVE_PROJ6_API
    const char* stra = CHAR(STRING_ELT(data_dir, 0));
    const char*  paths[] = {stra};
