@@ -1,5 +1,5 @@
 .set_proj_data <- function(proj_data = ""){
-     l <- try(.Call("PROJ_set_data_dir", proj_data), silent = TRUE)
+     l <- try(.Call("PROJ_proj_set_data_dir", proj_data), silent = TRUE)
      if (inherits(l, "try-error")) {
        ok <- FALSE
      } else {

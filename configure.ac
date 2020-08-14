@@ -1,5 +1,5 @@
 AC_INIT(PROJ, 0.2.0, mdsumner@gmail.com)
-AC_CONFIG_SRCDIR(src/C_proj_trans_generic.c)
+AC_CONFIG_SRCDIR(src/init.c)
 
 # find R home and set correct compiler + flags
 : ${R_HOME=`R RHOME`}
