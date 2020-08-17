@@ -4,9 +4,7 @@
 # The following block is used by usethis to automatically manage
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
-#' @useDynLib PROJ, PROJ_set_data_dir
-#' @useDynLib PROJ, PROJ_proj_trans_xy
-#' @useDynLib PROJ, PROJ_proj_trans_list
+#' @useDynLib PROJ, .registration = TRUE
 ## usethis namespace: end
 NULL
 

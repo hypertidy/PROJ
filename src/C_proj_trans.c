@@ -1,13 +1,7 @@
-#include <R.h>
-#include <Rdefines.h>
-#include <stdio.h>
 
 #ifdef HAVE_PROJ6_API
 #include <proj.h>
-#endif
-
-
-
+#include <Rinternals.h>
 
 // this returns a list of 2 or 4, takes in a list of 2 or 4
 // 2 == x,y
@@ -16,8 +10,6 @@
 //    input list not len 2 or 4 || crs_to_crs is invalid || gis-order is invalid || PROJ>=6 is not available
 SEXP PROJ_proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
 {
-
-#ifdef HAVE_PROJ6_API
   PJ_CONTEXT *C;
   PJ *P;
   PJ* P_for_GIS;
@@ -99,10 +91,6 @@ SEXP PROJ_proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
 
   UNPROTECT(unprot);
   return vec;
-#else
-  Rprintf("no proj.h\n");
-  return(R_NilValue);
-#endif
 }
 
 
@@ -110,8 +98,6 @@ SEXP PROJ_proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
 
 SEXP PROJ_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
 {
-
-  #ifdef HAVE_PROJ6_API
   PJ_CONTEXT *C;
   PJ *P;
   PJ* P_for_GIS;
@@ -147,7 +133,7 @@ SEXP PROJ_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
       b = proj_trans(P, PJ_FWD, a);
       REAL(x_copy)[i] = b.xyzt.x;
       REAL(y_copy)[i] = b.xyzt.y;
-         }
+    }
     r = proj_errno(P);
     proj_destroy(P);
     if (r) {
@@ -161,8 +147,6 @@ SEXP PROJ_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
 
   UNPROTECT(5);
   return vec;
-#else
-  return(R_NilValue);
-#endif
 }
 
+#endif

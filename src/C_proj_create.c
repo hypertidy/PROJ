@@ -1,9 +1,7 @@
-#include <R.h>
-#include <Rinternals.h>
 
 #ifdef HAVE_PROJ6_API
 #include <proj.h>
-#endif
+#include <Rinternals.h>
 
 SEXP PROJ_proj_create(SEXP crs_, SEXP format)
 {
@@ -22,8 +20,6 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
   // allocate the R output
   SEXP out = PROTECT(allocVector(STRSXP, 1));
 
-  // the else is to give out an NA string
-#ifdef HAVE_PROJ6_API
   PJ *pj;
   if (!(pj =   proj_create(PJ_DEFAULT_CTX, *crs_in)))
     error(proj_errno_string(proj_errno(0)));
@@ -55,12 +51,9 @@ SEXP PROJ_proj_create(SEXP crs_, SEXP format)
 
   proj_destroy(pj);
 
-# else
-  // we don't have PROJ >= 6 so we return NA_character_
-  SET_STRING_ELT(out, 0, NA_STRING);
-#endif
-
-    UNPROTECT(1);
+  UNPROTECT(1);
 
   return(out);
 }
+
+#endif
