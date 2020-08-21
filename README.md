@@ -3,32 +3,6 @@
 
 # PROJ
 
-<!-- badges: start -->
-
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R build
-status](https://github.com/hypertidy/PROJ/workflows/R-CMD-check/badge.svg)](https://github.com/hypertidy/PROJ/actions)
-[![R build
-status](https://github.com/hypertidy/PROJ/workflows/test-coverage/badge.svg)](https://github.com/hypertidy/PROJ/actions)
-[![R build
-status](https://github.com/hypertidy/PROJ/workflows/pkgdown/badge.svg)](https://github.com/hypertidy/PROJ/actions)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/PROJ)](https://cran.r-project.org/package=PROJ)
-[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/PROJ)](https://cran.r-project.org/package=PROJ)
-
-[![Travis
-NOPROJ](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj0&label=PROJ0)](https://travis-ci.org/hypertidy/PROJ)
-no PROJ available 👍 <br> [![Travis
-PROJ4](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj4&label=PROJ4)](https://travis-ci.org/hypertidy/PROJ)
-PROJ.4 in system, no function 👍 <br> [![Travis
-PROJ5](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj5&label=PROJ5)](https://travis-ci.org/hypertidy/PROJ)
-PROJ 5 in system, no function 👍 <br> [![Travis
-PROJ6](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj6&label=PROJ6)](https://travis-ci.org/hypertidy/PROJ)
-PROJ version 6, full function 🚀 <br> [![Travis
-PROJ7](https://img.shields.io/travis/hypertidy/PROJ.svg?branch=master&env=BUILD_NAME=proj7&label=PROJ7)](https://travis-ci.org/hypertidy/PROJ)
-PROJ version 7, full function 🤸 <!-- badges: end -->
-
 The goal of PROJ is to provide generic coordinate system transformations
 in R with a functional requirement for the system library PROJ \>= 6.
 
@@ -153,32 +127,20 @@ dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
 src <- "+proj=longlat +datum=WGS84"
 
 ## forward transformation
-(xy <- proj_trans_generic( cbind(lon, lat), dst, source = src))
+(xy <- proj_trans( cbind(lon, lat), dst, source = src))
 #> $x_
 #> [1] -8013029        0
 #> 
 #> $y_
 #> [1] -8225762        0
-#> 
-#> $z_
-#> [1] 0 0
-#> 
-#> $t_
-#> [1] 0 0
 
 ## inverse transformation
-proj_trans_generic(cbind(xy$x_, xy$y_), src, source = dst)
+proj_trans(cbind(xy$x_, xy$y_), src, source = dst)
 #> $x_
 #> [1]   0 147
 #> 
 #> $y_
 #> [1] -3.194835e-15 -4.200000e+01
-#> 
-#> $z_
-#> [1] 0 0
-#> 
-#> $t_
-#> [1] 0 0
 
 
 ## note that NAs propagate in the usual way
@@ -194,7 +156,7 @@ w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-xyzt <- proj_trans_generic(cbind(lon, lat), dst, source = "epsg:4326", z_ = 0)
+xyzt <- proj_trans(cbind(lon, lat), dst, source = "epsg:4326", z_ = 0)
 plot(xyzt$x_, xyzt$y_, pch = ".")
 ```
 
@@ -202,7 +164,7 @@ plot(xyzt$x_, xyzt$y_, pch = ".")
 
 ``` r
 
-lonlat <- proj_trans_generic(xyzt, src, source = dst)
+lonlat <- proj_trans(xyzt, src, source = dst)
 plot(lonlat$x_, lonlat$y_, pch = ".")
 ```
 
@@ -245,8 +207,8 @@ xyzt <- cbind(lon, lat, z, 0)
 # sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll) 
 
 rbenchmark::benchmark(
-          PROJ = proj_trans_generic(ll, target = dst, source = llproj, z_ = z),
-          reproj = reproj(ll, target = dst, source = llproj),
+          PROJ = proj_trans(ll, target = dst, source = llproj, z_ = z),
+          # FIXME: uses ok_proj6 reproj = reproj(ll, target = dst, source = llproj),
           rgdal = project(ll, dst),
           sf_project = sf_project(llproj, dst, ll),
         # lwgeom = st_transform_proj(sfx, dst),
@@ -254,21 +216,15 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   9.762          100
-#> 2      rgdal  10.167          100
-#> 3       PROJ  10.550          100
-#> 4     reproj  11.560          100
+#> 1 sf_project   8.527          100
+#> 2      rgdal   9.944          100
+#> 3       PROJ  15.646          100
 ```
-
-The speed is not exactly stunning, but with PROJ we can also do 3D
-transformations and that’s good enough for me. I think it will be faster
-with the underlying API function `proj_trans_array()`, instead of
-`proj_trans_generic()`, but I don’t really know.
 
 A geocentric example, suitable for plotting in rgl.
 
 ``` r
-xyzt <- proj_trans_generic(cbind(w[,1], w[,2]), target = "+proj=geocent +datum=WGS84", source = "EPSG:4326")
+xyzt <- proj_trans(cbind(w[,1], w[,2]), z_ = rep(0, dim(w)[1L]), target = "+proj=geocent +datum=WGS84", source = "EPSG:4326")
 plot(as.data.frame(xyzt[1:3]), pch = ".", asp = 1)
 ```
 
