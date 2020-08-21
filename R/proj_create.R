@@ -28,16 +28,13 @@
 #' #cat(proj_create(paste(s1, s2)))
 proj_create <- function(source, format = 0L) {
   stop("proj_create is disabled for now")
-  if (!ok_proj6()) {
-    warning("'proj_create()' is not functional on this system")
-    return(NA_character_)
-  }
+
   stopifnot(length(format) == 1L)
   stopifnot(format %in% c(0L))
   stopifnot(is.character(source))
   stopifnot(length(source) == 1L)
-  .Call("PROJ_proj_create",
-        crs_ = source,
-        format = as.integer(format),
-        PACKAGE = "PROJ")
+  # .Call("proj_create_text",
+  #       crs_ = source,
+  #       format = as.integer(format),
+  #       PACKAGE = "PROJ")
 }

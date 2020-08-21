@@ -10,7 +10,9 @@ Authors@R:
     person("Jeroen", "Ooms", role = c("ctb"), 
            comment = "provided PROJ library support on Windows, and assistance with Windows configuration"), 
     person("Simon", "Urbanek", role = c("cph", "ctb"), 
-           comment = "wrote original code versions for PROJ version 6"))
+           comment = "wrote original code versions for PROJ version 6"), 
+    person("Dewey", "Dunnington", role = c("ctb"), 
+           comment = "cleaned up a bit, and build libproj to improve things a lot"))
 Description: A wrapper around the generic coordinate transformation software 'PROJ'
   that transforms geospatial coordinates from one coordinate reference system ('CRS') 
   to another. This includes cartographic projections as well as geodetic transformations. 
@@ -38,3 +40,5 @@ BugReports: https://github.com/hypertidy/PROJ/issues
 RoxygenNote: 7.1.1
 Language: en-US
 VignetteBuilder: knitr
+LinkingTo: 
+    libproj

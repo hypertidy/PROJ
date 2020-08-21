@@ -1,3 +1,14 @@
+
+
+* No set up on load now, all handled by libproj. Package should always function, always with version 7 or above. 
+
+* FIXME:  (should deprecate) Removed `ok_proj6()`
+
+* Now importing libproj, a much grander cleanup. 
+
+* Incorporated a few cleanups from Dewey Dunnington. 
+
+
 # PROJ 0.2.0
 
 * Now using Github Actions to test linux, windows, macos. Many thanks to James Balamuta for guidance on how to do this. 

@@ -1,18 +1,27 @@
+#include "libproj.h"
 
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
-/* .Call calls */
-extern SEXP PROJ_proj_create(SEXP, SEXP);
-extern SEXP PROJ_proj_set_data_dir(SEXP);
-extern SEXP PROJ_proj_trans_xy(SEXP, SEXP, SEXP, SEXP);
-extern SEXP PROJ_proj_trans_list(SEXP, SEXP, SEXP);
 
+SEXP libproj_c_init() {
+    // load functions into the (currently NULL) function pointers in libgeos-impl.c
+    libproj_init_api();
+
+    return R_NilValue;
+}
+
+/* .Call calls */
+extern SEXP libproj_c_init();
+extern SEXP proj_trans_list(SEXP x, SEXP src_, SEXP tgt_);
+extern SEXP proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_);
+extern SEXP proj_create_text(SEXP crs_, SEXP format_);
 static const R_CallMethodDef CallEntries[] = {
-    {"PROJ_proj_create",  (DL_FUNC) &PROJ_proj_create,  2},
-    {"PROJ_proj_set_data_dir", (DL_FUNC) &PROJ_proj_set_data_dir, 1},
-    {"PROJ_proj_trans_xy",           (DL_FUNC) &PROJ_proj_trans_xy, 4},
-    {"PROJ_proj_trans_list",           (DL_FUNC) &PROJ_proj_trans_list, 3},
+    {"libproj_c_init",  (DL_FUNC) &libproj_c_init,  0},
+    {"proj_trans_list",  (DL_FUNC) &proj_trans_list,  3},
+    {"proj_trans_xy",  (DL_FUNC) &proj_trans_xy,  4},
+    {"proj_create_text",  (DL_FUNC) &proj_create_text,  2},
+
     {NULL, NULL, 0}
 };
 
