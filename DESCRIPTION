@@ -1,6 +1,6 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.2.0.9001
+Version: 0.2.0.9002
 Authors@R: 
     c(person(given = "Michael D.",
            family = "Sumner",
@@ -12,7 +12,7 @@ Authors@R:
     person("Simon", "Urbanek", role = c("cph", "ctb"), 
            comment = "wrote original code versions for PROJ version 6"), 
     person("Dewey", "Dunnington", role = c("ctb"), 
-           comment = "cleaned up a bit, and build libproj to improve things a lot"))
+           comment = "key code contributions, and provided libproj to improve things a lot"))
 Description: A wrapper around the generic coordinate transformation software 'PROJ'
   that transforms geospatial coordinates from one coordinate reference system ('CRS') 
   to another. This includes cartographic projections as well as geodetic transformations. 
@@ -28,8 +28,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-SystemRequirements: libsqlite3, proj (>= 6.1.0 required for full operation, package will install
- and pass check with lower versions or even if no PROJ available)
 Suggests: 
     testthat (>= 2.1.0),
     spelling,
@@ -41,4 +39,4 @@ RoxygenNote: 7.1.1
 Language: en-US
 VignetteBuilder: knitr
 LinkingTo: 
-    libproj
+    libproj (>= 7.1.0-1)
