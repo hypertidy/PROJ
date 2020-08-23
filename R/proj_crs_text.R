@@ -10,13 +10,11 @@
 #' for details on input and output formats.
 #'
 #' Some nuances of the format are not available, currently we use formats
-#' '0: PJ_WKT2_2018'.
-#'
-#'  Options '1: PJ_PROJ_5', '2: PROJJSON' is not available, WIP.
+#' '0: PJ_WKT2_2018' '1: PJ_PROJ_5', '2: PROJJSON'.
 #'
 #' Some formats are hard to read, such as WKT so for easy reading
 #' use `cat()`.
-#' @noRd
+#' @export
 #' @param format integer, 0 for 'WKT', 1 for 'PROJ'
 #' @param source input projection specification one of ('PROJ4', 'WKT2',
 #'  'EPSG', 'PROJJSON', ... see the library documentation link in Details)
@@ -24,17 +22,17 @@
 #' @return character string in requested format
 #'
 #' @examples
-#' #proj_create("EPSG:4326", format = 0)
-#' #cat(proj_create(paste(s1, s2)))
-proj_create <- function(source, format = 0L) {
-  stop("proj_create is disabled for now")
-
+#' cat(proj_crs_text("EPSG:4326", format = 0L))
+#' proj_crs_text("EPSG:4326", format = 1L)
+#' south55 <- "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"
+#' proj_crs_text(proj_crs_text(south55), 1L)
+proj_crs_text <- function(source, format = 0L) {
   stopifnot(length(format) == 1L)
-  stopifnot(format %in% c(0L))
+  stopifnot(format %in% c(0L, 1L, 2L))
   stopifnot(is.character(source))
   stopifnot(length(source) == 1L)
-  # .Call("proj_create_text",
-  #       crs_ = source,
-  #       format = as.integer(format),
-  #       PACKAGE = "PROJ")
+  .Call("C_proj_crs_text",
+        crs_ = source,
+        format = as.integer(format),
+        PACKAGE = "PROJ")
 }
