@@ -5,7 +5,7 @@
 
 
 SEXP libproj_c_init() {
-    // load functions into the (currently NULL) function pointers in libgeos-impl.c
+    // load functions into the (currently NULL) function pointers in libproj-impl.c
     libproj_init_api();
     return R_NilValue;
 }
