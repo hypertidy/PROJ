@@ -23,7 +23,7 @@ Description: A wrapper around the generic coordinate transformation software 'PR
   change (from 4.0 and 5.0, to 6.0 and above) allows the use of existing and 
   stable code in 'proj4' alongside the new idioms and requirements of modern 'PROJ'
   using this package. The 'PROJ' library is available from <https://proj.org/>. 
-Depends: R (>= 2.10)
+Depends: R (>= 3.0.2)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -39,4 +39,6 @@ RoxygenNote: 7.1.1
 Language: en-US
 VignetteBuilder: knitr
 LinkingTo: 
+    libproj (>= 7.1.0-1)
+Imports: 
     libproj (>= 7.1.0-1)

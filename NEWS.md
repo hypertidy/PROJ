@@ -7,7 +7,7 @@
 
 * Now importing libproj, a much grander cleanup. 
 
-* Incorporated a few cleanups from Dewey Dunnington. 
+* Incorporated fixes and improvements from Dewey Dunnington. 
 
 
 # PROJ 0.2.0

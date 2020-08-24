@@ -8,6 +8,15 @@
 ## usethis namespace: end
 NULL
 
+#' @noRd
+#' @importFrom libproj libproj_version
+.libproj_version <- function() {
+  ## purely to pass check
+  libproj::libproj_version()
+}
+NULL
+
+
 #' Generic Coordinate System Transformations Using 'PROJ'
 #'
 #' The goal of PROJ is to provide generic coordinate system transformations in R
