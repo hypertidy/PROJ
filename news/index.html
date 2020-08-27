@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -117,6 +117,18 @@
       <small>Source: <a href='https://github.com/hypertidy/PROJ/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="proj-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#proj-030" class="anchor"></a>PROJ 0.3.0<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>New function ‘proj_crs_text()’ to convert from one CRS text format to another.</p></li>
+<li><p>No set up on load now, all handled by libproj. Package should always function, always with version 7 or above.</p></li>
+<li><p>FIXME: (should deprecate) Removed <code><a href="../reference/ok_proj6.html">ok_proj6()</a></code></p></li>
+<li><p>Now importing libproj, a much grander cleanup.</p></li>
+<li><p>Incorporated fixes and improvements from Dewey Dunnington.</p></li>
+</ul>
+</div>
     <div id="proj-020" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#proj-020" class="anchor"></a>PROJ 0.2.0<small> Unreleased </small>
@@ -141,7 +153,7 @@
 </h1>
 <ul>
 <li><p>We now use the PROJ::proj_trans internally, and just loop over vectors. (so proj_trans_generic is a misnomer, technically).</p></li>
-<li><p>Prevent error on out of bounds values from <code><a href="../reference/proj_trans_generic.html">proj_trans_generic()</a></code>. We get <code>Inf</code>.</p></li>
+<li><p>Prevent error on out of bounds values from <code><a href="../reference/proj_trans.html">proj_trans_generic()</a></code>. We get <code>Inf</code>.</p></li>
 </ul>
 </div>
     <div id="proj-015" class="section level1">
@@ -179,7 +191,7 @@
 <a href="#proj-001" class="anchor"></a>PROJ 0.0.1<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>R function <code><a href="../reference/proj_trans_generic.html">proj_trans()</a></code> gains a <code>quiet</code> argument to control output of warnings about missing values.</p></li>
+<li><p>R function <code><a href="../reference/proj_trans.html">proj_trans()</a></code> gains a <code>quiet</code> argument to control output of warnings about missing values.</p></li>
 <li><p>New C functions <code>R_proj_trans_FWD()</code> and <code>R_proj_trans_INV()</code> using the base R API. Interface is matrix in, matrix out always with three columns out as per reproj.</p></li>
 <li><p>First working code with Rcpp function <code>proj_trans_cpp()</code>.</p></li>
 </ul>
