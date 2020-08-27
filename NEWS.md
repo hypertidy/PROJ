@@ -1,13 +1,15 @@
+# PROJ 0.3.0
 
-* New function 'proj_crs_text()' to convert from one CRS text format to another. 
+* New function 'proj_crs_text()' to convert from one CRS text format to another.
 
-* No set up on load now, all handled by libproj. Package should always function, always with version 7 or above. 
+* No set up on load now, all handled by libproj. Package should always function,
+always with version 7 or above.
 
 * FIXME:  (should deprecate) Removed `ok_proj6()`
 
-* Now importing libproj, a much grander cleanup. 
+* Now importing libproj, a much grander cleanup.
 
-* Incorporated fixes and improvements from Dewey Dunnington. 
+* Incorporated fixes and improvements from Dewey Dunnington.
 
 
 # PROJ 0.2.0
