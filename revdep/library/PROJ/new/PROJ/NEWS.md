@@ -1,4 +1,20 @@
-# PROJ dev
+# PROJ 0.3.0
+
+* New function 'proj_crs_text()' to convert from one CRS text format to another.
+
+* No set up on load now, all handled by libproj. Package should always function,
+always with version 7 or above.
+
+* FIXME:  (should deprecate) Removed `ok_proj6()`
+
+* Now importing libproj, a much grander cleanup.
+
+* Incorporated fixes and improvements from Dewey Dunnington.
+
+
+# PROJ 0.2.0
+
+* Now using Github Actions to test linux, windows, macos. Many thanks to James Balamuta for guidance on how to do this. 
 
 * The internal C functionality calling the PROJ library now uses .Call rather than .C. The .C function
  `PROJ_proj_trans_generic()` is now not used and will be removed. 
