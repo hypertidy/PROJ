@@ -18,7 +18,7 @@ use a matrix or data frame of 2, 3, or 4 columns and these are assumed (if prese
 
 The transformation idiom used is 1) provide raw coordinates; 2) specify their source projection; 3) specify their target projection.
 
-We enter into the coordinate order debacle of the [OGC](https://www.opengeospatial.org/) for longitude, latitude by precluding
+We enter into the coordinate order debacle of the [OGC](https://www.ogc.org/) for longitude, latitude by precluding
 other options. We use longitude, latitude order.
 
 ## Why PROJ?
