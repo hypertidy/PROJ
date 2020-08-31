@@ -52,7 +52,7 @@ proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {
   if (!is.numeric(x)) stop("input coordinates must be numeric")
   if (nd[1L] < 1) stop("must be at least one coordinate")
   if (nd[2L] == 2L) {
-    out <- .Call("proj_trans_xy", x_ = x[,1L], y_ = x[,2L], src_ = source, tgt_ = target, PACKAGE = "PROJ")
+    out <- .Call("proj_trans_xy", x_ = as.double(x[,1L]), y_ = as.double(x[,2L]), src_ = source, tgt_ = target, PACKAGE = "PROJ")
     names(out) <- c("x_", "y_")
   } else {
     xx <- split(x, rep(seq_len(nd[2L]), each = nd[1L]))
