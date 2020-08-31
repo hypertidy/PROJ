@@ -87,7 +87,7 @@
 <p>The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library to be provided by the <a href="https://cran.r-project.org/package=libproj">libproj package</a>.</p>
 <p>This is a shared goal with the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, and PROJ provides the infrastructure for later versions of the underlying library.</p>
 <p>PROJ provides basic coordinate transformations for generic numeric data in matrices or data frames. Transforming spatial data coordinates is a basic task independent of storage format.</p>
-<p>PROJ is strictly for modern versions of the PROJ library, now via <a href="https://cran.r-project.org/package=libroj">libproj package</a> at version</p>
+<p>PROJ is strictly for modern versions of the PROJ library, now via <a href="https://cran.r-project.org/package=libproj">libproj package</a> at version</p>
 <ol>
 <li>Alternative pathways to PROJ via the proj4 package are available but only used for expert testing.</li>
 </ol>
@@ -96,7 +96,7 @@
 <div id="things-to-be-aware-of" class="section level2">
 <h2 class="hasAnchor">
 <a href="#things-to-be-aware-of" class="anchor"></a>Things to be aware of</h2>
-<p>Note that for PROJ5 (and lower) this package is non-functional (can use proj4). The testing here on Travis ensures that the package installs successfully for various versions of PROJ, although underlying functionality is disabled for 4 and 5 (and for no PROJ).</p>
+<p>Note that <em>PROJ in your system</em> is not used, PROJ imports the standalone libproj package installed from CRAN.</p>
 <ul>
 <li>Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, <em>and time</em>. So the output is always a 4-column matrix.</li>
 <li>You can’t use strings like “+init=epsg:4326” any more, it must be “EPSG:4326”.</li>
@@ -104,19 +104,6 @@
 <li>PROJ assumes longitude/latitude order always by setting the PROJ library context <em>proj_normalize_for_visualization</em>.</li>
 </ul>
 <p>Please see <a href="https://proj.org/development/quickstart.html">PROJ library documentation</a> for details on this.</p>
-</div>
-<div id="why" class="section level2">
-<h2 class="hasAnchor">
-<a href="#why" class="anchor"></a>WHY</h2>
-<p>A quick list, see more below.</p>
-<ul>
-<li>Why not proj4? It’s not maintained in a way that works for me.</li>
-<li>Why not sf? It brings a lot of baggage, and can’t do geocentric transformations.</li>
-<li>Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric.</li>
-<li>Why not lwgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes.</li>
-<li>Why not mapproj? This is unusable for real-world projections in my experience, it seems to be written for some basic graphics cases.</li>
-<li>Why not reproj? reproj will be improved by importing PROJ. This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond.</li>
-</ul>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -157,7 +144,14 @@
 
 <span class="co">## note that NAs propagate in the usual way</span>
 <span class="no">lon</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">NA</span>, <span class="fl">147</span>)
-<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">NA</span>, <span class="fl">0</span>, -<span class="fl">42</span>)</pre></div>
+<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">NA</span>, <span class="fl">0</span>, -<span class="fl">42</span>)
+
+<span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">lon</span>, <span class="no">lat</span>), <span class="no">src</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="no">dst</span>)
+<span class="co">#&gt; $x_</span>
+<span class="co">#&gt; [1]       NA       NA 147.0018</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $y_</span>
+<span class="co">#&gt; [1]        NA        NA -42.00038</span></pre></div>
 <p>A more realistic example with coastline map data.</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PROJ</span>)
 <span class="no">w</span> <span class="kw">&lt;-</span> <span class="kw pkg">PROJ</span><span class="kw ns">::</span><span class="no"><a href="reference/xymap.html">xymap</a></span>
@@ -177,8 +171,27 @@
 <a href="#convert-projection-strings" class="anchor"></a>Convert projection strings</h2>
 <p>We can generate PROJ or within limitations WKT2 strings, format 0, 1, 2 for WKT, proj4string, projjson respectively.</p>
 <div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="no">wkt2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_crs_text.html">proj_crs_text</a></span>(<span class="st">"EPSG:4326"</span>))
+<span class="co">#&gt; GEOGCRS["WGS 84",</span>
+<span class="co">#&gt;     DATUM["World Geodetic System 1984",</span>
+<span class="co">#&gt;         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
+<span class="co">#&gt;             LENGTHUNIT["metre",1]]],</span>
+<span class="co">#&gt;     PRIMEM["Greenwich",0,</span>
+<span class="co">#&gt;         ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">#&gt;     CS[ellipsoidal,2],</span>
+<span class="co">#&gt;         AXIS["geodetic latitude (Lat)",north,</span>
+<span class="co">#&gt;             ORDER[1],</span>
+<span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">#&gt;         AXIS["geodetic longitude (Lon)",east,</span>
+<span class="co">#&gt;             ORDER[2],</span>
+<span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">#&gt;     USAGE[</span>
+<span class="co">#&gt;         SCOPE["unknown"],</span>
+<span class="co">#&gt;         AREA["World"],</span>
+<span class="co">#&gt;         BBOX[-90,-180,90,180]],</span>
+<span class="co">#&gt;     ID["EPSG",4326]]</span>
 
-<span class="fu"><a href="reference/proj_crs_text.html">proj_crs_text</a></span>(<span class="no">wkt2</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="fl">1L</span>)</pre></div>
+<span class="fu"><a href="reference/proj_crs_text.html">proj_crs_text</a></span>(<span class="no">wkt2</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="fl">1L</span>)
+<span class="co">#&gt; [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</span></pre></div>
 </div>
 </div>
 <div id="speed-comparisons" class="section level1">
@@ -210,10 +223,10 @@
         <span class="kw">replications</span> <span class="kw">=</span> <span class="fl">100</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">arrange</span>(<span class="no">elapsed</span>) <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">select</span>(<span class="no">test</span>, <span class="no">elapsed</span>, <span class="no">replications</span>)
 <span class="co">#&gt;         test elapsed replications</span>
-<span class="co">#&gt; 1 sf_project   8.842          100</span>
-<span class="co">#&gt; 2       PROJ   9.038          100</span>
-<span class="co">#&gt; 3      rgdal  10.300          100</span>
-<span class="co">#&gt; 4     reproj  11.639          100</span></pre></div>
+<span class="co">#&gt; 1 sf_project   8.820          100</span>
+<span class="co">#&gt; 2       PROJ   9.033          100</span>
+<span class="co">#&gt; 3     reproj   9.929          100</span>
+<span class="co">#&gt; 4      rgdal  10.390          100</span></pre></div>
 <p>A geocentric example, suitable for plotting in rgl.</p>
 <div class="sourceCode" id="cb9"><pre class="r"><span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">w</span>[,<span class="fl">1</span>], <span class="no">w</span>[,<span class="fl">2</span>]), <span class="kw">z_</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="no">w</span>)[<span class="fl">1L</span>]), <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"EPSG:4326"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">xyzt</span>[<span class="fl">1</span>:<span class="fl">3</span>]), <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>, <span class="kw">asp</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
@@ -223,6 +236,14 @@
 <h2 class="hasAnchor">
 <a href="#why-proj" class="anchor"></a>Why PROJ?</h2>
 <p>PROJ was created before <a href="https://cran.r-project.org/package=libproj">libproj</a> existed, and now leverages it.</p>
+<ul>
+<li>Why not proj4? It’s not maintained in a way that works for me.</li>
+<li>Why not sf? It brings a lot of baggage, and can’t do geocentric transformations.</li>
+<li>Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric.</li>
+<li>Why not lwgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes.</li>
+<li>Why not mapproj? This is unusable for real-world projections in my experience, it seems to be written for some basic graphics cases.</li>
+<li>Why not reproj? reproj will be improved by importing PROJ. This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond.</li>
+</ul>
 <p>The <a href="https://CRAN.R-project.org/package=reproj">reproj</a> package wraps the very efficient <code>proj4::ptransform()</code> function for general coordinate system transformations. Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself.</p>
 <p>Since the 1990s <a href="https://proj4.org">PROJ.4</a> has been the name of the common standard library for general coordinate system transformations (for geospatial). That 1994 release has been modernized and now has versions <strong>PROJ 5</strong> and <strong>PROJ 6</strong>. There’s a bit of traction in the name PROJ.4, so it has stuck</p>
 <p>I’ll use “PROJ (PROJ.4)” to distinguish the <a href="https://proj4.org">system library</a> from <a href="https://github.com/hypertidy/PROJ">this package</a>.</p>
