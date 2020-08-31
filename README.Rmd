@@ -29,7 +29,7 @@ package, and PROJ provides the infrastructure for later versions of the underlyi
 
 PROJ provides basic coordinate transformations for generic numeric data in matrices or data frames. Transforming spatial data coordinates is a basic task independent of storage format.
 
-PROJ is strictly for modern versions of the PROJ library, now via [libproj package](https://cran.r-project.org/package=libroj) at version 7. Alternative pathways to 
+PROJ is strictly for modern versions of the PROJ library, now via [libproj package](https://cran.r-project.org/package=libproj) at version 7. Alternative pathways to 
 PROJ via the proj4 package are available but only used for expert testing.
 
 Because we are using modern PROJ there is no forward/inverse
