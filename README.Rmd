@@ -22,7 +22,7 @@ library(reproj)
 # PROJ
 
 
-The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library to be provided by the [libproj package](https://cran.r-project.org/package=libroj). 
+The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library to be provided by the [libproj package](https://cran.r-project.org/package=libproj). 
 
 This is a shared goal with the [reproj](https://cran.r-project.org/package=reproj)
 package, and PROJ provides the infrastructure for later versions of the underlying library. 
@@ -130,10 +130,10 @@ w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-xyzt <- proj_trans(cbind(lon, lat), dst, source = "epsg:4326", z_ = 0)
-plot(xyzt$x_, xyzt$y_, pch = ".")
+xy <- proj_trans(cbind(lon, lat), dst, source = "epsg:4326")
+plot(xy$x_, xy$y_, pch = ".")
 
-lonlat <- proj_trans(xyzt, src, source = dst)
+lonlat <- proj_trans(xy, src, source = dst)
 plot(lonlat$x_, lonlat$y_, pch = ".")
 ```
 
@@ -167,12 +167,10 @@ llproj <- "+proj=longlat +datum=WGS84"
 
 xyz <- cbind(lon, lat, z)
 xyzt <- cbind(lon, lat, z, 0)
-# stll <- sf::st_crs(llproj)
-# sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll) 
 
 rbenchmark::benchmark(
-          PROJ = proj_trans(ll, target = dst, source = llproj, z_ = z),
-          # FIXME: uses ok_proj6 reproj = reproj(ll, target = dst, source = llproj),
+          PROJ = proj_trans(ll, target = dst, source = llproj),
+          reproj = reproj::reproj(ll, target = dst, source = llproj),
           rgdal = project(ll, dst),
           sf_project = sf_project(llproj, dst, ll),
         # lwgeom = st_transform_proj(sfx, dst),
@@ -194,8 +192,9 @@ Geocentric transformations aren't used in R much, but some examples are found in
 
 ## Why PROJ?
 
+PROJ was created before [libproj](https://cran.r-project.org/package=libproj) existed, and now leverages it. 
 
-The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package used by reproj doesn't provide the modern features of PROJ (PROJ.4), has not been updated on CRAN since 2012 and has an uncertain future. So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
+The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
 
 Since the 1990s [PROJ.4](https://proj4.org) has been the name of the common standard library for general coordinate system transformations (for geospatial). That 1994 release has been modernized and now has versions **PROJ 5** and **PROJ 6**. There's a bit of traction in the name PROJ.4, so it has stuck 
 
@@ -215,8 +214,6 @@ Packages sf, rgdal and proj4 provide raw access to coordinate transformations fo
 The rgdal function `project()` won't transform with a third Z coordinate. The sf functions do work with geocentric coords. 
 
 The packages rgdal, sf, lwgeom are now compatible with PROJ 5 (and 6) and don't need any further attention in this regard. They work fine within their chosen context. 
-
-Are there any other wrappers around PROJ (PROJ.4) on CRAN or Bioconductor, or in the works? Let me know! 
 
 
 ---

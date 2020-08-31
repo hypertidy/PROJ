@@ -10,7 +10,7 @@ xy <- cbind(lon, lat)
 xyzt <- cbind(lon, lat, 1, 0)
 test_that("input checks work", {
 
-  expect_error(proj_trans(xy), "argument \"target\" is missing, with no default")
+  expect_error(proj_trans(xy), "target must be a string")
   expect_error(proj_trans(xy, dst), "source must be provided as a string")
   expect_error(proj_trans(xy, 1, source = llproj), "target must be a string")
   expect_silent(proj_trans(data.frame(lon, lat), dst, source = llproj))
@@ -20,7 +20,7 @@ test_that("input checks work", {
   expect_error(proj_trans(cbind(numeric(0), numeric(0)), dst , source  = llproj),
                "must be at least one coordinate")
   expect_error(proj_trans(matrix(1:3, 3:1)[NA, , drop   = FALSE], dst , source  = llproj),
-               "x coordinates must be 2-column, with z_ and or t_ provide separately")
+               "x coordinates must be 2-column, with z_ and t_ provided separately")
 
   expect_silent(proj_trans(xy, dst, source = llproj))
   expect_silent(proj_trans(xy, z_ = 0, dst, source = llproj))

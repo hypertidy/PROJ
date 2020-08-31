@@ -5,7 +5,7 @@
 
 The goal of PROJ is to provide generic coordinate system transformations
 in R with a functional requirement for the system library to be provided
-by the [libproj package](https://cran.r-project.org/package=libroj).
+by the [libproj package](https://cran.r-project.org/package=libproj).
 
 This is a shared goal with the
 [reproj](https://cran.r-project.org/package=reproj) package, and PROJ
@@ -133,15 +133,15 @@ w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-xyzt <- proj_trans(cbind(lon, lat), dst, source = "epsg:4326", z_ = 0)
-plot(xyzt$x_, xyzt$y_, pch = ".")
+xy <- proj_trans(cbind(lon, lat), dst, source = "epsg:4326")
+plot(xy$x_, xy$y_, pch = ".")
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
 ``` r
 
-lonlat <- proj_trans(xyzt, src, source = dst)
+lonlat <- proj_trans(xy, src, source = dst)
 plot(lonlat$x_, lonlat$y_, pch = ".")
 ```
 
@@ -176,12 +176,10 @@ llproj <- "+proj=longlat +datum=WGS84"
 
 xyz <- cbind(lon, lat, z)
 xyzt <- cbind(lon, lat, z, 0)
-# stll <- sf::st_crs(llproj)
-# sfx <- sf::st_sfc(sf::st_multipoint(ll), crs = stll) 
 
 rbenchmark::benchmark(
-          PROJ = proj_trans(ll, target = dst, source = llproj, z_ = z),
-          # FIXME: uses ok_proj6 reproj = reproj(ll, target = dst, source = llproj),
+          PROJ = proj_trans(ll, target = dst, source = llproj),
+          reproj = reproj::reproj(ll, target = dst, source = llproj),
           rgdal = project(ll, dst),
           sf_project = sf_project(llproj, dst, ll),
         # lwgeom = st_transform_proj(sfx, dst),
@@ -189,9 +187,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   8.772          100
-#> 2      rgdal  10.268          100
-#> 3       PROJ  14.693          100
+#> 1 sf_project   9.005          100
+#> 2       PROJ   9.600          100
+#> 3     reproj   9.998          100
+#> 4      rgdal  10.653          100
 ```
 
 A geocentric example, suitable for plotting in rgl.
@@ -208,6 +207,10 @@ found in the [quadmesh](https://CRAN.R-project.org/package=quadmesh) and
 [anglr](https://github.com/hypertidy/anglr) packages.
 
 ## Why PROJ?
+
+PROJ was created before
+[libproj](https://cran.r-project.org/package=libproj) existed, and now
+leverages it.
 
 The [reproj](https://CRAN.R-project.org/package=reproj) package wraps
 the very efficient `proj4::ptransform()` function for general coordinate
@@ -263,9 +266,6 @@ coordinate. The sf functions do work with geocentric coords.
 The packages rgdal, sf, lwgeom are now compatible with PROJ 5 (and 6)
 and don’t need any further attention in this regard. They work fine
 within their chosen context.
-
-Are there any other wrappers around PROJ (PROJ.4) on CRAN or
-Bioconductor, or in the works? Let me know\!
 
 -----
 
