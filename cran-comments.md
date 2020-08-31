@@ -1,4 +1,4 @@
-# PROJ 0.3.0
+# PROJ 0.3.1
 
 PROJ now leverages libproj and so all configure and file-copy requirements have been removed. 
 
