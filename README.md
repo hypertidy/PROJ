@@ -17,7 +17,7 @@ in matrices or data frames. Transforming spatial data coordinates is a
 basic task independent of storage format.
 
 PROJ is strictly for modern versions of the PROJ library, now via
-[libproj package](https://cran.r-project.org/package=libroj) at version
+[libproj package](https://cran.r-project.org/package=libproj) at version
 7. Alternative pathways to PROJ via the proj4 package are available but
 only used for expert testing.
 
@@ -187,10 +187,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   8.842          100
-#> 2       PROJ   9.038          100
-#> 3      rgdal  10.300          100
-#> 4     reproj  11.639          100
+#> 1 sf_project   8.863          100
+#> 2       PROJ   8.879          100
+#> 3     reproj  10.035          100
+#> 4      rgdal  10.359          100
 ```
 
 A geocentric example, suitable for plotting in rgl.
