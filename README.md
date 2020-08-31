@@ -28,7 +28,7 @@ well as the target. When a data set has an in-built CRS projection
 recorded, then methods can be written for that use-case with that
 format.
 
-We can use “auth:code” forms, PROJ.4 strings, full WKT2, or the name of
+We can use ‘auth:code’ forms, PROJ.4 strings, full WKT2, or the name of
 a CRS as found in the PROJ database, e.g ‘WGS84’, ‘NAD27’, etc. Full
 details are provided in the [PROJ
 documentation](https://proj.org/development/reference/functions.html#c.proj_create).
@@ -187,10 +187,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   9.004          100
-#> 2       PROJ   9.079          100
-#> 3     reproj   9.887          100
-#> 4      rgdal  10.332          100
+#> 1 sf_project   8.842          100
+#> 2       PROJ   9.038          100
+#> 3      rgdal  10.300          100
+#> 4     reproj  11.639          100
 ```
 
 A geocentric example, suitable for plotting in rgl.
