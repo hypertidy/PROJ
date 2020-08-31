@@ -92,7 +92,7 @@
 <li>Alternative pathways to PROJ via the proj4 package are available but only used for expert testing.</li>
 </ol>
 <p>Because we are using modern PROJ there is no forward/inverse transformation, only integrated source/target idioms. This is the same approach taken by the reproj package- the source must be provided as well as the target. When a data set has an in-built CRS projection recorded, then methods can be written for that use-case with that format.</p>
-<p>We can use “auth:code” forms, PROJ.4 strings, full WKT2, or the name of a CRS as found in the PROJ database, e.g ‘WGS84’, ‘NAD27’, etc. Full details are provided in the <a href="https://proj.org/development/reference/functions.html#c.proj_create">PROJ documentation</a>.</p>
+<p>We can use ‘auth:code’ forms, PROJ.4 strings, full WKT2, or the name of a CRS as found in the PROJ database, e.g ‘WGS84’, ‘NAD27’, etc. Full details are provided in the <a href="https://proj.org/development/reference/functions.html#c.proj_create">PROJ documentation</a>.</p>
 <div id="things-to-be-aware-of" class="section level2">
 <h2 class="hasAnchor">
 <a href="#things-to-be-aware-of" class="anchor"></a>Things to be aware of</h2>
@@ -210,10 +210,10 @@
         <span class="kw">replications</span> <span class="kw">=</span> <span class="fl">100</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">arrange</span>(<span class="no">elapsed</span>) <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu">select</span>(<span class="no">test</span>, <span class="no">elapsed</span>, <span class="no">replications</span>)
 <span class="co">#&gt;         test elapsed replications</span>
-<span class="co">#&gt; 1 sf_project   9.005          100</span>
-<span class="co">#&gt; 2       PROJ   9.600          100</span>
-<span class="co">#&gt; 3     reproj   9.998          100</span>
-<span class="co">#&gt; 4      rgdal  10.653          100</span></pre></div>
+<span class="co">#&gt; 1 sf_project   8.842          100</span>
+<span class="co">#&gt; 2       PROJ   9.038          100</span>
+<span class="co">#&gt; 3      rgdal  10.300          100</span>
+<span class="co">#&gt; 4     reproj  11.639          100</span></pre></div>
 <p>A geocentric example, suitable for plotting in rgl.</p>
 <div class="sourceCode" id="cb9"><pre class="r"><span class="no">xyzt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">w</span>[,<span class="fl">1</span>], <span class="no">w</span>[,<span class="fl">2</span>]), <span class="kw">z_</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="no">w</span>)[<span class="fl">1L</span>]), <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"EPSG:4326"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="no">xyzt</span>[<span class="fl">1</span>:<span class="fl">3</span>]), <span class="kw">pch</span> <span class="kw">=</span> <span class="st">"."</span>, <span class="kw">asp</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
@@ -223,7 +223,7 @@
 <h2 class="hasAnchor">
 <a href="#why-proj" class="anchor"></a>Why PROJ?</h2>
 <p>PROJ was created before <a href="https://cran.r-project.org/package=libproj">libproj</a> existed, and now leverages it.</p>
-<p>The <a href="https://CRAN.R-project.org/package=reproj">reproj</a> package wraps the very efficient <code>proj4::ptransform()</code> function for general coordinate system transformations. Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package used by reproj doesn’t provide the modern features of PROJ (PROJ.4), has not been updated on CRAN since 2012 and has an uncertain future. So reproj requires a new wrapper around PROJ (PROJ.4) itself.</p>
+<p>The <a href="https://CRAN.R-project.org/package=reproj">reproj</a> package wraps the very efficient <code>proj4::ptransform()</code> function for general coordinate system transformations. Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself.</p>
 <p>Since the 1990s <a href="https://proj4.org">PROJ.4</a> has been the name of the common standard library for general coordinate system transformations (for geospatial). That 1994 release has been modernized and now has versions <strong>PROJ 5</strong> and <strong>PROJ 6</strong>. There’s a bit of traction in the name PROJ.4, so it has stuck</p>
 <p>I’ll use “PROJ (PROJ.4)” to distinguish the <a href="https://proj4.org">system library</a> from <a href="https://github.com/hypertidy/PROJ">this package</a>.</p>
 <p>There are a few links to the PROJ (PROJ.4) library in R.</p>
