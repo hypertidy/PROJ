@@ -46,10 +46,7 @@ documentation](https://proj.org/development/reference/functions.html#c.proj_crea
 
 ## Things to be aware of
 
-Note that for PROJ5 (and lower) this package is non-functional (can use proj4).
-The testing here on Travis ensures that the package installs successfully for
-various versions of PROJ, although underlying functionality is disabled for 4
-and 5 (and for no PROJ).
+Note that *PROJ in your system* is not used, PROJ imports the standalone libproj package installed from CRAN. 
 
 * Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, *and time*. So the output is always a 4-column matrix. 
 * You can't use strings like "+init=epsg:4326" any more, it must be "EPSG:4326". 
@@ -58,21 +55,6 @@ and 5 (and for no PROJ).
 
 Please see [PROJ library documentation](https://proj.org/development/quickstart.html) for details on this. 
 
-## WHY
-
-A quick list, see more below. 
-
-* Why not proj4?  It's not maintained in a way that works for me. 
-* Why not sf?  It brings a lot of baggage, and can't do geocentric transformations. 
-* Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric. 
-* Why not lwgeom? That package is format-specific, and does not work with generic
-data coordinates so is unsuitable for many straightforward and efficient
-data-handling schemes.
-* Why not mapproj? This is unusable for real-world projections in my experience,
-it seems to be written for some basic graphics cases.
-* Why not reproj? reproj will be improved by importing PROJ. This is an
-extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7
-and beyond.
 
 
 ## Installation
@@ -118,6 +100,7 @@ proj_trans(cbind(xy$x_, xy$y_), src, source = dst)
 lon <- c(0, NA, 147)
 lat <- c(NA, 0, -42)
 
+proj_trans(cbind(lon, lat), src, source = dst)
 
 ```
 
@@ -141,7 +124,7 @@ plot(lonlat$x_, lonlat$y_, pch = ".")
 
 We can generate PROJ or within limitations WKT2 strings, format 0, 1, 2 for WKT, proj4string, projjson respectively. 
 
-```{r WKT2, eval=FALSE}
+```{r WKT2, eval=TRUE}
 cat(wkt2 <- proj_crs_text("EPSG:4326"))
 
 proj_crs_text(wkt2, format = 1L)
@@ -193,6 +176,18 @@ Geocentric transformations aren't used in R much, but some examples are found in
 ## Why PROJ?
 
 PROJ was created before [libproj](https://cran.r-project.org/package=libproj) existed, and now leverages it. 
+
+* Why not proj4?  It's not maintained in a way that works for me. 
+* Why not sf?  It brings a lot of baggage, and can't do geocentric transformations. 
+* Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric. 
+* Why not lwgeom? That package is format-specific, and does not work with generic
+data coordinates so is unsuitable for many straightforward and efficient
+data-handling schemes.
+* Why not mapproj? This is unusable for real-world projections in my experience,
+it seems to be written for some basic graphics cases.
+* Why not reproj? reproj will be improved by importing PROJ. This is an
+extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7
+and beyond.
 
 The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
 
