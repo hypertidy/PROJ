@@ -187,10 +187,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   9.005          100
-#> 2       PROJ   9.600          100
-#> 3     reproj   9.998          100
-#> 4      rgdal  10.653          100
+#> 1 sf_project   9.004          100
+#> 2       PROJ   9.079          100
+#> 3     reproj   9.887          100
+#> 4      rgdal  10.332          100
 ```
 
 A geocentric example, suitable for plotting in rgl.
@@ -216,10 +216,10 @@ The [reproj](https://CRAN.R-project.org/package=reproj) package wraps
 the very efficient `proj4::ptransform()` function for general coordinate
 system transformations. Several package now use reproj for its
 consistency (no format or plumbing issues) and efficiency (directly
-transforming bulk coordinates). The proj4 package used by reproj doesn’t
-provide the modern features of PROJ (PROJ.4), has not been updated on
-CRAN since 2012 and has an uncertain future. So reproj requires a new
-wrapper around PROJ (PROJ.4) itself.
+transforming bulk coordinates). The proj4 package is not updated
+regularly, and depends on a local installation of the system library on
+some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4)
+itself.
 
 Since the 1990s [PROJ.4](https://proj4.org) has been the name of the
 common standard library for general coordinate system transformations

@@ -38,7 +38,7 @@ taken by the reproj package- the source must be provided as well as the target.
 When a data set has an in-built CRS projection recorded, then methods can be
 written for that use-case with that format.
 
-We can use "auth:code" forms, PROJ.4 strings, full WKT2, or the name of a CRS as
+We can use 'auth:code' forms, PROJ.4 strings, full WKT2, or the name of a CRS as
 found in the PROJ database, e.g 'WGS84', 'NAD27', etc. Full details are provided
 in the [PROJ
 documentation](https://proj.org/development/reference/functions.html#c.proj_create).
