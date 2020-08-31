@@ -1,4 +1,4 @@
-# PROJ 0.3.0
+# PROJ 0.3.1
 
 * New function 'proj_crs_text()' to convert from one CRS text format to another.
 
