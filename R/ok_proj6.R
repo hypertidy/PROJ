@@ -17,35 +17,8 @@
 #' @examples
 #' ok_proj6()
 ok_proj6 <- function() {
-  test<- .Call("proj_trans_list",
-               list(x_ = as.double(0), y_ = as.double(0),
-                    z_ = as.double(0), t_ = as.double(0)),
-            src_ = as.character("+proj=longlat +datum=WGS84"),
-            tgt_ = as.character("+proj=laea"),
-            PACKAGE = "PROJ")
-  out <- TRUE
-
-  if (is.null(test)) {
-    out <- FALSE
-  }
-  # } else {
-  #   out <- TRUE
-  #   ## sanity check - see issue #14
-  #   new_syntax <- try(
-  #     .Call("proj_create",
-  #           crs_ = as.character("EPSG:4326"),
-  #           format = as.integer(1L),
-  #           PACKAGE = "PROJ")
-  #   )
-  #   if (inherits(new_syntax, "try-error")) {
-  #     out <- FALSE
-  #   }
-  # }
-
-  # mock_no_proj6 <- getOption("reproj.mock.noproj6")
-  # if (out && !is.null(mock_no_proj6) && isTRUE(mock_no_proj6)) {
-  #   message("PROJ6 *is* available, but operating in mock-no-proj6 mode '?PROJ::ok_proj6'")
-  #   out <- FALSE
-  # }
-  out
+  test <- try(proj_trans(list(x = 0, y = 0),
+                         source = "+proj=longlat +datum=WGS84",
+                         target = "+proj=laea"), silent = TRUE)
+  !inherits(test, "try-error")
 }

@@ -7,7 +7,8 @@ always with version 7 or above.
 
 * FIXME:  (should deprecate) Removed `ok_proj6()`
 
-* Now importing libproj, a much grander cleanup.
+* Now importing libproj, to provide cross platform access to PROJ version 7 and above and for
+ configuration of metadata files. 
 
 * Incorporated fixes and improvements from Dewey Dunnington.
 
