@@ -1,25 +1,16 @@
-# PROJ 0.2.0
+# PROJ 0.3.0
 
-Please configure on CRAN to use the following options for MacOS, this has been tested against the proj-6.3.1 binaries
-used by CRAN. 
+PROJ now leverages libproj and so all configure and file-copy requirements have been removed. 
 
-```
-./configure --with-data-copy=yes --with-proj-data=/usr/local/share/proj
-```
-
-and fix some CRAN issues. 
-
-* Set minimum PROJ version at 6.1.0. 
-* now uses .Call() rather than .C() 
+This addresses a request from CRAN to configure correctly for MacOS static builds and for metadata
+files (email from the 16 June). 
 
 Thank you. 
-
 
 ## Test environments
 
 * local R installation, R 4.0.2
 * win-builder (devel and release)
-* MacOS CRAN binaries on Github actions
 
 ## R CMD check results
 
