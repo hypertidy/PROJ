@@ -4,26 +4,24 @@
 # PROJ
 
 The goal of PROJ is to provide generic coordinate system transformations
-in R with a functional requirement for the system library PROJ \>= 6.
+in R with a functional requirement for the system library to be provided
+by the [libproj package](https://cran.r-project.org/package=libroj).
 
 This is a shared goal with the
 [reproj](https://cran.r-project.org/package=reproj) package, and PROJ
 provides the infrastructure for later versions of the underlying
-library. Reproj otherwise uses the
-[proj4](https://cran.r-project.org/package=proj4) package, for library
-versions less than 6.
+library.
 
 PROJ provides basic coordinate transformations for generic numeric data
 in matrices or data frames. Transforming spatial data coordinates is a
-basic task, and has nothing to do with storage format.
+basic task independent of storage format.
 
-PROJ is strictly for version 6 or higher of the PROJ library. The
-intention is that this package will be used for when that version is
-available, and this package can be compiled and installed even when it
-cannot do anything. For older versions of PROJ (5, and 4) we can use the
-proj4 package.
+PROJ is strictly for modern versions of the PROJ library, now via
+[libproj package](https://cran.r-project.org/package=libroj) at version
+7. Alternative pathways to PROJ via the proj4 package are available but
+only used for expert testing.
 
-Because we are version 6 or above only, there is no forward/inverse
+Because we are using modern PROJ there is no forward/inverse
 transformation, only integrated source/target idioms. This is the same
 approach taken by the reproj package- the source must be provided as
 well as the target. When a data set has an in-built CRS projection
@@ -31,7 +29,7 @@ recorded, then methods can be written for that use-case with that
 format.
 
 We can use “auth:code” forms, PROJ.4 strings, full WKT2, or the name of
-a CRS as found in the PROJ database, e.g “WGS84”, “NAD27”, etc. Full
+a CRS as found in the PROJ database, e.g ‘WGS84’, ‘NAD27’, etc. Full
 details are provided in the [PROJ
 documentation](https://proj.org/development/reference/functions.html#c.proj_create).
 
@@ -46,17 +44,15 @@ functionality is disabled for 4 and 5 (and for no PROJ).
     assumed to be x, y, z, *and time*. So the output is always a
     4-column matrix.
   - You can’t use strings like “+init=epsg:4326” any more, it must be
-    “epsg:4326”.
+    “EPSG:4326”.
   - You should know what your target projection is, and also what your
     source projection is. This is your responsibility.
+  - PROJ assumes longitude/latitude order always by setting the PROJ
+    library context *proj\_normalize\_for\_visualization*.
 
-Personally, I need this low-level package in order to develop other
-projects. I don’t care about the big snafu regarding changes in version
-6 and whatever, we should have low-level tools and then we can code at
-the R level to sort stuff out. A text-handler for various versions and
-validations of CRS representations would be good, for instance we can
-just gsub out “+init=” for those sorts of things, and being able to
-write “WGS84” as a valid source or target is a massive bonus.
+Please see [PROJ library
+documentation](https://proj.org/development/quickstart.html) for details
+on this.
 
 ## WHY
 
@@ -78,7 +74,7 @@ A quick list, see more below.
 
 ## Installation
 
-On Windows and MacOS, just do
+On all systems do
 
 ``` r
 install.packages("PROJ")
@@ -90,30 +86,11 @@ or
 remotes::install_cran("PROJ")
 ```
 
-to install the *static* binary version of the package. On Windows this
-ends in .zip, on MacOS it’s a .tgz. *Static* means all the stuff is in
-the package, there’s no pre-requirement installations.
+To install the development version from Github do
 
-For a brew installation on MacOS, first do
-
-    brew install proj
-
-WIP - see the matrix set up in .travis.yml, and the scripts in
-ci/travis/ - much gratitude to GDAL for examples of how to do all this\!
-
-See ./.github/workflows/check-standard.yaml for the Github Actions
-approach, many thanks to James Balamuta.
-
-# Notes
-
-None of these things are dealt with.
-
-  - threading, see the PJ\_CONTEXT
-  - coordinate order
-  - the zero value after transformation, it comes out like -3.19835e-15
-    (do we just zapsmall()?)
-
-<https://proj.org/development/quickstart.html>
+``` r
+remotes::install_github("hypertidy/PROJ")
+```
 
 ## Example
 
@@ -172,17 +149,13 @@ plot(lonlat$x_, lonlat$y_, pch = ".")
 
 ## Convert projection strings
 
-We can generate PROJ or within limitations WKT2 strings.
-
-disabled for now
+We can generate PROJ or within limitations WKT2 strings, format 0, 1, 2
+for WKT, proj4string, projjson respectively.
 
 ``` r
-#cat(wkt2 <- proj_create("EPSG:4326"))
+cat(wkt2 <- proj_crs_text("EPSG:4326"))
 
-## this is not proper WKT2 and cannot be used, compare to sf::st_crs("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel")
-#cat(proj_create("+proj=etmerc +lat_0=38 +lon_0=125 +ellps=bessel"))
-
-#proj_create(wkt2, format = 1L)
+proj_crs_text(wkt2, format = 1L)
 ```
 
 # Speed comparisons
@@ -216,9 +189,9 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   8.527          100
-#> 2      rgdal   9.944          100
-#> 3       PROJ  15.646          100
+#> 1 sf_project   8.772          100
+#> 2      rgdal  10.268          100
+#> 3       PROJ  14.693          100
 ```
 
 A geocentric example, suitable for plotting in rgl.
