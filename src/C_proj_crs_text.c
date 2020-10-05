@@ -1,5 +1,6 @@
-#include <libproj.h>
-
+#ifdef HAVE_PROJ6_API
+#include <proj.h>
+#endif
 
 #include <R.h>
 #include <Rinternals.h>
@@ -21,6 +22,7 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
 
   // allocate the R output
   SEXP out = PROTECT(allocVector(STRSXP, 1));
+#ifdef HAVE_PROJ6_API
 
   PJ *pj;
   if (!(pj =   proj_create(PJ_DEFAULT_CTX, *crs_in)))
@@ -49,6 +51,11 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
 
   SET_STRING_ELT(out, 0, mkChar(outstring));
   proj_destroy(pj);
+
+# else
+  // we don't have PROJ >= 6 so we return NA_character_
+  SET_STRING_ELT(out, 0, NA_STRING);
+#endif
 
   UNPROTECT(1);
 

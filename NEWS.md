@@ -1,3 +1,7 @@
+# emergency branch no-libproj
+
+* try remove libproj as dep
+
 # PROJ 0.3.1
 
 * New function 'proj_crs_text()' to convert from one CRS text format to another.

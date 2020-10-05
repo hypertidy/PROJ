@@ -1,5 +1,6 @@
-// needed in every file that uses proj_*() functions
-#include "libproj.h"
+#ifdef HAVE_PROJ6_API
+#include <proj.h>
+#endif
 
 #include <Rinternals.h>
 
