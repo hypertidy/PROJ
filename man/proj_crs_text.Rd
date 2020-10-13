@@ -33,8 +33,9 @@ Some formats are hard to read, such as WKT so for easy reading
 use \code{cat()}.
 }
 \examples{
-cat(proj_crs_text("EPSG:4326", format = 0L))
-proj_crs_text("EPSG:4326", format = 1L)
-south55 <- "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"
-proj_crs_text(proj_crs_text(south55), 1L)
+# all examples are disabled
+#cat(proj_crs_text("EPSG:4326", format = 0L))
+#proj_crs_text("EPSG:4326", format = 1L)
+#south55 <- "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"
+#proj_crs_text(proj_crs_text(south55), 1L)
 }

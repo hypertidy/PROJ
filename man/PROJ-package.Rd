@@ -6,7 +6,8 @@
 \alias{PROJ-package}
 \title{PROJ: Generic Coordinate System Transformations Using 'PROJ'}
 \description{
-A wrapper around the generic coordinate transformation software 'PROJ'
+Currently non-functional, a harmless wrapper to allow package 'reproj' to install and function
+  by relying on the 'proj4' package. (When functional this is a wrapper around the generic coordinate transformation software 'PROJ'
   that transforms geospatial coordinates from one coordinate reference system ('CRS') 
   to another. This includes cartographic projections as well as geodetic transformations. 
   Version 7.1.0-1 or higher of the R package 'libproj' is required. The intention is for this 
@@ -14,7 +15,7 @@ A wrapper around the generic coordinate transformation software 'PROJ'
   pathways be provided by the 'proj4' package. Separating this disruptive version
   change (from 4.0 and 5.0, to 6.0 and above) allows the use of existing and 
   stable code in 'proj4' alongside the new idioms and requirements of modern 'PROJ'. For control
-  of metadata files for the 'PROJ' library, see tools in the 'libproj' package.
+  of metadata files for the 'PROJ' library, see tools in the 'libproj' package.)
 
 The goal of PROJ is to provide generic coordinate system transformations in R
 without requiring bespoke formats for storing basic data.

@@ -28,9 +28,9 @@
 #' @references see the [PROJ library documentation](https://proj.org/development/reference/functions.html#coordinate-transformation)
 #' for details on the underlying functionality
 #' @examples
-#'  proj_trans(cbind(147, -42), "+proj=laea", source = "epsg:4326")
-#'  proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "epsg:4326")
-#'  proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "epsg:4326")
+#' # proj_trans(cbind(147, -42), "+proj=laea", source = "epsg:4326")
+#'  #proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "epsg:4326")
+#'  #proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "epsg:4326")
 #' @name proj_trans
 #' @export
 proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {

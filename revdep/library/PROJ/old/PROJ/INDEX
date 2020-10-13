@@ -1,4 +1,0 @@
-ok_proj6                Is 'PROJ library >= 6' available
-proj_create             Generate a projection string.
-proj_trans_generic      Transform a set of coordinates with 'PROJ'
-xymap                   xymap data for testing

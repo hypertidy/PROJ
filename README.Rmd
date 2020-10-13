@@ -14,14 +14,16 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 
-library(lwgeom)
-library(rgdal)
-library(reproj)
+# library(lwgeom)
+# library(rgdal)
+# library(reproj)
 
 ```
 # PROJ
 
+PROJ is currently non-operational, all functions return `NULL`. The only reverse dependency package reproj reverts to use of the proj5 package. 
 
+<!-- 
 The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library to be provided by the [libproj package](https://cran.r-project.org/package=libproj). 
 
 This is a shared goal with the [reproj](https://cran.r-project.org/package=reproj)
@@ -189,7 +191,7 @@ it seems to be written for some basic graphics cases.
 extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7
 and beyond.
 
-The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
+The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some systems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
 
 Since the 1990s [PROJ.4](https://proj4.org) has been the name of the common standard library for general coordinate system transformations (for geospatial). That 1994 release has been modernized and now has versions **PROJ 5** and **PROJ 6**. There's a bit of traction in the name PROJ.4, so it has stuck 
 
@@ -210,6 +212,7 @@ The rgdal function `project()` won't transform with a third Z coordinate. The sf
 
 The packages rgdal, sf, lwgeom are now compatible with PROJ 5 (and 6) and don't need any further attention in this regard. They work fine within their chosen context. 
 
+-->
 
 ---
 

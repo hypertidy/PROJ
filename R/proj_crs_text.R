@@ -22,10 +22,11 @@
 #' @return character string in requested format
 #'
 #' @examples
-#' cat(proj_crs_text("EPSG:4326", format = 0L))
-#' proj_crs_text("EPSG:4326", format = 1L)
-#' south55 <- "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"
-#' proj_crs_text(proj_crs_text(south55), 1L)
+#' # all examples are disabled
+#' #cat(proj_crs_text("EPSG:4326", format = 0L))
+#' #proj_crs_text("EPSG:4326", format = 1L)
+#' #south55 <- "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"
+#' #proj_crs_text(proj_crs_text(south55), 1L)
 proj_crs_text <- function(source, format = 0L) {
   stopifnot(length(format) == 1L)
   stopifnot(format %in% c(0L, 1L, 2L))

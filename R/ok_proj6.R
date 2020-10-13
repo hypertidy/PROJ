@@ -18,17 +18,18 @@
 #' ok_proj6()
 ok_proj6 <- function() {
 
-  mock_no_proj6 <- getOption("reproj.mock.noproj6")
-
-  if (!is.null(mock_no_proj6) && isTRUE(mock_no_proj6)) {
-    message("PROJ6 *is* available, but operating in mock-no-proj6 mode '?PROJ::ok_proj6'")
-    out <- FALSE
-  } else {
-    test <- try(proj_trans(list(x = 0, y = 0),
-                           source = "+proj=longlat +datum=WGS84",
-                           target = "+proj=laea"), silent = TRUE)
-    out <-   !inherits(test, "try-error")
-  }
-
-  out
+  FALSE  ## we need libproj so we revert to reproj using proj4 only
+  # mock_no_proj6 <- getOption("reproj.mock.noproj6")
+  #
+  # if (!is.null(mock_no_proj6) && isTRUE(mock_no_proj6)) {
+  #   message("PROJ6 *is* available, but operating in mock-no-proj6 mode '?PROJ::ok_proj6'")
+  #   out <- FALSE
+  # } else {
+  #   test <- try(proj_trans(list(x = 0, y = 0),
+  #                          source = "+proj=longlat +datum=WGS84",
+  #                          target = "+proj=laea"), silent = TRUE)
+  #   out <-   !inherits(test, "try-error")
+  # }
+  #
+  # out
 }
