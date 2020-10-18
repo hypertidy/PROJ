@@ -27,7 +27,7 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 SystemRequirements: proj (>= 6.0.0 required for full operation, package will install
- and pass check with lower versions or even if no PROJ available)
+ and pass check with lower versions or even if no proj library available)
 Suggests: 
     testthat (>= 2.1.0),
     covr,
@@ -36,6 +36,6 @@ Suggests:
     rmarkdown
 URL: https://github.com/hypertidy/PROJ
 BugReports: https://github.com/hypertidy/PROJ/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Language: en-US
 VignetteBuilder: knitr
