@@ -1,19 +1,19 @@
-# PROJ 0.3.1
+# PROJ 0.4.0
 
-PROJ now leverages libproj and so all configure and file-copy requirements have been removed. 
+PROJ is now a non-operational stub. This allows the reverse dependency package 'reproj' to 
+revert to use of proj4. 
 
-This addresses a request from CRAN to configure correctly for MacOS static builds and for metadata
-files (email from the 16 June). 
+(In time we hope to find a way to standardize on a generic interface to the modern PROJ library.)
 
 Thank you. 
 
 ## Test environments
 
-* local R installation, R 4.0.2
+* local R installation, R 4.0.3
 * win-builder (devel and release)
 
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
 
-The reverse dependencies pass check. 
+The reverse dependency reproj (and its reverse dependencies) pass check with this version. 

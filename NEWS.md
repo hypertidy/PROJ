@@ -1,3 +1,9 @@
+# PROJ 0.4.0
+
+* This release makes PROJ entirely non-functional. This allows the reproj package to continue
+ to work and support its dependencies (via the proj4 package). 
+
+
 # PROJ 0.3.1
 
 * New function 'proj_crs_text()' to convert from one CRS text format to another.
