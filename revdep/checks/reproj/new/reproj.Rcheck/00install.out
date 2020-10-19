@@ -1,0 +1,10 @@
+* installing *source* package ‘reproj’ ...
+** package ‘reproj’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package ‘proj4’ was installed before R 4.0.0: please re-install it
+Execution halted
+ERROR: lazy loading failed for package ‘reproj’
+* removing ‘/perm_storage/home/mdsumner/Git/PROJ/revdep/checks/reproj/new/reproj.Rcheck/reproj’
