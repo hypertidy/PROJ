@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9001</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -56,7 +56,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/hypertidy/PROJ/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -117,8 +117,9 @@
 <a href="#how-to-use-proj" class="anchor"></a>How to use PROJ?</h2>
 <p>Get the package installed, load it and use the function <code><a href="../reference/proj_trans.html">proj_trans()</a></code>.</p>
 <p>If you don’t have system PROJ version 6 (or higher) the function will fail.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PROJ</span>)
-<span class="fu"><a href="../reference/proj_trans.html">proj_trans</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">147</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, -<span class="fl">42</span>)), <span class="kw">z_</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">target</span> <span class="kw">=</span> <span class="st">"+proj=laea +datum=WGS84"</span>, <span class="kw">source</span> <span class="kw">=</span> <span class="st">"WGS84"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/PROJ">PROJ</a></span><span class="op">)</span>
+<span class="fu"><a href="../reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">147</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="fl">0</span>, target <span class="op">=</span> <span class="st">"+proj=laea +datum=WGS84"</span>, source <span class="op">=</span> <span class="st">"WGS84"</span><span class="op">)</span>
 <span class="co">#&gt; $x_</span>
 <span class="co">#&gt; [1]       0 5969744</span>
 <span class="co">#&gt; </span>
@@ -129,7 +130,7 @@
 <span class="co">#&gt; [1] 0 0</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $t_</span>
-<span class="co">#&gt; [1] 0 0</span></pre></body></html></div>
+<span class="co">#&gt; [1] 0 0</span></code></pre></div>
 <p>Note that we always assume input of <code><a href="https://rdrr.io/r/base/cbind.html">cbind(longitude, latitude)</a></code> and can optionally provide a vector of <code>z_</code> as well as <code>t_</code>. We cannot provide a 3 or 4 column matrix, z and t must be provided separately as named arguments.</p>
 <p>Note that various forms of projection string are supported, we can use PROJ.4 style (as per target above), bare names from <a href="https://epsg.org/home.html">EPSG</a> (as per source above), full-blown WKT2 strings, or ‘auth:code’ forms such as “epsg:3857”. (Note that “+init=…” forms cannot be used in 6 or above).</p>
 <p>The goal is for the <a href="https://CRAN.r-project.org/package=reproj">reproj package</a> to wrap this package. In time that will be the easiest way to run coordinate transformations with PROJ for versions 4, 5, 6, 7 or above.</p>
@@ -151,7 +152,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

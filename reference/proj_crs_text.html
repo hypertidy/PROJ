@@ -73,7 +73,7 @@ Return value is a string in the requested format." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9001</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ Return value is a string in the requested format." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,7 +98,7 @@ Return value is a string in the requested format." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/hypertidy/PROJ/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,7 +125,7 @@ Return value is a string in the requested format." />
 Return value is a string in the requested format.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>proj_crs_text</span>(<span class='no'>source</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>0L</span>)</pre>
+    <pre class="usage"><span class='fu'>proj_crs_text</span><span class='op'>(</span><span class='va'>source</span>, format <span class='op'>=</span> <span class='fl'>0L</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,7 +156,8 @@ for details on input and output formats.</p>
 use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'>proj_crs_text</span>(<span class='st'>"EPSG:4326"</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>0L</span>))</div><div class='output co'>#&gt; GEOGCRS["WGS 84",
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>proj_crs_text</span><span class='op'>(</span><span class='st'>"EPSG:4326"</span>, format <span class='op'>=</span> <span class='fl'>0L</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; GEOGCRS["WGS 84",
 #&gt;     DATUM["World Geodetic System 1984",
 #&gt;         ELLIPSOID["WGS 84",6378137,298.257223563,
 #&gt;             LENGTHUNIT["metre",1]]],
@@ -170,11 +171,13 @@ use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
 #&gt;             ORDER[2],
 #&gt;             ANGLEUNIT["degree",0.0174532925199433]],
 #&gt;     USAGE[
-#&gt;         SCOPE["unknown"],
-#&gt;         AREA["World"],
+#&gt;         SCOPE["Horizontal component of 3D system."],
+#&gt;         AREA["World."],
 #&gt;         BBOX[-90,-180,90,180]],
-#&gt;     ID["EPSG",4326]]</div><div class='input'><span class='fu'>proj_crs_text</span>(<span class='st'>"EPSG:4326"</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>1L</span>)</div><div class='output co'>#&gt; [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</div><div class='input'><span class='no'>south55</span> <span class='kw'>&lt;-</span> <span class='st'>"+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"</span>
-<span class='fu'>proj_crs_text</span>(<span class='fu'>proj_crs_text</span>(<span class='no'>south55</span>), <span class='fl'>1L</span>)</div><div class='output co'>#&gt; [1] "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"</div></pre>
+#&gt;     ID["EPSG",4326]]</div><div class='input'><span class='fu'>proj_crs_text</span><span class='op'>(</span><span class='st'>"EPSG:4326"</span>, format <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</div><div class='input'><span class='va'>south55</span> <span class='op'>&lt;-</span> <span class='st'>"+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"</span>
+<span class='fu'>proj_crs_text</span><span class='op'>(</span><span class='fu'>proj_crs_text</span><span class='op'>(</span><span class='va'>south55</span><span class='op'>)</span>, <span class='fl'>1L</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -190,7 +193,7 @@ use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
