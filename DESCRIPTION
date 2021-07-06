@@ -41,3 +41,4 @@ LinkingTo:
     libproj (>= 7.2.0-1)
 Imports: 
     libproj (>= 7.2.0-1)
+Remotes: paleolimbot/libproj
