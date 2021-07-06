@@ -38,6 +38,6 @@ RoxygenNote: 7.1.1
 Language: en-US
 VignetteBuilder: knitr
 LinkingTo: 
-    libproj (>= 7.1.0-1)
+    libproj (>= 7.2.0-1)
 Imports: 
-    libproj (>= 7.1.0-1)
+    libproj (>= 7.2.0-1)
