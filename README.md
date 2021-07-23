@@ -3,6 +3,8 @@
 
 # PROJ
 
+**WIP: currently updating around {libproj} 8-1-0 **
+
 The goal of PROJ is to provide generic coordinate system transformations
 in R with a functional requirement for the system library to be provided
 by the [libproj package](https://cran.r-project.org/package=libproj).
@@ -38,14 +40,14 @@ documentation](https://proj.org/development/reference/functions.html#c.proj_crea
 Note that *PROJ in your system* is not used, PROJ imports the standalone
 libproj package installed from CRAN.
 
-  - Input can be a data frame or a matrix, but internally input is
+-   Input can be a data frame or a matrix, but internally input is
     assumed to be x, y, z, *and time*. So the output is always a
     4-column matrix.
-  - You can’t use strings like “+init=epsg:4326” any more, it must be
+-   You can’t use strings like “+init=epsg:4326” any more, it must be
     “EPSG:4326”.
-  - You should know what your target projection is, and also what your
+-   You should know what your target projection is, and also what your
     source projection is. This is your responsibility.
-  - PROJ assumes longitude/latitude order always by setting the PROJ
+-   PROJ assumes longitude/latitude order always by setting the PROJ
     library context *proj\_normalize\_for\_visualization*.
 
 Please see [PROJ library
@@ -127,7 +129,6 @@ plot(xy$x_, xy$y_, pch = ".")
 <img src="man/figures/README-example-1.png" width="100%" />
 
 ``` r
-
 lonlat <- proj_trans(xy, src, source = dst)
 plot(lonlat$x_, lonlat$y_, pch = ".")
 ```
@@ -142,9 +143,16 @@ for WKT, proj4string, projjson respectively.
 ``` r
 cat(wkt2 <- proj_crs_text("EPSG:4326"))
 #> GEOGCRS["WGS 84",
-#>     DATUM["World Geodetic System 1984",
+#>     ENSEMBLE["World Geodetic System 1984 ensemble",
+#>         MEMBER["World Geodetic System 1984 (Transit)"],
+#>         MEMBER["World Geodetic System 1984 (G730)"],
+#>         MEMBER["World Geodetic System 1984 (G873)"],
+#>         MEMBER["World Geodetic System 1984 (G1150)"],
+#>         MEMBER["World Geodetic System 1984 (G1674)"],
+#>         MEMBER["World Geodetic System 1984 (G1762)"],
 #>         ELLIPSOID["WGS 84",6378137,298.257223563,
-#>             LENGTHUNIT["metre",1]]],
+#>             LENGTHUNIT["metre",1]],
+#>         ENSEMBLEACCURACY[2.0]],
 #>     PRIMEM["Greenwich",0,
 #>         ANGLEUNIT["degree",0.0174532925199433]],
 #>     CS[ellipsoidal,2],
@@ -155,8 +163,8 @@ cat(wkt2 <- proj_crs_text("EPSG:4326"))
 #>             ORDER[2],
 #>             ANGLEUNIT["degree",0.0174532925199433]],
 #>     USAGE[
-#>         SCOPE["unknown"],
-#>         AREA["World"],
+#>         SCOPE["Horizontal component of 3D system."],
+#>         AREA["World."],
 #>         BBOX[-90,-180,90,180]],
 #>     ID["EPSG",4326]]
 
@@ -171,7 +179,7 @@ library(reproj)
 library(rgdal)
 library(lwgeom)
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+#> Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
 lon <- w[,1]
 lat <- w[,2]
 lon <- rep(lon, 25)
@@ -193,10 +201,10 @@ rbenchmark::benchmark(
         replications = 100) %>%
   dplyr::arrange(elapsed) %>% dplyr::select(test, elapsed, replications)
 #>         test elapsed replications
-#> 1 sf_project   8.820          100
-#> 2       PROJ   9.033          100
-#> 3     reproj   9.929          100
-#> 4      rgdal  10.390          100
+#> 1       PROJ   7.523          100
+#> 2 sf_project   7.538          100
+#> 3      rgdal   8.553          100
+#> 4     reproj  13.036          100
 ```
 
 A geocentric example, suitable for plotting in rgl.
@@ -218,17 +226,21 @@ PROJ was created before
 [libproj](https://cran.r-project.org/package=libproj) existed, and now
 leverages it.
 
-  - Why not proj4? It’s not maintained in a way that works for me.
-  - Why not sf? It brings a lot of baggage, and can’t do geocentric
-    transformations.
-  - Why not rgdal? Still baggage, no transformations possible without
+-   Why not proj4? It’s not maintained in a way that works for me.
+-   Why not sf? It brings a lot of baggage, and can’t do geocentric
+    transformations. A function that doesn’t put data first like
+    literally everything else is also just weird and annoying, in reproj
+    we settled on ‘reproj(xy, target, …, source = )’ which gives a great
+    mix of explicitness and convenience, no need to wrap a helper around
+    what should be a basic function like ggplot2 and others have to.
+-   Why not rgdal? Still baggage, no transformations possible without
     special data formats, no geocentric.
-  - Why not lwgeom? That package is format-specific, and does not work
+-   Why not lwgeom? That package is format-specific, and does not work
     with generic data coordinates so is unsuitable for many
     straightforward and efficient data-handling schemes.
-  - Why not mapproj? This is unusable for real-world projections in my
+-   Why not mapproj? This is unusable for real-world projections in my
     experience, it seems to be written for some basic graphics cases.
-  - Why not reproj? reproj will be improved by importing PROJ. This is
+-   Why not reproj? reproj will be improved by importing PROJ. This is
     an extension for reproj, to bridge it from PROJ version 4 and 5, to
     version 6 and 7 and beyond.
 
@@ -238,7 +250,7 @@ system transformations. Several package now use reproj for its
 consistency (no format or plumbing issues) and efficiency (directly
 transforming bulk coordinates). The proj4 package is not updated
 regularly, and depends on a local installation of the system library on
-some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4)
+some systems. . So reproj requires a new wrapper around PROJ (PROJ.4)
 itself.
 
 Since the 1990s [PROJ.4](https://proj4.org) has been the name of the
@@ -253,18 +265,18 @@ package](https://github.com/hypertidy/PROJ).
 
 There are a few links to the PROJ (PROJ.4) library in R.
 
-  - [rgdal](https://CRAN.R-project.org/package=rgdal) Provides low level
+-   [rgdal](https://CRAN.R-project.org/package=rgdal) Provides low level
     `project(matrix, inv = TRUE/FALSE)`, and engine behind
     `sp::spTransform()`.
-  - [proj4](https://CRAN.R-project.org/package=proj4) Provides low level
+-   [proj4](https://CRAN.R-project.org/package=proj4) Provides low level
     `project()` and `ptransform`.
-  - [sf](https://CRAN.R-project.org/package=sf) Provides low level
+-   [sf](https://CRAN.R-project.org/package=sf) Provides low level
     `sf::sf_project()` transformation of matrices. Provides high level
     `st_transform()` which works via the GDAL library and its own
     internal version of PROJ (PROJ.4). The high level function converts
     coordinates in list heirarchies of matrices into WKB for the
     transformations.
-  - [lwgeom](https://CRAN.R-project.org/package=lwgeom) Provides high
+-   [lwgeom](https://CRAN.R-project.org/package=lwgeom) Provides high
     level `st_transform_proj()` also converts coordinates in list
     hierarchies of matrices into WKB, but internally uses the PROJ
     (PROJ.4) library directly.
@@ -287,7 +299,7 @@ The packages rgdal, sf, lwgeom are now compatible with PROJ 5 (and 6)
 and don’t need any further attention in this regard. They work fine
 within their chosen context.
 
------
+------------------------------------------------------------------------
 
 Please note that the PROJ project is released with a [Contributor Code
 of
