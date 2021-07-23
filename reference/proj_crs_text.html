@@ -73,7 +73,7 @@ Return value is a string in the requested format." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9002</span>
       </span>
     </div>
 
@@ -158,9 +158,16 @@ use <code><a href='https://rdrr.io/r/base/cat.html'>cat()</a></code>.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'>proj_crs_text</span><span class='op'>(</span><span class='st'>"EPSG:4326"</span>, format <span class='op'>=</span> <span class='fl'>0L</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; GEOGCRS["WGS 84",
-#&gt;     DATUM["World Geodetic System 1984",
+#&gt;     ENSEMBLE["World Geodetic System 1984 ensemble",
+#&gt;         MEMBER["World Geodetic System 1984 (Transit)"],
+#&gt;         MEMBER["World Geodetic System 1984 (G730)"],
+#&gt;         MEMBER["World Geodetic System 1984 (G873)"],
+#&gt;         MEMBER["World Geodetic System 1984 (G1150)"],
+#&gt;         MEMBER["World Geodetic System 1984 (G1674)"],
+#&gt;         MEMBER["World Geodetic System 1984 (G1762)"],
 #&gt;         ELLIPSOID["WGS 84",6378137,298.257223563,
-#&gt;             LENGTHUNIT["metre",1]]],
+#&gt;             LENGTHUNIT["metre",1]],
+#&gt;         ENSEMBLEACCURACY[2.0]],
 #&gt;     PRIMEM["Greenwich",0,
 #&gt;         ANGLEUNIT["degree",0.0174532925199433]],
 #&gt;     CS[ellipsoidal,2],

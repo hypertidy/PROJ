@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9002</span>
       </span>
     </div>
 
@@ -84,6 +84,7 @@
 <div id="proj" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#proj" class="anchor"></a>PROJ</h1></div>
+<p><strong>WIP: currently updating around {libproj} 8-1-0 </strong></p>
 <p>The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library to be provided by the <a href="https://cran.r-project.org/package=libproj">libproj package</a>.</p>
 <p>This is a shared goal with the <a href="https://cran.r-project.org/package=reproj">reproj</a> package, and PROJ provides the infrastructure for later versions of the underlying library.</p>
 <p>PROJ provides basic coordinate transformations for generic numeric data in matrices or data frames. Transforming spatial data coordinates is a basic task independent of storage format.</p>
@@ -167,8 +168,7 @@
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">xy</span><span class="op">$</span><span class="va">x_</span>, <span class="va">xy</span><span class="op">$</span><span class="va">y_</span>, pch <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">lonlat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="va">xy</span>, <span class="va">src</span>, source <span class="op">=</span> <span class="va">dst</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">lonlat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="va">xy</span>, <span class="va">src</span>, source <span class="op">=</span> <span class="va">dst</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">lonlat</span><span class="op">$</span><span class="va">x_</span>, <span class="va">lonlat</span><span class="op">$</span><span class="va">y_</span>, pch <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-example-2.png" width="100%"></p>
 </div>
@@ -179,9 +179,16 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">wkt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_crs_text.html">proj_crs_text</a></span><span class="op">(</span><span class="st">"EPSG:4326"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; GEOGCRS["WGS 84",</span>
-<span class="co">#&gt;     DATUM["World Geodetic System 1984",</span>
+<span class="co">#&gt;     ENSEMBLE["World Geodetic System 1984 ensemble",</span>
+<span class="co">#&gt;         MEMBER["World Geodetic System 1984 (Transit)"],</span>
+<span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G730)"],</span>
+<span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G873)"],</span>
+<span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G1150)"],</span>
+<span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G1674)"],</span>
+<span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G1762)"],</span>
 <span class="co">#&gt;         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
-<span class="co">#&gt;             LENGTHUNIT["metre",1]]],</span>
+<span class="co">#&gt;             LENGTHUNIT["metre",1]],</span>
+<span class="co">#&gt;         ENSEMBLEACCURACY[2.0]],</span>
 <span class="co">#&gt;     PRIMEM["Greenwich",0,</span>
 <span class="co">#&gt;         ANGLEUNIT["degree",0.0174532925199433]],</span>
 <span class="co">#&gt;     CS[ellipsoidal,2],</span>
@@ -192,8 +199,8 @@
 <span class="co">#&gt;             ORDER[2],</span>
 <span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span>
 <span class="co">#&gt;     USAGE[</span>
-<span class="co">#&gt;         SCOPE["unknown"],</span>
-<span class="co">#&gt;         AREA["World"],</span>
+<span class="co">#&gt;         SCOPE["Horizontal component of 3D system."],</span>
+<span class="co">#&gt;         AREA["World."],</span>
 <span class="co">#&gt;         BBOX[-90,-180,90,180]],</span>
 <span class="co">#&gt;     ID["EPSG",4326]]</span>
 
@@ -209,7 +216,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rgdal</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">lwgeom</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">sf</span><span class="op">)</span>
-<span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</span>
+<span class="co">#&gt; Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1</span>
 <span class="va">lon</span> <span class="op">&lt;-</span> <span class="va">w</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>
 <span class="va">lat</span> <span class="op">&lt;-</span> <span class="va">w</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>
 <span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">lon</span>, <span class="fl">25</span><span class="op">)</span>
@@ -231,10 +238,10 @@
         replications <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">arrange</span><span class="op">(</span><span class="va">elapsed</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">select</span><span class="op">(</span><span class="va">test</span>, <span class="va">elapsed</span>, <span class="va">replications</span><span class="op">)</span>
 <span class="co">#&gt;         test elapsed replications</span>
-<span class="co">#&gt; 1 sf_project   8.820          100</span>
-<span class="co">#&gt; 2       PROJ   9.033          100</span>
-<span class="co">#&gt; 3     reproj   9.929          100</span>
-<span class="co">#&gt; 4      rgdal  10.390          100</span></code></pre></div>
+<span class="co">#&gt; 1       PROJ   7.523          100</span>
+<span class="co">#&gt; 2 sf_project   7.538          100</span>
+<span class="co">#&gt; 3      rgdal   8.553          100</span>
+<span class="co">#&gt; 4     reproj  13.036          100</span></code></pre></div>
 <p>A geocentric example, suitable for plotting in rgl.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">xyzt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">w</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span><span class="op">)</span>, target <span class="op">=</span> <span class="st">"+proj=geocent +datum=WGS84"</span>, source <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span>
@@ -247,13 +254,13 @@
 <p>PROJ was created before <a href="https://cran.r-project.org/package=libproj">libproj</a> existed, and now leverages it.</p>
 <ul>
 <li>Why not proj4? It’s not maintained in a way that works for me.</li>
-<li>Why not sf? It brings a lot of baggage, and can’t do geocentric transformations.</li>
+<li>Why not sf? It brings a lot of baggage, and can’t do geocentric transformations. A function that doesn’t put data first like literally everything else is also just weird and annoying, in reproj we settled on ‘reproj(xy, target, …, source = )’ which gives a great mix of explicitness and convenience, no need to wrap a helper around what should be a basic function like ggplot2 and others have to.</li>
 <li>Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric.</li>
 <li>Why not lwgeom? That package is format-specific, and does not work with generic data coordinates so is unsuitable for many straightforward and efficient data-handling schemes.</li>
 <li>Why not mapproj? This is unusable for real-world projections in my experience, it seems to be written for some basic graphics cases.</li>
 <li>Why not reproj? reproj will be improved by importing PROJ. This is an extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7 and beyond.</li>
 </ul>
-<p>The <a href="https://CRAN.R-project.org/package=reproj">reproj</a> package wraps the very efficient <code>proj4::ptransform()</code> function for general coordinate system transformations. Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself.</p>
+<p>The <a href="https://CRAN.R-project.org/package=reproj">reproj</a> package wraps the very efficient <code>proj4::ptransform()</code> function for general coordinate system transformations. Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some systems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself.</p>
 <p>Since the 1990s <a href="https://proj4.org">PROJ.4</a> has been the name of the common standard library for general coordinate system transformations (for geospatial). That 1994 release has been modernized and now has versions <strong>PROJ 5</strong> and <strong>PROJ 6</strong>. There’s a bit of traction in the name PROJ.4, so it has stuck</p>
 <p>I’ll use “PROJ (PROJ.4)” to distinguish the <a href="https://proj4.org">system library</a> from <a href="https://github.com/hypertidy/PROJ">this package</a>.</p>
 <p>There are a few links to the PROJ (PROJ.4) library in R.</p>
