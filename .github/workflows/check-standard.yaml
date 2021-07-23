@@ -110,7 +110,7 @@ jobs:
           deps <- readRDS("depends.Rds")
           deps[["installed"]] <- vapply(deps[["package"]], remotes:::local_sha, character(1))
           update(deps)
-          #remotes::install_cran("rcmdcheck")
+          remotes::install_cran("pkgbuild")
         shell: Rscript {0}
 
       - name: R CMD check windows
