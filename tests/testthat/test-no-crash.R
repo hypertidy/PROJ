@@ -19,7 +19,8 @@ test_that("out of bounds works", {
   expect_output(  proj_trans(cbind(2e10, 2e12),
                                      source = "+proj=stere +datum=WGS84",
                                      target = "+proj=laea +datum=WGS84")
-                  , "tolerance condition error")
+                  , "Point outside of projection domain")
+
 
   expect_silent(  proj_trans(cbind(2e10, 2e12),
                                      source = "+proj=gnom +datum=WGS84",
@@ -29,7 +30,7 @@ test_that("out of bounds works", {
   expect_output(proj_trans(cbind(2e10, 2e12),
                                    source = "+proj=longlat +datum=WGS84",
                                    target = "+proj=laea +datum=WGS84"),
-                "latitude or longitude exceeded limits")
+                "Error detected, some values Inf")
 
   expect_silent(proj_trans(cbind(2e10, 2e12),
                                    target = "+proj=longlat +datum=WGS84",

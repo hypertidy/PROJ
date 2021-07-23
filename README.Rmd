@@ -21,6 +21,8 @@ library(reproj)
 ```
 # PROJ
 
+**WIP: currently updating around {libproj} 8-1-0 **
+
 
 The goal of PROJ is to provide generic coordinate system transformations in R with a functional requirement for the system library to be provided by the [libproj package](https://cran.r-project.org/package=libproj). 
 
@@ -178,7 +180,8 @@ Geocentric transformations aren't used in R much, but some examples are found in
 PROJ was created before [libproj](https://cran.r-project.org/package=libproj) existed, and now leverages it. 
 
 * Why not proj4?  It's not maintained in a way that works for me. 
-* Why not sf?  It brings a lot of baggage, and can't do geocentric transformations. 
+* Why not sf?  It brings a lot of baggage, and can't do geocentric transformations.  A function that doesn't put data first like literally everything
+else is also just weird and annoying, in reproj we settled on 'reproj(xy, target, ..., source = )' which gives a great mix of explicitness and convenience, no need to wrap a helper around what should be a basic function like ggplot2 and others have to. 
 * Why not rgdal? Still baggage, no transformations possible without special data formats, no geocentric. 
 * Why not lwgeom? That package is format-specific, and does not work with generic
 data coordinates so is unsuitable for many straightforward and efficient
@@ -189,7 +192,7 @@ it seems to be written for some basic graphics cases.
 extension for reproj, to bridge it from PROJ version 4 and 5, to version 6 and 7
 and beyond.
 
-The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some sytems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
+The [reproj](https://CRAN.R-project.org/package=reproj) package wraps the very efficient `proj4::ptransform()` function for general coordinate system transformations.  Several package now use reproj for its consistency (no format or plumbing issues) and efficiency (directly transforming bulk coordinates). The proj4 package is not updated regularly, and depends on a local installation of the system library on some systems. . So reproj requires a new wrapper around PROJ (PROJ.4) itself. 
 
 Since the 1990s [PROJ.4](https://proj4.org) has been the name of the common standard library for general coordinate system transformations (for geospatial). That 1994 release has been modernized and now has versions **PROJ 5** and **PROJ 6**. There's a bit of traction in the name PROJ.4, so it has stuck 
 
