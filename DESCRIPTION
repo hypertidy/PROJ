@@ -1,6 +1,6 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.4.0.9002
+Version: 0.4.0.9003
 Authors@R: 
     c(person(given = "Michael D.",
            family = "Sumner",
@@ -38,7 +38,7 @@ RoxygenNote: 7.1.1
 Language: en-US
 VignetteBuilder: knitr
 LinkingTo: 
-    libproj (> 7.2.0-1)
+    libproj (>= 8.1.0-0)
 Imports: 
-    libproj (> 7.2.0-1)
-Remotes: paleolimbot/libproj@proj-8-1-0 
+    libproj (>= 8.1.0-0)
+Remotes: paleolimbot/libproj
