@@ -2,7 +2,13 @@
 TARGET = lib$(subst gcc,,$(COMPILED_BY))$(R_ARCH)
 
 PKG_LIBS = \
-        -lproj
+        -lproj -ltiff -lssl  -lssh2 -ltiff -lsqlite3 -lcurl
+
+## libproj
+#PKG_LIBS = -Lproj -lstaticproj -L$(RWINLIB_TIFF)/lib -ltiff -ljpeg -lz \
+# -L../windows/libcurl-7.64.1/lib${R_ARCH}${CRT} -lwinhttp -lcurl -lssh2 \
+# -lz -lssl -lcrypto -lgdi32 -lws2_32 -lcrypt32 -lwldap32
+
 
 CXX_STD = CXX11
 
