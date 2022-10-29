@@ -38,11 +38,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@main
         with:
           r-version: ${{ matrix.config.r }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@main
 
       - name: MacOS CRAN-binary system dependencies
         if: runner.os == 'macOS' && matrix.config.binary == 'CRAN'
