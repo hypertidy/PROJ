@@ -1,4 +1,4 @@
-#include <libproj.h>
+#include <proj.h>
 
 
 #include <R.h>
