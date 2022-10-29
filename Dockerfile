@@ -34,4 +34,4 @@ RUN R -e 'options(Ncpus = 15); install.packages("remotes"); remotes::install_cra
 
 ## now edit src/Makevars.in to put -Wconversion ito CPPFLAGS, and:
 #R CMD build PROJ --no-build-vignettes
-#R CMD INSTALL PROJ_0.4.0.9003.tar.gz > INSTALL.out 2>&1
+#R CMD INSTALL PROJ_0.4.5.tar.gz > INSTALL.out 2>&1
