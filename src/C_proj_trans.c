@@ -1,5 +1,4 @@
-// needed in every file that uses proj_*() functions
-#include "libproj.h"
+#include "proj.h"
 
 #include <Rinternals.h>
 
