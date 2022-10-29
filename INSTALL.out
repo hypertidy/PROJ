@@ -1,0 +1,65 @@
+* installing to library '/root/R/x86_64-pc-linux-gnu-library/4.3'
+* installing *source* package 'PROJ' ...
+** using staged installation
+checking for gcc... clang
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether clang accepts -g... yes
+checking for clang option to accept ISO C89... none needed
+checking how to run the C preprocessor... clang -E
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking proj_api.h usability... no
+checking proj_api.h presence... no
+checking for proj_api.h... no
+checking with ACCEPT_USE_OF_DEPRECATED_PROJ_API_H... 
+checking proj_api.h usability... yes
+checking proj_api.h presence... yes
+checking for proj_api.h... yes
+checking whether we are using the GNU C++ compiler... yes
+checking whether clang++ -stdlib=libc++ accepts -g... yes
+checking for pj_init_plus in -lproj... yes
+checking whether to require PROJ6 API... yes
+checking how to run the C++ preprocessor... clang++ -stdlib=libc++ -E
+checking proj.h usability... yes
+checking proj.h presence... yes
+checking for proj.h... yes
+checking for proj_create_crs_to_crs in -lproj... yes
+checking whether to use PROJ6 API... yes
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+clang -I"/opt/R/devel/lib/R/include" -DNDEBUG -DUSE_PROJ6_API=1 -Wconversion  -I/usr/local/include    -fpic  -O2 -g -Wunneeded-internal-declaration -Winvalid-utf8 -Wformat -Wsizeof-pointer-div -Wliteral-conversion -Wempty-body -Wreturn-stack-address -Wnon-c-typedef-for-linkage -Wstrict-prototypes -c C_proj_crs_text.c -o C_proj_crs_text.o
+clang -I"/opt/R/devel/lib/R/include" -DNDEBUG -DUSE_PROJ6_API=1 -Wconversion  -I/usr/local/include    -fpic  -O2 -g -Wunneeded-internal-declaration -Winvalid-utf8 -Wformat -Wsizeof-pointer-div -Wliteral-conversion -Wempty-body -Wreturn-stack-address -Wnon-c-typedef-for-linkage -Wstrict-prototypes -c C_proj_trans.c -o C_proj_trans.o
+clang -I"/opt/R/devel/lib/R/include" -DNDEBUG -DUSE_PROJ6_API=1 -Wconversion  -I/usr/local/include    -fpic  -O2 -g -Wunneeded-internal-declaration -Winvalid-utf8 -Wformat -Wsizeof-pointer-div -Wliteral-conversion -Wempty-body -Wreturn-stack-address -Wnon-c-typedef-for-linkage -Wstrict-prototypes -c init.c -o init.o
+clang -shared -L/opt/R/devel/lib/R/lib -L/usr/local/lib -o PROJ.so C_proj_crs_text.o C_proj_trans.o init.o -lproj -lproj -lsqlite3 -L/opt/R/devel/lib/R/lib -lR
+installing to /root/R/x86_64-pc-linux-gnu-library/4.3/00LOCK-PROJ/00new/PROJ/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+*** copying figures
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** checking absolute paths in shared objects and dynamic libraries
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (PROJ)
