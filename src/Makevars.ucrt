@@ -1,23 +1,15 @@
 
-TARGET = lib$(subst gcc,,$(COMPILED_BY))$(R_ARCH)
-
-PKG_LIBS = \
-        -lproj -ltiff -lssl  -lssh2 -ltiff -lsqlite3 -lcurl
-
-## libproj
-#PKG_LIBS = -Lproj -lstaticproj -L$(RWINLIB_TIFF)/lib -ltiff -ljpeg -lz \
-# -L../windows/libcurl-7.64.1/lib${R_ARCH}${CRT} -lwinhttp -lcurl -lssh2 \
-# -lz -lssl -lcrypto -lgdi32 -lws2_32 -lcrypt32 -lwldap32
-
-
-CXX_STD = CXX11
+PKG_LIBS =  \
+-lproj -lsqlite3 -lcurl -ltiff -ljpeg -lrtmp -lssl -lssh2 -lgcrypt -lcrypto -lgdi32 -lz -lzstd -lwebp -llzma -lgdi32 -lcrypt32 -lidn2 -lunistring -liconv -lgpg-error -lws2_32 -lwldap32 -lwinmm -lstdc++
 
 all: clean winlibs
 
+winlibs:
+	cp -r "$(R_TOOLS_SOFT)/share/proj" ../inst/
+
+CXX_STD = CXX11
+
 clean:
 	rm -f $(SHLIB) $(OBJECTS)
-
-winlibs:
-	cp -r $(R_TOOLS_SOFT)/share/proj ../inst/
 
 .PHONY: all winlibs clean
