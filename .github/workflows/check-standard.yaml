@@ -113,6 +113,10 @@ jobs:
           remotes::install_cran("pkgbuild")
         shell: Rscript {0}
 
+      - name: ZapRtools
+        if: runner.os == 'windows' ## && matrix.config.binary == 'rwinlib'
+        run: rm src/Makevars.ucrt
+
       - name: R CMD check windows
         if: runner.os == 'Windows'
         run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
