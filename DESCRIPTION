@@ -33,3 +33,4 @@ BugReports: https://github.com/hypertidy/PROJ/issues
 RoxygenNote: 7.2.1
 Language: en-US
 VignetteBuilder: knitr
+RequiresCompilation: true
