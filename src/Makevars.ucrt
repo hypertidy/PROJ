@@ -1,13 +1,12 @@
 
 PKG_LIBS =  \
--lproj -lsqlite3 -lcurl -ltiff -ljpeg -lrtmp -lssl -lssh2 -lgcrypt -lcrypto -lgdi32 -lz -lzstd -lwebp -llzma -lgdi32 -lcrypt32 -lidn2 -lunistring -liconv -lgpg-error -lws2_32 -lwldap32 -lwinmm -lstdc++
+ -lproj -lsqlite3 -lcurl -ltiff -lgeotiff -Lwin64
 
 all: clean winlibs
 
 winlibs:
 	cp -r "$(R_TOOLS_SOFT)/share/proj" ../inst/
 
-CXX_STD = CXX11
 
 clean:
 	rm -f $(SHLIB) $(OBJECTS)

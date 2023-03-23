@@ -1,23 +1,21 @@
-VERSION = 6.3.1
 RWINLIB = ../windows/proj-$(VERSION)
-  PKG_CPPFLAGS = -I$(RWINLIB)/include -DHAVE_PROJ6_API=1
+
 TARGET = lib$(R_ARCH)
 
-  PKG_LIBS =                  \
+PKG_LIBS =                  \
     -L$(RWINLIB)/$(TARGET)    \
     -L$(RWINLIB)/lib$(R_ARCH) \
     -lproj -lsqlite3 -lcurl -ltiff -lgeotiff -Lwin64
 
-    CXX_STD = CXX11
 
-  all: clean winlibs
+all: clean winlibs
 
-  winlibs:
-  mkdir -p ../inst
-  "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" --vanilla "../tools/winlibs.R" $(VERSION)
-  cp -r $(RWINLIB)/share/proj ../inst/
+winlibs:
+ mkdir -p ../inst
+ "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" --vanilla "../tools/winlibs.R" $(VERSION)
+ cp -r $(RWINLIB)/share/proj ../inst/
 
-    clean:
+clean:
   rm -f $(SHLIB) $(OBJECTS)
 
-  .PHONY: all winlibs clean
+.PHONY: all winlibs clean
