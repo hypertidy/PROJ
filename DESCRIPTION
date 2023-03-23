@@ -33,4 +33,4 @@ BugReports: https://github.com/hypertidy/PROJ/issues
 RoxygenNote: 7.2.1
 Language: en-US
 VignetteBuilder: knitr
-SystemRequirements: PROJ (>= 6.3.1), C++11
+SystemRequirements: PROJ (>= 6.3.1)
