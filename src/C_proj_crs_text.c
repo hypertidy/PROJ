@@ -11,7 +11,8 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
   const char*  crs_in[] = {CHAR(STRING_ELT(crs_, 0))};
 
   //unused flag
-  int success = 0L;
+  int success;
+  success = 0L;
   // output string assigned by proj_as_*() below
   const char  *outstring;
 
