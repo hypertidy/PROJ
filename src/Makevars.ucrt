@@ -1,5 +1,5 @@
 
-PKG_LIBS = -lproj -lsqlite3 -lcurl -ltiff -ljpeg -lrtmp -lssl -lssh2 -lgcrypt -lcrypto -lgdi32 -lz -lzstd -lwebp -llzma -lgdi32 -lcrypt32 -lidn2 -lunistring -liconv -lgpg-error -lws2_32 -lwldap32 -lwinmm -lstdc++
+PKG_LIBS = -lproj -lsqlite3 -lcurl -ltiff -ljpeg -lrtmp -lssl -lssh2 -lgcrypt -lcrypto -lgdi32 -lz -lzstd -lwebp -llzma -lgdi32 -lcrypt32 -lidn2 -lunistring -liconv -lgpg-error -lws2_32 -lwldap32 -lwinmm -lstdc++ -lbcrypt
 
 PKG_CPPFLAGS = -DUSE_PROJ6_API=1
 
