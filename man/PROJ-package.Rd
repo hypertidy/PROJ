@@ -6,7 +6,7 @@
 \alias{PROJ-package}
 \title{PROJ: Generic Coordinate System Transformations Using 'PROJ'}
 \description{
-A wrapper around the generic coordinate transformation software 'PROJ' that transforms geospatial coordinates from one coordinate reference system ('CRS') to another. This includes cartographic projections as well as geodetic transformations. The intention is for this package to be used by user-packages such as 'reproj', and that the older 'PROJ.4' and version 5 pathways be provided by the 'proj4' package.
+A wrapper around the generic coordinate transformation software 'PROJ' that transforms coordinates from one coordinate reference system ('CRS') to another. This includes cartographic projections as well as geodetic transformations. The intention is for this package to be used by user-packages such as 'reproj', and that the older 'PROJ.4' and version 5 pathways be provided by the 'proj4' package.
 
 The goal of PROJ is to provide generic coordinate system transformations in R
 without requiring bespoke formats for storing basic data.
