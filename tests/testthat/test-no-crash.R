@@ -8,6 +8,7 @@ target <- "+proj=merc +datum=WGS84"
 
 test_that("out of bounds works", {
 
+  skip_if(!ok_proj6())
   a <- expect_output({
 
     proj_trans(x, target, source = source)
@@ -16,21 +17,21 @@ test_that("out of bounds works", {
   ## fixed
   expect_true(!all(is.finite(a$x_)))
 
-  # expect_output(  proj_trans(cbind(2e10, 2e12),
-  #                                    source = "+proj=stere +datum=WGS84",
-  #                                    target = "+proj=laea +datum=WGS84")
-  #                 , "Point outside of projection domain")
-  #
+  expect_output(  proj_trans(cbind(2e10, 2e12),
+                                     source = "+proj=stere +datum=WGS84",
+                                     target = "+proj=laea +datum=WGS84")
+                  , "Point outside of projection domain")
+
 
   expect_true(is.list(  proj_trans(cbind(2e10, 2e12),
                                      source = "+proj=gnom +datum=WGS84",
                                      target = "+proj=laea +datum=WGS84")))
 
-  ## crazy stuff is fine
-  # expect_output(proj_trans(cbind(2e10, 2e12),
-  #                                  source = "+proj=longlat +datum=WGS84",
-  #                                  target = "+proj=laea +datum=WGS84"),
-  #               "Error detected, some values Inf")
+  # crazy stuff is fine
+  expect_output(proj_trans(cbind(2e10, 2e12),
+                                   source = "+proj=longlat +datum=WGS84",
+                                   target = "+proj=laea +datum=WGS84"),
+                "Error detected, some values Inf")
 
   expect_true(all(!is.finite(unlist(proj_trans(cbind(2e10, 2e12),
                                    target = "+proj=longlat +datum=WGS84",

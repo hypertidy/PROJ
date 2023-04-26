@@ -10,7 +10,7 @@ proj_crs_text(source, format = 0L)
 \item{source}{input projection specification one of ('PROJ4', 'WKT2',
 'EPSG', 'PROJJSON', ... see the library documentation link in Details)}
 
-\item{format}{integer, 0 for 'WKT', 1 for 'PROJ'}
+\item{format}{integer, 0 for 'WKT', 1 for 'PROJ', 2 for 'PROJJSON'}
 }
 \value{
 character string in requested format

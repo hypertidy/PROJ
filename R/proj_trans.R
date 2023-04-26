@@ -68,6 +68,6 @@ proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {
 #' @name proj_trans
 #' @export
 proj_trans_generic <- function(x, target, ..., source = NULL, z_ = 0, t_ = 0) {
- ## message("'proj_trans_generic()' is soft-deprecated and may be removed, please use 'proj_trans()'")
+ .Deprecated("proj_trans")
   proj_trans(x = x, target = target, ..., source = source, z_ = z_, t_ = t_)
 }
