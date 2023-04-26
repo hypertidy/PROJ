@@ -12,7 +12,7 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
 
   //unused flag
   int success;
-  success = 0L;
+  success = 0;
   // output string assigned by proj_as_*() below
   const char  *outstring;
 
@@ -28,9 +28,8 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
     error(proj_errno_string(proj_errno(0)));
   if (fmt == 0L) {
     // available types
-    // PJ_WKT1_ESRI, PJ_WKT1_GDAL, PJ_WKT2_2015, PJ_WKT2_2015_SIMPLIFIED, PJ_WKT                                          2_2018, PJ_WKT2_2018_SIMPLIFIED;
-    outstring = proj_as_wkt(0, pj, PJ_WKT2_2018, NULL);
-
+    // PJ_WKT1_ESRI, PJ_WKT1_GDAL, PJ_WKT2_2015, PJ_WKT2_2015_SIMPLIFIED, PJ_WKT2_2018, PJ_WKT2_2018_SIMPLIFIED;
+    outstring = proj_as_wkt(0, pj, PJ_WKT2_2019, NULL);
     success = 1L;
   }
   if (fmt == 1L) {
@@ -48,7 +47,12 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
   // until a next call to proj_as_*() with the same input object.
   // https://proj.org/development/reference/functions.html#_CPPv411proj_as_wktP1                                          0PJ_CONTEXTPK2PJ11PJ_WKT_TYPEPPCKc
 
-  SET_STRING_ELT(out, 0, mkChar(outstring));
+  if (!success) {
+    SET_STRING_ELT(out, 0, NA_STRING);
+  } else {
+    SET_STRING_ELT(out, 0, mkChar(outstring));
+  }
+
   proj_destroy(pj);
 
   UNPROTECT(1);

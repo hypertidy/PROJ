@@ -15,7 +15,7 @@
 #' Some formats are hard to read, such as WKT so for easy reading
 #' use `cat()`.
 #' @export
-#' @param format integer, 0 for 'WKT', 1 for 'PROJ'
+#' @param format integer, 0 for 'WKT', 1 for 'PROJ', 2 for 'PROJJSON'
 #' @param source input projection specification one of ('PROJ4', 'WKT2',
 #'  'EPSG', 'PROJJSON', ... see the library documentation link in Details)
 #'

@@ -1,3 +1,9 @@
+# PROJ dev
+
+* `ok_proj6()` is no meaningful again. 
+
+* Deprecated old `proj_trans_generic()`. 
+
 # PROJ 0.3.1
 
 * New function 'proj_crs_text()' to convert from one CRS text format to another.
