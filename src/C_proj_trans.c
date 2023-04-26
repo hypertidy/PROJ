@@ -26,7 +26,8 @@ SEXP proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
 
   SEXP x_copy = PROTECT(duplicate(VECTOR_ELT(x, 0)));
   SEXP y_copy = PROTECT(duplicate(VECTOR_ELT(x, 1)));
-  SEXP z_copy, t_copy;
+  SEXP z_copy = R_NilValue;
+  SEXP t_copy = R_NilValue;
   if (ncolumns == 4) {
     z_copy = PROTECT(duplicate(VECTOR_ELT(x, 2)));
     t_copy = PROTECT(duplicate(VECTOR_ELT(x, 3)));
