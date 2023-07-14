@@ -1,6 +1,8 @@
-# PROJ dev
+# PROJ 0.4.5
 
-* `ok_proj6()` is no meaningful again. 
+* reinstated proj function! 
+
+* `ok_proj6()` is now meaningful again. 
 
 * Deprecated old `proj_trans_generic()`. 
 

@@ -59,7 +59,9 @@ Warning in Sys.setlocale("LC_CTYPE", "en_US.UTF-8") :
 * checking line endings in shell scripts ... OK
 * checking line endings in C/C++/Fortran sources/headers ... OK
 * checking line endings in Makefiles ... OK
-* checking compilation flags in Makevars ... OK
+* checking compilation flags in Makevars ... WARNING
+Non-portable flags in variable 'PKG_CPPFLAGS':
+  -Wconversion
 * checking for GNU extensions in Makefiles ... OK
 * checking for portable use of $(BLAS_LIBS) and $(LAPACK_LIBS) ... OK
 * checking use of PKG_*FLAGS in Makefiles ... OK
@@ -73,7 +75,7 @@ Warning in Sys.setlocale("LC_CTYPE", "en_US.UTF-8") :
  OK
 * DONE
 
-Status: 1 WARNING
+Status: 2 WARNINGs
 See
   '//PROJ.Rcheck/00check.log'
 for details.
