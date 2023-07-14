@@ -17,14 +17,14 @@
 #' Values that are detected out of bounds by library PROJ are allowed, we return `Inf` in this
 #' case, rather than the error "tolerance condition error".
 #'
-#' @param source projection of input coordinates (must be named)
+#' @param source projection of input coordinates (must be named i.e. 'source = "<some proj string"' can't be used in positional form)
 #' @param target projection for output coordinates
 #' @param x input coordinates (x,y, list or matrix see `z_` and `t_`)
 #' @param ... ignored
 #' @param z_ optional z coordinate vector
 #' @param t_ optional t coordinate vector
 #' @export
-#' @return list of transformed coordinates, with 4-elements `x_`, `y_`, `z_`, `t_`
+#' @return list of transformed coordinates, with 4- or 2-elements `x_`, `y_`, `z_`, `t_`
 #' @references see the [PROJ library documentation](https://proj.org/development/reference/functions.html#coordinate-transformation)
 #' for details on the underlying functionality
 #' @examples
