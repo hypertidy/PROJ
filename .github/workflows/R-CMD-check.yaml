@@ -29,10 +29,9 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-
       - name: Install macOS system dependencies
-         if: runner.os == 'macOS'
-          run: |
+        if: runner.os == 'macOS'
+        run: |
            brew install openssl
            brew install proj
 
