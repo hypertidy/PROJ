@@ -32,7 +32,7 @@ jobs:
 
       - name: Install macOS system dependencies
          if: runner.os == 'macOS'
-         run: |
+          run: |
            brew install openssl
            brew install proj
 
