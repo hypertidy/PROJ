@@ -16,5 +16,13 @@ test_that("PROJ works", {
   expect_true(all(lonlat[["y_"]] < 90))
   expect_true(all(lonlat[["y_"]] > -90))
 
+  expect_silent(xy <- proj_trans(cbind(X = xyz["x_"], Y = xyz["y_"]),
+                                     src, source = dst))
+  expect_equal(length(xy), 2L)
+
+  ## extra cols are ignored
+  expect_silent(xy <- proj_trans(cbind(X = xyz["x_"], Y = xyz["y_"], a  = 1),
+                                 src, source = dst))
+  expect_error(proj_trans(cbind(0, 0), "+proj=laea", source = "goofy"))
 
 })

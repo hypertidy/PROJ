@@ -35,6 +35,7 @@ RUN R -e 'options(Ncpus = 30);  pak::pkg_install(c("markdown", "spelling", "json
 #R CMD build PROJ --no-build-vignettes
 #R CMD INSTALL PROJ_0.4.5.tar.gz > PROJ/inst/ci/INSTALL.out 2>&1
 #R CMD check PROJ_0.4.5.tar.gz --no-manual --no-build-vignettes --ignore-vignettes --no-vignettes > PROJ/inst/ci/CHECK.out 2>&1
+## https://medium.com/@danielvfryer/valgrind-memcheck-with-r-a-quick-and-dirty-guide-d64567394c57
 #R -d valgrind --vanilla < "PROJ.Rcheck/PROJ-Ex.R"  > PROJ/inst/ci/VALGRIND.out 2>&1
 #R -d "valgrind --tool=memcheck --leak-check=full --track-origins=yes --show-leak-kinds=definite" --vanilla > "PROJ.Rcheck/PROJ-Ex.R" > PROJ/inst/ci/VALGRINDfull.out 2>&1
 #Rscript -e "devtools::test('PROJ')" > PROJ/inst/ci/TEST.out 2>&1

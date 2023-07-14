@@ -28,9 +28,9 @@
 #' @references see the [PROJ library documentation](https://proj.org/development/reference/functions.html#coordinate-transformation)
 #' for details on the underlying functionality
 #' @examples
-#'  proj_trans(cbind(147, -42), "+proj=laea", source = "epsg:4326")
-#'  proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "epsg:4326")
-#'  proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "epsg:4326")
+#'  proj_trans(cbind(147, -42), "+proj=laea", source = "OGC:CRS84")
+#'  proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "OGC:CRS84")
+#'  proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "OGC:CRS84")
 #' @name proj_trans
 #' @export
 proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {
@@ -53,11 +53,13 @@ proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {
   if (nd[1L] < 1) stop("must be at least one coordinate")
   if (nd[2L] == 2L) {
     out <- .Call("proj_trans_xy", x_ = as.double(x[,1L]), y_ = as.double(x[,2L]), src_ = source, tgt_ = target, PACKAGE = "PROJ")
+    if (is.null(out)) stop(sprintf("transformation failed for xy coordinates '%s' -> '%s'", source, target))
     names(out) <- c("x_", "y_")
   } else {
     xx <- split(x, rep(seq_len(nd[2L]), each = nd[1L]))
     xx <- lapply(xx, as.numeric)  ## no integer
     out <- .Call("proj_trans_list", x = xx, src_ = source, tgt_ = target, PACKAGE = "PROJ")
+    if (is.null(out)) stop(sprintf("transformation failed for xyzt coordinates '%s' -> '%s'", source, target))
     names(out) <- c("x_", "y_", "z_", "t_")
   }
 

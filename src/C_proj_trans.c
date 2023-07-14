@@ -21,16 +21,19 @@ SEXP proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
     return(R_NilValue);
   }
   //const char* Rf_translateChar(SEXP src_);
+  int unprot;
   SEXP src_copy = PROTECT(duplicate(src_));
   SEXP tgt_copy = PROTECT(duplicate(tgt_));
-
   SEXP x_copy = PROTECT(duplicate(VECTOR_ELT(x, 0)));
   SEXP y_copy = PROTECT(duplicate(VECTOR_ELT(x, 1)));
+  unprot= 4;
+
   SEXP z_copy = R_NilValue;
   SEXP t_copy = R_NilValue;
   if (ncolumns == 4) {
     z_copy = PROTECT(duplicate(VECTOR_ELT(x, 2)));
     t_copy = PROTECT(duplicate(VECTOR_ELT(x, 3)));
+    unprot = unprot + 2;
   }
   /* FIXME: could in principle be a long vector */
   int N = length(x_copy);
@@ -42,12 +45,14 @@ SEXP proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
   P = proj_create_crs_to_crs(C, *crs_in, *crs_out, NULL);
   if (0 == P) {
     Rprintf("crs to crs problem\n");
+    UNPROTECT(unprot);
     return(R_NilValue);
   }
 
   P_for_GIS = proj_normalize_for_visualization(C, P);
   if( 0 == P_for_GIS )  {
     Rprintf("bad longlat order\n");
+    UNPROTECT(unprot);
     return(R_NilValue);
   }
   proj_destroy(P);
@@ -76,17 +81,14 @@ SEXP proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
 
 
   SEXP vec = PROTECT(allocVector(VECSXP, ncolumns));
+  unprot = unprot + 1;
   SET_VECTOR_ELT(vec, 0, x_copy);
   SET_VECTOR_ELT(vec, 1, y_copy);
 
-  int unprot;
-  if (ncolumns == 2) {
-    unprot = 5;
-  } else {
+
+ if (ncolumns == 4) {
     SET_VECTOR_ELT(vec, 2, z_copy);
     SET_VECTOR_ELT(vec, 3, t_copy);
-
-    unprot= 7;
   }
 
   UNPROTECT(unprot);
@@ -115,11 +117,14 @@ SEXP proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
 
     P = proj_create_crs_to_crs(C, *crs_in, *crs_out, NULL);
     if (0 == P) {
+      UNPROTECT(4);
+
       return(R_NilValue);
     }
 
     P_for_GIS = proj_normalize_for_visualization(C, P);
     if( 0 == P_for_GIS )  {
+      UNPROTECT(4);
       return(R_NilValue);
     }
     proj_destroy(P);

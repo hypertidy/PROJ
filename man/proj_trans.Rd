@@ -16,14 +16,14 @@ proj_trans_generic(x, target, ..., source = NULL, z_ = 0, t_ = 0)
 
 \item{...}{ignored}
 
-\item{source}{projection of input coordinates (must be named)}
+\item{source}{projection of input coordinates (must be named i.e. 'source = "<some proj string"' can't be used in positional form)}
 
 \item{z_}{optional z coordinate vector}
 
 \item{t_}{optional t coordinate vector}
 }
 \value{
-list of transformed coordinates, with 4-elements \code{x_}, \code{y_}, \code{z_}, \code{t_}
+list of transformed coordinates, with 4- or 2-elements \code{x_}, \code{y_}, \code{z_}, \code{t_}
 }
 \description{
 A raw interface to 'proj_trans' in 'PROJ => 6', if it is available.

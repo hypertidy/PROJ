@@ -1,0 +1,29 @@
+i Testing PROJ
+v | F W S  OK | Context
+
+/ |         0 | PROJ                                                            
+/ |         0 | test-PROJ                                                       
+| |         3 | test-PROJ                                                       
+v |         6 | test-PROJ
+
+/ |         0 | create                                                          
+v |     1   1 | create
+
+/ |         0 | no-crash                                                        
+v |         7 | no-crash
+
+/ |         0 | sanity-inputs                                                   
+- |         9 | sanity-inputs                                                   proj_create: unrecognized format / unknown name
+
+/ |        12 | sanity-inputs                                                   proj_create: unrecognized format / unknown name
+
+- |        13 | sanity-inputs                                                   
+v |        13 | sanity-inputs
+
+== Results =====================================================================
+Duration: 1.2 s
+
+-- Skipped tests (1) -----------------------------------------------------------
+* ok_proj6() is TRUE (1): 'test-create.R:10:4'
+
+[ FAIL 0 | WARN 0 | SKIP 1 | PASS 27 ]
