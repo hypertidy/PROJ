@@ -1,5 +1,7 @@
 # PROJ 0.4.5
 
+* New function `proj_version()`. 
+
 * reinstated proj function! 
 
 * `ok_proj6()` is now meaningful again. 

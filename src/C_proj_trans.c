@@ -7,7 +7,7 @@
 // 4 =- x,y,z,t
 // If NULL returned,
 //    input list not len 2 or 4 || crs_to_crs is invalid || gis-order is invalid || PROJ>=6 is not available
-SEXP proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
+SEXP C_proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
 {
   PJ_CONTEXT *C;
   PJ *P;
@@ -95,7 +95,7 @@ SEXP proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
   return vec;
 }
 
-SEXP proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
+SEXP C_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
 {
   PJ_CONTEXT *C;
   PJ *P;
