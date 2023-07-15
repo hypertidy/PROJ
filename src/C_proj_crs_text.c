@@ -24,6 +24,7 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
   SEXP out = PROTECT(allocVector(STRSXP, 1));
 
   PJ *pj;
+
   if (!(pj =   proj_create(PJ_DEFAULT_CTX, *crs_in)))
     error(proj_errno_string(proj_errno(0)));
   if (fmt == 0L) {
