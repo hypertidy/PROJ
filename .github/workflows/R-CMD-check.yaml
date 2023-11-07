@@ -12,15 +12,15 @@ jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) (${{ matrix.config.PROJ_VERSION }})
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: macos-latest,   r: 'release', PROJ_VERSION: 'cran'}
+          - {os: windows-latest, r: 'release', PROJ_VERSION: 'cran'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release', PROJ_VERSION: '9.3.0'}
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '9.3.0'}
           - {os: ubuntu-latest,   r: 'oldrel-1', PROJ_VERSION: '9.3.0'}
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '8.2.1'}
@@ -28,8 +28,6 @@ jobs:
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '6.3.1'}
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '5.2.0'}
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '4.9.3'}
-
-
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -53,7 +51,7 @@ jobs:
            sudo make install
            sudo ldconfig
 
-      -name: Install
+      - name: Install
       - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-pandoc@v2
