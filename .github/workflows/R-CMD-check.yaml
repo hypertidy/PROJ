@@ -1,15 +1,13 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
     branches: [main, ci]
   pull_request:
     branches: [main]
 
-name: R-CMD-check
+name: R-CMD-check-proj
 
 jobs:
-  R-CMD-check:
+  R-CMD-check-proj:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }}) (${{ matrix.config.PROJ_VERSION }})
@@ -40,6 +38,16 @@ jobs:
            brew install openssl
            brew install proj
 
+      - name: Install ubuntu system dependencies
+        if: runner.os == 'ubuntu'
+        run: |
+           wget https://download.osgeo.org/proj/proj-{runner.PROJ_VERSION}.tar.gz
+           tar zxvf proj-{runner.PROJ_VERSION}.tar.gz
+           cd proj-{runner.PROJ_VERSION}
+           ./configure --prefix /usr
+           make install -j4
+           sudo make install
+           sudo ldconfig
 
       - name: Install
       - uses: actions/checkout@v3
