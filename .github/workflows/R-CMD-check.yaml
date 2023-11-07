@@ -10,7 +10,7 @@ jobs:
   R-CMD-check-proj:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) (${{ matrix.config.PROJ_VERSION }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
       fail-fast: false
@@ -41,9 +41,9 @@ jobs:
       - name: Install ubuntu system dependencies
         if: runner.os == 'ubuntu'
         run: |
-           wget https://download.osgeo.org/proj/proj-{runner.PROJ_VERSION}.tar.gz
-           tar zxvf proj-{runner.PROJ_VERSION}.tar.gz
-           cd proj-{runner.PROJ_VERSION}
+           wget https://download.osgeo.org/proj/proj-{matrix.config.PROJ_VERSION}.tar.gz
+           tar zxvf proj-{matrix.config.PROJ_VERSION}.tar.gz
+           cd proj-{matrix.config.PROJ_VERSION}
            ./configure --prefix /usr
            make install -j4
            sudo make install
