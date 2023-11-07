@@ -49,7 +49,6 @@ jobs:
            sudo make install
            sudo ldconfig
 
-      - name: Install
       - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-pandoc@v2
