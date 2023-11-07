@@ -25,13 +25,13 @@ function simply returns 'NA'.
 
 See the \href{https://proj.org/development/reference/functions.html#transformation-setup}{library documentation}
 for details on input and output formats.
-
-Some nuances of the format are not available, currently we use formats
-'0: PJ_WKT2_2018' '1: PJ_PROJ_5', '2: PROJJSON'.
-
-Some formats are hard to read, such as WKT so for easy reading
-use \code{cat()}.
 }
+\section{}{
+ warning
+Note that a PROJ string is not a full specification, in particular this means that a string like "+proj=laea" cannot be converted
+to full WKT, because it is technically a transformation step not a crs. To get the full WKT form use a string like "+proj=laea +type=crs".
+}
+
 \examples{
 cat(proj_crs_text("OGC:CRS84", format = 0L))
 proj_crs_text("OGC:CRS84", format = 1L)

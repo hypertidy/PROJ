@@ -1,39 +1,44 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches: [main, master]
+    branches: [main, ci]
   pull_request:
-    branches: [main, master]
+    branches: [main]
 
-name: R-CMD-check
+name: R-CMD-check-proj-cmake
 
 jobs:
-  R-CMD-check:
+  R-CMD-check-proj:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) (${{ matrix.config.PROJ_VERSION }})
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
+      #    - {os: macos-latest,   r: 'release', PROJ_VERSION: 'cran'}
+      #    - {os: windows-latest, r: 'release', PROJ_VERSION: 'cran'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release', PROJ_VERSION: '9.3.0'}
+          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '9.3.0'}
+#          - {os: ubuntu-latest,   r: 'oldrel-1', PROJ_VERSION: '9.3.0'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '8.2.1'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '7.2.1'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '6.3.1'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '5.2.0'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '4.9.3'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      PROJ_NUMBER: ${{ matrix.config.PROJ_VERSION }}
+      # cmake does not understand "-1" as "all cpus"
 
     steps:
-      - name: Install macOS system dependencies
-        if: runner.os == 'macOS'
-        run: |
-           brew install openssl
-           brew install proj
+      # - name: Install macOS system dependencies
+      #   if: runner.os == 'macOS'
+      #   run: |
+      #      brew install openssl
+      #      brew install proj
 
       - uses: actions/checkout@v3
 
@@ -45,11 +50,50 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
+      # - name: Install ubuntu system dependencies
+      #   if: runner.os == 'Linux'
+      #   run: |
+      #      #apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev
+      #      wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
+      #      tar zxvf proj-$PROJ_NUMBER.tar.gz
+      #      cd proj-$PROJ_NUMBER
+      #      ./configure --prefix /usr
+      #      make install -j4
+      #      sudo make install
+      #      sudo ldconfig
+
+      - name: Install ubuntu cmake build system dependencies
+        if: runner.os == 'Linux'
+        run: |
+           sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev  libsqlite3-dev libtiff-dev cmake libssl-dev libxml2-dev
+           wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
+           tar zxvf proj-$PROJ_NUMBER.tar.gz
+           cd proj-$PROJ_NUMBER
+           mkdir build
+           cd build
+           #CMAKE_CORES=${NCPUS}
+           #if [ "${CMAKE_CORES}" = "-1" ]; then
+           #   CMAKE_CORES=$(nproc --all)
+           #fi
+           cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+           sudo cmake --build . --target install  ##--parallel "$CMAKE_CORES"
+           cd ../..
+           sudo rm -rf proj-$PROJ_NUMBER
+           rm proj-$PROJ_NUMBER.tar.gz
+           sudo ldconfig
+           sudo projsync --source-id fr_ign
+
+      #  uses: r-lib/actions/setup-r-dependencies@v2
+      #   with:
+      #     extra-packages: any::rcmdcheck
+      #     needs: check
+
+      - name: Install package installer
+        run: Rscript -e 'install.packages(c("pak"), repos = "https://cran.rstudio.com/")'
+
+      - name: Install package deps
+        run: Rscript -e 'pak::pak(c("testthat", "spelling", "knitr", "rmarkdown", "rcmdcheck"))'
 
       - uses: r-lib/actions/check-r-package@v2
         with:
-          upload-snapshots: true
+          upload-snapshots: false
