@@ -40,16 +40,6 @@ jobs:
            brew install openssl
            brew install proj
 
-      - name: Install ubuntu system dependencies
-        if: runner.os == 'ubuntu-latest'
-        run: |
-           wget https://download.osgeo.org/proj/proj-{runner.PROJ_VERSION}.tar.gz
-           tar zxvf proj-{runner.PROJ_VERSION}.tar.gz
-           cd proj-{runner.PROJ_VERSION}
-           ./configure --prefix /usr
-           make install -j4
-           sudo make install
-           sudo ldconfig
 
       - name: Install
       - uses: actions/checkout@v3
