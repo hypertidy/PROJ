@@ -39,7 +39,7 @@ jobs:
            brew install proj
 
       - name: Install ubuntu system dependencies
-        if: runner.os == 'ubuntu'
+        if: runner.os == 'Linux'
         run: |
            wget https://download.osgeo.org/proj/proj-{matrix.config.PROJ_VERSION}.tar.gz
            tar zxvf proj-{matrix.config.PROJ_VERSION}.tar.gz
