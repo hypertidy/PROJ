@@ -39,10 +39,20 @@ jobs:
            brew install openssl
            brew install proj
 
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
       - name: Install ubuntu system dependencies
         if: runner.os == 'Linux'
         run: |
-           apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev
+           #apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
@@ -54,7 +64,7 @@ jobs:
       - name: Install ubuntu cmake build system dependencies
         if: runner.os == 'Linux' && ${{ matrix.config.PROJ_VERSION }}
         run: |
-           apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev cmake
+           #apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev cmake
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
@@ -64,15 +74,6 @@ jobs:
            sudo cmake --build . --target install
            sudo ldconfig
 
-      - uses: actions/checkout@v3
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: ${{ matrix.config.r }}
-          http-user-agent: ${{ matrix.config.http-user-agent }}
-          use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
