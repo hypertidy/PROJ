@@ -10,7 +10,7 @@ jobs:
   R-CMD-check-proj:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) (${{ matrix.config.PROJ_VERSION }})
 
     strategy:
       fail-fast: false
@@ -30,7 +30,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-
+      PROJ_NUMBER: ${{ matrix.config.PROJ_VERSION }}
     steps:
       - name: Install macOS system dependencies
         if: runner.os == 'macOS'
@@ -41,9 +41,9 @@ jobs:
       - name: Install ubuntu system dependencies
         if: runner.os == 'Linux'
         run: |
-           wget https://download.osgeo.org/proj/proj-{matrix.config.PROJ_VERSION}.tar.gz
-           tar zxvf proj-{matrix.config.PROJ_VERSION}.tar.gz
-           cd proj-{matrix.config.PROJ_VERSION}
+           wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
+           tar zxvf proj-$PROJ_NUMBER.tar.gz
+           cd proj-$PROJ_NUMBER
            ./configure --prefix /usr
            make install -j4
            sudo make install
