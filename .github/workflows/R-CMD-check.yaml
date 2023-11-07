@@ -52,7 +52,7 @@ jobs:
            sudo ldconfig
 
       - name: Install ubuntu system dependencies
-        if: runner.os == 'Linux' & matrix.config.PROJ_VERSION == '9.3.0'
+        if: runner.os == 'Linux' && ${{ matrix.config.PROJ_VERSION }}
         run: |
            sudo apt install libcurl4-openssl-dev sqlite-dev libtiff-dev
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
