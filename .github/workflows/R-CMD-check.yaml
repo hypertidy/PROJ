@@ -31,6 +31,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
       PROJ_NUMBER: ${{ matrix.config.PROJ_VERSION }}
+
     steps:
       - name: Install macOS system dependencies
         if: runner.os == 'macOS'
@@ -41,12 +42,26 @@ jobs:
       - name: Install ubuntu system dependencies
         if: runner.os == 'Linux'
         run: |
+           sudo apt install libcurl4-openssl-dev sqlite-dev libtiff-dev
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
            ./configure --prefix /usr
            make install -j4
            sudo make install
+           sudo ldconfig
+
+      - name: Install ubuntu system dependencies
+        if: runner.os == 'Linux' & matrix.config.PROJ_VERSION == '9.3.0'
+        run: |
+           sudo apt install libcurl4-openssl-dev sqlite-dev libtiff-dev
+           wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
+           tar zxvf proj-$PROJ_NUMBER.tar.gz
+           cd proj-$PROJ_NUMBER
+           mkdir build
+           cd build
+           cmake -DCMAKE_INSTALL_PREFIX=/usr
+           sudo cmake --build . --target install
            sudo ldconfig
 
       - uses: actions/checkout@v3
