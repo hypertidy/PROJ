@@ -42,7 +42,7 @@ jobs:
       - name: Install ubuntu system dependencies
         if: runner.os == 'Linux'
         run: |
-           sudo apt install libcurl4-openssl-dev sqlite-dev libtiff-dev
+           sudo apt install libcurl4-openssl-dev libsqlite3-dev libtiff-dev
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
@@ -51,10 +51,10 @@ jobs:
            sudo make install
            sudo ldconfig
 
-      - name: Install ubuntu system dependencies
+      - name: Install ubuntu cmake build system dependencies
         if: runner.os == 'Linux' && ${{ matrix.config.PROJ_VERSION }}
         run: |
-           sudo apt install libcurl4-openssl-dev sqlite-dev libtiff-dev
+           sudo apt install libcurl4-openssl-dev libsqlite3-dev libtiff-dev cmake
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
