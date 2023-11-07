@@ -2,7 +2,7 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches: [main]
+    branches: [main, ci]
   pull_request:
     branches: [main]
 
@@ -21,13 +21,13 @@ jobs:
           - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: 9.3.0}
-          - {os: ubuntu-latest,   r: 'oldrel-1', PROJ_VERSION: 9.3.0}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: 8.2.1}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: 7.2.1}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: 6.3.1}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: 5.2.0}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: 4.9.3}
+          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '9.3.0'}
+          - {os: ubuntu-latest,   r: 'oldrel-1', PROJ_VERSION: '9.3.0'}
+          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '8.2.1'}
+          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '7.2.1'}
+          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '6.3.1'}
+          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '5.2.0'}
+          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '4.9.3'}
 
 
 
