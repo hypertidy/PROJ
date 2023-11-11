@@ -64,7 +64,7 @@ jobs:
       - name: Install ubuntu cmake build system dependencies
         if: runner.os == 'Linux'
         run: |
-           sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-devapt-get  libsqlite3-dev libtiff-dev cmake
+           sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev  libsqlite3-dev libtiff-dev cmake
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
