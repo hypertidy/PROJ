@@ -31,6 +31,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
       PROJ_NUMBER: ${{ matrix.config.PROJ_VERSION }}
+      # cmake does not understand "-1" as "all cpus"
 
     steps:
       # - name: Install macOS system dependencies
@@ -70,8 +71,12 @@ jobs:
            cd proj-$PROJ_NUMBER
            mkdir build
            cd build
+           CMAKE_CORES=${NCPUS}
+           if [ "${CMAKE_CORES}" = "-1" ]; then
+             CMAKE_CORES=$(nproc --all)
+           fi
            cmake .. -DCMAKE_INSTALL_PREFIX=/usr
-           sudo cmake --build . --target install
+           sudo cmake --build . --target install  --parallel "$CMAKE_CORES"
            sudo ldconfig
            sudo projsync --source-id fr_ign
 
