@@ -70,7 +70,7 @@ jobs:
            cd proj-$PROJ_NUMBER
            mkdir build
            cd build
-           cmake -DCMAKE_INSTALL_PREFIX=/usr
+           cmake .. -DCMAKE_INSTALL_PREFIX=/usr
            cmake --build . --target install
            ldconfig
            projsync --source-id fr_ign
