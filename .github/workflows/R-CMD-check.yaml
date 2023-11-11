@@ -64,7 +64,7 @@ jobs:
       - name: Install ubuntu cmake build system dependencies
         if: runner.os == 'Linux' && ${{ matrix.config.PROJ_VERSION }}
         run: |
-           #apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev cmake
+           apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev cmake
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
