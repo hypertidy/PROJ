@@ -62,18 +62,18 @@ jobs:
       #      sudo ldconfig
 
       - name: Install ubuntu cmake build system dependencies
-        if: runner.os == 'Linux' && ${{ matrix.config.PROJ_VERSION }}
+        if: runner.os == 'Linux'
         run: |
-           apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev cmake
+           sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-devapt-get  libsqlite3-dev libtiff-dev cmake
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
            mkdir build
            cd build
            cmake .. -DCMAKE_INSTALL_PREFIX=/usr
-           cmake --build . --target install
-           ldconfig
-           projsync --source-id fr_ign
+           sudo cmake --build . --target install
+           sudo ldconfig
+           sudo projsync --source-id fr_ign
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
