@@ -79,11 +79,11 @@ jobs:
            sudo cmake --build . --target install  --parallel "$CMAKE_CORES"
            cd ../..
            sudo rm -rf proj-$PROJ_NUMBER
-           rm zxvf proj-$PROJ_NUMBER.tar.gz
+           rm proj-$PROJ_NUMBER.tar.gz
            sudo ldconfig
            sudo projsync --source-id fr_ign
 
-      # - uses: r-lib/actions/setup-r-dependencies@v2
+      #  uses: r-lib/actions/setup-r-dependencies@v2
       #   with:
       #     extra-packages: any::rcmdcheck
       #     needs: check
