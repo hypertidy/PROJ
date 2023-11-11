@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
 
-name: R-CMD-check-proj
+name: R-CMD-check-proj-cmake
 
 jobs:
   R-CMD-check-proj:
@@ -16,16 +16,16 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release', PROJ_VERSION: 'cran'}
-          - {os: windows-latest, r: 'release', PROJ_VERSION: 'cran'}
+      #    - {os: macos-latest,   r: 'release', PROJ_VERSION: 'cran'}
+      #    - {os: windows-latest, r: 'release', PROJ_VERSION: 'cran'}
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release', PROJ_VERSION: '9.3.0'}
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '9.3.0'}
-          - {os: ubuntu-latest,   r: 'oldrel-1', PROJ_VERSION: '9.3.0'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '8.2.1'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '7.2.1'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '6.3.1'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '5.2.0'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '4.9.3'}
+#          - {os: ubuntu-latest,   r: 'oldrel-1', PROJ_VERSION: '9.3.0'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '8.2.1'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '7.2.1'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '6.3.1'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '5.2.0'}
+          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '4.9.3'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -33,11 +33,11 @@ jobs:
       PROJ_NUMBER: ${{ matrix.config.PROJ_VERSION }}
 
     steps:
-      - name: Install macOS system dependencies
-        if: runner.os == 'macOS'
-        run: |
-           brew install openssl
-           brew install proj
+      # - name: Install macOS system dependencies
+      #   if: runner.os == 'macOS'
+      #   run: |
+      #      brew install openssl
+      #      brew install proj
 
       - uses: actions/checkout@v3
 
@@ -49,17 +49,17 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Install ubuntu system dependencies
-        if: runner.os == 'Linux'
-        run: |
-           #apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev
-           wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
-           tar zxvf proj-$PROJ_NUMBER.tar.gz
-           cd proj-$PROJ_NUMBER
-           ./configure --prefix /usr
-           make install -j4
-           sudo make install
-           sudo ldconfig
+      # - name: Install ubuntu system dependencies
+      #   if: runner.os == 'Linux'
+      #   run: |
+      #      #apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev
+      #      wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
+      #      tar zxvf proj-$PROJ_NUMBER.tar.gz
+      #      cd proj-$PROJ_NUMBER
+      #      ./configure --prefix /usr
+      #      make install -j4
+      #      sudo make install
+      #      sudo ldconfig
 
       - name: Install ubuntu cmake build system dependencies
         if: runner.os == 'Linux' && ${{ matrix.config.PROJ_VERSION }}
@@ -71,9 +71,9 @@ jobs:
            mkdir build
            cd build
            cmake -DCMAKE_INSTALL_PREFIX=/usr
-           sudo cmake --build . --target install
-           sudo ldconfig
-
+           cmake --build . --target install
+           ldconfig
+           projsync --source-id fr_ign
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

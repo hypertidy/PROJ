@@ -7,7 +7,7 @@
 proj_version()
 }
 \value{
-character string (major.minor.pach)
+character string (major.minor.patch)
 }
 \description{
 Report PROJ library version
