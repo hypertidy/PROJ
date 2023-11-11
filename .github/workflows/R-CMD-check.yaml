@@ -92,7 +92,7 @@ jobs:
         run: Rscript -e 'install.packages(c("pak"), repos = "https://cran.rstudio.com/")'
 
       - name: Install package deps
-        run: Rscript -e 'pak::pak(c("testthat", "spelling", "knitr", "rmarkdown"))'
+        run: Rscript -e 'pak::pak(c("testthat", "spelling", "knitr", "rmarkdown", "rcmdcheck"))'
 
       - uses: r-lib/actions/check-r-package@v2
         with:
