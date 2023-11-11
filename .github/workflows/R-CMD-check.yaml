@@ -71,12 +71,12 @@ jobs:
            cd proj-$PROJ_NUMBER
            mkdir build
            cd build
-           CMAKE_CORES=${NCPUS}
-           if [ "${CMAKE_CORES}" = "-1" ]; then
-             CMAKE_CORES=$(nproc --all)
-           fi
+           #CMAKE_CORES=${NCPUS}
+           #if [ "${CMAKE_CORES}" = "-1" ]; then
+           #   CMAKE_CORES=$(nproc --all)
+           #fi
            cmake .. -DCMAKE_INSTALL_PREFIX=/usr
-           sudo cmake --build . --target install  --parallel "$CMAKE_CORES"
+           sudo cmake --build . --target install  ##--parallel "$CMAKE_CORES"
            cd ../..
            sudo rm -rf proj-$PROJ_NUMBER
            rm proj-$PROJ_NUMBER.tar.gz
