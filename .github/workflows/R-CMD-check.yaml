@@ -65,7 +65,7 @@ jobs:
       - name: Install ubuntu cmake build system dependencies
         if: runner.os == 'Linux'
         run: |
-           sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev  libsqlite3-dev libtiff-dev cmake
+           sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev  libsqlite3-dev libtiff-dev cmake libssl-dev libxml2-dev
            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
            tar zxvf proj-$PROJ_NUMBER.tar.gz
            cd proj-$PROJ_NUMBER
@@ -77,14 +77,23 @@ jobs:
            fi
            cmake .. -DCMAKE_INSTALL_PREFIX=/usr
            sudo cmake --build . --target install  --parallel "$CMAKE_CORES"
+           cd ../..
+           sudo rm -rf proj-$PROJ_NUMBER
+           rm zxvf proj-$PROJ_NUMBER.tar.gz
            sudo ldconfig
            sudo projsync --source-id fr_ign
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
+      # - uses: r-lib/actions/setup-r-dependencies@v2
+      #   with:
+      #     extra-packages: any::rcmdcheck
+      #     needs: check
+
+      - name: Install package installer
+        run: Rscript -e 'install.packages(c("pak"), repos = "https://cran.rstudio.com/")'
+
+      - name: Install package deps
+        run: Rscript -e 'pak::pak(c("testthat", "spelling", "knitr", "rmarkdown""))'
 
       - uses: r-lib/actions/check-r-package@v2
         with:
-          upload-snapshots: true
+          upload-snapshots: false
