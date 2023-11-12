@@ -1,8 +1,9 @@
-#include <proj.h>
-
-
 #include <R.h>
 #include <Rinternals.h>
+
+#ifdef USE_PROJ
+
+#include <proj.h>
 
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
@@ -13,3 +14,15 @@ SEXP C_proj_version()
 {
   return Rf_mkString(PROJ_PROJ_VERSION);
 }
+
+#else
+
+SEXP C_proj_version()
+{
+  SEXP out = PROTECT(allocVector(STRSXP, 1));
+  SET_STRING_ELT(out, 0, NA_STRING);
+  UNPROTECT(1);
+  return out;
+}
+
+#endif

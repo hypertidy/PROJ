@@ -20,11 +20,17 @@
 #' @return character string in requested format
 #'
 #' @examples
+#' if (ok_proj6()) {
 #' cat(proj_crs_text("OGC:CRS84", format = 0L))
 #' proj_crs_text("OGC:CRS84", format = 1L)
 #' south55 <- "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"
 #' proj_crs_text(proj_crs_text(south55), 1L)
+#' }
 proj_crs_text <- function(source, format = 0L) {
+  if (!ok_proj6()) {
+    message("no PROJ lib available")
+   return(NA_character_)
+  }
   stopifnot(length(format) == 1L)
   stopifnot(format %in% c(0L, 1L, 2L))
   stopifnot(is.character(source))
