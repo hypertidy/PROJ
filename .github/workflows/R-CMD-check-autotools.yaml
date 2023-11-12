@@ -54,7 +54,7 @@ jobs:
             if test ${PROJ_MAJOR} -ge 7; then
               sudo projsync --source-id fr_ign --system-directory
             fi
-            cd ../..
+            cd ..
             rm proj-$PROJ_NUMBER.tar.gz
             sudo rm -rf proj-$PROJ_NUMBER
 
