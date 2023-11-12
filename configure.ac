@@ -58,6 +58,10 @@ AC_CHECK_LIB(proj, proj_get_source_crs,,[
     LIBS="${LIBS_SAVE} ${PROJ_LIBS}"
 ])
 
+vers_ge6=yes
+AC_CHECK_LIB(proj, proj_geocentric_latitude, [
+  proj6api=no
+])
 #AC_MSG_NOTICE([PROJ4 API available: ${proj4api}])
 AC_MSG_NOTICE([PROJ6 API available: ${proj6api}])
 
