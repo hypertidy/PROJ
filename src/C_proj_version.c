@@ -19,7 +19,10 @@ SEXP C_proj_version()
 
 SEXP C_proj_version()
 {
-  return Rf_mkString(R_NaString);
+  SEXP out = PROTECT(allocVector(STRSXP, 1));
+  SET_STRING_ELT(out, 0, NA_STRING);
+  UNPROTECT(1);
+  return out;
 }
 
 #endif
