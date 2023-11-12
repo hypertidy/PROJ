@@ -3,7 +3,7 @@
 #include <R.h>
 #include <Rinternals.h>
 
-#ifdef proj6api
+#ifdef USE_PROJ
 
 #include <proj.h>
 

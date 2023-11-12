@@ -7,7 +7,7 @@ on:
 name: R-CMD-check-proj-none
 
 jobs:
-  R-CMD-check-proj-autotools:
+  R-CMD-check-proj-none:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }}) (${{ matrix.config.PROJ_VERSION }})
