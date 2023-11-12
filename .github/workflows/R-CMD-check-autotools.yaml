@@ -48,7 +48,6 @@ jobs:
             tar zxvf proj-$PROJ_NUMBER.tar.gz
             cd proj-$PROJ_NUMBER
             ./configure --prefix /usr
-            make install
             sudo make install
             sudo ldconfig
             PROJ_MAJOR=`echo $PROJ_NUMBER | cut -f1 -d"."`
