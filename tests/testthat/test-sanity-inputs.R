@@ -9,7 +9,7 @@ xy <- cbind(lon, lat)
 #xyz <- cbind(lon, lat, 1)
 xyzt <- cbind(lon, lat, 1, 0)
 test_that("input checks work", {
-
+skip_if(!ok_proj6())
   expect_error(proj_trans(xy), "target must be a string")
   expect_error(proj_trans(xy, dst), "source must be provided as a string")
   expect_error(proj_trans(xy, 1, source = llproj), "target must be a string")
@@ -32,6 +32,7 @@ test_that("input checks work", {
 
 
 test_that("PROJ6 checks work", {
+  skip_if(!ok_proj6())
   expect_error(proj_trans(xy, "myfave", source = llproj))
 
   expect_error(proj_trans(xy, llproj, source = "myfave"))

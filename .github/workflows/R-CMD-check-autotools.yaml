@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [main, ci]
+    branches: [main, no-func]
   pull_request:
     branches: [main]
 

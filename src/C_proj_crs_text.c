@@ -1,9 +1,11 @@
-#include <proj.h>
 
 
 #include <R.h>
 #include <Rinternals.h>
 
+#ifdef USE_PROJ6_API
+
+#include <proj.h>
 
 SEXP C_proj_crs_text(SEXP crs_, SEXP format)
 {
@@ -60,3 +62,16 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
 
   return(out);
 }
+
+
+#else
+
+SEXP C_proj_crs_text(SEXP crs_, SEXP format)
+{
+ SEXP out = PROTECT(allocVector(STRSXP, 1));
+ SET_STRING_ELT(out, 0, NA_STRING);
+ UNPROTECT(1);
+ return out;
+}
+
+#endif
