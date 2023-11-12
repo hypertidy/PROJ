@@ -2,7 +2,7 @@
 #include <Rinternals.h>
 
 
-#ifdef USE_PROJ
+#ifdef USE_PROJ6_API
 
 #include "proj.h"
 

@@ -68,7 +68,7 @@ if test x$use6 = xyes -a x${proj6api} = xno; then
 ])
 else
 CPPFLAGS="-DUSE_PROJ6_API=1 ${CPPFLAGS}"
-AC_DEFINE(USE_PROJ, 1)
+
 fi
 
 

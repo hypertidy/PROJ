@@ -3081,7 +3081,6 @@ $as_echo "$as_me: Cannot find working proj.h headers and library.
 " >&6;}
 else
 CPPFLAGS="-DUSE_PROJ6_API=1 ${CPPFLAGS}"
-$as_echo "#define USE_PROJ 1" >>confdefs.h
 
 fi
 
