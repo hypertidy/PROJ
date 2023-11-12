@@ -30,12 +30,6 @@ jobs:
       PROJ_NUMBER: ${{ matrix.config.PROJ_VERSION }}
 
     steps:
-      - name: Install macOS system dependencies
-         if: runner.os == 'macOS'
-         run: |
-            brew install openssl
-            brew install proj
-
       - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-pandoc@v2
@@ -63,10 +57,7 @@ jobs:
             fi
 
 
-      #  uses: r-lib/actions/setup-r-dependencies@v2
-      #   with:
-      #     extra-packages: any::rcmdcheck
-      #     needs: check
+  # we don't use r-lib/actions/setup-r-dependencies@v because that slams the from-source install
 
       - name: Install package installer
         run: Rscript -e 'install.packages(c("pak"), repos = "https://cran.rstudio.com/")'
