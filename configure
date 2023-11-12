@@ -3089,6 +3089,11 @@ fi
 
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: setting CCPFLAGS: ${CPPFLAGS}" >&5
+$as_echo "$as_me: setting CCPFLAGS: ${CPPFLAGS}" >&6;}
+{ $as_echo "$as_me:${as_lineno-$LINENO}: setting PROJ_LIBS: ${PROJ_LIBS}" >&5
+$as_echo "$as_me: setting PROJ_LIBS: ${PROJ_LIBS}" >&6;}
+
 ac_config_files="$ac_config_files src/Makevars"
 
 cat >confcache <<\_ACEOF
