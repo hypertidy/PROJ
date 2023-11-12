@@ -24,10 +24,11 @@ ok_proj6 <- function() {
     message("PROJ6 *is* available, but operating in mock-no-proj6 mode '?PROJ::ok_proj6'")
     out <- FALSE
   } else {
-    test <- try(proj_trans(list(x = 0, y = 0),
-                           source = "+proj=longlat +datum=WGS84",
-                           target = "+proj=laea"), silent = TRUE)
-    out <-   !inherits(test, "try-error")
+    #test <- try(proj_trans(list(x = 0, y = 0),
+    ##                       source = "+proj=longlat +datum=WGS84",
+    #                       target = "+proj=laea"), silent = TRUE)
+    #out <-   !inherits(test, "try-error")
+    out <- !is.na(proj_version())
   }
 
   out
