@@ -64,6 +64,7 @@ AC_MSG_NOTICE([PROJ6 API available: ${proj6api}])
 
 
 if test x$use6 = xyes -a x${proj6api} = xno; then
+   undef proj6api
    AC_MSG_NOTICE([Cannot find working proj.h headers and library.
 *** You may need to install libproj-dev or similar! ***
 ])
