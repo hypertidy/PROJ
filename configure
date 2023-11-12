@@ -3067,6 +3067,49 @@ $as_echo "$as_me: Retrying with pkg-config --static" >&6;}
 fi
 
 
+vers_ge6=yes
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for proj_geocentric_latitude in -lproj" >&5
+$as_echo_n "checking for proj_geocentric_latitude in -lproj... " >&6; }
+if ${ac_cv_lib_proj_proj_geocentric_latitude+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lproj  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char proj_geocentric_latitude ();
+int
+main ()
+{
+return proj_geocentric_latitude ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_lib_proj_proj_geocentric_latitude=yes
+else
+  ac_cv_lib_proj_proj_geocentric_latitude=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_proj_proj_geocentric_latitude" >&5
+$as_echo "$ac_cv_lib_proj_proj_geocentric_latitude" >&6; }
+if test "x$ac_cv_lib_proj_proj_geocentric_latitude" = xyes; then :
+
+  proj6api=no
+
+fi
+
 #AC_MSG_NOTICE([PROJ4 API available: ${proj4api}])
 { $as_echo "$as_me:${as_lineno-$LINENO}: PROJ6 API available: ${proj6api}" >&5
 $as_echo "$as_me: PROJ6 API available: ${proj6api}" >&6;}
