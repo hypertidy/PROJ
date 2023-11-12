@@ -40,11 +40,11 @@ jobs:
 
         # we don't use r-lib/actions/setup-r-dependencies@v because that slams the from-source install
 
-      - name: Install package installer
-        run: Rscript -e 'install.packages(c("pak"), repos = "https://cran.r-project.org/")'
+     # - name: Install package installer
+    #  run: Rscript -e 'install.packages(c("pak"), repos = "https://cran.r-project.org/")'
 
       - name: Install package deps
-        run: Rscript -e 'pak::pak(c("testthat", "spelling", "knitr", "rmarkdown", "rcmdcheck", "pkgdepends"))'
+        run: Rscript -e 'install.packages(c("testthat", "spelling", "knitr", "rmarkdown", "rcmdcheck")'
 
       - uses: r-lib/actions/check-r-package@v2
         with:
