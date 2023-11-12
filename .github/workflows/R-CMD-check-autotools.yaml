@@ -54,6 +54,10 @@ jobs:
             if test ${PROJ_MAJOR} -ge 7; then
               sudo projsync --source-id fr_ign --system-directory
             fi
+            cd ../..
+            rm proj-$PROJ_NUMBER.tar.gz
+            sudo rm -rf proj-$PROJ_NUMBER
+
 
 
         # we don't use r-lib/actions/setup-r-dependencies@v because that slams the from-source install
