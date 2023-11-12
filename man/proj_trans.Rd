@@ -2,12 +2,9 @@
 % Please edit documentation in R/proj_trans.R
 \name{proj_trans}
 \alias{proj_trans}
-\alias{proj_trans_generic}
 \title{Transform a set of coordinates with 'PROJ'}
 \usage{
 proj_trans(x, target, ..., source = NULL, z_ = NULL, t_ = NULL)
-
-proj_trans_generic(x, target, ..., source = NULL, z_ = 0, t_ = 0)
 }
 \arguments{
 \item{x}{input coordinates (x,y, list or matrix see \code{z_} and \code{t_})}
@@ -45,9 +42,11 @@ Values that are detected out of bounds by library PROJ are allowed, we return \c
 case, rather than the error "tolerance condition error".
 }
 \examples{
+if (ok_proj6()) {
  proj_trans(cbind(147, -42), "+proj=laea", source = "OGC:CRS84")
  proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "OGC:CRS84")
  proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "OGC:CRS84")
+ }
 }
 \references{
 see the \href{https://proj.org/development/reference/functions.html#coordinate-transformation}{PROJ library documentation}

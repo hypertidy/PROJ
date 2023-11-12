@@ -1,5 +1,7 @@
 #' Report PROJ library version
 #'
+#' This function returns NA if PROJ lib is not available.
+#'
 #' @return character string (major.minor.patch)
 #' @export
 #'

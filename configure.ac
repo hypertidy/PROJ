@@ -58,18 +58,19 @@ AC_CHECK_LIB(proj, proj_get_source_crs,,[
     LIBS="${LIBS_SAVE} ${PROJ_LIBS}"
 ])
 
-AC_MSG_NOTICE([PROJ4 API available: ${proj4api}])
+#AC_MSG_NOTICE([PROJ4 API available: ${proj4api}])
 AC_MSG_NOTICE([PROJ6 API available: ${proj6api}])
 
 
-
 if test x$use6 = xyes -a x${proj6api} = xno; then
-   AC_MSG_ERROR([Cannot find working proj.h headers and library.
+   AC_MSG_NOTICE([Cannot find working proj.h headers and library.
 *** You may need to install libproj-dev or similar! ***
 ])
+else
+CPPFLAGS="-DUSE_PROJ6_API=1 ${CPPFLAGS}"
+AC_DEFINE(USE_PROJ, 1)
 fi
 
-CPPFLAGS="-DUSE_PROJ6_API=1 ${CPPFLAGS}"
 
 
 AC_ARG_VAR([PKG_CPPFLAGS],[custom C preprocessor flags for packages compilation])

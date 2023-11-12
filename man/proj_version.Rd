@@ -10,7 +10,7 @@ proj_version()
 character string (major.minor.patch)
 }
 \description{
-Report PROJ library version
+This function returns NA if PROJ lib is not available.
 }
 \examples{
 proj_version()
