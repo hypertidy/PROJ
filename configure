@@ -3106,8 +3106,16 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_proj_proj_as_wkt" >&5
 $as_echo "$ac_cv_lib_proj_proj_as_wkt" >&6; }
 if test "x$ac_cv_lib_proj_proj_as_wkt" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBPROJ 1
+_ACEOF
+
+  LIBS="-lproj $LIBS"
+
+else
   proj6api=no
 fi
+
 
 #AC_MSG_NOTICE([PROJ4 API available: ${proj4api}])
 { $as_echo "$as_me:${as_lineno-$LINENO}: PROJ6 API available: ${proj6api}" >&5
