@@ -18,12 +18,7 @@ jobs:
         config:
           #- {os: macos-latest,   r: 'release', PROJ_VERSION: 'cran'}
           #- {os: windows-latest, r: 'release', PROJ_VERSION: 'cran'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '8.2.1'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '7.2.1'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '6.3.1'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '5.2.0'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '4.9.3'}
-
+          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: 'none'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -40,24 +35,6 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
-
-      - name: Install ubuntu autotools build system dependencies
-        if: runner.os == 'Linux'
-        run: |
-            sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev  libsqlite3-dev libtiff-dev cmake libssl-dev libxml2-dev
-            wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
-            tar zxvf proj-$PROJ_NUMBER.tar.gz
-            cd proj-$PROJ_NUMBER
-            ./configure --prefix /usr
-            sudo make install
-            sudo ldconfig
-            PROJ_MAJOR=`echo $PROJ_NUMBER | cut -f1 -d"."`
-            if test ${PROJ_MAJOR} -ge 7; then
-              sudo projsync --source-id fr_ign --system-directory
-            fi
-            cd ..
-            rm proj-$PROJ_NUMBER.tar.gz
-            sudo rm -rf proj-$PROJ_NUMBER
 
 
 
