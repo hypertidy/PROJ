@@ -81,7 +81,7 @@ jobs:
            sudo rm -rf proj-$PROJ_NUMBER
            rm proj-$PROJ_NUMBER.tar.gz
            sudo ldconfig
-           sudo projsync --source-id fr_ign
+           sudo projsync --source-id fr_ign --system-directory
 
       #  uses: r-lib/actions/setup-r-dependencies@v2
       #   with:
