@@ -60,7 +60,8 @@ AC_CHECK_LIB(proj, proj_get_source_crs,,[
 
 vers_ge6=yes
 ## specifically this is not in 5
-AC_CHECK_LIB(proj, proj_as_wkt, proj6api=no)
+AC_CHECK_LIB(proj, proj_as_wkt, , proj6api=no)
+
 #AC_MSG_NOTICE([PROJ4 API available: ${proj4api}])
 AC_MSG_NOTICE([PROJ6 API available: ${proj6api}])
 
