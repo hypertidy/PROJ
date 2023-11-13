@@ -8,6 +8,7 @@ test_that("create works", {
 })
 
 test_that("failure is graceful", {
+  ## we *do not* have PROJ lib, so we get NA
    skip_if(ok_proj6())
    expect_true(is.na(proj_crs_text("+proj=longlat", format = 1L)))
    }
