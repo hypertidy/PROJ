@@ -35,8 +35,10 @@ proj_crs_text <- function(source, format = 0L) {
   stopifnot(format %in% c(0L, 1L, 2L))
   stopifnot(is.character(source))
   stopifnot(length(source) == 1L)
-  .Call("C_proj_crs_text",
+  tst <- try(.Call("C_proj_crs_text",
         crs_ = source,
         format = as.integer(format),
-        PACKAGE = "PROJ")
+        PACKAGE = "PROJ"), silent = TRUE)
+  if (inherits(tst, "try-error")) return(NA_character_)
+ tst
 }
