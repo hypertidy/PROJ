@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.5</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/PROJ.html">Get started</a>
 </li>
@@ -55,7 +51,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/hypertidy/PROJ/">
+  <a href="https://github.com/hypertidy/PROJ/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -70,70 +66,102 @@
 
       
 
-      </header><script src="PROJ_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>PROJ</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/hypertidy/PROJ/blob/master/vignettes/PROJ.Rmd"><code>vignettes/PROJ.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/hypertidy/PROJ/blob/HEAD/vignettes/PROJ.Rmd" class="external-link"><code>vignettes/PROJ.Rmd</code></a></small>
       <div class="hidden name"><code>PROJ.Rmd</code></div>
 
     </div>
 
     
     
-<div id="what-is-proj" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-is-proj" class="anchor"></a>What is PROJ?</h2>
+<div class="section level2">
+<h2 id="what-is-proj">What is PROJ?<a class="anchor" aria-label="anchor" href="#what-is-proj"></a>
+</h2>
 <p>Generic map projection transformations on raw data.</p>
-<p>We use the <a href="https://proj.org/">PROJ library</a> to perform projection transformations on raw data. We can use a matrix or data frame of 2, 3, or 4 columns and these are assumed (if present) to be “x”, “y”, “z”, and “t” (time: modern transformations allow a <em>temporal</em> component as the shape of the earth and our models of it do change over time).</p>
-<p>The transformation idiom used is 1) provide raw coordinates; 2) specify their source projection; 3) specify their target projection.</p>
-<p>We enter into the coordinate order debacle of the <a href="https://www.ogc.org/">OGC</a> for longitude, latitude by precluding other options. We use longitude, latitude order.</p>
+<p>We use the <a href="https://proj.org/" class="external-link">PROJ library</a> to perform
+projection transformations on raw data. We can use a matrix or data
+frame of 2, 3, or 4 columns and these are assumed (if present) to be
+“x”, “y”, “z”, and “t” (time: modern transformations allow a
+<em>temporal</em> component as the shape of the earth and our models of
+it do change over time).</p>
+<p>The transformation idiom used is 1) provide raw coordinates; 2)
+specify their source projection; 3) specify their target projection.</p>
+<p>We enter into the coordinate order debacle of the <a href="https://www.ogc.org/" class="external-link">OGC</a> for longitude, latitude by
+precluding other options. We use longitude, latitude order.</p>
 </div>
-<div id="why-proj" class="section level2">
-<h2 class="hasAnchor">
-<a href="#why-proj" class="anchor"></a>Why PROJ?</h2>
-<p>This package was created to leverage the modern transformation capabilities of <a href="https://proj.org/">PROJ</a> itself from version 6 and above. There’s no other package in R that allows generic transformations directly from the PROJ library, and this package provides that along with these goals:</p>
+<div class="section level2">
+<h2 id="why-proj">Why PROJ?<a class="anchor" aria-label="anchor" href="#why-proj"></a>
+</h2>
+<p>This package was created to leverage the modern transformation
+capabilities of <a href="https://proj.org/" class="external-link">PROJ</a> itself from version
+6 and above. There’s no other package in R that allows generic
+transformations directly from the PROJ library, and this package
+provides that along with these goals:</p>
 <ul>
 <li>no other dependencies (PROJ library is it, and R)</li>
-<li>allow geocentric transformations</li>
-<li>provide no interpretation or restrictions on source or target projection specification</li>
-<li>do not require special formats, we use numeric vectors in matrix or data frame form</li>
+<li>allow geocentric transformations, and 3D and 4D transformations
+generally.</li>
+<li>provide no interpretation or restrictions on source or target
+projection specification</li>
+<li>do not require special formats, we use numeric vectors in matrix or
+data frame form</li>
 </ul>
 </div>
-<div id="what-systems-are-supported" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-systems-are-supported" class="anchor"></a>What systems are supported?</h2>
+<div class="section level2">
+<h2 id="what-systems-are-supported">What systems are supported?<a class="anchor" aria-label="anchor" href="#what-systems-are-supported"></a>
+</h2>
 <ul>
-<li>Windows - on CRAN the PROJ is available as a binary package, PROJ 6 (or higher) is bundled in with the binary package.</li>
-<li>Linux - the PROJ package will use your system PROJ library, it must be version 6 (or higher).</li>
+<li>Windows - on CRAN the PROJ is available as a binary package, PROJ 6
+(or higher) is bundled in with the binary package.</li>
+<li>Linux - the PROJ package will use your system PROJ library, it must
+be version 6 (or higher).</li>
 <li>Mac - on CRAN there are binaries, PROJ 6.3.1 since mid 2020</li>
 </ul>
-<p>Binaries means that the package comes with everything it needs, you don’t need to install PROJ library in the system. If you do install PROJ library yourself, say with brew on MacOS, then the from-source install should also just work. There’s no need to specify the location of file folders, as long as proj itself is working and available.</p>
+<p>Binaries means that the package comes with everything it needs, you
+don’t need to install PROJ library in the system. If you do install PROJ
+library yourself, say with brew on MacOS, then the from-source install
+should also just work. There’s no need to specify the location of file
+folders, as long as proj itself is working and available.</p>
 </div>
-<div id="how-to-use-proj" class="section level2">
-<h2 class="hasAnchor">
-<a href="#how-to-use-proj" class="anchor"></a>How to use PROJ?</h2>
-<p>Get the package installed, load it and use the function <code><a href="../reference/proj_trans.html">proj_trans()</a></code>.</p>
-<p>If you don’t have system PROJ version 6 (or higher) the function will fail.</p>
+<div class="section level2">
+<h2 id="how-to-use-proj">How to use PROJ?<a class="anchor" aria-label="anchor" href="#how-to-use-proj"></a>
+</h2>
+<p>Get the package installed, load it and use the function
+<code><a href="../reference/proj_trans.html">proj_trans()</a></code>.</p>
+<p>If you don’t have system PROJ version 6 (or higher) the function will
+fail.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/PROJ">PROJ</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">147</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="fl">0</span>, target <span class="op">=</span> <span class="st">"+proj=laea +datum=WGS84"</span>, source <span class="op">=</span> <span class="st">"WGS84"</span><span class="op">)</span>
-<span class="co">#&gt; $x_</span>
-<span class="co">#&gt; [1]       0 5969744</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $y_</span>
-<span class="co">#&gt; [1]        0 -9803200</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $z_</span>
-<span class="co">#&gt; [1] 0 0</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $t_</span>
-<span class="co">#&gt; [1] 0 0</span></code></pre></div>
-<p>Note that we always assume input of <code><a href="https://rdrr.io/r/base/cbind.html">cbind(longitude, latitude)</a></code> and can optionally provide a vector of <code>z_</code> as well as <code>t_</code>. We cannot provide a 3 or 4 column matrix, z and t must be provided separately as named arguments.</p>
-<p>Note that various forms of projection string are supported, we can use PROJ.4 style (as per target above), bare names from <a href="https://epsg.org/home.html">EPSG</a> (as per source above), full-blown WKT2 strings, or ‘auth:code’ forms such as “epsg:3857”. (Note that “+init=…” forms cannot be used in 6 or above).</p>
-<p>The goal is for the <a href="https://CRAN.r-project.org/package=reproj">reproj package</a> to wrap this package. In time that will be the easiest way to run coordinate transformations with PROJ for versions 4, 5, 6, 7 or above.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/PROJ" class="external-link">PROJ</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">147</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="fl">0</span>, target <span class="op">=</span> <span class="st">"+proj=laea +datum=WGS84"</span>, source <span class="op">=</span> <span class="st">"WGS84"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $x_</span></span>
+<span><span class="co">#&gt; [1]       0 5969744</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $y_</span></span>
+<span><span class="co">#&gt; [1]        0 -9803200</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $z_</span></span>
+<span><span class="co">#&gt; [1] 0 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $t_</span></span>
+<span><span class="co">#&gt; [1] 0 0</span></span></code></pre></div>
+<p>Note that we always assume input of
+<code>cbind(longitude, latitude)</code> and can optionally provide a
+vector of <code>z_</code> as well as <code>t_</code>. We cannot provide
+a 3 or 4 column matrix, z and t must be provided separately as named
+arguments.</p>
+<p>Note that various forms of projection string are supported, we can
+use PROJ.4 style (as per target above), bare names from <a href="https://epsg.org/home.html" class="external-link">EPSG</a> (as per source above),
+full-blown WKT2 strings, or ‘auth:code’ forms such as “epsg:3857”. (Note
+that “+init=…” forms cannot be used in 6 or above).</p>
+<p>The goal is for the <a href="https://CRAN.r-project.org/package=reproj" class="external-link">reproj package</a> to
+wrap this package. In time that will be the easiest way to run
+coordinate transformations with PROJ for versions 4, 5, 6, 7 or
+above.</p>
 </div>
   </div>
 
@@ -148,11 +176,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Michael D. Sumner.</p>
+  <p></p>
+<p>Developed by Michael D. Sumner.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -160,6 +190,8 @@
 
   
 
+
+  
 
   </body>
 </html>
