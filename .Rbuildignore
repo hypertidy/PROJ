@@ -21,3 +21,4 @@
 ^Dockerfile$
 ^INSTALL.out$
 ^docker$
+^CRAN-SUBMISSION$

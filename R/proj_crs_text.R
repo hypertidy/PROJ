@@ -39,6 +39,6 @@ proj_crs_text <- function(source, format = 0L) {
         crs_ = source,
         format = as.integer(format),
         PACKAGE = "PROJ"), silent = TRUE)
-  if (inherits(tst, "try-error")) return(NA_character_)
+  if (is.null(tst) || inherits(tst, "try-error")) return(NA_character_)
  tst
 }

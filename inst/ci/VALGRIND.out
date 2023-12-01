@@ -1,0 +1,179 @@
+==9624== Memcheck, a memory error detector
+==9624== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==9624== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==9624== Command: /opt/R/devel/lib/R/bin/exec/R --vanilla
+==9624== 
+
+R Under development (unstable) (2023-11-30 r85651) -- "Unsuffered Consequences"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "PROJ"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('PROJ')
+--9624-- WARNING: Serious error when reading debug info
+--9624-- When reading debug info from /root/R/x86_64-pc-linux-gnu-library/4.4/PROJ/libs/PROJ.so:
+--9624-- Ignoring non-Dwarf2/3/4 block in .debug_info
+--9624-- WARNING: Serious error when reading debug info
+--9624-- When reading debug info from /root/R/x86_64-pc-linux-gnu-library/4.4/PROJ/libs/PROJ.so:
+--9624-- Ignoring non-Dwarf2/3/4 block in .debug_info
+--9624-- WARNING: Serious error when reading debug info
+--9624-- When reading debug info from /root/R/x86_64-pc-linux-gnu-library/4.4/PROJ/libs/PROJ.so:
+--9624-- Ignoring non-Dwarf2/3/4 block in .debug_info
+--9624-- WARNING: Serious error when reading debug info
+--9624-- When reading debug info from /root/R/x86_64-pc-linux-gnu-library/4.4/PROJ/libs/PROJ.so:
+--9624-- Ignoring non-Dwarf2/3/4 block in .debug_info
+--9624-- WARNING: Serious error when reading debug info
+--9624-- When reading debug info from /root/R/x86_64-pc-linux-gnu-library/4.4/PROJ/libs/PROJ.so:
+--9624-- parse_CU_Header: is neither DWARF2 nor DWARF3 nor DWARF4
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("ok_proj6")
+> ### * ok_proj6
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ok_proj6
+> ### Title: Is 'PROJ library >= 6' available
+> ### Aliases: ok_proj6
+> 
+> ### ** Examples
+> 
+> ok_proj6()
+[1] TRUE
+> 
+> 
+> 
+> cleanEx()
+> nameEx("proj_crs_text")
+> ### * proj_crs_text
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: proj_crs_text
+> ### Title: Generate a projection string.
+> ### Aliases: proj_crs_text
+> 
+> ### ** Examples
+> 
+> if (ok_proj6()) {
++ cat(proj_crs_text("OGC:CRS84", format = 0L))
++ proj_crs_text("OGC:CRS84", format = 1L)
++ south55 <- "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"
++ proj_crs_text(proj_crs_text(south55), 1L)
++ }
+GEOGCRS["WGS 84 (CRS84)",
+    DATUM["World Geodetic System 1984",
+        ELLIPSOID["WGS 84",6378137,298.257223563,
+            LENGTHUNIT["metre",1]]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS["geodetic longitude (Lon)",east,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433]],
+        AXIS["geodetic latitude (Lat)",north,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433]],
+    USAGE[
+        SCOPE["Not known."],
+        AREA["World."],
+        BBOX[-90,-180,90,180]],
+    ID["OGC","CRS84"]][1] "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"
+> 
+> 
+> 
+> cleanEx()
+> nameEx("proj_trans")
+> ### * proj_trans
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: proj_trans
+> ### Title: Transform a set of coordinates with 'PROJ'
+> ### Aliases: proj_trans
+> 
+> ### ** Examples
+> 
+> if (ok_proj6()) {
++  proj_trans(cbind(147, -42), "+proj=laea", source = "OGC:CRS84")
++  proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "OGC:CRS84")
++  proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "OGC:CRS84")
++  }
+$x_
+[1] 5969744
+
+$y_
+[1] -9803200
+
+$z_
+[1] -2
+
+$t_
+[1] 1
+
+> 
+> 
+> 
+> cleanEx()
+> nameEx("proj_version")
+> ### * proj_version
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: proj_version
+> ### Title: Report PROJ library version
+> ### Aliases: proj_version
+> 
+> ### ** Examples
+> 
+> proj_version()
+[1] "7.2.1"
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  9.565 0.115 9.682 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
+==9624== 
+==9624== HEAP SUMMARY:
+==9624==     in use at exit: 52,419,971 bytes in 10,550 blocks
+==9624==   total heap usage: 68,453 allocs, 57,903 frees, 85,467,967 bytes allocated
+==9624== 
+==9624== LEAK SUMMARY:
+==9624==    definitely lost: 0 bytes in 0 blocks
+==9624==    indirectly lost: 0 bytes in 0 blocks
+==9624==      possibly lost: 0 bytes in 0 blocks
+==9624==    still reachable: 52,419,955 bytes in 10,549 blocks
+==9624==         suppressed: 16 bytes in 1 blocks
+==9624== Rerun with --leak-check=full to see details of leaked memory
+==9624== 
+==9624== For lists of detected and suppressed errors, rerun with: -s
+==9624== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
