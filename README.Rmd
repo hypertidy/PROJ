@@ -46,8 +46,8 @@ documentation](https://proj.org/development/reference/functions.html#c.proj_crea
 ## Things to be aware of
 
 
-* Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, *and time*. So the output is always a 4-column matrix. 
-* You can't use strings like "+init=epsg:4326" any more, it must be "EPSG:4326", but, use "OGC:CRS84" now. 
+* Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, *and time*. So the output is always a 4-column list. 
+* You can't use strings like "+init=epsg:4326" any more, it must be "EPSG:<code>", and we use "OGC:CRS84" now.  
 * You should know what your target projection is, and also what your source projection is. This is your responsibility. 
 * PROJ assumes longitude/latitude order always by setting the PROJ library context *proj_normalize_for_visualization*. 
 

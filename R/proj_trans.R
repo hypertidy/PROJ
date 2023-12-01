@@ -2,17 +2,10 @@
 #'
 #' A raw interface to 'proj_trans' in 'PROJ => 6', if it is available.
 #'
-#' 'proj_trans_generic()' and 'proj_trans()' have the same arguments, but differ
-#'  in the default values of `z_` and `t_`, `0` or `NULL`. 'proj_trans_generic()' always
-#'  returns a list for 4 elements, 'proj_trans()' will return 2 or 4 depending on the input.
-#'
-#'  'proj_trans_generic()' is a misnomer in that 'proj_trans' is the function from the PROJ
-#'  library that is now used.
-#'
 #' Input 'x' is assumed to be 2-columns of "x", then "y" coordinates. If "z" or
 #' "t" is required pass these in as named vectors with "z_" and "t_". For simplifying reasons
 #' `z_` and `t_` must always match the length of `x` `y`. Both default to 0, and are automatically
-#' recycled to the number of rows in `x` so it's pretty flexible.
+#' recycled to the number of rows in `x`.
 #'
 #' Values that are detected out of bounds by library PROJ are allowed, we return `Inf` in this
 #' case, rather than the error "tolerance condition error".
