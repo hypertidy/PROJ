@@ -28,7 +28,7 @@ from version 6 and above. There's no other package in R that allows generic tran
 PROJ library, and this package provides that along with these goals:
 
 * no other dependencies (PROJ library is it, and R)
-* allow geocentric transformations
+* allow geocentric transformations, and 3D and 4D transformations generally. 
 * provide no interpretation or restrictions on source or target projection specification
 * do not require special formats, we use numeric vectors in matrix or data frame form
 
@@ -72,3 +72,5 @@ Note that various forms of projection string are supported, we can use PROJ.4 st
 
 The goal is for the [reproj package](https://CRAN.r-project.org/package=reproj) to wrap this package. In time
 that will be the easiest way to run coordinate transformations with PROJ for versions 4, 5, 6, 7 or above.
+
+

@@ -91,10 +91,10 @@ lat <- c(NA, 0, -42)
 
 proj_trans(cbind(lon, lat), src, source = dst)
 #> $x_
-#> [1]       NA       NA 147.0018
+#> [1]      NaN      NaN 147.0018
 #> 
 #> $y_
-#> [1]        NA        NA -42.00038
+#> [1]       NaN       NaN -42.00038
 ```
 
 A more realistic example with coastline map data.
@@ -174,5 +174,5 @@ found in the [quadmesh](https://CRAN.R-project.org/package=quadmesh) and
 
 Please note that the PROJ project is released with a [Contributor Code
 of
-Conduct](https://github.com/hypertidy/PROJ/blob/master/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/hypertidy/PROJ/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
