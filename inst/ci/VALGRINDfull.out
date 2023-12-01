@@ -1,0 +1,23 @@
+==9668== Memcheck, a memory error detector
+==9668== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==9668== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==9668== Command: /opt/R/devel/lib/R/bin/exec/R --vanilla
+==9668== 
+
+R Under development (unstable) (2023-11-30 r85651) -- "Unsuffered Consequences"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[?2004h> 

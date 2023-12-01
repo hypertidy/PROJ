@@ -28,8 +28,8 @@ RUN export MAKEFLAGS=-j30
 
 RUN R -e 'options(Ncpus = 30);  pak::pkg_install(c("markdown", "spelling", "jsonlite",  "testthat", "rmarkdown", "devtools"), ask = FALSE, upgrade = TRUE);'
 
-#docker build . -t hypertidy/clang
-#docker run -it --rm -v $(pwd)../../..:/PROJ  hypertidy/clang
+# docker build . -t hypertidy/clang
+# docker run -it --rm -v $(pwd)../../..:/PROJ  hypertidy/clang
 
 ## now edit src/Makevars.in to put -Wconversion ito CPPFLAGS, and:
 #R CMD build PROJ --no-build-vignettes

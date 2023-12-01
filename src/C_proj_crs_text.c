@@ -26,9 +26,14 @@ SEXP C_proj_crs_text(SEXP crs_, SEXP format)
   SEXP out = PROTECT(allocVector(STRSXP, 1));
 
   PJ *pj;
+  int r;
 
-  if (!(pj =   proj_create(PJ_DEFAULT_CTX, *crs_in)))
-    error(proj_errno_string(proj_errno(0)));
+  if (!(pj =   proj_create(PJ_DEFAULT_CTX, *crs_in))){
+    r = proj_errno(pj);
+    Rprintf("Error detected, fail create crs (error code: %i)\n\n", r);
+    Rprintf("' %s\n\n '", proj_errno_string(r));
+  }
+
   if (fmt == 0L) {
     // available types
     // PJ_WKT1_ESRI, PJ_WKT1_GDAL, PJ_WKT2_2015, PJ_WKT2_2015_SIMPLIFIED, PJ_WKT2_2018, PJ_WKT2_2018_SIMPLIFIED;

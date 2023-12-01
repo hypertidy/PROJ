@@ -27,16 +27,19 @@ checking proj.h usability... yes
 checking proj.h presence... yes
 checking for proj.h... yes
 checking for proj_get_source_crs in -lproj... yes
-configure: PROJ4 API available: 
+checking for proj_as_wkt in -lproj... yes
 configure: PROJ6 API available: yes
+configure: setting CCPFLAGS: -DUSE_PROJ6_API=1 -I/usr/local/include  
+configure: setting PROJ_LIBS: -lproj
 configure: creating ./config.status
 config.status: creating src/Makevars
 ** libs
 using C compiler: 'Debian clang version 15.0.7'
 clang -I"/opt/R/devel/lib/R/include" -DNDEBUG -DUSE_PROJ6_API=1 -I/usr/local/include   -Wconversion  -I/usr/local/include    -fpic  -O2 -g -Wunneeded-internal-declaration -Winvalid-utf8 -Wformat -Wsizeof-pointer-div -Wliteral-conversion -Wempty-body -Wreturn-stack-address -Wnon-c-typedef-for-linkage -Wstrict-prototypes -c C_proj_crs_text.c -o C_proj_crs_text.o
 clang -I"/opt/R/devel/lib/R/include" -DNDEBUG -DUSE_PROJ6_API=1 -I/usr/local/include   -Wconversion  -I/usr/local/include    -fpic  -O2 -g -Wunneeded-internal-declaration -Winvalid-utf8 -Wformat -Wsizeof-pointer-div -Wliteral-conversion -Wempty-body -Wreturn-stack-address -Wnon-c-typedef-for-linkage -Wstrict-prototypes -c C_proj_trans.c -o C_proj_trans.o
+clang -I"/opt/R/devel/lib/R/include" -DNDEBUG -DUSE_PROJ6_API=1 -I/usr/local/include   -Wconversion  -I/usr/local/include    -fpic  -O2 -g -Wunneeded-internal-declaration -Winvalid-utf8 -Wformat -Wsizeof-pointer-div -Wliteral-conversion -Wempty-body -Wreturn-stack-address -Wnon-c-typedef-for-linkage -Wstrict-prototypes -c C_proj_version.c -o C_proj_version.o
 clang -I"/opt/R/devel/lib/R/include" -DNDEBUG -DUSE_PROJ6_API=1 -I/usr/local/include   -Wconversion  -I/usr/local/include    -fpic  -O2 -g -Wunneeded-internal-declaration -Winvalid-utf8 -Wformat -Wsizeof-pointer-div -Wliteral-conversion -Wempty-body -Wreturn-stack-address -Wnon-c-typedef-for-linkage -Wstrict-prototypes -c init.c -o init.o
-clang -shared -L/opt/R/devel/lib/R/lib -L/usr/local/lib -o PROJ.so C_proj_crs_text.o C_proj_trans.o init.o -lproj -lproj -L/opt/R/devel/lib/R/lib -lR
+clang -shared -L/opt/R/devel/lib/R/lib -L/usr/local/lib -o PROJ.so C_proj_crs_text.o C_proj_trans.o C_proj_version.o init.o -lproj -lproj -lproj -L/opt/R/devel/lib/R/lib -lR
 installing to /root/R/x86_64-pc-linux-gnu-library/4.4/00LOCK-PROJ/00new/PROJ/libs
 ** R
 ** data

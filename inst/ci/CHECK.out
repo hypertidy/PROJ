@@ -1,5 +1,5 @@
 * using log directory '//PROJ.Rcheck'
-* using R Under development (unstable) (2023-07-13 r84688)
+* using R Under development (unstable) (2023-11-30 r85651)
 * using platform: x86_64-pc-linux-gnu
 * R was compiled by
     gcc (Debian 10.2.1-6) 10.2.1 20210110
@@ -37,7 +37,7 @@ Warning in Sys.setlocale("LC_CTYPE", "en_US.UTF-8") :
 * checking whether the namespace can be loaded with stated dependencies ... OK
 * checking whether the namespace can be unloaded cleanly ... OK
 * checking loading without being on the library search path ... OK
-* checking startup messages can be suppressed ... OK
+* checking whether startup messages can be suppressed ... OK
 * checking dependencies in R code ... OK
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
