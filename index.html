@@ -72,6 +72,8 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
+
 <div class="section level1">
 <div class="page-header"><h1 id="proj">PROJ<a class="anchor" aria-label="anchor" href="#proj"></a>
 </h1></div>
@@ -84,8 +86,9 @@
 <h2 id="things-to-be-aware-of">Things to be aware of<a class="anchor" aria-label="anchor" href="#things-to-be-aware-of"></a>
 </h2>
 <ul>
-<li>Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, <em>and time</em>. So the output is always a 4-column matrix.</li>
-<li>You can’t use strings like “+init=epsg:4326” any more, it must be “EPSG:4326”, but, use “OGC:CRS84” now.</li>
+<li>Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, <em>and time</em>. So the output is always a 4-column list.</li>
+<li>You can’t use strings like “+init=epsg:4326” any more, it must be “EPSG:<code>”, and we use “OGC:CRS84” now.<br></code>
+</li>
 <li>You should know what your target projection is, and also what your source projection is. This is your responsibility.</li>
 <li>PROJ assumes longitude/latitude order always by setting the PROJ library context <em>proj_normalize_for_visualization</em>.</li>
 </ul>
@@ -203,6 +206,7 @@
 <p>Please note that the PROJ project is released with a <a href="https://github.com/hypertidy/PROJ/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -244,7 +248,13 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=PROJ" class="external-link"><img src="https://www.r-pkg.org/badges/version/PROJ" alt="CRAN status"></a></li>
+<li><a href="https://github.com/hypertidy/PROJ/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/hypertidy/PROJ/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </div>
 </div>
