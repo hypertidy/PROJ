@@ -1,5 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/PROJ)](https://CRAN.R-project.org/package=PROJ)
+[![R-CMD-check](https://github.com/hypertidy/PROJ/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hypertidy/PROJ/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 # PROJ
 
