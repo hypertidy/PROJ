@@ -1,29 +1,31 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
 Version: 0.4.5
-Authors@R: 
+Authors@R:
     c(person(given = "Michael D.",
            family = "Sumner",
            role = c("aut", "cre"),
            email = "mdsumner@gmail.com",
-           comment = c(ORCID = "0000-0002-2471-7511")), 
-    person("Jeroen", "Ooms", role = c("ctb"), 
-           comment = "provided PROJ library support on Windows, and assistance with Windows configuration"), 
-    person("Simon", "Urbanek", role = c("cph", "ctb"), 
-           comment = "wrote original code versions for PROJ version 6"), 
-    person("Dewey", "Dunnington", role = c("ctb"), 
+           comment = c(ORCID = "0000-0002-2471-7511")),
+    person("Jeroen", "Ooms", role = c("ctb"),
+           comment = "provided PROJ library support on Windows, and assistance with Windows configuration"),
+    person("Simon", "Urbanek", role = c("cph", "ctb"),
+           comment = "wrote original code versions for PROJ version 6"),
+    person("Dewey", "Dunnington", role = c("ctb"),
            comment = "key code contributions"))
 Description: A wrapper around the generic coordinate transformation software 'PROJ'
-  that transforms coordinates from one coordinate reference system ('CRS') 
-  to another. This includes cartographic projections as well as geodetic transformations.  The intention is for this 
-  package to be used by user-packages such as 'reproj', and that the older 'PROJ.4' and version 5 
-  pathways be provided by the 'proj4' package. 
+  that transforms coordinates from one coordinate reference system ('CRS')
+  to another. This includes cartographic projections as well as geodetic transformations.  The intention is for this
+  package to be used by user-packages such as 'reproj', and that the older 'PROJ.4' and version 5
+  pathways be provided by the 'proj4' package.
 Depends: R (>= 3.0.2)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-Suggests: 
+Imports:
+    lifecycle
+Suggests:
     testthat (>= 2.1.0),
     spelling,
     knitr,
