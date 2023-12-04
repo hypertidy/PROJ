@@ -21,8 +21,6 @@ jobs:
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '8.2.1'}
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '7.2.1'}
           - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '6.3.1'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '5.2.0'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '4.9.3'}
 
 
     env:
