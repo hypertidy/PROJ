@@ -1,7 +1,11 @@
 #' Is 'PROJ library >= 6' available
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
 #' Test for availability of 'PROJ' system library version 6 or higher.
-#'
+#' 
+#' @details
 #' On unix-alikes, this function is run in `.onLoad()` to check that version 6 functionality is
 #' available. On Windows, the load process sets the data file location with the version 6 API, and that
 #' is used as a test instead.
@@ -17,19 +21,6 @@
 #' @examples
 #' ok_proj6()
 ok_proj6 <- function() {
-
-  mock_no_proj6 <- getOption("reproj.mock.noproj6")
-
-  if (!is.null(mock_no_proj6) && isTRUE(mock_no_proj6)) {
-    message("PROJ6 *is* available, but operating in mock-no-proj6 mode '?PROJ::ok_proj6'")
-    out <- FALSE
-  } else {
-    #test <- try(proj_trans(list(x = 0, y = 0),
-    ##                       source = "+proj=longlat +datum=WGS84",
-    #                       target = "+proj=laea"), silent = TRUE)
-    #out <-   !inherits(test, "try-error")
-    out <- !is.na(proj_version())
-  }
-
-  out
+  lifecycle::deprecate_warn("0.5", "ok_proj6")
+  TRUE
 }

@@ -10,6 +10,8 @@ ok_proj6()
 logical, \code{TRUE} if the system library 'PROJ >= 6'
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Test for availability of 'PROJ' system library version 6 or higher.
 }
 \details{
