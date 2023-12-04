@@ -37,6 +37,7 @@ Other contributors:
   \item Jeroen Ooms (provided PROJ library support on Windows, and assistance with Windows configuration) [contributor]
   \item Simon Urbanek (wrote original code versions for PROJ version 6) [copyright holder, contributor]
   \item Dewey Dunnington (key code contributions) [contributor]
+  \item Anthony North [contributor]
 }
 
 }

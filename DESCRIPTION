@@ -12,7 +12,9 @@ Authors@R:
     person("Simon", "Urbanek", role = c("cph", "ctb"),
            comment = "wrote original code versions for PROJ version 6"),
     person("Dewey", "Dunnington", role = c("ctb"),
-           comment = "key code contributions"))
+           comment = "key code contributions"), 
+    person("Anthony", "North", role = c("ctb") )
+           )
 Description: A wrapper around the generic coordinate transformation software 'PROJ'
   that transforms coordinates from one coordinate reference system ('CRS')
   to another. This includes cartographic projections as well as geodetic transformations.  The intention is for this
