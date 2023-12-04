@@ -1,3 +1,8 @@
+# PROJ (development version)
+
+* PROJ >= 6 is now a hard dependency (#42)
+* Deprecate ok_proj6() (#42)
+
 # PROJ 0.4.5
 
 * New function `proj_version()`. 
