@@ -110,11 +110,27 @@ for details on the underlying functionality</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="ok_proj6.html">ok_proj6</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span> <span class="fu">proj_trans</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">147</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span>, <span class="st">"+proj=laea"</span>, source <span class="op">=</span> <span class="st">"OGC:CRS84"</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="fu">proj_trans</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">147</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, <span class="st">"+proj=laea"</span>, source <span class="op">=</span> <span class="st">"OGC:CRS84"</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="fu">proj_trans</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">147</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, t_ <span class="op">=</span> <span class="fl">1</span>, <span class="st">"+proj=laea"</span>, source <span class="op">=</span> <span class="st">"OGC:CRS84"</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">proj_trans</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">147</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span>, <span class="st">"+proj=laea"</span>, source <span class="op">=</span> <span class="st">"OGC:CRS84"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $x_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5969744</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $y_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -9803200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">proj_trans</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">147</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, <span class="st">"+proj=laea"</span>, source <span class="op">=</span> <span class="st">"OGC:CRS84"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $x_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5969744</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $y_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -9803200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $z_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $t_</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">proj_trans</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">147</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, t_ <span class="op">=</span> <span class="fl">1</span>, <span class="st">"+proj=laea"</span>, source <span class="op">=</span> <span class="st">"OGC:CRS84"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $x_</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5969744</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

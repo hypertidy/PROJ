@@ -94,12 +94,7 @@ to full WKT, because it is technically a transformation step not a crs. To get t
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="ok_proj6.html">ok_proj6</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">proj_crs_text</span><span class="op">(</span><span class="st">"OGC:CRS84"</span>, format <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">proj_crs_text</span><span class="op">(</span><span class="st">"OGC:CRS84"</span>, format <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">south55</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"</span></span></span>
-<span class="r-in"><span><span class="fu">proj_crs_text</span><span class="op">(</span><span class="fu">proj_crs_text</span><span class="op">(</span><span class="va">south55</span><span class="op">)</span>, <span class="fl">1L</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu">proj_crs_text</span><span class="op">(</span><span class="st">"OGC:CRS84"</span>, format <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GEOGCRS["WGS 84 (CRS84)",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ENSEMBLE["World Geodetic System 1984 ensemble",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         MEMBER["World Geodetic System 1984 (Transit)"],</span>
@@ -126,6 +121,10 @@ to full WKT, because it is technically a transformation step not a crs. To get t
 <span class="r-out co"><span class="r-pr">#&gt;</span>         AREA["World."],</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         BBOX[-90,-180,90,180]],</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ID["OGC","CRS84"]]</span>
+<span class="r-in"><span><span class="fu">proj_crs_text</span><span class="op">(</span><span class="st">"OGC:CRS84"</span>, format <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</span>
+<span class="r-in"><span><span class="va">south55</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"</span></span></span>
+<span class="r-in"><span><span class="fu">proj_crs_text</span><span class="op">(</span><span class="fu">proj_crs_text</span><span class="op">(</span><span class="va">south55</span><span class="op">)</span>, <span class="fl">1L</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "+proj=utm +zone=55 +south +ellps=GRS80 +units=m +no_defs +type=crs"</span>
 </code></pre></div>
     </div>
