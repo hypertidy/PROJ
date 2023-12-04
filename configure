@@ -3129,9 +3129,6 @@ if test x$use6 = xyes -a x${proj6api} = xno; then
 $as_echo "$as_me: Cannot find working proj.h headers and library.
 *** You may need to install libproj-dev or similar! ***
 " >&6;}
-else
-CPPFLAGS="-DUSE_PROJ6_API=1 ${CPPFLAGS}"
-
 fi
 
 

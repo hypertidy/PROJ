@@ -1,9 +1,6 @@
 
 #include <Rinternals.h>
 
-
-#ifdef USE_PROJ6_API
-
 #include "proj.h"
 
 // this returns a list of 2 or 4, takes in a list of 2 or 4
@@ -154,20 +151,3 @@ SEXP C_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
   UNPROTECT(5);
   return vec;
 }
-
-#else
-
-SEXP C_proj_trans_list(SEXP x, SEXP src_, SEXP tgt_)
-{
-  SEXP vec = PROTECT(allocVector(VECSXP, 0));
-  UNPROTECT(1);
-  return vec;
-}
-SEXP C_proj_trans_xy(SEXP x_, SEXP y_, SEXP src_, SEXP tgt_)
-{
-  SEXP vec = PROTECT(allocVector(VECSXP, 0));
-  UNPROTECT(1);
-
-  return vec;
-}
-#endif

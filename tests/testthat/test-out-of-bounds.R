@@ -8,8 +8,6 @@ target <- "+proj=merc +datum=WGS84"
 
 test_that("out of bounds works", {
 
-  skip_if(!ok_proj6())
-
   # #here I don't put the expected output because it's (possibly) lib version dependent
   ## ,  "Error detected, some values Inf"
   a <- expect_output({

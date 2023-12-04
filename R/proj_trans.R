@@ -21,16 +21,12 @@
 #' @references see the [PROJ library documentation](https://proj.org/development/reference/functions.html#coordinate-transformation)
 #' for details on the underlying functionality
 #' @examples
-#' if (ok_proj6()) {
-#'  proj_trans(cbind(147, -42), "+proj=laea", source = "OGC:CRS84")
-#'  proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "OGC:CRS84")
-#'  proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "OGC:CRS84")
-#'  }
+#' proj_trans(cbind(147, -42), "+proj=laea", source = "OGC:CRS84")
+#' proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "OGC:CRS84")
+#' proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "OGC:CRS84")
 #' @name proj_trans
 #' @export
 proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {
-
-  if (!ok_proj6()) stop("no PROJ lib available")
   if (missing(target) || !is.character(target)) stop("target must be a string")
   if (is.null(source) || !is.character(source)) stop("source must be provided as a string")
   if (is.list(x) || is.data.frame(x)) x <- cbind(x[[1L]], x[[2L]])
