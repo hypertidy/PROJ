@@ -2,9 +2,9 @@
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#' 
+#'
 #' Test for availability of 'PROJ' system library version 6 or higher.
-#' 
+#'
 #' @details
 #' On unix-alikes, this function is run in `.onLoad()` to check that version 6 functionality is
 #' available. On Windows, the load process sets the data file location with the version 6 API, and that
@@ -21,6 +21,6 @@
 #' @examples
 #' ok_proj6()
 ok_proj6 <- function() {
-  lifecycle::deprecate_warn("0.5", "ok_proj6")
+  lifecycle::deprecate_warn("0.5", "ok_proj6()")
   TRUE
 }
