@@ -70,11 +70,7 @@ if test x$use6 = xyes -a x${proj6api} = xno; then
    AC_MSG_NOTICE([Cannot find working proj.h headers and library.
 *** You may need to install libproj-dev or similar! ***
 ])
-else
-CPPFLAGS="-DUSE_PROJ6_API=1 ${CPPFLAGS}"
-
 fi
-
 
 
 AC_ARG_VAR([PKG_CPPFLAGS],[custom C preprocessor flags for packages compilation])
