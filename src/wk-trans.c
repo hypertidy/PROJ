@@ -9,8 +9,8 @@ typedef struct {
   PJ* proj;
 } proj_trans_t;
 
-int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_out,
-              void* trans_data) {
+static int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_out,
+                     void* trans_data) {
   proj_trans_t* data = (proj_trans_t*)trans_data;
 
   PJ_COORD coord_in = proj_coord(xyzm_in[0], xyzm_in[1], xyzm_in[2], xyzm_in[3]);
@@ -21,7 +21,7 @@ int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_out,
   return WK_CONTINUE;
 }
 
-void finalize(void* trans_data) {
+static void finalize(void* trans_data) {
   proj_trans_t* data = (proj_trans_t*)trans_data;
   proj_destroy(data->proj);
   proj_context_destroy(data->ctx);
@@ -35,7 +35,7 @@ const char* proj_context_errno_string(PJ_CONTEXT*, int err) {
 }
 #endif
 
-const char* stop_proj_error(PJ_CONTEXT* ctx) {
+static const char* stop_proj_error(PJ_CONTEXT* ctx) {
   int err = proj_context_errno(ctx);
   const char* msg = proj_context_errno_string(ctx, err);
 
