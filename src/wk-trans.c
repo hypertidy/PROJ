@@ -2,10 +2,12 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <proj.h>
+#include <stdio.h>
 #include "wk-v1.h"
 
 typedef struct {
   PJ* pj;
+  PJ* pj_norm;
 } proj_trans_t;
 
 static int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_out,
@@ -13,7 +15,7 @@ static int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_ou
   proj_trans_t* data = (proj_trans_t*)trans_data;
 
   PJ_COORD coord_in = proj_coord(xyzm_in[0], xyzm_in[1], xyzm_in[2], xyzm_in[3]);
-  PJ_COORD coord_out = proj_trans(data->pj, PJ_FWD, coord_in);
+  PJ_COORD coord_out = proj_trans(data->pj_norm, PJ_FWD, coord_in);
   // FIXME: handle error
   memcpy(xyzm_out, coord_out.v, 4 * sizeof(double));
 
@@ -25,6 +27,7 @@ static void finalize(void* trans_data) {
 
   proj_trans_t* data = (proj_trans_t*)trans_data;
   proj_destroy(data->pj);
+  proj_destroy(data->pj_norm);
   free(data);
 }
 
@@ -67,17 +70,16 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   SEXP ctx_xptr = PROTECT(R_MakeExternalPtr(ctx, R_NilValue, R_NilValue));
   R_RegisterCFinalizer(ctx_xptr, &ctx_xptr_destroy);
 
-  PJ* pj = proj_create_crs_to_crs(ctx, CHAR(STRING_ELT(source_crs, 0)),
-                                  CHAR(STRING_ELT(target_crs, 0)), NULL);
-  if (pj == NULL) {
+  data->pj = proj_create_crs_to_crs(ctx, CHAR(STRING_ELT(source_crs, 0)),
+                                    CHAR(STRING_ELT(target_crs, 0)), NULL);
+  if (data->pj == NULL) {
     wk_trans_destroy(trans);
     stop_proj_error(ctx);
   }
 
   // always lon,lat
-  data->pj = proj_normalize_for_visualization(ctx, pj);
-  proj_destroy(pj);
-  if (data->pj == NULL) {
+  data->pj_norm = proj_normalize_for_visualization(ctx, data->pj);
+  if (data->pj_norm == NULL) {
     wk_trans_destroy(trans);
     stop_proj_error(ctx);
   }
@@ -85,4 +87,33 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   UNPROTECT(1);
   // ensure context stays valid
   return wk_trans_create_xptr(trans, ctx_xptr, R_NilValue);
+}
+
+SEXP C_proj_trans_fmt(SEXP trans_xptr) {
+  if (TYPEOF(trans_xptr) != EXTPTRSXP || !Rf_inherits(trans_xptr, "proj_trans")) {
+    Rf_error("`trans` must be a <proj_trans> object");
+  }
+
+  wk_trans_t* trans = (wk_trans_t*)R_ExternalPtrAddr(trans_xptr);
+  PJ_CONTEXT* ctx = (PJ_CONTEXT*)R_ExternalPtrAddr(R_ExternalPtrTag(trans_xptr));
+  proj_trans_t* data = (proj_trans_t*)trans->trans_data;
+
+  PJ* source_crs = proj_get_source_crs(ctx, data->pj);
+  PJ* target_crs = proj_get_target_crs(ctx, data->pj);
+  if (source_crs == NULL || target_crs == NULL) {
+    proj_destroy(source_crs);
+    proj_destroy(target_crs);
+    stop_proj_error(ctx);
+  }
+
+  char buf[1024];
+  snprintf(buf, sizeof(buf),
+           "<proj_trans at %p with source_crs=%s:%s target_crs:%s:%s>\n", (void*)trans,
+           proj_get_id_auth_name(source_crs, 0), proj_get_id_code(source_crs, 0),
+           proj_get_id_auth_name(target_crs, 0), proj_get_id_code(target_crs, 0));
+
+  proj_destroy(source_crs);
+  proj_destroy(target_crs);
+
+  return Rf_mkString(buf);
 }

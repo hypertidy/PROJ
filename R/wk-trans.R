@@ -19,3 +19,9 @@ proj_create <- function(source_crs, target_crs, use_z = NA, use_m = NA) {
 
   wk::new_wk_trans(trans, "proj_trans")
 }
+
+#' @export
+print.proj_trans <- function(x, ...) {
+  cat(.Call(C_proj_trans_fmt, x))
+  invisible(x)
+}
