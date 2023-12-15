@@ -11,10 +11,10 @@
 proj_create <- function(source_crs, target_crs, use_z = NA, use_m = NA) {
   trans <- .Call(
     C_proj_trans_new,
-    wk::wk_crs_proj_definition(source_crs[1]),
-    wk::wk_crs_proj_definition(target_crs[1]),
-    use_z[1],
-    use_m[1]
+    wk::wk_crs_proj_definition(source_crs),
+    wk::wk_crs_proj_definition(target_crs),
+    use_z,
+    use_m
   )
 
   wk::new_wk_trans(trans, "proj_trans")
