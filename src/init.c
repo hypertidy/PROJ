@@ -8,12 +8,14 @@
 /* .Call calls */
 extern SEXP C_proj_crs_text(void *, void *);
 extern SEXP C_proj_trans_list(void *, void *, void *);
+extern SEXP C_proj_trans_new(void *, void *, void *, void *);
 extern SEXP C_proj_trans_xy(void *, void *, void *, void *);
 extern SEXP C_proj_version(void);
 
 static const R_CallMethodDef CallEntries[] = {
     {"C_proj_crs_text",   (DL_FUNC) &C_proj_crs_text,   2},
     {"C_proj_trans_list", (DL_FUNC) &C_proj_trans_list, 3},
+    {"C_proj_trans_new",  (DL_FUNC) &C_proj_trans_new,  4},
     {"C_proj_trans_xy",   (DL_FUNC) &C_proj_trans_xy,   4},
     {"C_proj_version",    (DL_FUNC) &C_proj_version,    0},
     {NULL, NULL, 0}
