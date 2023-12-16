@@ -73,8 +73,9 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   // ensure context stays valid
   SEXP trans_xptr = PROTECT(wk_trans_create_xptr(trans, ctx_xptr, R_NilValue));
 
-  data->pj = proj_create_crs_to_crs(ctx, CHAR(STRING_ELT(source_crs, 0)),
-                                    CHAR(STRING_ELT(target_crs, 0)), NULL);
+  data->pj =
+      proj_create_crs_to_crs(ctx, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)),
+                             Rf_translateCharUTF8(STRING_ELT(target_crs, 0)), NULL);
   if (data->pj == NULL) {
     stop_proj_error(ctx);
   }
