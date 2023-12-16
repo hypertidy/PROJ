@@ -70,23 +70,24 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   SEXP ctx_xptr = PROTECT(R_MakeExternalPtr(ctx, R_NilValue, R_NilValue));
   R_RegisterCFinalizer(ctx_xptr, &ctx_xptr_destroy);
 
+  // ensure context stays valid
+  SEXP trans_xptr = PROTECT(wk_trans_create_xptr(trans, ctx_xptr, R_NilValue));
+
   data->pj = proj_create_crs_to_crs(ctx, CHAR(STRING_ELT(source_crs, 0)),
                                     CHAR(STRING_ELT(target_crs, 0)), NULL);
   if (data->pj == NULL) {
-    wk_trans_destroy(trans);
     stop_proj_error(ctx);
   }
 
   // always lon,lat
   data->pj_norm = proj_normalize_for_visualization(ctx, data->pj);
   if (data->pj_norm == NULL) {
-    wk_trans_destroy(trans);
     stop_proj_error(ctx);
   }
 
-  UNPROTECT(1);
-  // ensure context stays valid
-  return wk_trans_create_xptr(trans, ctx_xptr, R_NilValue);
+  // xptrs
+  UNPROTECT(2);
+  return trans_xptr;
 }
 
 SEXP C_proj_trans_fmt(SEXP trans_xptr) {
