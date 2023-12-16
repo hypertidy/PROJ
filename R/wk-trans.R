@@ -9,6 +9,9 @@
 #'
 #' @export
 proj_create <- function(source_crs, target_crs, use_z = NA, use_m = NA) {
+  stopifnot(is_scalar_logical(use_z))
+  stopifnot(is_scalar_logical(use_m))
+
   trans <- .Call(
     C_proj_trans_new,
     wk::wk_crs_proj_definition(source_crs),
