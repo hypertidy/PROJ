@@ -26,13 +26,14 @@ static void finalize(void* trans_data) {
   if (trans_data == NULL) return;
 
   proj_trans_t* data = (proj_trans_t*)trans_data;
-  proj_destroy(data->pj);
-  proj_destroy(data->pj_norm);
+  if (data->pj != NULL) proj_destroy(data->pj);
+  if (data->pj_norm != NULL) proj_destroy(data->pj_norm);
   free(data);
 }
 
 static void ctx_xptr_destroy(SEXP ctx_xptr) {
-  proj_context_destroy((PJ_CONTEXT*)R_ExternalPtrAddr(ctx_xptr));
+  PJ_CONTEXT* ctx = (PJ_CONTEXT*)R_ExternalPtrAddr(ctx_xptr);
+  if (ctx != NULL) proj_context_destroy(ctx);
 }
 
 #if PROJ_VERSION_MAJOR < 8
