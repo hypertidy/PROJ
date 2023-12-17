@@ -42,16 +42,17 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
 
   proj_trans_t* data = (proj_trans_t*)calloc(1, sizeof(proj_trans_t));
   if (data == NULL) {
-    free(trans);
+    wk_trans_destroy(trans);
     Rf_error("Can't allocate proj_trans_t");
   }
 
   trans->trans_data = data;
+  SEXP trans_xptr = PROTECT(wk_trans_create_xptr(trans, R_NilValue, R_NilValue));
 
   PJ_CONTEXT* ctx = proj_context_create();
   SEXP ctx_xptr = PROTECT(proj_context_xptr_create(ctx));
   // ensure context stays valid
-  SEXP trans_xptr = PROTECT(wk_trans_create_xptr(trans, ctx_xptr, R_NilValue));
+  R_SetExternalPtrTag(trans_xptr, ctx_xptr);
 
   data->pj =
       proj_create_crs_to_crs(ctx, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)),
