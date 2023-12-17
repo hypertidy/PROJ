@@ -4,6 +4,7 @@
 #include <proj.h>
 #include <stdio.h>
 #include "wk-v1.h"
+#include "proj-context.h"
 
 typedef struct {
   PJ* pj;
@@ -31,25 +32,6 @@ static void finalize(void* trans_data) {
   free(data);
 }
 
-static void ctx_xptr_destroy(SEXP ctx_xptr) {
-  PJ_CONTEXT* ctx = (PJ_CONTEXT*)R_ExternalPtrAddr(ctx_xptr);
-  if (ctx != NULL) proj_context_destroy(ctx);
-}
-
-#if PROJ_VERSION_MAJOR < 8
-const char* proj_context_errno_string(PJ_CONTEXT*, int err) {
-  // deprecated in proj 8
-  return proj_errno_string(err);
-}
-#endif
-
-static const char* stop_proj_error(PJ_CONTEXT* ctx) {
-  int err = proj_context_errno(ctx);
-  const char* msg = proj_context_errno_string(ctx, err);
-
-  Rf_error("%s", msg);
-}
-
 SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) {
   wk_trans_t* trans = wk_trans_create();
 
@@ -67,10 +49,7 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   trans->trans_data = data;
 
   PJ_CONTEXT* ctx = proj_context_create();
-  // ensure context is finalised
-  SEXP ctx_xptr = PROTECT(R_MakeExternalPtr(ctx, R_NilValue, R_NilValue));
-  R_RegisterCFinalizer(ctx_xptr, &ctx_xptr_destroy);
-
+  SEXP ctx_xptr = PROTECT(proj_context_xptr_create(ctx));
   // ensure context stays valid
   SEXP trans_xptr = PROTECT(wk_trans_create_xptr(trans, ctx_xptr, R_NilValue));
 
