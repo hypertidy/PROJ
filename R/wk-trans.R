@@ -13,15 +13,20 @@
 #'
 #' @export
 proj_create <- function(source_crs, target_crs, use_z = NA, use_m = NA) {
-  stopifnot(is_scalar_logical(use_z))
-  stopifnot(is_scalar_logical(use_m))
+  source_crs <- wk::wk_crs_proj_definition(source_crs)
+  target_crs <- wk::wk_crs_proj_definition(target_crs)
+
+  if (is.na(source_crs) || nchar(source_crs) == 0) stop("`source_crs` is invalid")
+  if (is.na(target_crs) || nchar(target_crs) == 0) stop("`target_crs` is invalid")
+
+  stopifnot(is.logical(use_z) && is.logical(use_m))
 
   trans <- .Call(
     C_proj_trans_new,
-    wk::wk_crs_proj_definition(source_crs),
-    wk::wk_crs_proj_definition(target_crs),
-    use_z,
-    use_m
+    source_crs,
+    target_crs,
+    use_z[1],
+    use_m[1]
   )
 
   wk::new_wk_trans(trans, "proj_trans")
