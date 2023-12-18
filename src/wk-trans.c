@@ -42,8 +42,8 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
 
   proj_trans_t* data = (proj_trans_t*)calloc(1, sizeof(proj_trans_t));
   if (data == NULL) {
-    wk_trans_destroy(trans);
-    Rf_error("Can't allocate proj_trans_t");
+    wk_trans_destroy(trans);                  // # nocov
+    Rf_error("Can't allocate proj_trans_t");  // # nocov
   }
 
   trans->trans_data = data;
@@ -78,20 +78,24 @@ SEXP C_proj_trans_fmt(SEXP trans_xptr) {
   }
 
   wk_trans_t* trans = (wk_trans_t*)R_ExternalPtrAddr(trans_xptr);
+  if (trans == NULL) {
+    Rf_error("`trans` is a null pointer");
+  }
+
   PJ_CONTEXT* ctx = (PJ_CONTEXT*)R_ExternalPtrAddr(R_ExternalPtrTag(trans_xptr));
   proj_trans_t* data = (proj_trans_t*)trans->trans_data;
 
   PJ* source_crs = proj_get_source_crs(ctx, data->pj);
   PJ* target_crs = proj_get_target_crs(ctx, data->pj);
   if (source_crs == NULL || target_crs == NULL) {
-    proj_destroy(source_crs);
-    proj_destroy(target_crs);
-    stop_proj_error(ctx);
+    proj_destroy(source_crs);  // # nocov
+    proj_destroy(target_crs);  // # nocov
+    stop_proj_error(ctx);      // # nocov
   }
 
   char buf[1024];
   snprintf(buf, sizeof(buf),
-           "<proj_trans at %p with source_crs=%s:%s target_crs:%s:%s>\n", (void*)trans,
+           "<proj_trans at %p with source_crs=%s:%s target_crs=%s:%s>\n", (void*)trans,
            proj_get_id_auth_name(source_crs, 0), proj_get_id_code(source_crs, 0),
            proj_get_id_auth_name(target_crs, 0), proj_get_id_code(target_crs, 0));
 
