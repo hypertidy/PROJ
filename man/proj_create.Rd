@@ -2,7 +2,7 @@
 % Please edit documentation in R/wk-trans.R
 \name{proj_create}
 \alias{proj_create}
-\title{Create PROJ transformation object}
+\title{Create a transformation object}
 \usage{
 proj_create(source_crs, target_crs, use_z = NA, use_m = NA)
 }
@@ -17,5 +17,10 @@ and \code{NA} to leave the dimension unchanged.}
 A PROJ transformation object
 }
 \description{
-Creates a PROJ CRS to CRS transformation object, to be used in \code{\link[wk:wk_transform]{wk::wk_transform()}}.
+Creates a transformation object that transforms coordinates in a {wk}
+pipeline.
+}
+\examples{
+wk::wk_transform(wk::xy(1:5, 1:5), proj_create("OGC:CRS84", "EPSG:3857"))
+
 }
