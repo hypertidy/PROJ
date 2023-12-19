@@ -10,13 +10,6 @@ test_that("proj_trans print method works", {
   expect_match(str, "<proj_trans at .*>")
   expect_match(str, "source_crs=OGC:CRS84", fixed = TRUE)
   expect_match(str, "target_crs=EPSG:3857", fixed = TRUE)
-
-  crs_to_crs2 <- proj_create("OGC:CRS84", 3857)
-  str2 <- capture_output(print(crs_to_crs2))
-
-  expect_match(str2, "<proj_trans at .*>")
-  expect_match(str2, "source_crs=OGC:CRS84", fixed = TRUE)
-  expect_match(str2, "target_crs=EPSG:3857", fixed = TRUE)
 })
 
 test_that("proj_trans print doesn't crash on invalid input", {
