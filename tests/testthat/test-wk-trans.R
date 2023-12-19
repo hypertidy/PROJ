@@ -51,3 +51,41 @@ test_that("proj_create() is normalised", {
     pts
   )
 })
+
+test_that("transform() handles NA & NaN", {
+  # NaN z & m won't cause NaN results
+  expect_equal(
+    wk::wk_transform(
+      wk::xy(1:3, 1:3),
+      proj_create("OGC:CRS84", "OGC:CRS84")
+    ),
+    wk::xy(1:3, 1:3)
+  )
+
+  # treat NA and NaN separately
+  expect_equal(
+    wk::wk_transform(
+      wk::xyzm(1, 1, NA, NaN),
+      proj_create("OGC:CRS84", "OGC:CRS84")
+    ),
+    wk::xyzm(1, 1, NA, NaN)
+  )
+
+  # 9.2 behaviour: x and y must be both non NaN
+  expect_equal(
+    wk::wk_transform(
+      wk::xyzm(c(NaN, NA), c(NA, NaN), NA, NA),
+      proj_create("OGC:CRS84", "OGC:CRS84")
+    ),
+    wk::xyzm(c(NaN, NaN), NaN, NaN, NaN)
+  )
+
+  # 9.2 behaviour: doesn't apply to NA
+  expect_equal(
+    wk::wk_transform(
+      wk::xyzm(NA, NA, 1, 2),
+      proj_create("OGC:CRS84", "OGC:CRS84")
+    ),
+    wk::xyzm(NA, NA, 1, 2)
+  )
+})
