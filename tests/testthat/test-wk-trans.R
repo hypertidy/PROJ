@@ -44,7 +44,7 @@ test_that("wk_transform() works", {
 })
 
 test_that("proj_create() is normalised", {
-  pts <- wk::xy(-10:10, -10:10)
+  pts <- wk::xy(-10:10, 10:-10)
   expect_equal(
     # no coord flip
     wk::wk_transform(pts, proj_create("EPSG:4326", "OGC:CRS84")),
