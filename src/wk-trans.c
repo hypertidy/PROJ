@@ -78,26 +78,21 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   trans->trans_data = data;
   SEXP trans_xptr = PROTECT(wk_trans_create_xptr(trans, R_NilValue, R_NilValue));
 
-  PJ_CONTEXT* ctx = proj_context_create();
-  SEXP ctx_xptr = PROTECT(proj_context_xptr_create(ctx));
-  // ensure context stays valid
-  R_SetExternalPtrTag(trans_xptr, ctx_xptr);
-
-  data->pj =
-      proj_create_crs_to_crs(ctx, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)),
-                             Rf_translateCharUTF8(STRING_ELT(target_crs, 0)), NULL);
+  data->pj = proj_create_crs_to_crs(
+      PJ_DEFAULT_CTX, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)),
+      Rf_translateCharUTF8(STRING_ELT(target_crs, 0)), NULL);
   if (data->pj == NULL) {
-    stop_proj_error(ctx);
+    stop_proj_error(PJ_DEFAULT_CTX);
   }
 
   // always lon,lat
-  data->pj_norm = proj_normalize_for_visualization(ctx, data->pj);
+  data->pj_norm = proj_normalize_for_visualization(PJ_DEFAULT_CTX, data->pj);
   if (data->pj_norm == NULL) {
-    stop_proj_error(ctx);
+    stop_proj_error(PJ_DEFAULT_CTX);
   }
 
   // xptrs
-  UNPROTECT(2);
+  UNPROTECT(1);
   return trans_xptr;
 }
 
@@ -111,15 +106,14 @@ SEXP C_proj_trans_fmt(SEXP trans_xptr) {
     Rf_error("`trans` is a null pointer");
   }
 
-  PJ_CONTEXT* ctx = (PJ_CONTEXT*)R_ExternalPtrAddr(R_ExternalPtrTag(trans_xptr));
   proj_trans_t* data = (proj_trans_t*)trans->trans_data;
 
-  PJ* source_crs = proj_get_source_crs(ctx, data->pj);
-  PJ* target_crs = proj_get_target_crs(ctx, data->pj);
+  PJ* source_crs = proj_get_source_crs(PJ_DEFAULT_CTX, data->pj);
+  PJ* target_crs = proj_get_target_crs(PJ_DEFAULT_CTX, data->pj);
   if (source_crs == NULL || target_crs == NULL) {
-    proj_destroy(source_crs);  // # nocov
-    proj_destroy(target_crs);  // # nocov
-    stop_proj_error(ctx);      // # nocov
+    proj_destroy(source_crs);         // # nocov
+    proj_destroy(target_crs);         // # nocov
+    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
   }
 
   char buf[1024];
