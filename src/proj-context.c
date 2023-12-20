@@ -21,7 +21,7 @@ void proj_context_xptr_destroy(SEXP ctx_xptr) {
 }
 
 #if PROJ_VERSION_MAJOR < 8
-static const char* proj_context_errno_string(PJ_CONTEXT*, int err) {
+static const char* proj_context_errno_string(PJ_CONTEXT* ctx, int err) {
   // deprecated in proj 8
   return proj_errno_string(err);
 }
