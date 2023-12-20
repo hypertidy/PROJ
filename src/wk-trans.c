@@ -29,7 +29,7 @@ static int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_ou
   // - Emulate 9.2 behaviour for NaN x or y dimensions
 
   bool is_nan[4];
-  for (int i = 0; i < 4; i++) is_nan[i] = R_IsNaN(xyzm_in[i]);
+  for (int i = 0; i < 4; i++) is_nan[i] = ISNAN(xyzm_in[i]);
 
   // emulating 9.2 behaviour for x,y dimensions
   if (is_nan[0] || is_nan[1]) {
