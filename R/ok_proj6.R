@@ -1,7 +1,8 @@
+# `r lifecycle::badge("deprecated")`
+
 #' Is 'PROJ library >= 6' available
 #'
 #' @description
-#' `r lifecycle::badge("deprecated")`
 #'
 #' Test for availability of 'PROJ' system library version 6 or higher.
 #'
@@ -21,6 +22,6 @@
 #' @examples
 #' ok_proj6()
 ok_proj6 <- function() {
-  lifecycle::deprecate_warn("0.5", "ok_proj6()")
+  #lifecycle::deprecate_warn("0.5", "ok_proj6()")
   TRUE
 }
