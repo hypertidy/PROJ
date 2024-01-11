@@ -25,6 +25,7 @@ without requiring bespoke formats for storing basic data.
 Useful links:
 \itemize{
   \item \url{https://github.com/hypertidy/PROJ}
+  \item \url{https://hypertidy.github.io/PROJ/}
   \item Report bugs at \url{https://github.com/hypertidy/PROJ/issues}
 }
 
