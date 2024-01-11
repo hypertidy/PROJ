@@ -37,3 +37,10 @@ print.proj_trans <- function(x, ...) {
   cat(.Call(C_proj_trans_fmt, x))
   invisible(x)
 }
+
+#' @importFrom wk wk_trans_inverse
+#' @export
+wk_trans_inverse.proj_trans <- function(trans, ...) {
+  trans_inv <- .Call(C_proj_trans_inverse, trans)
+  wk::new_wk_trans(trans_inv, "proj_trans")
+}

@@ -11,6 +11,7 @@
 typedef struct {
   PJ* pj;
   PJ* pj_norm;
+  PJ_DIRECTION direction;
 } proj_trans_t;
 
 static int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_out,
@@ -40,7 +41,7 @@ static int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_ou
   PJ_COORD coord_in = proj_coord(xyzm_in[0], xyzm_in[1],
                                  // ensure z,m not NaN
                                  is_nan[2] ? 0 : xyzm_in[2], is_nan[3] ? 0 : xyzm_in[3]);
-  PJ_COORD coord_out = proj_trans(data->pj_norm, PJ_FWD, coord_in);
+  PJ_COORD coord_out = proj_trans(data->pj_norm, data->direction, coord_in);
   // FIXME: handle error
 
   xyzm_out[0] = coord_out.v[0];
@@ -61,6 +62,19 @@ static void finalize(void* trans_data) {
   free(data);
 }
 
+static wk_trans_t* wk_trans_from_xptr(SEXP trans_xptr) {
+  if (TYPEOF(trans_xptr) != EXTPTRSXP || !Rf_inherits(trans_xptr, "proj_trans")) {
+    Rf_error("`trans` must be a <proj_trans> object");
+  }
+
+  wk_trans_t* trans = (wk_trans_t*)R_ExternalPtrAddr(trans_xptr);
+  if (trans == NULL) {
+    Rf_error("`trans` is a null pointer");
+  }
+
+  return trans;
+}
+
 SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) {
   wk_trans_t* trans = wk_trans_create();
 
@@ -78,6 +92,8 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   trans->trans_data = data;
   SEXP trans_xptr = PROTECT(wk_trans_create_xptr(trans, R_NilValue, R_NilValue));
 
+  data->direction = PJ_FWD;
+
   data->pj = proj_create_crs_to_crs(
       PJ_DEFAULT_CTX, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)),
       Rf_translateCharUTF8(STRING_ELT(target_crs, 0)), NULL);
@@ -88,7 +104,7 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   // always lon,lat
   data->pj_norm = proj_normalize_for_visualization(PJ_DEFAULT_CTX, data->pj);
   if (data->pj_norm == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);
+    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
   }
 
   // xptrs
@@ -97,15 +113,7 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
 }
 
 SEXP C_proj_trans_fmt(SEXP trans_xptr) {
-  if (TYPEOF(trans_xptr) != EXTPTRSXP || !Rf_inherits(trans_xptr, "proj_trans")) {
-    Rf_error("`trans` must be a <proj_trans> object");
-  }
-
-  wk_trans_t* trans = (wk_trans_t*)R_ExternalPtrAddr(trans_xptr);
-  if (trans == NULL) {
-    Rf_error("`trans` is a null pointer");
-  }
-
+  wk_trans_t* trans = wk_trans_from_xptr(trans_xptr);
   proj_trans_t* data = (proj_trans_t*)trans->trans_data;
 
   PJ* source_crs = proj_get_source_crs(PJ_DEFAULT_CTX, data->pj);
@@ -114,6 +122,13 @@ SEXP C_proj_trans_fmt(SEXP trans_xptr) {
     proj_destroy(source_crs);         // # nocov
     proj_destroy(target_crs);         // # nocov
     stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
+  }
+
+  // inverse? swap
+  if (data->direction == PJ_INV) {
+    PJ* tmp = source_crs;
+    source_crs = target_crs;
+    target_crs = tmp;
   }
 
   char buf[1024];
@@ -126,4 +141,40 @@ SEXP C_proj_trans_fmt(SEXP trans_xptr) {
   proj_destroy(target_crs);
 
   return Rf_mkString(buf);
+}
+
+SEXP C_proj_trans_inverse(SEXP trans_xptr) {
+  wk_trans_t* trans_fwd = wk_trans_from_xptr(trans_xptr);
+  proj_trans_t* data_fwd = (proj_trans_t*)trans_fwd->trans_data;
+
+  // create reversed `trans`
+  wk_trans_t* trans_inv = wk_trans_create();
+  proj_trans_t* data_inv = (proj_trans_t*)calloc(1, sizeof(proj_trans_t));
+  if (data_inv == NULL) {
+    wk_trans_destroy(trans_inv);              // # nocov
+    Rf_error("Can't allocate proj_trans_t");  // # nocov
+  }
+
+  // shallow copy trans, deep copy trans_data
+  memcpy(trans_inv, trans_fwd, sizeof(wk_trans_t));
+  trans_inv->trans_data = data_inv;
+
+  SEXP trans_inv_xptr = PROTECT(wk_trans_create_xptr(trans_inv, R_NilValue, R_NilValue));
+
+  // reverse
+  data_inv->direction = -data_fwd->direction;
+
+  data_inv->pj = proj_clone(PJ_DEFAULT_CTX, data_fwd->pj);
+  if (data_inv->pj == NULL) {
+    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
+  }
+
+  data_inv->pj_norm = proj_clone(PJ_DEFAULT_CTX, data_fwd->pj_norm);
+  if (data_inv->pj_norm == NULL) {
+    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
+  }
+
+  // xptr
+  UNPROTECT(1);
+  return trans_inv_xptr;
 }
