@@ -21,6 +21,14 @@ Creates a transformation object that transforms coordinates in a {wk}
 pipeline.
 }
 \examples{
-wk::wk_transform(wk::xy(1:5, 1:5), proj_create("OGC:CRS84", "EPSG:3857"))
+(trans <- proj_create("OGC:CRS84", "EPSG:3857"))
+wk::wk_transform(wk::xy(1:5, 1:5), trans)
+
+library(wk)
+(invtrans <- wk_trans_inverse(trans))
+
+h <- 1852 * 60
+## the stretch of Mercator to a square
+wk::wk_transform(wk::xy(c(-h * 180, 0, h * 180), c(-h * 180,0, h * 180)), invtrans)
 
 }
