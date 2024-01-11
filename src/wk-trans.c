@@ -104,7 +104,7 @@ SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) 
   // always lon,lat
   data->pj_norm = proj_normalize_for_visualization(PJ_DEFAULT_CTX, data->pj);
   if (data->pj_norm == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);
+    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
   }
 
   // xptrs
@@ -166,12 +166,12 @@ SEXP C_proj_trans_inverse(SEXP trans_xptr) {
 
   data_inv->pj = proj_clone(PJ_DEFAULT_CTX, data_fwd->pj);
   if (data_inv->pj == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);
+    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
   }
 
   data_inv->pj_norm = proj_clone(PJ_DEFAULT_CTX, data_fwd->pj_norm);
   if (data_inv->pj_norm == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);
+    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
   }
 
   // xptr

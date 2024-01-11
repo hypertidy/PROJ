@@ -80,3 +80,33 @@ test_that("transform() handles NA & NaN", {
     rep.int(wk::xyzm(NaN, NaN, NaN, NaN), 4)
   )
 })
+
+test_that("wk_trans_inverse() works", {
+  inv <- wk::wk_trans_inverse(proj_create("EPSG:3857", "OGC:CRS84"))
+  rev <- proj_create("OGC:CRS84", "EPSG:3857")
+
+  expect_equal(
+    wk::wk_transform(
+      wk::xy(-5:5, -5:5),
+      inv
+    ),
+    wk::wk_transform(
+      wk::xy(-5:5, -5:5),
+      rev
+    )
+  )
+
+  expect_equal(
+    wk::wk_transform(wk::xy(1, 1), inv),
+    wk::xy(111319.4908, 111325.1429)
+  )
+})
+
+test_that("inverse(proj_trans) print method works", {
+  crs_to_crs <- wk::wk_trans_inverse(proj_create("OGC:CRS84", "EPSG:3857"))
+  str <- capture_output(print(crs_to_crs))
+
+  expect_match(str, "<proj_trans at .*>")
+  expect_match(str, "target_crs=OGC:CRS84", fixed = TRUE)
+  expect_match(str, "source_crs=EPSG:3857", fixed = TRUE)
+})
