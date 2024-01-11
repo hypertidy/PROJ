@@ -74,7 +74,7 @@ test_that("transform() handles NA & NaN", {
   # 9.2 behaviour: x and y must be both non NaN
   expect_equal(
     wk::wk_transform(
-      wk::xyzm(c(NaN, NaN, NA, NA), c(NaN, NA, NaN, NA), NA, NA),
+      wk::xyzm(c(NaN, NaN, NA, NA), c(NaN, NA, NaN, NA), 0, 0),
       proj_create("OGC:CRS84", "OGC:CRS84")
     ),
     rep.int(wk::xyzm(NaN, NaN, NaN, NaN), 4)
