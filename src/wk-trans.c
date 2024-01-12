@@ -9,8 +9,9 @@
 #include "proj-context.h"
 
 typedef struct {
-  PJ* pj;
-  PJ* pj_norm;
+  PJ* transformer;
+  PJ* source_crs;
+  PJ* target_crs;
   PJ_DIRECTION direction;
 } proj_trans_t;
 
@@ -41,7 +42,7 @@ static int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_ou
   PJ_COORD coord_in = proj_coord(xyzm_in[0], xyzm_in[1],
                                  // ensure z,m not NaN
                                  is_nan[2] ? 0 : xyzm_in[2], is_nan[3] ? 0 : xyzm_in[3]);
-  PJ_COORD coord_out = proj_trans(data->pj_norm, data->direction, coord_in);
+  PJ_COORD coord_out = proj_trans(data->transformer, data->direction, coord_in);
   // FIXME: handle error
 
   xyzm_out[0] = coord_out.v[0];
@@ -57,8 +58,10 @@ static void finalize(void* trans_data) {
   if (trans_data == NULL) return;
 
   proj_trans_t* data = (proj_trans_t*)trans_data;
-  if (data->pj != NULL) proj_destroy(data->pj);
-  if (data->pj_norm != NULL) proj_destroy(data->pj_norm);
+  if (data->transformer != NULL) proj_destroy(data->transformer);
+  if (data->source_crs != NULL) proj_destroy(data->source_crs);
+  if (data->target_crs != NULL) proj_destroy(data->target_crs);
+
   free(data);
 }
 
@@ -94,16 +97,29 @@ SEXP C_proj_trans_create(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_
 
   data->direction = PJ_FWD;
 
-  data->pj = proj_create_crs_to_crs(
-      PJ_DEFAULT_CTX, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)),
-      Rf_translateCharUTF8(STRING_ELT(target_crs, 0)), NULL);
-  if (data->pj == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);
+  data->source_crs =
+      proj_create(PJ_DEFAULT_CTX, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)));
+  if (data->source_crs == NULL) {
+    stop_proj_error(PJ_DEFAULT_CTX);  // #nocov
+  }
+
+  data->target_crs =
+      proj_create(PJ_DEFAULT_CTX, Rf_translateCharUTF8(STRING_ELT(target_crs, 0)));
+  if (data->target_crs == NULL) {
+    stop_proj_error(PJ_DEFAULT_CTX);  // #nocov
+  }
+
+  PJ* transformer = proj_create_crs_to_crs_from_pj(PJ_DEFAULT_CTX, data->source_crs,
+                                                   data->target_crs, NULL, NULL);
+  if (transformer == NULL) {
+    stop_proj_error(PJ_DEFAULT_CTX);  // #nocov
   }
 
   // always lon,lat
-  data->pj_norm = proj_normalize_for_visualization(PJ_DEFAULT_CTX, data->pj);
-  if (data->pj_norm == NULL) {
+  data->transformer = proj_normalize_for_visualization(PJ_DEFAULT_CTX, transformer);
+  proj_destroy(transformer);
+
+  if (data->transformer == NULL) {
     stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
   }
 
@@ -116,13 +132,8 @@ SEXP C_proj_trans_fmt(SEXP trans_xptr) {
   wk_trans_t* trans = wk_trans_from_xptr(trans_xptr);
   proj_trans_t* data = (proj_trans_t*)trans->trans_data;
 
-  PJ* source_crs = proj_get_source_crs(PJ_DEFAULT_CTX, data->pj);
-  PJ* target_crs = proj_get_target_crs(PJ_DEFAULT_CTX, data->pj);
-  if (source_crs == NULL || target_crs == NULL) {
-    proj_destroy(source_crs);         // # nocov
-    proj_destroy(target_crs);         // # nocov
-    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
-  }
+  PJ* source_crs = data->source_crs;
+  PJ* target_crs = data->target_crs;
 
   // inverse? swap
   if (data->direction == PJ_INV) {
@@ -136,9 +147,6 @@ SEXP C_proj_trans_fmt(SEXP trans_xptr) {
            "<proj_trans at %p with source_crs=%s:%s target_crs=%s:%s>\n", (void*)trans,
            proj_get_id_auth_name(source_crs, 0), proj_get_id_code(source_crs, 0),
            proj_get_id_auth_name(target_crs, 0), proj_get_id_code(target_crs, 0));
-
-  proj_destroy(source_crs);
-  proj_destroy(target_crs);
 
   return Rf_mkString(buf);
 }
@@ -164,13 +172,18 @@ SEXP C_proj_trans_inverse(SEXP trans_xptr) {
   // reverse
   data_inv->direction = -data_fwd->direction;
 
-  data_inv->pj = proj_clone(PJ_DEFAULT_CTX, data_fwd->pj);
-  if (data_inv->pj == NULL) {
+  data_inv->source_crs = proj_clone(PJ_DEFAULT_CTX, data_fwd->source_crs);
+  if (data_inv->source_crs == NULL) {
     stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
   }
 
-  data_inv->pj_norm = proj_clone(PJ_DEFAULT_CTX, data_fwd->pj_norm);
-  if (data_inv->pj_norm == NULL) {
+  data_inv->target_crs = proj_clone(PJ_DEFAULT_CTX, data_fwd->target_crs);
+  if (data_inv->target_crs == NULL) {
+    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
+  }
+
+  data_inv->transformer = proj_clone(PJ_DEFAULT_CTX, data_fwd->transformer);
+  if (data_inv->transformer == NULL) {
     stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
   }
 
