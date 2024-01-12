@@ -2,7 +2,7 @@
 
 * PROJ >= 6 is now a hard dependency (#42)
 * Deprecate ok_proj6() (#42)
-* Add {wk} transformer api (#44, #46)
+* Add {wk} transformer api (#44, #46, #48)
 
 # PROJ 0.4.5
 
