@@ -31,13 +31,13 @@
     <loc>/reference/ok_proj6.html</loc>
   </url>
   <url>
-    <loc>/reference/proj_create.html</loc>
-  </url>
-  <url>
     <loc>/reference/proj_crs_text.html</loc>
   </url>
   <url>
     <loc>/reference/proj_trans.html</loc>
+  </url>
+  <url>
+    <loc>/reference/proj_trans_create.html</loc>
   </url>
   <url>
     <loc>/reference/proj_version.html</loc>
