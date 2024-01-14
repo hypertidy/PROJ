@@ -75,7 +75,7 @@ static wk_trans_t* wk_trans_from_xptr(SEXP trans_xptr) {
   return trans;
 }
 
-SEXP C_proj_trans_new(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) {
+SEXP C_proj_trans_create(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) {
   wk_trans_t* trans = wk_trans_create();
 
   trans->trans = &transform;
