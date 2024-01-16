@@ -86,7 +86,7 @@ print.proj_trans <- function(x, ...) {
 #' @importFrom utils str
 str.proj_trans <- function(object, ...) {
   cat(
-    sprintf("<proj_trans at %s>", .Call(C_xptr_addr, x)),
+    sprintf("<proj_trans at %s>", .Call(C_xptr_addr, object)),
     format(object),
     sep = "\n"
   )
