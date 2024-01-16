@@ -42,7 +42,7 @@ proj_trans_create <- function(source_crs, target_crs, use_z = NA, use_m = NA) {
 
 #' @export
 print.proj_trans <- function(x, ...) {
-  cat(.Call(C_proj_trans_fmt, x))
+  cat(sep = "\n", sprintf("<proj_trans at %s>", .Call(C_xptr_addr, x)))
   invisible(x)
 }
 

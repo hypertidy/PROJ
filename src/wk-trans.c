@@ -128,29 +128,6 @@ SEXP C_proj_trans_create(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_
   return trans_xptr;
 }
 
-SEXP C_proj_trans_fmt(SEXP trans_xptr) {
-  wk_trans_t* trans = wk_trans_from_xptr(trans_xptr);
-  proj_trans_t* data = (proj_trans_t*)trans->trans_data;
-
-  PJ* source_crs = data->source_crs;
-  PJ* target_crs = data->target_crs;
-
-  // inverse? swap
-  if (data->direction == PJ_INV) {
-    PJ* tmp = source_crs;
-    source_crs = target_crs;
-    target_crs = tmp;
-  }
-
-  char buf[1024];
-  snprintf(buf, sizeof(buf),
-           "<proj_trans at %p with source_crs=%s:%s target_crs=%s:%s>\n", (void*)trans,
-           proj_get_id_auth_name(source_crs, 0), proj_get_id_code(source_crs, 0),
-           proj_get_id_auth_name(target_crs, 0), proj_get_id_code(target_crs, 0));
-
-  return Rf_mkString(buf);
-}
-
 SEXP C_proj_trans_inverse(SEXP trans_xptr) {
   wk_trans_t* trans_fwd = wk_trans_from_xptr(trans_xptr);
   proj_trans_t* data_fwd = (proj_trans_t*)trans_fwd->trans_data;
