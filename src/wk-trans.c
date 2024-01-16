@@ -7,6 +7,8 @@
 #include "wk-v1.h"
 
 #include "proj-context.h"
+#include "proj-utils.h"
+#include "r-utils.h"
 
 typedef struct {
   PJ* transformer;
@@ -167,4 +169,73 @@ SEXP C_proj_trans_inverse(SEXP trans_xptr) {
   // xptr
   UNPROTECT(1);
   return trans_inv_xptr;
+}
+
+static SEXP proj_area_of_use_info(PJ_CONTEXT* ctx, PJ* trans_or_crs) {
+  double bounds[4] = {0, 0, 0, 0};
+  const char* name = NULL;
+
+  bool has_aoi = proj_get_area_of_use(ctx, trans_or_crs, &bounds[0], &bounds[1],
+                                      &bounds[2], &bounds[3], &name);
+  if (!has_aoi) return R_NilValue;
+
+  const char* nms[] = {"name", "bounds", ""};
+  SEXP res = PROTECT(Rf_mkNamed(VECSXP, nms));
+
+  SET_VECTOR_ELT(res, 0, r_scalar_string(name));
+  SEXP res_bounds = SET_VECTOR_ELT(res, 1, Rf_allocVector(REALSXP, 4));
+
+  memcpy(REAL(res_bounds), bounds, sizeof(bounds));
+
+  UNPROTECT(1);
+  return res;
+}
+
+static SEXP proj_crs_info(PJ_CONTEXT* ctx, PJ* crs) {
+  PJ_TYPE type = proj_get_type(crs);
+  const char* name = proj_get_name(crs);
+  const char* auth = proj_get_id_auth_name(crs, 0);
+  const char* code = proj_get_id_code(crs, 0);
+
+  const char* nms[] = {"type", "name", "authority", "code", "area_of_use", ""};
+  SEXP res = PROTECT(Rf_mkNamed(VECSXP, nms));
+
+  SET_VECTOR_ELT(res, 0, r_scalar_string(proj_type_name(type)));
+  SET_VECTOR_ELT(res, 1, r_scalar_string(name));
+  SET_VECTOR_ELT(res, 2, r_scalar_string(auth));
+  SET_VECTOR_ELT(res, 3, r_scalar_string(code));
+  SET_VECTOR_ELT(res, 4, proj_area_of_use_info(ctx, crs));
+
+  UNPROTECT(1);
+  return res;
+}
+
+SEXP C_proj_trans_info(SEXP trans_xptr) {
+  wk_trans_t* trans = wk_trans_from_xptr(trans_xptr);
+  proj_trans_t* data = (proj_trans_t*)trans->trans_data;
+
+  // clang-format off
+  const char* nms[] = {"type", "id", "description", "definition",
+                       "area_of_use", "source_crs", "target_crs",  ""};
+  // clang-format on
+  SEXP res = PROTECT(Rf_mkNamed(VECSXP, nms));
+
+  // ensure transformer is initialised
+  proj_trans(data->transformer, data->direction, proj_coord(0, 0, 0, 0));
+  PJ_PROJ_INFO info = proj_pj_info(data->transformer);
+  PJ_TYPE type = proj_get_type(data->transformer);
+
+  PJ* source_crs = data->direction != PJ_INV ? data->source_crs : data->target_crs;
+  PJ* target_crs = data->direction != PJ_INV ? data->target_crs : data->source_crs;
+
+  SET_VECTOR_ELT(res, 0, r_scalar_string(proj_type_name(type)));
+  SET_VECTOR_ELT(res, 1, r_scalar_string(info.id));
+  SET_VECTOR_ELT(res, 2, r_scalar_string(info.description));
+  SET_VECTOR_ELT(res, 3, r_scalar_string(info.definition));
+  SET_VECTOR_ELT(res, 4, proj_area_of_use_info(PJ_DEFAULT_CTX, data->transformer));
+  SET_VECTOR_ELT(res, 5, proj_crs_info(PJ_DEFAULT_CTX, source_crs));
+  SET_VECTOR_ELT(res, 6, proj_crs_info(PJ_DEFAULT_CTX, target_crs));
+
+  UNPROTECT(1);
+  return res;
 }
