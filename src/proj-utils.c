@@ -3,7 +3,15 @@
 
 #include "proj-utils.h"
 
-const char* proj_type_name(PJ_TYPE type) {
+// polyfill PT_TYPE enums introduced in 7.2
+#if (PROJ_VERSION_MAJOR * 100 + PROJ_VERSION_MINOR) < 702
+#define PJ_TYPE_TEMPORAL_DATUM 25
+#define PJ_TYPE_ENGINEERING_DATUM 26
+#define PJ_TYPE_PARAMETRIC_DATUM 27
+#endif
+
+const char *proj_type_name(PJ_TYPE type)
+{
   // clang-format off
   switch (type) {
     case PJ_TYPE_UNKNOWN: return "Unknown";
@@ -44,6 +52,7 @@ const char* proj_type_name(PJ_TYPE type) {
     case PJ_TYPE_TEMPORAL_DATUM: return "Temporal Datum";
     case PJ_TYPE_ENGINEERING_DATUM: return "Engineering Datum";
     case PJ_TYPE_PARAMETRIC_DATUM: return "Parametric Datum";
+
     default: return "Unknown";
   }
   // clang-format on
