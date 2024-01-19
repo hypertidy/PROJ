@@ -3,7 +3,7 @@
 
 #include "proj-utils.h"
 
-// polyfill PT_TYPE enums introduced in 7.2
+// polyfill PJ_TYPE enums introduced in 7.2
 #if (PROJ_VERSION_MAJOR * 100 + PROJ_VERSION_MINOR) < 702
 #define PJ_TYPE_TEMPORAL_DATUM 25
 #define PJ_TYPE_ENGINEERING_DATUM 26
