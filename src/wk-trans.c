@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "wk-v1.h"
 
-#include "proj-context.h"
 #include "proj-utils.h"
 #include "r-utils.h"
 

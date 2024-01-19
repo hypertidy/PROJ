@@ -1,3 +1,6 @@
+#define R_NO_REMAP
+#include <R.h>
+#include <Rinternals.h>
 #include <proj.h>
 #include <stdbool.h>
 
@@ -10,8 +13,7 @@
 #define PJ_TYPE_PARAMETRIC_DATUM 27
 #endif
 
-const char *proj_type_name(PJ_TYPE type)
-{
+const char* proj_type_name(PJ_TYPE type) {
   // clang-format off
   switch (type) {
     case PJ_TYPE_UNKNOWN: return "Unknown";
@@ -56,4 +58,18 @@ const char *proj_type_name(PJ_TYPE type)
     default: return "Unknown";
   }
   // clang-format on
+}
+
+#if PROJ_VERSION_MAJOR < 8
+static const char* proj_context_errno_string(PJ_CONTEXT* ctx, int err) {
+  // deprecated in proj 8
+  return proj_errno_string(err);
+}
+#endif
+
+void stop_proj_error(PJ_CONTEXT* ctx) {
+  int err = proj_context_errno(ctx);
+  const char* msg = proj_context_errno_string(ctx, err);
+
+  Rf_error("%s", msg);
 }
