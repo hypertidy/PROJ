@@ -10,6 +10,7 @@
 #include "r-utils.h"
 
 typedef struct {
+  PJ_CONTEXT* context;
   PJ* transformer;
   PJ* source_crs;
   PJ* target_crs;
@@ -62,6 +63,7 @@ static void finalize(void* trans_data) {
   if (data->transformer != NULL) proj_destroy(data->transformer);
   if (data->source_crs != NULL) proj_destroy(data->source_crs);
   if (data->target_crs != NULL) proj_destroy(data->target_crs);
+  if (data->context != NULL) proj_context_destroy(data->context);
 
   free(data);
 }
@@ -97,31 +99,32 @@ SEXP C_proj_trans_create(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_
   SEXP trans_xptr = PROTECT(wk_trans_create_xptr(trans, R_NilValue, R_NilValue));
 
   data->direction = PJ_FWD;
+  data->context = proj_context_create();
 
   data->source_crs =
-      proj_create(PJ_DEFAULT_CTX, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)));
+      proj_create(data->context, Rf_translateCharUTF8(STRING_ELT(source_crs, 0)));
   if (data->source_crs == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);  // #nocov
+    stop_proj_error(data->context);  // #nocov
   }
 
   data->target_crs =
-      proj_create(PJ_DEFAULT_CTX, Rf_translateCharUTF8(STRING_ELT(target_crs, 0)));
+      proj_create(data->context, Rf_translateCharUTF8(STRING_ELT(target_crs, 0)));
   if (data->target_crs == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);  // #nocov
+    stop_proj_error(data->context);  // #nocov
   }
 
-  PJ* transformer = proj_create_crs_to_crs_from_pj(PJ_DEFAULT_CTX, data->source_crs,
+  PJ* transformer = proj_create_crs_to_crs_from_pj(data->context, data->source_crs,
                                                    data->target_crs, NULL, NULL);
   if (transformer == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);  // #nocov
+    stop_proj_error(data->context);  // #nocov
   }
 
   // always lon,lat
-  data->transformer = proj_normalize_for_visualization(PJ_DEFAULT_CTX, transformer);
+  data->transformer = proj_normalize_for_visualization(data->context, transformer);
   proj_destroy(transformer);
 
   if (data->transformer == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
+    stop_proj_error(data->context);  // # nocov
   }
 
   // xptrs
@@ -150,19 +153,21 @@ SEXP C_proj_trans_inverse(SEXP trans_xptr) {
   // reverse
   data_inv->direction = -data_fwd->direction;
 
-  data_inv->source_crs = proj_clone(PJ_DEFAULT_CTX, data_fwd->source_crs);
+  data_inv->context = proj_context_create();
+
+  data_inv->source_crs = proj_clone(data_inv->context, data_fwd->source_crs);
   if (data_inv->source_crs == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
+    stop_proj_error(data_inv->context);  // # nocov
   }
 
-  data_inv->target_crs = proj_clone(PJ_DEFAULT_CTX, data_fwd->target_crs);
+  data_inv->target_crs = proj_clone(data_inv->context, data_fwd->target_crs);
   if (data_inv->target_crs == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
+    stop_proj_error(data_inv->context);  // # nocov
   }
 
-  data_inv->transformer = proj_clone(PJ_DEFAULT_CTX, data_fwd->transformer);
+  data_inv->transformer = proj_clone(data_inv->context, data_fwd->transformer);
   if (data_inv->transformer == NULL) {
-    stop_proj_error(PJ_DEFAULT_CTX);  // # nocov
+    stop_proj_error(data_inv->context);  // # nocov
   }
 
   // xptr
@@ -231,9 +236,9 @@ SEXP C_proj_trans_info(SEXP trans_xptr) {
   SET_VECTOR_ELT(res, 1, r_scalar_string(info.id));
   SET_VECTOR_ELT(res, 2, r_scalar_string(info.description));
   SET_VECTOR_ELT(res, 3, r_scalar_string(info.definition));
-  SET_VECTOR_ELT(res, 4, proj_area_of_use_info(PJ_DEFAULT_CTX, data->transformer));
-  SET_VECTOR_ELT(res, 5, proj_crs_info(PJ_DEFAULT_CTX, source_crs));
-  SET_VECTOR_ELT(res, 6, proj_crs_info(PJ_DEFAULT_CTX, target_crs));
+  SET_VECTOR_ELT(res, 4, proj_area_of_use_info(data->context, data->transformer));
+  SET_VECTOR_ELT(res, 5, proj_crs_info(data->context, source_crs));
+  SET_VECTOR_ELT(res, 6, proj_crs_info(data->context, target_crs));
 
   UNPROTECT(1);
   return res;
