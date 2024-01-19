@@ -40,4 +40,4 @@ BugReports: https://github.com/hypertidy/PROJ/issues
 Language: en-US
 VignetteBuilder: knitr
 SystemRequirements: PROJ (>= 6.3.1)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
