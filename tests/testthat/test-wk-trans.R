@@ -8,17 +8,25 @@ test_that("proj_trans print method works", {
   str <- capture_output(print(crs_to_crs))
 
   expect_match(str, "<proj_trans at .*>")
-  expect_match(str, "source_crs=OGC:CRS84", fixed = TRUE)
-  expect_match(str, "target_crs=EPSG:3857", fixed = TRUE)
+  expect_match(str, "source_crs.*OGC:CRS84.*target_crs.*EPSG:3857")
+})
+
+test_that("proj_trans str method works", {
+  crs_to_crs <- proj_trans_create("EPSG:3112", "EPSG:4283")
+  str <- capture_output(str(crs_to_crs))
+
+  expect_match(str, "<proj_trans at .*>")
 })
 
 test_that("proj_trans print doesn't crash on invalid input", {
   nullptr <- new("externalptr")
   null_trans <- wk::new_wk_trans(nullptr, "proj_trans")
 
-  expect_error(.Call(C_proj_trans_fmt, NULL))
-  expect_error(.Call(C_proj_trans_fmt, nullptr))
-  expect_error(.Call(C_proj_trans_fmt, null_trans))
+  expect_error(capture_output(print(null_trans)))
+  expect_error(.Call(C_xptr_addr, NULL))
+  # don't care, just check this doesn't throw
+  expect_no_error(.Call(C_xptr_addr, nullptr))
+  expect_no_error(.Call(C_xptr_addr, null_trans))
 })
 
 test_that("proj_trans_create() doesn't crash on invalid input", {
@@ -103,10 +111,9 @@ test_that("wk_trans_inverse() works", {
 })
 
 test_that("inverse(proj_trans) print method works", {
-  crs_to_crs <- wk::wk_trans_inverse(proj_trans_create("OGC:CRS84", "EPSG:3857"))
+  crs_to_crs <- wk::wk_trans_inverse(proj_trans_create("EPSG:4283", "EPSG:3112"))
   str <- capture_output(print(crs_to_crs))
 
   expect_match(str, "<proj_trans at .*>")
-  expect_match(str, "target_crs=OGC:CRS84", fixed = TRUE)
-  expect_match(str, "source_crs=EPSG:3857", fixed = TRUE)
+  expect_match(str, "source_crs.*EPSG:3112.*target_crs.*EPSG:4283")
 })

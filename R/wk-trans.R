@@ -40,15 +40,61 @@ proj_trans_create <- function(source_crs, target_crs, use_z = NA, use_m = NA) {
   wk::new_wk_trans(trans, "proj_trans")
 }
 
-#' @export
-print.proj_trans <- function(x, ...) {
-  cat(.Call(C_proj_trans_fmt, x))
-  invisible(x)
-}
-
 #' @importFrom wk wk_trans_inverse
 #' @export
 wk_trans_inverse.proj_trans <- function(trans, ...) {
   trans_inv <- .Call(C_proj_trans_inverse, trans)
   wk::new_wk_trans(trans_inv, "proj_trans")
+}
+
+#' @export
+print.proj_trans <- function(x, ...) {
+  info <- proj_trans_info(x)
+  
+  # FIXME: cleanup repetitive code
+  lines <- paste_line(
+    sprintf("<proj_trans at %s>", .Call(C_xptr_addr, x)),
+    sprintf("type: %s", info$type),
+    sprintf("id: %s", info$id),
+    sprintf("description: %s", info$description),
+    sprintf("definition: %s", info$definition),
+    "area_of_use:",
+    sprintf("  name: %s", info$area_of_use$name),
+    sprintf("  bounds: %s", info$area_of_use$bounds),
+    "source_crs:",
+    sprintf("  type: %s", info$source_crs$type),
+    sprintf("  id: %s", info$source_crs$id),
+    sprintf("  name: %s", info$source_crs$name),
+    "  area_of_use:",
+    sprintf("    name: %s", info$source_crs$area_of_use$name),
+    sprintf("    bounds: %s", info$source_crs$area_of_use$bounds),
+    "target_crs:",
+    sprintf("  type: %s", info$target_crs$type),
+    sprintf("  id: %s", info$target_crs$id),
+    sprintf("  name: %s", info$target_crs$name),
+    "  area_of_use:",
+    sprintf("    name: %s", info$target_crs$area_of_use$name),
+    sprintf("    bounds: %s", info$target_crs$area_of_use$bounds)
+  )
+  
+  cat(lines, sep = "\n")
+
+  invisible(x)
+}
+
+#' @export
+#' @importFrom utils str
+str.proj_trans <- function(object, ...) {
+  cat(
+    sprintf("<proj_trans at %s>", .Call(C_xptr_addr, object)),
+    format(object),
+    sep = "\n"
+  )
+  invisible(object)
+}
+
+#' @export
+format.proj_trans <- function(x, ...) {
+  # FIXME: wkt or json may be better options
+  proj_trans_info(x)$definition
 }
