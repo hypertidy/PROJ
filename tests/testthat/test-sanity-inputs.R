@@ -2,8 +2,8 @@ w <- xymap
 ss <- sample(seq_len(nrow(w)), 100)
 lon <- na.omit(w[ss,1])
 lat <- na.omit(w[ss,2])
-dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-llproj <- "+proj=longlat +datum=WGS84"
+dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42 +type=crs"
+llproj <- "+proj=longlat +datum=WGS84 +type=crs"
 
 xy <- cbind(lon, lat)
 #xyz <- cbind(lon, lat, 1)

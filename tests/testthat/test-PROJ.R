@@ -3,10 +3,10 @@ context("test-PROJ")
 w <- xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
-dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
+dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42 +type=crs"
 
 test_that("PROJ works", {
-  src <- "+proj=longlat +datum=WGS84"
+  src <- "+proj=longlat +datum=WGS84 +type=crs"
   expect_silent(xyz <- proj_trans(cbind(X = lon, Y = lat), z_ = rep(0, length(lon)), dst, source = src))
   expect_silent(lonlat <- proj_trans(cbind(X = xyz["x_"], Y = xyz["y_"]), z_ = rep(0, length(lon)),
                                      src, source = dst))
@@ -25,3 +25,8 @@ test_that("PROJ works", {
   expect_error(proj_trans(cbind(0, 0), "+proj=laea", source = "goofy"))
 
 })
+
+test_that("bad inputs raise messages", {
+  expect_warning(proj_crs_text("+proj=laea"))
+})
+

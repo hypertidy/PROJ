@@ -35,9 +35,9 @@ Values that are detected out of bounds by library PROJ are allowed, we return \c
 case, rather than the error "tolerance condition error".
 }
 \examples{
-proj_trans(cbind(147, -42), "+proj=laea", source = "OGC:CRS84")
-proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "OGC:CRS84")
-proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "OGC:CRS84")
+proj_trans(cbind(147, -42), "+proj=laea +type=crs", source = "OGC:CRS84")
+proj_trans(cbind(147, -42), z_ = -2, "+proj=laea +type=crs", source = "OGC:CRS84")
+proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea +type=crs", source = "OGC:CRS84")
 }
 \references{
 see the \href{https://proj.org/development/reference/functions.html#coordinate-transformation}{PROJ library documentation}
