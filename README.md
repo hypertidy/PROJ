@@ -71,8 +71,8 @@ Minimal code example, two lon-lat coordinates to LAEA, and back.
 library(PROJ)
 lon <- c(0, 147)
 lat <- c(0, -42)
-dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-src <- "+proj=longlat +datum=WGS84"
+dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42 +type=crs"
+src <- "OGC:CRS84"
 
 ## forward transformation
 (xy <- proj_trans( cbind(lon, lat), dst, source = src))
@@ -97,10 +97,10 @@ lat <- c(NA, 0, -42)
 
 proj_trans(cbind(lon, lat), src, source = dst)
 #> $x_
-#> [1]      NaN      NaN 147.0018
+#> [1] 147.0018
 #> 
 #> $y_
-#> [1]       NaN       NaN -42.00038
+#> [1] -42.00038
 ```
 
 A more realistic example with coastline map data.
@@ -110,7 +110,7 @@ library(PROJ)
 w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
-dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
+dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42 +type=crs"
 xy <- proj_trans(cbind(lon, lat), dst, source = "OGC:CRS84")
 plot(xy$x_, xy$y_, pch = ".")
 ```
@@ -166,7 +166,7 @@ proj_crs_text(wkt2, format = 1L)
 A geocentric example, suitable for plotting in rgl.
 
 ``` r
-xyzt <- proj_trans(cbind(w[,1], w[,2]), z_ = rep(0, dim(w)[1L]), target = "+proj=cart +datum=WGS84", source = "OGC:CRS84")
+xyzt <- proj_trans(cbind(w[,1], w[,2]), z_ = rep(0, dim(w)[1L]), target = "+proj=cart +datum=WGS84 +type=crs", source = "OGC:CRS84")
 plot(as.data.frame(xyzt[1:3]), pch = ".", asp = 1)
 ```
 
@@ -175,6 +175,67 @@ plot(as.data.frame(xyzt[1:3]), pch = ".", asp = 1)
 Geocentric transformations aren’t used in R much, but some examples are
 found in the [quadmesh](https://CRAN.R-project.org/package=quadmesh) and
 [anglr](https://github.com/hypertidy/anglr) packages.
+
+## Bonus, what is Plate Carrée?
+
+The equirectangular projection or equidistant cylindrical projection is
+“plane chart” or plate carrée projection. The simplest of all map
+projections, this is just the longlat projection rescaled from radians
+to the radius of the earth.
+
+``` r
+plot(xymap, pch = ".", asp = 1)
+```
+
+<img src="man/figures/README-plate-1.png" width="100%" />
+
+``` r
+
+crs <- "+proj=eqc +type=crs"
+plot(6378137 * xymap * pi/180, pch = ".", asp = 1)
+pp <- proj_trans(xymap, crs, source = "OGC:CRS84")
+points(pp$x_, pp$y_, col = "firebrick", pch = 19, cex = .2)
+```
+
+<img src="man/figures/README-plate-2.png" width="100%" />
+
+``` r
+
+writeLines(proj_crs_text(crs))
+#> PROJCRS["unknown",
+#>     BASEGEOGCRS["unknown",
+#>         DATUM["World Geodetic System 1984",
+#>             ELLIPSOID["WGS 84",6378137,298.257223563,
+#>                 LENGTHUNIT["metre",1]],
+#>             ID["EPSG",6326]],
+#>         PRIMEM["Greenwich",0,
+#>             ANGLEUNIT["degree",0.0174532925199433],
+#>             ID["EPSG",8901]]],
+#>     CONVERSION["unknown",
+#>         METHOD["Equidistant Cylindrical",
+#>             ID["EPSG",1028]],
+#>         PARAMETER["Latitude of 1st standard parallel",0,
+#>             ANGLEUNIT["degree",0.0174532925199433],
+#>             ID["EPSG",8823]],
+#>         PARAMETER["Longitude of natural origin",0,
+#>             ANGLEUNIT["degree",0.0174532925199433],
+#>             ID["EPSG",8802]],
+#>         PARAMETER["False easting",0,
+#>             LENGTHUNIT["metre",1],
+#>             ID["EPSG",8806]],
+#>         PARAMETER["False northing",0,
+#>             LENGTHUNIT["metre",1],
+#>             ID["EPSG",8807]]],
+#>     CS[Cartesian,2],
+#>         AXIS["(E)",east,
+#>             ORDER[1],
+#>             LENGTHUNIT["metre",1,
+#>                 ID["EPSG",9001]]],
+#>         AXIS["(N)",north,
+#>             ORDER[2],
+#>             LENGTHUNIT["metre",1,
+#>                 ID["EPSG",9001]]]]
+```
 
 ------------------------------------------------------------------------
 
