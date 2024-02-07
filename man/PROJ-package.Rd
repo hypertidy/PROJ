@@ -2,6 +2,7 @@
 % Please edit documentation in R/PROJ-package.R
 \docType{package}
 \name{PROJ-package}
+\alias{PROJ}
 \alias{PROJ-package}
 \title{PROJ: Generic Coordinate System Transformations Using 'PROJ'}
 \description{
@@ -21,14 +22,6 @@ without requiring bespoke formats for storing basic data.
 }
 
 \seealso{
-Useful links:
-\itemize{
-  \item \url{https://github.com/hypertidy/PROJ}
-  \item \url{https://hypertidy.github.io/PROJ/}
-  \item Report bugs at \url{https://github.com/hypertidy/PROJ/issues}
-}
-
-
 Useful links:
 \itemize{
   \item \url{https://github.com/hypertidy/PROJ}
