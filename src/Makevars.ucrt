@@ -1,8 +1,16 @@
 
-
-## sharpyuv needed, as per proj4 PR by Tomas (march 2023)
-LIBSHARPYUV = $(or $(and $(wildcard $(R_TOOLS_SOFT)/lib/libsharpyuv.a),-lsharpyuv),)
-PKG_LIBS = -lproj -lsqlite3 -lcurl -lbcrypt -ltiff -ljpeg -lrtmp -lssl -lssh2 -lgcrypt -lcrypto -lgdi32 -lz -lzstd -lwebp $(LIBSHARPYUV) -llzma -lgdi32 -lcrypt32 -lidn2 -lunistring -liconv -lgpg-error -lws2_32 -lwldap32 -lwinmm -lstdc++
+ifeq (,$(shell pkg-config --version 2>/dev/null))
+  ## sharpyuv needed, as per proj4 PR by Tomas (march 2023)
+  LIBSHARPYUV = $(or $(and $(wildcard $(R_TOOLS_SOFT)/lib/libsharpyuv.a),-lsharpyuv),)
+  LIBDEFLATE = $(or $(and $(wildcard $(R_TOOLS_SOFT)/lib/libdeflate.a),-ldeflate),)
+  LIBLERC = $(or $(and $(wildcard $(R_TOOLS_SOFT)/lib/liblerc.a),-llerc),)
+  LIBPSL = $(or $(and $(wildcard $(R_TOOLS_SOFT)/lib/libpsl.a),-lpsl),)
+  LIBBROTLI = $(or $(and $(wildcard $(R_TOOLS_SOFT)/lib/libbrotlidec.a),-lbrotlidec -lbrotlicommon),)
+  PKG_LIBS = -lproj -lsqlite3 -lcurl $(LIBPSL) $(LIBBROTLI) -lbcrypt -ltiff $(LIBLERC) -ljpeg -lrtmp -lssl -lssh2 -lgcrypt -lcrypto -lgdi32 -lz -lzstd -lwebp $(LIBSHARPYUV) $(LIBDEFLATE) -llzma -lgdi32 -lcrypt32 -lidn2 -lunistring -liconv -lgpg-error -lws2_32 -lwldap32 -lwinmm -lstdc++
+else
+  PKG_LIBS = $(shell pkg-config --libs proj)
+  PKG_CPPFLAGS += $(shell pkg-config --cflags proj)
+endif
 
 all: clean winlibs
 
