@@ -45,6 +45,9 @@ proj_trans.wk_vctr <- proj_trans_handleable
 proj_trans.wk_rcrd <- proj_trans_handleable
 
 #' @export
+proj_trans.sfc <- proj_trans_handleable
+
+#' @export
 proj_trans.matrix <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
   x_trans <- proj_trans_handleable(
     wk::as_xy(x),
