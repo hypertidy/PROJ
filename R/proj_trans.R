@@ -10,51 +10,73 @@
 #' Values that are detected out of bounds by library PROJ are allowed, we return `Inf` in this
 #' case, rather than the error "tolerance condition error".
 #'
-#' @param source projection of input coordinates (must be named i.e. 'source = "<some proj string"' can't be used in positional form)
-#' @param target projection for output coordinates
+#' @name proj_trans
+#' @inheritParams proj_trans_create
 #' @param x input coordinates (x,y, list or matrix see `z_` and `t_`)
-#' @param ... ignored
-#' @param z_ optional z coordinate vector
-#' @param t_ optional t coordinate vector
-#' @export
+#' @param ... Additional parameters forwarded to [wk::wk_handle()]
 #' @return list of transformed coordinates, with 4- or 2-elements `x_`, `y_`, `z_`, `t_`
+#' 
 #' @references see the [PROJ library documentation](https://proj.org/development/reference/functions.html#coordinate-transformation)
 #' for details on the underlying functionality
+#' 
 #' @examples
-#' proj_trans(cbind(147, -42), "+proj=laea", source = "OGC:CRS84")
-#' proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "OGC:CRS84")
-#' proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "OGC:CRS84")
-#' @name proj_trans
+#' proj_trans(cbind(147, -42), "+proj=laea type=crs", "OGC:CRS84")
+#' proj_trans(cbind(147, -42, -2), "+proj=laea type=crs", "OGC:CRS84")
+#' proj_trans(cbind(147, -42, -2, 1), "+proj=laea type=crs", "OGC:CRS84")
+#' proj_trans(wk::xy(147, -42, crs = "OGC:CRS84"), "+proj=laea type=crs")
+#' proj_trans(wk::wkt("POLYGON ((1 1, 0 1, 0 0, 1 0, 1 1))", crs = "OGC:CRS84"), 3112)
+#' 
 #' @export
-proj_trans <- function(x, target, ..., source = NULL, z_ = NULL, t_ = NULL) {
-  if (missing(target) || !is.character(target)) stop("target must be a string")
-  if (is.null(source) || !is.character(source)) stop("source must be provided as a string")
-  if (is.list(x) || is.data.frame(x)) x <- cbind(x[[1L]], x[[2L]])
+proj_trans <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
+  UseMethod("proj_trans")
+}
 
-  if (!is.null(z_) || !is.null(t_)) {
-    if (is.null(t_)) t_ <- 0
-    if (is.null(z_)) z_ <- 0
-    x <- cbind(x, z_, t_)
+proj_trans_handleable <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
+  source_crs <- source_crs %||% wk::wk_crs(x) %||% wk::wk_crs_longlat()
+  trans <- proj_trans_create(source_crs, target_crs, use_z = use_z, use_m = use_m)
+
+  wk::wk_set_crs(wk::wk_transform(x, trans, ...), target_crs)
+}
+
+#' @export
+proj_trans.wk_vctr <- proj_trans_handleable
+
+#' @export
+proj_trans.wk_rcrd <- proj_trans_handleable
+
+#' @export
+proj_trans.matrix <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
+  x_trans <- proj_trans_handleable(
+    wk::as_xy(x),
+    target_crs, source_crs,
+    ..., use_z = use_z, use_m = use_m
+  )
+
+  as.matrix(x_trans)
+}
+
+#' @export
+proj_trans.data.frame <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
+  if (!wk::is_handleable(x)) {
+    x_trans <- as.data.frame(
+      proj_trans_handleable(
+        wk::as_xy(x), 
+        target_crs, source_crs, 
+        ..., use_z = use_z, use_m = use_m
+      )
+    )
+
+    nms <- names(x)
+    dims <- names(x_trans)
+    
+    x_res <- cbind(x[, setdiff(nms, dims), drop = FALSE], x_trans)
+    # reset column order
+    return(x_res[, union(nms, dims), drop = FALSE])
   }
 
-  nd <- dim(x)
-
-  if (!nd[2L] %in% c(2, 4)) stop("x coordinates must be 2-column, with z_ and t_ provided separately")
-
-  if (!is.numeric(x)) stop("input coordinates must be numeric")
-  if (nd[1L] < 1) stop("must be at least one coordinate")
-  if (nd[2L] == 2L) {
-    out <- .Call("C_proj_trans_xy", x_ = as.double(x[,1L]), y_ = as.double(x[,2L]), src_ = source, tgt_ = target, PACKAGE = "PROJ")
-    if (is.null(out)) stop(sprintf("transformation failed for xy coordinates '%s' -> '%s'", source, target))
-    names(out) <- c("x_", "y_")
-  } else {
-    xx <- split(x, rep(seq_len(nd[2L]), each = nd[1L]))
-    xx <- lapply(xx, as.numeric)  ## no integer
-    out <- .Call("C_proj_trans_list", x = xx, src_ = source, tgt_ = target, PACKAGE = "PROJ")
-    if (is.null(out)) stop(sprintf("transformation failed for xyzt coordinates '%s' -> '%s'", source, target))
-    names(out) <- c("x_", "y_", "z_", "t_")
-  }
-
-
-  out
+  proj_trans_handleable(
+    x, 
+    target_crs, source_crs, 
+    ..., use_z = use_z, use_m = use_m
+  )
 }

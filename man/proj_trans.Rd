@@ -4,20 +4,18 @@
 \alias{proj_trans}
 \title{Transform a set of coordinates with 'PROJ'}
 \usage{
-proj_trans(x, target, ..., source = NULL, z_ = NULL, t_ = NULL)
+proj_trans(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA)
 }
 \arguments{
 \item{x}{input coordinates (x,y, list or matrix see \code{z_} and \code{t_})}
 
-\item{target}{projection for output coordinates}
+\item{source_crs, target_crs}{Source/Target CRS definition, coerced with \code{\link[wk:wk_crs_proj_definition]{wk::wk_crs_proj_definition()}}}
 
-\item{...}{ignored}
+\item{...}{Additional parameters forwarded to \code{\link[wk:wk_handle]{wk::wk_handle()}}}
 
-\item{source}{projection of input coordinates (must be named i.e. 'source = "<some proj string"' can't be used in positional form)}
-
-\item{z_}{optional z coordinate vector}
-
-\item{t_}{optional t coordinate vector}
+\item{use_z, use_m}{Used to declare the output type. Use \code{TRUE} to
+ensure the output has that dimension, \code{FALSE} to ensure it does not,
+and \code{NA} to leave the dimension unchanged.}
 }
 \value{
 list of transformed coordinates, with 4- or 2-elements \code{x_}, \code{y_}, \code{z_}, \code{t_}
@@ -35,9 +33,12 @@ Values that are detected out of bounds by library PROJ are allowed, we return \c
 case, rather than the error "tolerance condition error".
 }
 \examples{
-proj_trans(cbind(147, -42), "+proj=laea", source = "OGC:CRS84")
-proj_trans(cbind(147, -42), z_ = -2, "+proj=laea", source = "OGC:CRS84")
-proj_trans(cbind(147, -42), z_ = -2, t_ = 1, "+proj=laea", source = "OGC:CRS84")
+proj_trans(cbind(147, -42), "+proj=laea type=crs", "OGC:CRS84")
+proj_trans(cbind(147, -42, -2), "+proj=laea type=crs", "OGC:CRS84")
+proj_trans(cbind(147, -42, -2, 1), "+proj=laea type=crs", "OGC:CRS84")
+proj_trans(wk::xy(147, -42, crs = "OGC:CRS84"), "+proj=laea type=crs")
+proj_trans(wk::wkt("POLYGON ((1 1, 0 1, 0 0, 1 0, 1 1))", crs = "OGC:CRS84"), 3112)
+
 }
 \references{
 see the \href{https://proj.org/development/reference/functions.html#coordinate-transformation}{PROJ library documentation}
