@@ -305,3 +305,49 @@ test_that("proj_trans.wk_handleable() works", {
     )
   )
 })
+
+test_that("proj_trans.sf() works", {
+  skip_if_not_installed("sf")
+
+  expect_equal(
+    proj_trans(
+      sf::st_as_sf(
+        data.frame(x = -1:1, y = -1:1),
+        coords = c("x", "y"),
+        crs = "OGC:CRS84"
+      ),
+      "EPSG:3857"
+    ),
+    sf::st_as_sf(
+      data.frame(
+        x = c(-111319.4908, 0, 111319.4908),
+        y = c(-111325.1429, 0, 111325.1429)
+      ),
+      coords = c("x", "y"),
+      crs = "EPSG:3857"  
+    )
+  )
+
+  expect_equal(proj_trans(wgs84, "EPSG:3857"), mercator)
+  expect_equal(proj_trans(sf::st_geometry(wgs84), "EPSG:3857"), sf::st_geometry(mercator))
+})
+
+test_that("proj_trans.sfc() works", {
+  skip_if_not_installed("sf")
+
+  expect_equal(
+    proj_trans(
+      sf::st_sfc(
+        sf::st_point(c(-1, -1)), sf::st_point(c(0, 0)), sf::st_point(c(1, 1)),
+        crs = "OGC:CRS84"
+      ),
+      "EPSG:3857"
+    ),
+    sf::st_sfc(
+      sf::st_point(c(-111319.4908, -111325.1429)),
+      sf::st_point(c(0, 0)),
+      sf::st_point(c(111319.4908, 111325.1429)),
+      crs = "EPSG:3857"
+    )
+  )
+})
