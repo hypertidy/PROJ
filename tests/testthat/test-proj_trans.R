@@ -127,3 +127,115 @@ test_that("proj_trans.matrix() works", {
     )
   )
 })
+
+test_that("proj_trans.data.frame() works", {
+  # xy
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1), "EPSG:3857", "OGC:CRS84"),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429)
+    )
+  )
+
+  # xyz
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1, z = -1:1), "EPSG:3857", "OGC:CRS84"),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      z = -1:1
+    )
+  )
+
+  # xym
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1, m = -1:1), "EPSG:3857", "OGC:CRS84"),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      m = -1:1
+    )
+  )
+
+  # xyzm
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1, z = -1:1, m = -1:1), "EPSG:3857", "OGC:CRS84"),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      z = -1:1,
+      m = -1:1
+    )
+  )
+
+  # !use_z
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1, z = -1:1, m = -1:1), "EPSG:3857", "OGC:CRS84", use_z = FALSE),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      m = -1:1
+    )
+  )
+
+  # !use_m
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1, z = -1:1, m = -1:1), "EPSG:3857", "OGC:CRS84", use_m = FALSE),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      z = -1:1
+    )
+  )
+
+  # !use_z & !use_m
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1, z = -1:1, m = -1:1), "EPSG:3857", "OGC:CRS84", use_z = FALSE, use_m = FALSE),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429)
+    )
+  )
+
+  # use_z
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1), "EPSG:3857", "OGC:CRS84", use_z = TRUE),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      z = NaN
+    )
+  )
+
+  # use_m
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1), "EPSG:3857", "OGC:CRS84", use_m = TRUE),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      m = NaN
+    )
+  )
+
+  # use_z & use_m
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1), "EPSG:3857", "OGC:CRS84", use_z = TRUE, use_m = TRUE),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      z = NaN,
+      m = NaN
+    )
+  )
+
+  # keeps non-coordinate dimensions (x,y,z,m)
+  expect_equal(
+    proj_trans(data.frame(x = -1:1, y = -1:1, foo = 0), "EPSG:3857", "OGC:CRS84"),
+    data.frame(
+      x = c(-111319.4908, 0, 111319.4908),
+      y = c(-111325.1429, 0, 111325.1429),
+      foo = 0
+    )
+  )
+})

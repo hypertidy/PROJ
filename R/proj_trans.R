@@ -70,11 +70,14 @@ proj_trans.data.frame <- function(x, target_crs, source_crs = NULL, ..., use_z =
     )
 
     nms <- names(x)
+    xyzm <- c("x", "y", "z", "m")
     dims <- names(x_trans)
+
+    x_res <- cbind(x[, setdiff(nms, xyzm), drop = FALSE], x_trans)
     
-    x_res <- cbind(x[, setdiff(nms, dims), drop = FALSE], x_trans)
     # reset column order
-    return(x_res[, union(nms, dims), drop = FALSE])
+    out_nms <- union(setdiff(nms, setdiff(xyzm, dims)), dims)
+    return(x_res[, out_nms, drop = FALSE])
   }
 
   proj_trans_handleable(
