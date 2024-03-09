@@ -117,3 +117,16 @@ test_that("inverse(proj_trans) print method works", {
   expect_match(str, "<proj_trans at .*>")
   expect_match(str, "source_crs.*EPSG:3112.*target_crs.*EPSG:4283")
 })
+
+test_that("proj_trans_create() adds crs type if needed", {
+  expect_no_error(proj_trans_create("+proj=longlat +datum=WGS84 +no_defs +type=crs", "+proj=longlat +datum=WGS84 +no_defs"))
+
+  info <- proj_trans_info(
+    proj_trans_create(
+      "+proj=longlat +datum=WGS84 +no_defs +type=crs",
+      "+proj=longlat +datum=WGS84 +no_defs"
+    )
+  )
+
+  expect_identical(info$source_crs, info$target_crs)
+})
