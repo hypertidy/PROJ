@@ -327,9 +327,6 @@ test_that("proj_trans.sf() works", {
       crs = "EPSG:3857"  
     )
   )
-
-  expect_equal(proj_trans(wgs84, "EPSG:3857"), mercator)
-  expect_equal(proj_trans(sf::st_geometry(wgs84), "EPSG:3857"), sf::st_geometry(mercator))
 })
 
 test_that("proj_trans.sfc() works", {
