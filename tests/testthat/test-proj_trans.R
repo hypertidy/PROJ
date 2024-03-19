@@ -18,6 +18,12 @@ test_that("proj_trans() works", {
 })
 
 test_that("proj_trans.matrix() works", {
+  expect_error(
+    proj_trans(cbind("foo", "bar"), "EPSG:3857", "OGC:CRS84"),
+    "`x` coordinates must be a numeric matrix"
+  )
+  expect_error(proj_trans(cbind(1, 1)), "argument \"target_crs\" is missing, with no default")
+
   # xy
   expect_equal(
     proj_trans(cbind(-1:1, -1:1), "EPSG:3857", "OGC:CRS84"),
