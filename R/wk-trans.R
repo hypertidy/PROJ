@@ -21,8 +21,8 @@
 #'
 #' @export
 proj_trans_create <- function(source_crs, target_crs, use_z = NA, use_m = NA) {
-  source_crs <- wk::wk_crs_proj_definition(source_crs)
-  target_crs <- wk::wk_crs_proj_definition(target_crs)
+  source_crs <- proj_add_type_crs_if_needed(wk::wk_crs_proj_definition(source_crs))
+  target_crs <- proj_add_type_crs_if_needed(wk::wk_crs_proj_definition(target_crs))
 
   if (is.na(source_crs) || nchar(source_crs) == 0) stop("`source_crs` is invalid")
   if (is.na(target_crs) || nchar(target_crs) == 0) stop("`target_crs` is invalid")
@@ -50,7 +50,7 @@ wk_trans_inverse.proj_trans <- function(trans, ...) {
 #' @export
 print.proj_trans <- function(x, ...) {
   info <- proj_trans_info(x)
-  
+
   # FIXME: cleanup repetitive code
   lines <- paste_line(
     sprintf("<proj_trans at %s>", .Call(C_xptr_addr, x)),
@@ -76,7 +76,7 @@ print.proj_trans <- function(x, ...) {
     sprintf("    name: %s", info$target_crs$area_of_use$name),
     sprintf("    bounds: %s", info$target_crs$area_of_use$bounds)
   )
-  
+
   cat(lines, sep = "\n")
 
   invisible(x)

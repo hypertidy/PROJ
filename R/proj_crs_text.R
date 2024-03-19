@@ -30,7 +30,7 @@ proj_crs_text <- function(source, format = 0L) {
   stopifnot(is.character(source))
   stopifnot(length(source) == 1L)
   tst <- try(.Call("C_proj_crs_text",
-        crs_ = source,
+        crs_ = proj_add_type_crs_if_needed(source),
         format = as.integer(format),
         PACKAGE = "PROJ"), silent = TRUE)
   if (is.null(tst) || inherits(tst, "try-error")) return(NA_character_)
