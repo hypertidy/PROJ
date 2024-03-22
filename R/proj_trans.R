@@ -1,29 +1,35 @@
-#' Transform a set of coordinates with 'PROJ'
+#' Transform coordinates
 #'
-#' A raw interface to 'proj_trans' in 'PROJ => 6', if it is available.
-#'
-#' Input 'x' is assumed to be 2-columns of "x", then "y" coordinates. If "z" or
-#' "t" is required pass these in as named vectors with "z_" and "t_". For simplifying reasons
-#' `z_` and `t_` must always match the length of `x` `y`. Both default to 0, and are automatically
-#' recycled to the number of rows in `x`.
-#'
-#' Values that are detected out of bounds by library PROJ are allowed, we return `Inf` in this
-#' case, rather than the error "tolerance condition error".
+#' Transforms all coordinates in `x` using [wk::wk_handle()] and [proj_trans_create()].
+#' 
+#' Values that are detected out of bounds by library PROJ are allowed, we return `Inf` 
+#' in this case, rather than the error "tolerance condition error".
 #'
 #' @name proj_trans
 #' @inheritParams proj_trans_create
-#' @param x input coordinates (x,y, list or matrix see `z_` and `t_`)
+#' @param x Input geometry/geography. May take any of the following forms:
+#' - A coordinate matrix containing 2, 3 or 4 columns. 
+#'   If named, expects column names "x", "y" and optionally "z" and/or "m". If 
+#'   not named, columns are assumed in xyzm order. Non-coordinate columns are 
+#'   removed.
+#' - A data.frame containing coordinates as columns. Expects names "x", "y" and 
+#'   optionally "z" and/or "m". Non-coordinate columns are retained.
+#' - A data.frame containing a geometry vector which is readable by 
+#'   [wk::wk_handle()], including `sfc` columns.
+#' - A geometry vector which is readable by [wk::wk_handle()], including `sfc` 
+#'   columns.
+#' 
 #' @param ... Additional parameters forwarded to [wk::wk_handle()]
-#' @return list of transformed coordinates, with 4- or 2-elements `x_`, `y_`, `z_`, `t_`
+#' @return Transformed geometries whose format is dependent on input.
 #' 
 #' @references see the [PROJ library documentation](https://proj.org/development/reference/functions.html#coordinate-transformation)
 #' for details on the underlying functionality
 #' 
 #' @examples
-#' proj_trans(cbind(147, -42), "+proj=laea type=crs", "OGC:CRS84")
-#' proj_trans(cbind(147, -42, -2), "+proj=laea type=crs", "OGC:CRS84")
-#' proj_trans(cbind(147, -42, -2, 1), "+proj=laea type=crs", "OGC:CRS84")
-#' proj_trans(wk::xy(147, -42, crs = "OGC:CRS84"), "+proj=laea type=crs")
+#' proj_trans(cbind(147, -42), "+proj=laea +type=crs", "OGC:CRS84")
+#' proj_trans(cbind(147, -42, -2), "+proj=laea +type=crs", "OGC:CRS84")
+#' proj_trans(cbind(147, -42, -2, 1), "+proj=laea +type=crs", "OGC:CRS84")
+#' proj_trans(wk::xy(147, -42, crs = "OGC:CRS84"), "+proj=laea +type=crs")
 #' proj_trans(wk::wkt("POLYGON ((1 1, 0 1, 0 0, 1 0, 1 1))", crs = "OGC:CRS84"), 3112)
 #' 
 #' @export
