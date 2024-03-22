@@ -2,6 +2,11 @@
 
 S3method(format,proj_trans)
 S3method(print,proj_trans)
+S3method(proj_trans,data.frame)
+S3method(proj_trans,matrix)
+S3method(proj_trans,sfc)
+S3method(proj_trans,wk_rcrd)
+S3method(proj_trans,wk_vctr)
 S3method(str,proj_trans)
 S3method(wk_trans_inverse,proj_trans)
 export(ok_proj6)

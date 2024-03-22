@@ -32,6 +32,9 @@ test_that("proj_trans print doesn't crash on invalid input", {
 test_that("proj_trans_create() doesn't crash on invalid input", {
   expect_error(proj_trans_create(1, 2))
   expect_error(proj_trans_create("OGC:CRS84", 2))
+  expect_error(proj_trans_create())
+  expect_error(proj_trans_create("OGC:CRS84"))
+  expect_error(proj_trans_create(target_crs = "OGC:CRS84"))
 
   expect_error(proj_trans_create(4326, "", logical(), logical(2)))
   expect_error(proj_trans_create("", 4326, TRUE, logical(2)))
