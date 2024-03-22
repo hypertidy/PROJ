@@ -34,7 +34,7 @@ Suggests:
     testthat (>= 2.1.0),
     spelling,
     knitr,
-    rmarkdown
+    sf
 URL: https://github.com/hypertidy/PROJ, https://hypertidy.github.io/PROJ/
 BugReports: https://github.com/hypertidy/PROJ/issues
 Language: en-US
