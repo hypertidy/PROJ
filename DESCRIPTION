@@ -31,13 +31,15 @@ Imports:
 LinkingTo: 
     wk
 Suggests:
-    testthat (>= 2.1.0),
+    testthat (>= 3.0.0),
     spelling,
     knitr,
-    rmarkdown
+    rmarkdown,
+    sf
 URL: https://github.com/hypertidy/PROJ, https://hypertidy.github.io/PROJ/
 BugReports: https://github.com/hypertidy/PROJ/issues
 Language: en-US
 VignetteBuilder: knitr
 SystemRequirements: PROJ (>= 6.3.1)
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.1
+Config/testthat/edition: 3
