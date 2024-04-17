@@ -93,6 +93,9 @@ test_that("proj_trans.matrix() works", {
     )
   )
 
+  # requires paleolimbot/wk#217
+  skip_if_not_installed("wk", "0.9.2")
+
   # use_z
   expect_equal(
     proj_trans(cbind(-1:1, -1:1), "EPSG:3857", "OGC:CRS84", use_z = TRUE),
@@ -123,7 +126,9 @@ test_that("proj_trans.matrix() works", {
       m = NaN
     )
   )
+})
 
+test_that("proj_trans.matix() drops non-coordinate dimensions", {
   # drops non-coordinate dimensions (x,y,z,m)
   expect_equal(
     proj_trans(cbind(x = -1:1, y = -1:1, foo = 0), "EPSG:3857", "OGC:CRS84"),
@@ -204,6 +209,9 @@ test_that("proj_trans.data.frame() works", {
     )
   )
 
+  # requires paleolimbot/wk#217
+  skip_if_not_installed("wk", "0.9.2")
+
   # use_z
   expect_equal(
     proj_trans(data.frame(x = -1:1, y = -1:1), "EPSG:3857", "OGC:CRS84", use_z = TRUE),
@@ -234,7 +242,9 @@ test_that("proj_trans.data.frame() works", {
       m = NaN
     )
   )
+})
 
+test_that("proj_trans.data.frame() keeps non-coordinate dimensions", {
   # keeps non-coordinate dimensions (x,y,z,m)
   expect_equal(
     proj_trans(data.frame(x = -1:1, y = -1:1, foo = 0), "EPSG:3857", "OGC:CRS84"),
@@ -247,6 +257,27 @@ test_that("proj_trans.data.frame() works", {
 })
 
 test_that("proj_trans.wk_handleable() works", {
+  # data.frame
+  expect_equal(
+    proj_trans(
+      data.frame(
+        foo = "bar",
+        point = wk::xyzm(-1:1, -1:1, -1:1, -1:1, "OGC:CRS84")
+      ),
+      "EPSG:3857"
+    ),
+    data.frame(
+      foo = "bar",
+      point = wk::xyzm(
+        c(-111319.4908, 0, 111319.4908),
+        c(-111325.1429, 0, 111325.1429),
+        -1:1,
+        -1:1,
+        "EPSG:3857"
+      )
+    )
+  )
+
   # xyzm
   expect_equal(
     proj_trans(wk::xyzm(-1:1, -1:1, -1:1, -1:1, "OGC:CRS84"), "EPSG:3857"),
@@ -281,33 +312,15 @@ test_that("proj_trans.wk_handleable() works", {
     )
   )
 
+  # requires paleolimbot/wk#217
+  skip_if_not_installed("wk", "0.9.2")
+
   # use_z & use_m
   expect_equal(
     proj_trans(wk::wkt("MULTIPOINT ((-1 -1), (0 0), (1 1))", "OGC:CRS84"), "EPSG:3857", use_z = TRUE, use_m = TRUE),
     wk::wkt(
       "MULTIPOINT ZM ((-111319.4907932736 -111325.1428663851 nan nan), (0 0 nan nan), (111319.4907932736 111325.1428663851 nan nan))",
       "EPSG:3857"
-    )
-  )
-
-  # data.frame
-  expect_equal(
-    proj_trans(
-      data.frame(
-        foo = "bar",
-        point = wk::xyzm(-1:1, -1:1, -1:1, -1:1, "OGC:CRS84")
-      ),
-      "EPSG:3857"
-    ),
-    data.frame(
-      foo = "bar",
-      point = wk::xyzm(
-        c(-111319.4908, 0, 111319.4908),
-        c(-111325.1429, 0, 111325.1429),
-        -1:1,
-        -1:1,
-        "EPSG:3857"
-      )
     )
   )
 })
