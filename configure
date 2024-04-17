@@ -585,7 +585,7 @@ PACKAGE_STRING='PROJ 1.0'
 PACKAGE_BUGREPORT='mdsumner@gmail.com'
 PACKAGE_URL=''
 
-ac_unique_file="src/C_proj_trans.c"
+ac_unique_file="src/C_proj_version.c"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
