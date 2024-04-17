@@ -3,6 +3,7 @@
 * PROJ >= 6 is now a hard dependency (#42)
 * Deprecate ok_proj6() (#42)
 * Add {wk} transformer api (#44, #46, #48, #50)
+* Replace proj_trans() with S3 generic (#56)
 
 # PROJ 0.4.5
 
