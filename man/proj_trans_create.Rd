@@ -17,7 +17,7 @@ and \code{NA} to leave the dimension unchanged.}
 A PROJ transformation object
 }
 \description{
-Creates a transformation object that transforms coordinates in a {wk}
+Creates a transformation object that transforms coordinates in a wk
 pipeline.
 }
 \examples{

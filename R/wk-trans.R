@@ -1,6 +1,6 @@
 #' Create a transformation object
 #'
-#' Creates a transformation object that transforms coordinates in a {wk}
+#' Creates a transformation object that transforms coordinates in a wk
 #' pipeline.
 #'
 #' @name proj_trans_create
