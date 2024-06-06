@@ -21,7 +21,7 @@ Creates a transformation object that transforms coordinates in a {wk}
 pipeline.
 }
 \examples{
-(trans <- proj_trans_create("OGC:CRS84", "EPSG:3857"))
+(trans <- proj_trans_create("EPSG:4326", "EPSG:3857"))
 wk::wk_transform(wk::xy(1:5, 1:5), trans)
 
 library(wk)

@@ -40,11 +40,11 @@ Values that are detected out of bounds by library PROJ are allowed, we return \c
 in this case, rather than the error "tolerance condition error".
 }
 \examples{
-proj_trans(cbind(147, -42), "+proj=laea +type=crs", "OGC:CRS84")
-proj_trans(cbind(147, -42, -2), "+proj=laea +type=crs", "OGC:CRS84")
-proj_trans(cbind(147, -42, -2, 1), "+proj=laea +type=crs", "OGC:CRS84")
-proj_trans(wk::xy(147, -42, crs = "OGC:CRS84"), "+proj=laea +type=crs")
-proj_trans(wk::wkt("POLYGON ((1 1, 0 1, 0 0, 1 0, 1 1))", crs = "OGC:CRS84"), 3112)
+proj_trans(cbind(147, -42), "+proj=laea +type=crs", "EPSG:4326")
+proj_trans(cbind(147, -42, -2), "+proj=laea +type=crs", "EPSG:4326")
+proj_trans(cbind(147, -42, -2, 1), "+proj=laea +type=crs", "EPSG:4326")
+proj_trans(wk::xy(147, -42, crs = "EPSG:4326"), "+proj=laea +type=crs")
+proj_trans(wk::wkt("POLYGON ((1 1, 0 1, 0 0, 1 0, 1 1))", crs = "EPSG:4326"), 3112)
 
 }
 \references{
