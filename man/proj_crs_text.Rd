@@ -26,8 +26,8 @@ function simply returns 'NA'.
 See the \href{https://proj.org/development/reference/functions.html#transformation-setup}{library documentation}
 for details on input and output formats.
 }
-\section{}{
- warning
+\section{Warning}{
+
 Note that a PROJ string is not a full specification, in particular this means that a string like "+proj=laea" cannot be converted
 to full WKT, because it is technically a transformation step not a crs. To get the full WKT form use a string like "+proj=laea +type=crs".
 }
