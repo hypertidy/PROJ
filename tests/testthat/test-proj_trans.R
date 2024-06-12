@@ -327,7 +327,7 @@ test_that("proj_trans.wk_handleable() works", {
 
 test_that("proj_trans.sf() works", {
   skip_if_not_installed("sf")
-
+  options("sf_use_s2" = FALSE)
   expect_equal(
     proj_trans(
       sf::st_as_sf(
@@ -350,7 +350,7 @@ test_that("proj_trans.sf() works", {
 
 test_that("proj_trans.sfc() works", {
   skip_if_not_installed("sf")
-
+  options("sf_use_s2" = FALSE)
   expect_equal(
     proj_trans(
       sf::st_sfc(
