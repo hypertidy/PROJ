@@ -1,14 +1,13 @@
 # PROJ 0.5.0
 
-This will be closely followed by an update to reproj. There are some complications in downstream tests 
-in mapscanner but I will work with Mark to update asap. 
+Update to PROJ to couple with new reproj.   There are some complications in downstream tests in mapscanner but I will work with Mark to update asap. 
 
 
 ## Test environments
 
 * local ubuntu
-* win-builder (devel and release)
-* macbuilder
+* win-builder (devel)
+* macos on rhub
 
 ## R CMD check results
 
