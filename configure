@@ -585,7 +585,7 @@ PACKAGE_STRING='PROJ 1.0'
 PACKAGE_BUGREPORT='mdsumner@gmail.com'
 PACKAGE_URL=''
 
-ac_unique_file="src/C_proj_version.c"
+ac_unique_file="src/C_proj_crs_text.c"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -3122,7 +3122,7 @@ fi
 $as_echo "$as_me: PROJ6 API available: ${proj6api}" >&6;}
 
 
-if test x$use6 = xyes -a x${proj6api} = xno; then
+if test x${use6}${proj6api} = xyesno; then
    { $as_echo "$as_me:${as_lineno-$LINENO}: Cannot find working proj.h headers and library.
 *** You may need to install libproj-dev or similar! ***
 " >&5
@@ -3130,7 +3130,6 @@ $as_echo "$as_me: Cannot find working proj.h headers and library.
 *** You may need to install libproj-dev or similar! ***
 " >&6;}
 fi
-
 
 
 

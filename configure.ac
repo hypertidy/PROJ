@@ -1,5 +1,5 @@
 AC_INIT([PROJ],[1.0],[mdsumner@gmail.com])
-AC_CONFIG_SRCDIR(src/C_proj_trans.c)
+AC_CONFIG_SRCDIR(src/C_proj_crs_text.c)
 
 # find R home and set correct compiler + flags
 : ${R_HOME=`R RHOME`}
@@ -66,7 +66,7 @@ AC_CHECK_LIB(proj, proj_as_wkt, , proj6api=no)
 AC_MSG_NOTICE([PROJ6 API available: ${proj6api}])
 
 
-if test x$use6 = xyes -a x${proj6api} = xno; then
+if test x${use6}${proj6api} = xyesno; then
    AC_MSG_NOTICE([Cannot find working proj.h headers and library.
 *** You may need to install libproj-dev or similar! ***
 ])

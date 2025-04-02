@@ -1,6 +1,6 @@
 Package: PROJ
 Title: Generic Coordinate System Transformations Using 'PROJ'
-Version: 0.5.0
+Version: 0.6.0
 Authors@R:
     c(person(given = "Michael D.",
            family = "Sumner",
@@ -41,5 +41,5 @@ BugReports: https://github.com/hypertidy/PROJ/issues
 Language: en-US
 VignetteBuilder: knitr
 SystemRequirements: PROJ (>= 6.3.1)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Config/testthat/edition: 3

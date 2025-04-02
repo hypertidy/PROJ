@@ -1,3 +1,7 @@
+# PROJ 0.6.0
+
+* Fixed use of -a in configure, thanks! 
+
 # PROJ 0.5.0
 
 Update to PROJ to couple with new reproj.   There are some complications in downstream tests in mapscanner but I will work with Mark to update asap. 

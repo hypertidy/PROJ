@@ -1,3 +1,7 @@
+# PROJ 0.6.0
+
+* Fixed bashism for CRAN in configure, thank you. 
+
 # PROJ 0.5.0
 
 * proj_trans() is no longer supported with list input, and returns matrix output. 
