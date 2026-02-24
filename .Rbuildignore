@@ -14,7 +14,6 @@
 ^cran-comments\.md$
 ^CRAN-RELEASE$
 ^\.github$
-^appveyor\.yml$
 ^src-i386$
 ^src-x64$
 ^revdep$

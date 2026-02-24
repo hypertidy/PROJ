@@ -27,7 +27,7 @@ test_that("proj_factors() works for multiple coordinates", {
 
 test_that("proj_factors() areal_scale is ~1 for equal-area projection at projection centre", {
   result <- proj_factors(cbind(147, -42), "+proj=laea +lon_0=147 +lat_0=-42 +type=crs")
-  expect_equal(result[1, "areal_scale"], 1, tolerance = 1e-6)
+  expect_equal(unname(result[1, "areal_scale"]), 1, tolerance = 1e-6)
 })
 
 test_that("proj_factors() errors on invalid crs", {
