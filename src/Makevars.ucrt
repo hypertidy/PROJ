@@ -17,8 +17,6 @@ all: clean winlibs
 winlibs:
 	cp -r "$(R_TOOLS_SOFT)/share/proj" ../inst/
 
-CXX_STD = CXX
-
 clean:
 	rm -f $(SHLIB) $(OBJECTS)
 

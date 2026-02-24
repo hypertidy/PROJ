@@ -1,3 +1,8 @@
+# PROJ 0.7.0
+
+* Added `proj_factors()` for cartographic properties, scale factors, 
+ angular distortion and meridian convergence. 
+
 # PROJ 0.6.0
 
 * Fixed bashism for CRAN in configure, thank you. 
