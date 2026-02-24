@@ -3,6 +3,12 @@ autom4te.cache
 .Rhistory
 config.log
 config.status
+config.guess
+config.sub
+configure~
+install-sh
+ltmain.sh
+_codeql_detected_source_root
 windows
 inst/proj
 inst/doc
