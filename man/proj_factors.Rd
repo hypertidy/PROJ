@@ -11,7 +11,9 @@ proj_factors(lp, crs)
 (longitude, latitude) in decimal degrees.}
 
 \item{crs}{A PROJ CRS definition string for the target projection
-(e.g. a PROJ string, WKT, or authority code such as \code{"EPSG:3112"}).}
+(e.g. a PROJ string, WKT, or authority code such as \code{"EPSG:3112"}).
+Using a CRS (rather than a '+proj=' operation string) requires
+PROJ >= 8.2.}
 }
 \value{
 A numeric matrix with \code{nrow(lp)} rows and the following columns:
@@ -34,6 +36,11 @@ A numeric matrix with \code{nrow(lp)} rows and the following columns:
 Computes map projection factors (distortion measures) for a set of
 geographic coordinates and a given projected CRS. Returns a matrix with
 one row per input coordinate and one column per factor.
+}
+\details{
+Rows for coordinates where the factors computation fails (for
+example latitudes outside +/-90) are filled with \code{NaN}. Missing input
+coordinates give \code{NA} output.
 }
 \examples{
 # Lambert Azimuthal Equal Area

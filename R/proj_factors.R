@@ -8,6 +8,12 @@
 #'   (longitude, latitude) in decimal degrees.
 #' @param crs A PROJ CRS definition string for the target projection
 #'   (e.g. a PROJ string, WKT, or authority code such as `"EPSG:3112"`).
+#'   Using a CRS (rather than a '+proj=' operation string) requires
+#'   PROJ >= 8.2.
+#'
+#' @details Rows for coordinates where the factors computation fails (for
+#'   example latitudes outside +/-90) are filled with `NaN`. Missing input
+#'   coordinates give `NA` output.
 #'
 #' @return A numeric matrix with `nrow(lp)` rows and the following columns:
 #' \describe{
@@ -46,5 +52,8 @@ proj_factors <- function(lp, crs) {
   crs <- proj_add_type_crs_if_needed(wk::wk_crs_proj_definition(crs))
   if (is.na(crs) || nchar(crs) == 0L) stop("`crs` is invalid")
 
-  .Call(C_proj_factors, crs, lp[, 1:2, drop = FALSE])
+  lp <- lp[, 1:2, drop = FALSE]
+  ## ensure double storage for the C interface (input may be integer)
+  storage.mode(lp) <- "double"
+  .Call(C_proj_factors, crs, lp)
 }

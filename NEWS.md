@@ -1,7 +1,16 @@
 # PROJ 0.7.0
 
+* `proj_trans()` for matrix input again transforms and returns z and m
+ columns as documented, and honors column names "x", "y", "z", "m" when
+ present (regression introduced prior to release, matrix input was reduced
+ to xy only). This also restores `reproj::reproj_xyz()` functionality
+ downstream.
+
 * Added `proj_factors()` for cartographic properties, scale factors, 
- angular distortion and meridian convergence. 
+ angular distortion and meridian convergence. Coordinates that fail in
+ the underlying computation return NaN for that row. Integer matrix
+ input is now coerced safely. Using a CRS (rather than a '+proj=' string)
+ requires PROJ >= 8.2 and is now an explicit error on older versions.
 
 * Removed 'CXX_STD = CXX' thanks to CRAN. 
 

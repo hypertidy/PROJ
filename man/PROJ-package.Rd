@@ -33,6 +33,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Michael D. Sumner \email{mdsumner@gmail.com} (\href{https://orcid.org/0000-0002-2471-7511}{ORCID})
 
+Authors:
+\itemize{
+  \item Michael D. Sumner \email{mdsumner@gmail.com} (\href{https://orcid.org/0000-0002-2471-7511}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item Jeroen Ooms (provided PROJ library support on Windows, and assistance with Windows configuration) [contributor]

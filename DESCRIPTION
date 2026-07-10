@@ -27,9 +27,9 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 Imports:
     lifecycle,
-    wk
+    wk (>= 0.9.2)
 LinkingTo: 
-    wk
+    wk (>= 0.9.2)
 Suggests:
     testthat (>= 3.0.0),
     spelling,
@@ -41,5 +41,5 @@ BugReports: https://github.com/hypertidy/PROJ/issues
 Language: en-US
 VignetteBuilder: knitr
 SystemRequirements: PROJ (>= 6.3.1)
-RoxygenNote: 7.3.2
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0

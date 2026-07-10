@@ -57,8 +57,14 @@ proj_trans.sfc <- proj_trans_handleable
 proj_trans.matrix <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
   if (!is.numeric(x)) stop("`x` coordinates must be a numeric matrix")
 
+  ## unnamed columns are assumed in xyzm order, extras beyond 4 are dropped;
+  ## named input (x, y, and optionally z, m) is resolved by wk::as_xy()
+  if (is.null(colnames(x)) && ncol(x) > 4L) {
+    x <- x[, 1:4, drop = FALSE]
+  }
+
   x_trans <- proj_trans_handleable(
-    wk::xy(x[, 1L], x[,2L]),
+    wk::as_xy(x),
     target_crs, source_crs,
     ..., use_z = use_z, use_m = use_m
   )
