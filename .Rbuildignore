@@ -21,3 +21,5 @@
 ^INSTALL.out$
 ^docker$
 ^CRAN-SUBMISSION$
+^\.positai$
+^\.claude$

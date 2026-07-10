@@ -1,5 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
 [![CRAN
@@ -30,10 +31,6 @@ documentation](https://proj.org/development/reference/functions.html#c.proj_crea
 
 ## Things to be aware of
 
-- Input can be a data frame or a matrix, but internally input is assumed
-  to be x, y, z, *and time*. So the output is always a 4-column list.
-- You can’t use strings like “+init=epsg:4326” any more, it must be
-  “EPSG:<code>”, and we use “OGC:CRS84” now.  
 - You should know what your target projection is, and also what your
   source projection is. This is your responsibility.
 - PROJ assumes longitude/latitude order always by setting the PROJ
@@ -76,19 +73,15 @@ src <- "+proj=longlat +datum=WGS84"
 
 ## forward transformation
 (xy <- proj_trans( cbind(lon, lat), dst, source = src))
-#> $x_
-#> [1] -8013029        0
-#> 
-#> $y_
-#> [1] -8225762        0
+#>             x        y
+#> [1,] -8013029 -8225762
+#> [2,]        0        0
 
 ## inverse transformation
-proj_trans(cbind(xy$x_, xy$y_), src, source = dst)
-#> $x_
-#> [1]   0 147
-#> 
-#> $y_
-#> [1] -3.194835e-15 -4.200000e+01
+proj_trans(cbind(xy[,1L], xy[,2L]), src, source = dst)
+#>                  x             y
+#> [1,] -2.544444e-14  3.194835e-14
+#> [2,]  1.470000e+02 -4.200000e+01
 
 
 ## note that NAs propagate in the usual way
@@ -96,11 +89,10 @@ lon <- c(0, NA, 147)
 lat <- c(NA, 0, -42)
 
 proj_trans(cbind(lon, lat), src, source = dst)
-#> $x_
-#> [1]      NaN      NaN 147.0018
-#> 
-#> $y_
-#> [1]       NaN       NaN -42.00038
+#>             x         y
+#> [1,]      NaN       NaN
+#> [2,]      NaN       NaN
+#> [3,] 147.0018 -42.00038
 ```
 
 A more realistic example with coastline map data.
@@ -111,19 +103,19 @@ w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-xy <- proj_trans(cbind(lon, lat), dst, source = "OGC:CRS84")
-plot(xy$x_, xy$y_, pch = ".")
+xy <- proj_trans(cbind(lon, lat), dst, source = "EPSG:4326")
+plot(xy[,1L], xy[,2L], pch = ".")
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-example-1.png" alt="" width="100%" />
 
 ``` r
 
 lonlat <- proj_trans(xy, src, source = dst)
-plot(lonlat$x_, lonlat$y_, pch = ".")
+plot(lonlat, pch = ".")
 ```
 
-<img src="man/figures/README-example-2.png" width="100%" />
+<img src="man/figures/README-example-2.png" alt="" width="100%" />
 
 ## Convert projection strings
 
@@ -131,8 +123,8 @@ We can generate PROJ or within limitations WKT2 strings, format 0, 1, 2
 for WKT, proj4string, projjson respectively.
 
 ``` r
-cat(wkt2 <- proj_crs_text("OGC:CRS84"))
-#> GEOGCRS["WGS 84 (CRS84)",
+cat(wkt2 <- proj_crs_text("EPSG:4326"))
+#> GEOGCRS["WGS 84",
 #>     ENSEMBLE["World Geodetic System 1984 ensemble",
 #>         MEMBER["World Geodetic System 1984 (Transit)"],
 #>         MEMBER["World Geodetic System 1984 (G730)"],
@@ -141,40 +133,38 @@ cat(wkt2 <- proj_crs_text("OGC:CRS84"))
 #>         MEMBER["World Geodetic System 1984 (G1674)"],
 #>         MEMBER["World Geodetic System 1984 (G1762)"],
 #>         MEMBER["World Geodetic System 1984 (G2139)"],
+#>         MEMBER["World Geodetic System 1984 (G2296)"],
 #>         ELLIPSOID["WGS 84",6378137,298.257223563,
 #>             LENGTHUNIT["metre",1]],
 #>         ENSEMBLEACCURACY[2.0]],
 #>     PRIMEM["Greenwich",0,
 #>         ANGLEUNIT["degree",0.0174532925199433]],
 #>     CS[ellipsoidal,2],
-#>         AXIS["geodetic longitude (Lon)",east,
+#>         AXIS["geodetic latitude (Lat)",north,
 #>             ORDER[1],
 #>             ANGLEUNIT["degree",0.0174532925199433]],
-#>         AXIS["geodetic latitude (Lat)",north,
+#>         AXIS["geodetic longitude (Lon)",east,
 #>             ORDER[2],
 #>             ANGLEUNIT["degree",0.0174532925199433]],
 #>     USAGE[
-#>         SCOPE["Not known."],
+#>         SCOPE["Horizontal component of 3D system."],
 #>         AREA["World."],
 #>         BBOX[-90,-180,90,180]],
-#>     ID["OGC","CRS84"]]
+#>     ID["EPSG",4326]]
 
 proj_crs_text(wkt2, format = 1L)
 #> [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"
 ```
 
-A geocentric example, suitable for plotting in rgl.
+## Use wk for xyz and xyzt
 
 ``` r
-xyzt <- proj_trans(cbind(w[,1], w[,2]), z_ = rep(0, dim(w)[1L]), target = "+proj=cart +datum=WGS84", source = "OGC:CRS84")
-plot(as.data.frame(xyzt[1:3]), pch = ".", asp = 1)
+trans <- proj_trans_create("EPSG:3857", "+proj=cart")
+wmerc <- proj_trans(w, "EPSG:3857", source = "EPSG:4326")
+plot(as.data.frame(wk::wk_transform(wk::xyz(wmerc[,1], wmerc[,2], 0), trans)), cex = .1, pch = 19, asp = 1)
 ```
 
-<img src="man/figures/README-geocentric-1.png" width="100%" />
-
-Geocentric transformations aren’t used in R much, but some examples are
-found in the [quadmesh](https://CRAN.R-project.org/package=quadmesh) and
-[anglr](https://github.com/hypertidy/anglr) packages.
+<img src="man/figures/README-xyz-1.png" alt="" width="100%" />
 
 ------------------------------------------------------------------------
 

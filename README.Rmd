@@ -46,8 +46,6 @@ documentation](https://proj.org/development/reference/functions.html#c.proj_crea
 ## Things to be aware of
 
 
-* Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, *and time*. So the output is always a 4-column list. 
-* You can't use strings like "+init=epsg:4326" any more, it must be "EPSG:<code>", and we use "OGC:CRS84" now.  
 * You should know what your target projection is, and also what your source projection is. This is your responsibility. 
 * PROJ assumes longitude/latitude order always by setting the PROJ library context *proj_normalize_for_visualization*. 
 
@@ -91,7 +89,7 @@ src <- "+proj=longlat +datum=WGS84"
 (xy <- proj_trans( cbind(lon, lat), dst, source = src))
 
 ## inverse transformation
-proj_trans(cbind(xy$x_, xy$y_), src, source = dst)
+proj_trans(cbind(xy[,1L], xy[,2L]), src, source = dst)
 
 
 ## note that NAs propagate in the usual way
@@ -111,11 +109,11 @@ w <- PROJ::xymap
 lon <- na.omit(w[,1])
 lat <- na.omit(w[,2])
 dst <- "+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"
-xy <- proj_trans(cbind(lon, lat), dst, source = "OGC:CRS84")
-plot(xy$x_, xy$y_, pch = ".")
+xy <- proj_trans(cbind(lon, lat), dst, source = "EPSG:4326")
+plot(xy[,1L], xy[,2L], pch = ".")
 
 lonlat <- proj_trans(xy, src, source = dst)
-plot(lonlat$x_, lonlat$y_, pch = ".")
+plot(lonlat, pch = ".")
 ```
 
 ## Convert projection strings
@@ -123,25 +121,20 @@ plot(lonlat$x_, lonlat$y_, pch = ".")
 We can generate PROJ or within limitations WKT2 strings, format 0, 1, 2 for WKT, proj4string, projjson respectively. 
 
 ```{r WKT2, eval=TRUE}
-cat(wkt2 <- proj_crs_text("OGC:CRS84"))
+cat(wkt2 <- proj_crs_text("EPSG:4326"))
 
 proj_crs_text(wkt2, format = 1L)
 
-
 ```
 
+## Use wk for xyz and xyzt
 
+```{r xyz}
+trans <- proj_trans_create("EPSG:3857", "+proj=cart")
+wmerc <- proj_trans(w, "EPSG:3857", source = "EPSG:4326")
+plot(as.data.frame(wk::wk_transform(wk::xyz(wmerc[,1], wmerc[,2], 0), trans)), cex = .1, pch = 19, asp = 1)
 
-A geocentric example, suitable for plotting in rgl. 
-
-```{r geocentric}
-xyzt <- proj_trans(cbind(w[,1], w[,2]), z_ = rep(0, dim(w)[1L]), target = "+proj=cart +datum=WGS84", source = "OGC:CRS84")
-plot(as.data.frame(xyzt[1:3]), pch = ".", asp = 1)
 ```
-
-Geocentric transformations aren't used in R much, but some examples are found in the [quadmesh](https://CRAN.R-project.org/package=quadmesh) and [anglr](https://github.com/hypertidy/anglr) packages. 
-
-
 
 ---
 

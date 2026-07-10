@@ -58,7 +58,7 @@ proj_trans.matrix <- function(x, target_crs, source_crs = NULL, ..., use_z = NA,
   if (!is.numeric(x)) stop("`x` coordinates must be a numeric matrix")
 
   x_trans <- proj_trans_handleable(
-    wk::as_xy(x),
+    wk::xy(x[, 1L], x[,2L]),
     target_crs, source_crs,
     ..., use_z = use_z, use_m = use_m
   )
