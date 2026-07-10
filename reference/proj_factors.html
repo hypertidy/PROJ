@@ -74,7 +74,9 @@ one row per input coordinate and one column per factor.</p>
 
 <dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
 <dd><p>A PROJ CRS definition string for the target projection
-(e.g. a PROJ string, WKT, or authority code such as <code>"EPSG:3112"</code>).</p></dd>
+(e.g. a PROJ string, WKT, or authority code such as <code>"EPSG:3112"</code>).
+Using a CRS (rather than a '+proj=' operation string) requires
+PROJ &gt;= 8.2.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -117,6 +119,12 @@ one row per input coordinate and one column per factor.</p>
 
 
 </dl></div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>Rows for coordinates where the factors computation fails (for
+example latitudes outside +/-90) are filled with <code>NaN</code>. Missing input
+coordinates give <code>NA</code> output.</p>
+    </div>
     <div id="references">
     <h2>References</h2>
     <p><a href="https://proj.org/en/stable/development/reference/datatypes.html#c.PJ_FACTORS" class="external-link">PROJ PJ_FACTORS documentation</a></p>
