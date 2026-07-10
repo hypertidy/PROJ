@@ -82,9 +82,6 @@
 <h2 id="things-to-be-aware-of">Things to be aware of<a class="anchor" aria-label="anchor" href="#things-to-be-aware-of"></a>
 </h2>
 <ul>
-<li>Input can be a data frame or a matrix, but internally input is assumed to be x, y, z, <em>and time</em>. So the output is always a 4-column list.</li>
-<li>You can’t use strings like “+init=epsg:4326” any more, it must be “EPSG:<code>”, and we use “OGC:CRS84” now.<br></code>
-</li>
 <li>You should know what your target projection is, and also what your source projection is. This is your responsibility.</li>
 <li>PROJ assumes longitude/latitude order always by setting the PROJ library context <em>proj_normalize_for_visualization</em>.</li>
 </ul>
@@ -116,19 +113,15 @@
 <span></span>
 <span><span class="co">## forward transformation</span></span>
 <span><span class="op">(</span><span class="va">xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>, <span class="va">dst</span>, source <span class="op">=</span> <span class="va">src</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $x_</span></span>
-<span><span class="co">#&gt; [1] -8013029        0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $y_</span></span>
-<span><span class="co">#&gt; [1] -8225762        0</span></span>
+<span><span class="co">#&gt;             x        y</span></span>
+<span><span class="co">#&gt; [1,] -8013029 -8225762</span></span>
+<span><span class="co">#&gt; [2,]        0        0</span></span>
 <span></span>
 <span><span class="co">## inverse transformation</span></span>
-<span><span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">xy</span><span class="op">$</span><span class="va">x_</span>, <span class="va">xy</span><span class="op">$</span><span class="va">y_</span><span class="op">)</span>, <span class="va">src</span>, source <span class="op">=</span> <span class="va">dst</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $x_</span></span>
-<span><span class="co">#&gt; [1]   0 147</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $y_</span></span>
-<span><span class="co">#&gt; [1] -3.194835e-15 -4.200000e+01</span></span>
+<span><span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">xy</span><span class="op">[</span>,<span class="fl">1L</span><span class="op">]</span>, <span class="va">xy</span><span class="op">[</span>,<span class="fl">2L</span><span class="op">]</span><span class="op">)</span>, <span class="va">src</span>, source <span class="op">=</span> <span class="va">dst</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                  x             y</span></span>
+<span><span class="co">#&gt; [1,] -2.544444e-14  3.194835e-14</span></span>
+<span><span class="co">#&gt; [2,]  1.470000e+02 -4.200000e+01</span></span>
 <span></span>
 <span></span>
 <span><span class="co">## note that NAs propagate in the usual way</span></span>
@@ -136,11 +129,10 @@
 <span><span class="va">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">0</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>, <span class="va">src</span>, source <span class="op">=</span> <span class="va">dst</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $x_</span></span>
-<span><span class="co">#&gt; [1]      NaN      NaN 147.0018</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $y_</span></span>
-<span><span class="co">#&gt; [1]       NaN       NaN -42.00038</span></span></code></pre></div>
+<span><span class="co">#&gt;             x         y</span></span>
+<span><span class="co">#&gt; [1,]      NaN       NaN</span></span>
+<span><span class="co">#&gt; [2,]      NaN       NaN</span></span>
+<span><span class="co">#&gt; [3,] 147.0018 -42.00038</span></span></code></pre></div>
 <p>A more realistic example with coastline map data.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/PROJ" class="external-link">PROJ</a></span><span class="op">)</span></span>
@@ -148,22 +140,22 @@
 <span><span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">dst</span> <span class="op">&lt;-</span> <span class="st">"+proj=laea +datum=WGS84 +lon_0=147 +lat_0=-42"</span></span>
-<span><span class="va">xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>, <span class="va">dst</span>, source <span class="op">=</span> <span class="st">"OGC:CRS84"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy</span><span class="op">$</span><span class="va">x_</span>, <span class="va">xy</span><span class="op">$</span><span class="va">y_</span>, pch <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-1.png" width="100%"></p>
+<span><span class="va">xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>, <span class="va">dst</span>, source <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy</span><span class="op">[</span>,<span class="fl">1L</span><span class="op">]</span>, <span class="va">xy</span><span class="op">[</span>,<span class="fl">2L</span><span class="op">]</span>, pch <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-example-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">lonlat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="va">xy</span>, <span class="va">src</span>, source <span class="op">=</span> <span class="va">dst</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lonlat</span><span class="op">$</span><span class="va">x_</span>, <span class="va">lonlat</span><span class="op">$</span><span class="va">y_</span>, pch <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-2.png" width="100%"></p>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lonlat</span>, pch <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-example-2.png" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="convert-projection-strings">Convert projection strings<a class="anchor" aria-label="anchor" href="#convert-projection-strings"></a>
 </h2>
 <p>We can generate PROJ or within limitations WKT2 strings, format 0, 1, 2 for WKT, proj4string, projjson respectively.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">wkt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_crs_text.html">proj_crs_text</a></span><span class="op">(</span><span class="st">"OGC:CRS84"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; GEOGCRS["WGS 84 (CRS84)",</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">wkt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_crs_text.html">proj_crs_text</a></span><span class="op">(</span><span class="st">"EPSG:4326"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; GEOGCRS["WGS 84",</span></span>
 <span><span class="co">#&gt;     ENSEMBLE["World Geodetic System 1984 ensemble",</span></span>
 <span><span class="co">#&gt;         MEMBER["World Geodetic System 1984 (Transit)"],</span></span>
 <span><span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G730)"],</span></span>
@@ -172,32 +164,36 @@
 <span><span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G1674)"],</span></span>
 <span><span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G1762)"],</span></span>
 <span><span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G2139)"],</span></span>
+<span><span class="co">#&gt;         MEMBER["World Geodetic System 1984 (G2296)"],</span></span>
 <span><span class="co">#&gt;         ELLIPSOID["WGS 84",6378137,298.257223563,</span></span>
 <span><span class="co">#&gt;             LENGTHUNIT["metre",1]],</span></span>
 <span><span class="co">#&gt;         ENSEMBLEACCURACY[2.0]],</span></span>
 <span><span class="co">#&gt;     PRIMEM["Greenwich",0,</span></span>
 <span><span class="co">#&gt;         ANGLEUNIT["degree",0.0174532925199433]],</span></span>
 <span><span class="co">#&gt;     CS[ellipsoidal,2],</span></span>
-<span><span class="co">#&gt;         AXIS["geodetic longitude (Lon)",east,</span></span>
+<span><span class="co">#&gt;         AXIS["geodetic latitude (Lat)",north,</span></span>
 <span><span class="co">#&gt;             ORDER[1],</span></span>
 <span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span></span>
-<span><span class="co">#&gt;         AXIS["geodetic latitude (Lat)",north,</span></span>
+<span><span class="co">#&gt;         AXIS["geodetic longitude (Lon)",east,</span></span>
 <span><span class="co">#&gt;             ORDER[2],</span></span>
 <span><span class="co">#&gt;             ANGLEUNIT["degree",0.0174532925199433]],</span></span>
 <span><span class="co">#&gt;     USAGE[</span></span>
-<span><span class="co">#&gt;         SCOPE["Not known."],</span></span>
+<span><span class="co">#&gt;         SCOPE["Horizontal component of 3D system."],</span></span>
 <span><span class="co">#&gt;         AREA["World."],</span></span>
 <span><span class="co">#&gt;         BBOX[-90,-180,90,180]],</span></span>
-<span><span class="co">#&gt;     ID["OGC","CRS84"]]</span></span>
+<span><span class="co">#&gt;     ID["EPSG",4326]]</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/proj_crs_text.html">proj_crs_text</a></span><span class="op">(</span><span class="va">wkt2</span>, format <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "+proj=longlat +datum=WGS84 +no_defs +type=crs"</span></span></code></pre></div>
-<p>A geocentric example, suitable for plotting in rgl.</p>
+</div>
+<div class="section level2">
+<h2 id="use-wk-for-xyz-and-xyzt">Use wk for xyz and xyzt<a class="anchor" aria-label="anchor" href="#use-wk-for-xyz-and-xyzt"></a>
+</h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">xyzt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">w</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span>, z_ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span><span class="op">)</span>, target <span class="op">=</span> <span class="st">"+proj=cart +datum=WGS84"</span>, source <span class="op">=</span> <span class="st">"OGC:CRS84"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">xyzt</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>, pch <span class="op">=</span> <span class="st">"."</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-geocentric-1.png" width="100%"></p>
-<p>Geocentric transformations aren’t used in R much, but some examples are found in the <a href="https://CRAN.R-project.org/package=quadmesh" class="external-link">quadmesh</a> and <a href="https://github.com/hypertidy/anglr" class="external-link">anglr</a> packages.</p>
+<code class="sourceCode R"><span><span class="va">trans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans_create.html">proj_trans_create</a></span><span class="op">(</span><span class="st">"EPSG:3857"</span>, <span class="st">"+proj=cart"</span><span class="op">)</span></span>
+<span><span class="va">wmerc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="va">w</span>, <span class="st">"EPSG:3857"</span>, source <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu">wk</span><span class="fu">::</span><span class="fu"><a href="https://paleolimbot.github.io/wk/reference/wk_transform.html" class="external-link">wk_transform</a></span><span class="op">(</span><span class="fu">wk</span><span class="fu">::</span><span class="fu"><a href="https://paleolimbot.github.io/wk/reference/xy.html" class="external-link">xyz</a></span><span class="op">(</span><span class="va">wmerc</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">wmerc</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, <span class="fl">0</span><span class="op">)</span>, <span class="va">trans</span><span class="op">)</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">.1</span>, pch <span class="op">=</span> <span class="fl">19</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-xyz-1.png" alt="" width="100%"></p>
 <hr>
 <p>Please note that the PROJ project is released with a <a href="https://github.com/hypertidy/PROJ/blob/main/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
@@ -263,7 +259,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
       </footer>
