@@ -3,6 +3,8 @@
 * Added `proj_factors()` for cartographic properties, scale factors, 
  angular distortion and meridian convergence. 
 
+* Removed 'CXX_STD = CXX' thanks to CRAN. 
+
 # PROJ 0.6.0
 
 * Fixed bashism for CRAN in configure, thank you. 
