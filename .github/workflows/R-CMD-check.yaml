@@ -67,6 +67,7 @@ jobs:
           sudo ldconfig
           rm -rf proj-$PROJ_NUMBER proj-$PROJ_NUMBER.tar.gz proj-build
           echo "PROJ_DATA_DIR=/usr/share/proj" >> "$GITHUB_ENV"
+          echo "PKG_SYSREQS=false" >> "$GITHUB_ENV"
 
       - name: Install PROJ (macOS)
         if: runner.os == 'macOS'
@@ -74,13 +75,11 @@ jobs:
           brew install proj pkg-config sqlite
           echo "PROJ_DATA_DIR=$(brew --prefix proj)/share/proj" >> "$GITHUB_ENV"
 
-      # On Linux PROJ is already built and installed above; stop pak from
-      # installing the package's SystemRequirements (libproj-dev + proj-data),
-      # which would drop the distro's older proj.db over ours and leave the
-      # library and database mismatched.
+      # PKG_SYSREQS=false is set (Linux only, in the PROJ build step above) so
+      # pak does not install the package's SystemRequirements (libproj-dev +
+      # proj-data) over the PROJ we just built. It must stay unset elsewhere:
+      # pak has no sysreqs backend for Windows and errors if forced on.
       - uses: r-lib/actions/setup-r-dependencies@v2
-        env:
-          PKG_SYSREQS: ${{ runner.os == 'Linux' && 'false' || 'true' }}
         with:
           extra-packages: any::rcmdcheck
           needs: check
