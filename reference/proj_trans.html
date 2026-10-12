@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0.9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0.9004</span>
       </span>
     </div>
 
@@ -56,7 +56,15 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">proj_trans</span><span class="op">(</span><span class="va">x</span>, <span class="va">target_crs</span>, source_crs <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span>, use_z <span class="op">=</span> <span class="cn">NA</span>, use_m <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">proj_trans</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">target_crs</span>,</span>
+<span>  source_crs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  use_z <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  use_m <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -89,6 +97,11 @@ columns.</p></li>
 <dd><p>Used to declare the output type. Use <code>TRUE</code> to
 ensure the output has that dimension, <code>FALSE</code> to ensure it does not,
 and <code>NA</code> to leave the dimension unchanged.</p></dd>
+
+
+<dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
+<dd><p>character vector of <code>"KEY=VALUE"</code> options passed to the PROJ
+library when choosing the coordinate operation, see Details</p></dd>
 
 </dl></div>
     <div id="value">
