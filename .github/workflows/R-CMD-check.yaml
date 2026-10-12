@@ -54,7 +54,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libcurl4-openssl-dev libsqlite3-dev sqlite3 libtiff-dev cmake libssl-dev
+          sudo apt-get install -y libcurl4-openssl-dev libsqlite3-dev sqlite3 libtiff-dev cmake libssl-dev libuv1-dev
           wget -q https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
           tar zxf proj-$PROJ_NUMBER.tar.gz
           # PROJ < 9.2 predates GCC 13's <cstdint> cleanup and fails to compile
