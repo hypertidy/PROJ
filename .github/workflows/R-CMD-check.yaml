@@ -57,7 +57,11 @@ jobs:
           sudo apt-get install -y libcurl4-openssl-dev libsqlite3-dev sqlite3 libtiff-dev cmake libssl-dev
           wget -q https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
           tar zxf proj-$PROJ_NUMBER.tar.gz
-          cmake -S proj-$PROJ_NUMBER -B proj-build -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTING=OFF -DBUILD_APPS=OFF
+          # PROJ < 9.2 predates GCC 13's <cstdint> cleanup and fails to compile
+          # (std::int64_t not declared in proj_json_streaming_writer.hpp);
+          # force the include for the whole build
+          cmake -S proj-$PROJ_NUMBER -B proj-build -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTING=OFF -DBUILD_APPS=OFF \
+                -DCMAKE_CXX_FLAGS="-include cstdint"
           cmake --build proj-build -j"$(nproc)"
           sudo cmake --install proj-build
           sudo ldconfig
