@@ -73,6 +73,48 @@ if test x${use6}${proj6api} = xyesno; then
 fi
 
 
+# Optional local copy of the PROJ data directory into the package (inst/proj).
+# Honoured either via the PROJ_GDAL_DATA_COPY environment variable (as sf,
+# terra, gdalraster, vapour do; this is how CRAN's macOS binary builds get
+# their proj.db) or via --with-data-copy=yes. The data comes from PROJ_LIB
+# (or PROJ_DATA) if set, else --with-proj-data=DIR.
+#
+# Note the copy is a snapshot of one PROJ version's data; the package
+# validates it at load against the linked libproj and ignores it if the
+# database layout is incompatible (see R/zzz.R). Do not use this with a
+# dynamically linked libproj that may later be upgraded.
+
+data_copy=no
+if test "${PROJ_GDAL_DATA_COPY}" ; then
+    data_copy=yes
+    AC_MSG_NOTICE([PROJ_GDAL_DATA_COPY used.])
+else
+    AC_ARG_WITH([data-copy],
+        AS_HELP_STRING([--with-data-copy=yes/no],[local copy of PROJ data directory in package, default no]),
+               [data_copy=$withval])
+fi
+if test "${data_copy}" = "yes" ; then
+  proj_lib0="${PROJ_LIB}"
+  if test -z "${proj_lib0}" ; then
+    proj_lib0="${PROJ_DATA}"
+  fi
+  AC_ARG_WITH([proj-data],
+    AS_HELP_STRING([--with-proj-data=DIR],[location of PROJ data directory]),
+    [proj_lib1=$withval])
+  if test -n "${proj_lib0}" ; then
+    proj_lib="${proj_lib0}"
+  else
+    proj_lib="${proj_lib1}"
+  fi
+  if test -n "${proj_lib}" && test -d "${proj_lib}" && test -f "${proj_lib}/proj.db" ; then
+    AC_MSG_NOTICE([Copying PROJ data from ${proj_lib} into package])
+    mkdir -p "${R_PACKAGE_DIR}/proj"
+    cp -r "${proj_lib}"/. "${R_PACKAGE_DIR}/proj/"
+  else
+    AC_MSG_ERROR([PROJ data directory (containing proj.db) not found; set PROJ_LIB=DIR or --with-proj-data=DIR.])
+  fi
+fi
+
 AC_ARG_VAR([PKG_CPPFLAGS],[custom C preprocessor flags for packages compilation])
 AC_ARG_VAR([PKG_LIBS],[custom libraries for package compilation])
 

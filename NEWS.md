@@ -1,3 +1,37 @@
+# PROJ dev
+
+* macOS CRAN binaries shipped without proj.db (#61). The `--with-data-copy`
+  configure block was dropped in 2020 when the package moved to libproj, so
+  CRAN's build (which copies the PROJ data directory into packages that
+  honour `PROJ_GDAL_DATA_COPY` / `--with-data-copy`) had nothing to act on,
+  and the statically linked libproj could not find its database. The block
+  is restored, PROJ-only (no GDAL data). Thanks to @avpozzi for the report.
+
+* The bundled PROJ data copy (inst/proj, present on Windows always and on
+  macOS CRAN builds) is now validated at load. PROJ checks proj.db's
+  DATABASE.LAYOUT.VERSION lazily, so a copy taken from a different PROJ than
+  the linked library fails silently at the first EPSG lookup with "Unknown
+  error (code 2)". The package now sets the search path, forces a lookup,
+  and if that fails reverts to the library defaults with a startup message
+  that quotes PROJ's own diagnostic (e.g. "lacks DATABASE.LAYOUT.VERSION
+  metadata. It comes from another PROJ installation").
+
+* The search path is now set with `proj_context_set_search_paths()` on the
+  default context (inherited by every context the package creates) rather
+  than by setting the `PROJ_LIB` environment variable, so it no longer
+  leaks into other packages' libproj. The old load code was also gated on
+  `proj/nad.lst` (load) and `proj/alaska` (unload); the latter has not
+  existed since PROJ 7, so `PROJ_LIB` was never restored.
+
+* New `proj_data_info()` reports the proj.db the library resolves, its
+  metadata (PROJ version that built it, database layout, EPSG version),
+  and whether the bundled copy is active.
+
+* `proj_factors()` no longer returns silent NaN when every coordinate fails:
+  that is a setup problem (typically no usable proj.db), not a coordinate
+  problem, and is now a warning carrying PROJ's error. Errors from
+  `proj_create()` across the package mention when no proj.db was found.
+
 # PROJ 0.7.0
 
 * `proj_trans()` for matrix input again transforms and returns z and m

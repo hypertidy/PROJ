@@ -44,7 +44,12 @@ SEXP C_proj_factors(SEXP crs_, SEXP lp_) {
 #endif
         // copy before destroying the context that may own the string
         char buf[512];
-        snprintf(buf, sizeof(buf), "%s", msg ? msg : "unknown PROJ error");
+        if (proj_context_get_database_path(ctx) == NULL) {
+            snprintf(buf, sizeof(buf), "%s (no usable proj.db found by the PROJ library, see proj_data_info())",
+                     msg ? msg : "unknown PROJ error");
+        } else {
+            snprintf(buf, sizeof(buf), "%s", msg ? msg : "unknown PROJ error");
+        }
         proj_context_destroy(ctx);
         Rf_error("%s", buf);
     }
@@ -66,6 +71,8 @@ SEXP C_proj_factors(SEXP crs_, SEXP lp_) {
 
     R_xlen_t n = Rf_nrows(lp_);
     const double* lp = REAL_RO(lp_);
+    R_xlen_t n_fail = 0;
+    int first_err = 0;
 
     SEXP out = PROTECT(Rf_allocMatrix(REALSXP, (int)n, N_FACTORS));
     double* out_ptr = REAL(out);
@@ -81,6 +88,8 @@ SEXP C_proj_factors(SEXP crs_, SEXP lp_) {
         proj_errno_reset(pj);
         PJ_FACTORS f = proj_factors(pj, coord);
         if (proj_errno(pj) != 0) {
+            if (n_fail == 0) first_err = proj_errno(pj);
+            n_fail++;
             for (int j = 0; j < N_FACTORS; j++) out_ptr[i + n * j] = R_NaN;
             proj_errno_reset(pj);
             continue;
@@ -111,6 +120,23 @@ SEXP C_proj_factors(SEXP crs_, SEXP lp_) {
     Rf_setAttrib(out, R_DimNamesSymbol, dimnames);
 
     UNPROTECT(3);
+
+    // A row can legitimately fail (e.g. a pole for a cylindrical projection)
+    // and that is NaN by design, but if *every* row fails the problem is the
+    // setup, not the coordinates: typically no usable proj.db, which
+    // proj_factors() reports per-row through errno rather than failing
+    // proj_create(). Surface that once rather than returning silent NaN.
+    if (n > 0 && n_fail == n) {
+#if PROJ_VERSION_MAJOR < 8
+        const char* emsg = proj_errno_string(first_err);
+#else
+        const char* emsg = proj_context_errno_string(ctx, first_err);
+#endif
+        const char* hint = proj_context_get_database_path(ctx) == NULL
+            ? " (no usable proj.db found by the PROJ library, see proj_data_info())" : "";
+        Rf_warning("proj_factors() failed for all %lld coordinates: %s%s",
+                   (long long) n, emsg ? emsg : "unknown PROJ error", hint);
+    }
 
     proj_destroy(pj);
     proj_context_destroy(ctx);

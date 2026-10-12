@@ -70,6 +70,8 @@ static const char* proj_context_errno_string(PJ_CONTEXT* ctx, int err) {
 void stop_proj_error(PJ_CONTEXT* ctx) {
   int err = proj_context_errno(ctx);
   const char* msg = proj_context_errno_string(ctx, err);
-
+  if (proj_context_get_database_path(ctx) == NULL) {
+    Rf_error("%s (no usable proj.db found by the PROJ library, see proj_data_info())", msg);
+  }
   Rf_error("%s", msg);
 }
