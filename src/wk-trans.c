@@ -4,6 +4,7 @@
 #include <proj.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 #include "wk-v1.h"
 
 #include "proj-utils.h"
@@ -15,7 +16,61 @@ typedef struct {
   PJ* source_crs;
   PJ* target_crs;
   PJ_DIRECTION direction;
+  // NULL-terminated copy of the "KEY=VALUE" options the transformer was
+  // created with, kept so the inverse can be rebuilt with the same options
+  // (proj_clone() did not propagate FORCE_OVER before PROJ 9.7.1, #4595)
+  char** options;
 } proj_trans_t;
+
+static char** copy_options(SEXP options) {
+  R_xlen_t n = Rf_xlength(options);
+  if (n == 0) return NULL;
+  char** out = (char**)calloc((size_t)n + 1, sizeof(char*));
+  if (out == NULL) Rf_error("Can't allocate options");  // # nocov
+  for (R_xlen_t i = 0; i < n; i++) {
+    const char* src = Rf_translateCharUTF8(STRING_ELT(options, i));
+    out[i] = (char*)malloc(strlen(src) + 1);
+    if (out[i] == NULL) Rf_error("Can't allocate options");  // # nocov
+    strcpy(out[i], src);
+  }
+  return out;
+}
+
+static char** clone_options(char** options) {
+  if (options == NULL) return NULL;
+  size_t n = 0;
+  while (options[n] != NULL) n++;
+  char** out = (char**)calloc(n + 1, sizeof(char*));
+  if (out == NULL) Rf_error("Can't allocate options");  // # nocov
+  for (size_t i = 0; i < n; i++) {
+    out[i] = (char*)malloc(strlen(options[i]) + 1);
+    if (out[i] == NULL) Rf_error("Can't allocate options");  // # nocov
+    strcpy(out[i], options[i]);
+  }
+  return out;
+}
+
+static void free_options(char** options) {
+  if (options == NULL) return;
+  for (size_t i = 0; options[i] != NULL; i++) free(options[i]);
+  free(options);
+}
+
+// create the (normalized, always lon/lat) transformer for data's CRS pair
+static PJ* make_transformer(proj_trans_t* data) {
+  PJ* transformer = proj_create_crs_to_crs_from_pj(
+      data->context, data->source_crs, data->target_crs, NULL,
+      (const char* const*)data->options);
+  if (transformer == NULL) {
+    stop_proj_error(data->context);
+  }
+  PJ* normalized = proj_normalize_for_visualization(data->context, transformer);
+  proj_destroy(transformer);
+  if (normalized == NULL) {
+    stop_proj_error(data->context);  // # nocov
+  }
+  return normalized;
+}
 
 static int transform(R_xlen_t feature_id, const double* xyzm_in, double* xyzm_out,
                      void* trans_data) {
@@ -64,6 +119,7 @@ static void finalize(void* trans_data) {
   if (data->source_crs != NULL) proj_destroy(data->source_crs);
   if (data->target_crs != NULL) proj_destroy(data->target_crs);
   if (data->context != NULL) proj_context_destroy(data->context);
+  free_options(data->options);
 
   free(data);
 }
@@ -81,7 +137,8 @@ static wk_trans_t* wk_trans_from_xptr(SEXP trans_xptr) {
   return trans;
 }
 
-SEXP C_proj_trans_create(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m) {
+SEXP C_proj_trans_create(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_m,
+                         SEXP options) {
   wk_trans_t* trans = wk_trans_create();
 
   trans->trans = &transform;
@@ -113,19 +170,8 @@ SEXP C_proj_trans_create(SEXP source_crs, SEXP target_crs, SEXP use_z, SEXP use_
     stop_proj_error(data->context);  // #nocov
   }
 
-  PJ* transformer = proj_create_crs_to_crs_from_pj(data->context, data->source_crs,
-                                                   data->target_crs, NULL, NULL);
-  if (transformer == NULL) {
-    stop_proj_error(data->context);  // #nocov
-  }
-
-  // always lon,lat
-  data->transformer = proj_normalize_for_visualization(data->context, transformer);
-  proj_destroy(transformer);
-
-  if (data->transformer == NULL) {
-    stop_proj_error(data->context);  // # nocov
-  }
+  data->options = copy_options(options);
+  data->transformer = make_transformer(data);
 
   // xptrs
   UNPROTECT(1);
@@ -165,10 +211,10 @@ SEXP C_proj_trans_inverse(SEXP trans_xptr) {
     stop_proj_error(data_inv->context);  // # nocov
   }
 
-  data_inv->transformer = proj_clone(data_inv->context, data_fwd->transformer);
-  if (data_inv->transformer == NULL) {
-    stop_proj_error(data_inv->context);  // # nocov
-  }
+  // rebuild rather than proj_clone() the transformer: before PROJ 9.7.1 a
+  // clone silently dropped FORCE_OVER (OSGeo/PROJ#4595)
+  data_inv->options = clone_options(data_fwd->options);
+  data_inv->transformer = make_transformer(data_inv);
 
   // xptr
   UNPROTECT(1);

@@ -1,5 +1,15 @@
 # PROJ dev
 
+* `proj_trans_create()` and `proj_trans()` gain an `options` argument, a
+  character vector of `"KEY=VALUE"` strings passed to PROJ's
+  `proj_create_crs_to_crs_from_pj()`: `AUTHORITY`, `ACCURACY`,
+  `ALLOW_BALLPARK`, `FORCE_OVER` and `ONLY_BEST`. `FORCE_OVER=YES` is the
+  fix for coordinates just across the antimeridian coming back as +180
+  instead of -180 (#58). Options the linked PROJ predates are dropped with
+  a warning. The inverse transformation is now rebuilt from the same CRS
+  pair and options rather than cloned, because `proj_clone()` dropped
+  `FORCE_OVER` before PROJ 9.7.1.
+
 * macOS CRAN binaries shipped without proj.db (#61). The `--with-data-copy`
   configure block was dropped in 2020 when the package moved to libproj, so
   CRAN's build (which copies the PROJ data directory into packages that

@@ -4,7 +4,13 @@
 \alias{proj_trans_create}
 \title{Create a transformation object}
 \usage{
-proj_trans_create(source_crs, target_crs, use_z = NA, use_m = NA)
+proj_trans_create(
+  source_crs,
+  target_crs,
+  use_z = NA,
+  use_m = NA,
+  options = character()
+)
 }
 \arguments{
 \item{source_crs, target_crs}{Source/Target CRS definition, coerced with \code{\link[wk:wk_crs_proj_definition]{wk::wk_crs_proj_definition()}}}
@@ -12,6 +18,9 @@ proj_trans_create(source_crs, target_crs, use_z = NA, use_m = NA)
 \item{use_z, use_m}{Used to declare the output type. Use \code{TRUE} to
 ensure the output has that dimension, \code{FALSE} to ensure it does not,
 and \code{NA} to leave the dimension unchanged.}
+
+\item{options}{character vector of \code{"KEY=VALUE"} options passed to the PROJ
+library when choosing the coordinate operation, see Details}
 }
 \value{
 A PROJ transformation object
@@ -20,9 +29,39 @@ A PROJ transformation object
 Creates a transformation object that transforms coordinates in a wk
 pipeline.
 }
+\details{
+\code{options} are passed to the PROJ library function
+\code{proj_create_crs_to_crs_from_pj()}. The options PROJ accepts are
+\itemize{
+\item \code{AUTHORITY=name} restrict candidate operations to one authority (e.g.
+\code{"EPSG"}), or \code{"any"}
+\item \code{ACCURACY=value} minimum desired accuracy in metres
+\item \code{ALLOW_BALLPARK=YES/NO} (PROJ >= 7.1) set to \code{NO} to disallow ballpark
+transformations
+\item \code{FORCE_OVER=YES/NO} (PROJ >= 9.1.1) set to \code{YES} to force the \code{+over}
+flag, so longitudes are not wrapped to -180..180. This is what you want
+when transforming data that straddles the antimeridian, see the example
+\item \code{ONLY_BEST=YES/NO} (PROJ >= 9.2) set to \code{YES} to error rather than fall
+back to a worse operation when the best one needs a grid that is not
+available
+}
+
+An option the linked PROJ library predates is dropped with a warning. Any
+other unrecognized option is an error from PROJ.
+}
 \examples{
 (trans <- proj_trans_create("EPSG:4326", "EPSG:3857"))
 wk::wk_transform(wk::xy(1:5, 1:5), trans)
+
+## longitude wrapping at the antimeridian: just past the western edge of
+## Web Mercator comes back as +180 by default, -180 with FORCE_OVER
+xmin <- -20037508.3427892
+inv <- proj_trans_create("EPSG:3857", "EPSG:4326")
+wk::wk_transform(wk::xy(xmin - 0.001, 0), inv)
+if (proj_version() >= "9.1.1") {
+  over <- proj_trans_create("EPSG:3857", "EPSG:4326", options = "FORCE_OVER=YES")
+  wk::wk_transform(wk::xy(xmin - 0.001, 0), over)
+}
 
 library(wk)
 (invtrans <- wk_trans_inverse(trans))

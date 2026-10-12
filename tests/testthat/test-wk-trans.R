@@ -134,3 +134,61 @@ test_that("inverse(proj_trans) print method works", {
 #
 #   expect_identical(info$source_crs, info$target_crs)
 # })
+
+test_that("proj_trans_create() options are validated", {
+  expect_error(proj_trans_create("EPSG:4326", "EPSG:3857", options = "FORCE_OVER"), "KEY=VALUE")
+  expect_error(proj_trans_create("EPSG:4326", "EPSG:3857", options = 1), "character")
+  # unknown to PROJ: PROJ itself errors
+  expect_error(proj_trans_create("EPSG:4326", "EPSG:3857", options = "NOT_AN_OPTION=YES"))
+  # key case is normalized, empty strings dropped
+  expect_identical(PROJ:::proj_trans_options(c("authority=EPSG", "")), "AUTHORITY=EPSG")
+  expect_identical(PROJ:::proj_trans_options(NULL), character())
+})
+
+test_that("options the linked PROJ predates are dropped with a warning", {
+  skip_if_not(proj_version() >= "9.2.0")
+  # simulate an older library by overriding the version table
+  old <- PROJ:::.proj_trans_option_versions
+  tbl <- old; tbl[["ONLY_BEST"]] <- "99.0.0"
+  assignInNamespace(".proj_trans_option_versions", tbl, "PROJ")
+  on.exit(assignInNamespace(".proj_trans_option_versions", old, "PROJ"))
+  expect_warning(
+    opts <- PROJ:::proj_trans_options(c("ONLY_BEST=YES", "AUTHORITY=EPSG")),
+    "ONLY_BEST=YES \\(PROJ >= 99.0.0\\)"
+  )
+  expect_identical(opts, "AUTHORITY=EPSG")
+})
+
+test_that("FORCE_OVER controls antimeridian wrapping, forward and inverse", {
+  skip_if_not(proj_version() >= "9.1.1")
+  xmin <- -20037508.3427892
+  pt <- wk::xy(xmin - 0.001, 0)
+  lon <- function(x) unclass(x)$x
+
+  default <- proj_trans_create("EPSG:3857", "EPSG:4326")
+  expect_equal(lon(wk::wk_transform(pt, default)), 180, tolerance = 1e-6)
+
+  ## FORCE_OVER is a property of the operation, not visible in its definition
+  over <- proj_trans_create("EPSG:3857", "EPSG:4326", options = "FORCE_OVER=YES")
+  expect_equal(lon(wk::wk_transform(pt, over)), -180, tolerance = 1e-6)
+
+  ## the inverse must keep the option (proj_clone() lost it before PROJ 9.7.1):
+  ## with +over, -180.5 projects just west of xmin instead of wrapping to +179.5
+  inv <- wk::wk_trans_inverse(over)
+  x_over <- lon(wk::wk_transform(wk::xy(-180.5, 0), inv))
+  expect_true(x_over < xmin)
+  x_default <- lon(wk::wk_transform(wk::xy(-180.5, 0), wk::wk_trans_inverse(default)))
+  expect_true(x_default > 0)
+
+  ## via proj_trans()
+  m <- proj_trans(cbind(xmin - 0.001, 0), "EPSG:4326", "EPSG:3857", options = "FORCE_OVER=YES")
+  expect_equal(unname(m[1, 1]), -180, tolerance = 1e-6)
+})
+
+test_that("ALLOW_BALLPARK=NO refuses a ballpark-only pair", {
+  skip_if_not(proj_version() >= "7.1.0")
+  # two datums with no known transformation: only a ballpark operation exists
+  expect_no_error(proj_trans_create("+proj=longlat +ellps=clrk66 +type=crs", "EPSG:4326"))
+  expect_error(proj_trans_create("+proj=longlat +ellps=clrk66 +type=crs", "EPSG:4326",
+                                 options = "ALLOW_BALLPARK=NO"))
+})

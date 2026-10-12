@@ -4,7 +4,15 @@
 \alias{proj_trans}
 \title{Transform coordinates}
 \usage{
-proj_trans(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA)
+proj_trans(
+  x,
+  target_crs,
+  source_crs = NULL,
+  ...,
+  use_z = NA,
+  use_m = NA,
+  options = character()
+)
 }
 \arguments{
 \item{x}{Input geometry/geography. May take any of the following forms:
@@ -28,6 +36,9 @@ columns.
 \item{use_z, use_m}{Used to declare the output type. Use \code{TRUE} to
 ensure the output has that dimension, \code{FALSE} to ensure it does not,
 and \code{NA} to leave the dimension unchanged.}
+
+\item{options}{character vector of \code{"KEY=VALUE"} options passed to the PROJ
+library when choosing the coordinate operation, see Details}
 }
 \value{
 Transformed geometries whose format is dependent on input.

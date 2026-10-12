@@ -33,13 +33,13 @@
 #' proj_trans(wk::wkt("POLYGON ((1 1, 0 1, 0 0, 1 0, 1 1))", crs = "EPSG:4326"), 3112)
 #'
 #' @export
-proj_trans <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
+proj_trans <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA, options = character()) {
   UseMethod("proj_trans")
 }
 
-proj_trans_handleable <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
+proj_trans_handleable <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA, options = character()) {
   source_crs <- source_crs %||% wk::wk_crs(x) %||% wk::wk_crs_longlat()
-  trans <- proj_trans_create(source_crs, target_crs, use_z = use_z, use_m = use_m)
+  trans <- proj_trans_create(source_crs, target_crs, use_z = use_z, use_m = use_m, options = options)
 
   wk::wk_set_crs(wk::wk_transform(x, trans, ...), target_crs)
 }
@@ -54,7 +54,7 @@ proj_trans.wk_rcrd <- proj_trans_handleable
 proj_trans.sfc <- proj_trans_handleable
 
 #' @export
-proj_trans.matrix <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
+proj_trans.matrix <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA, options = character()) {
   if (!is.numeric(x)) stop("`x` coordinates must be a numeric matrix")
 
   ## unnamed columns are assumed in xyzm order, extras beyond 4 are dropped;
@@ -71,20 +71,20 @@ proj_trans.matrix <- function(x, target_crs, source_crs = NULL, ..., use_z = NA,
   x_trans <- proj_trans_handleable(
     wk::as_xy(x),
     target_crs, source_crs,
-    ..., use_z = use_z, use_m = use_m
+    ..., use_z = use_z, use_m = use_m, options = options
   )
 
   as.matrix(x_trans)
 }
 
 #' @export
-proj_trans.data.frame <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA) {
+proj_trans.data.frame <- function(x, target_crs, source_crs = NULL, ..., use_z = NA, use_m = NA, options = character()) {
   if (!wk::is_handleable(x)) {
     x_trans <- as.data.frame(
       proj_trans_handleable(
         wk::as_xy(x),
         target_crs, source_crs,
-        ..., use_z = use_z, use_m = use_m
+        ..., use_z = use_z, use_m = use_m, options = options
       )
     )
 
@@ -102,6 +102,6 @@ proj_trans.data.frame <- function(x, target_crs, source_crs = NULL, ..., use_z =
   proj_trans_handleable(
     x,
     target_crs, source_crs,
-    ..., use_z = use_z, use_m = use_m
+    ..., use_z = use_z, use_m = use_m, options = options
   )
 }

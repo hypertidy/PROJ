@@ -11,7 +11,7 @@ extern SEXP C_proj_db_info(void);
 extern SEXP C_proj_factors(void *, void *);
 extern SEXP C_proj_probe_db(void);
 extern SEXP C_proj_set_search_paths(void *);
-extern SEXP C_proj_trans_create(void *, void *, void *, void *);
+extern SEXP C_proj_trans_create(void *, void *, void *, void *, void *);
 extern SEXP C_proj_trans_info(void *);
 extern SEXP C_proj_trans_inverse(void *);
 extern SEXP C_proj_version(void);
@@ -23,7 +23,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"C_proj_factors",       (DL_FUNC) &C_proj_factors,       2},
     {"C_proj_probe_db",      (DL_FUNC) &C_proj_probe_db,      0},
     {"C_proj_set_search_paths", (DL_FUNC) &C_proj_set_search_paths, 1},
-    {"C_proj_trans_create",  (DL_FUNC) &C_proj_trans_create,  4},
+    {"C_proj_trans_create",  (DL_FUNC) &C_proj_trans_create,  5},
     {"C_proj_trans_info",    (DL_FUNC) &C_proj_trans_info,    1},
     {"C_proj_trans_inverse", (DL_FUNC) &C_proj_trans_inverse, 1},
     {"C_proj_version",       (DL_FUNC) &C_proj_version,       0},
