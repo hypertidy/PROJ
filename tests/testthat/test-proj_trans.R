@@ -325,49 +325,6 @@ test_that("proj_trans.wk_handleable() works", {
   )
 })
 
-test_that("proj_trans.sf() works", {
-  skip_if_not_installed("sf")
-  options("sf_use_s2" = FALSE)
-  expect_equal(
-    proj_trans(
-      sf::st_as_sf(
-        data.frame(x = -1:1, y = -1:1),
-        coords = c("x", "y"),
-        crs = "EPSG:4326"
-      ),
-      "EPSG:3857"
-    ),
-    sf::st_as_sf(
-      data.frame(
-        x = c(-111319.4908, 0, 111319.4908),
-        y = c(-111325.1429, 0, 111325.1429)
-      ),
-      coords = c("x", "y"),
-      crs = "EPSG:3857"
-    )
-  )
-})
-
-test_that("proj_trans.sfc() works", {
-  skip_if_not_installed("sf")
-  options("sf_use_s2" = FALSE)
-  expect_equal(
-    proj_trans(
-      sf::st_sfc(
-        sf::st_point(c(-1, -1)), sf::st_point(c(0, 0)), sf::st_point(c(1, 1)),
-        crs = "EPSG:4326"
-      ),
-      "EPSG:3857"
-    ),
-    sf::st_sfc(
-      sf::st_point(c(-111319.4908, -111325.1429)),
-      sf::st_point(c(0, 0)),
-      sf::st_point(c(111319.4908, 111325.1429)),
-      crs = "EPSG:3857"
-    )
-  )
-})
-
 test_that("proj_trans() handles out-of-bounds coordinates", {
   trans_a <- expect_no_error(
     proj_trans(

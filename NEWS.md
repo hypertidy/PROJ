@@ -1,5 +1,10 @@
 # PROJ dev
 
+* sf is no longer in Suggests. The `proj_trans()` method for `sfc` remains
+  (it needs sf installed at run time, since wk delegates setting an sfc's
+  CRS to sf), but it is no longer tested here, so CI no longer builds sf
+  against a from-source PROJ.
+
 * `proj_trans_create()` and `proj_trans()` gain an `options` argument, a
   character vector of `"KEY=VALUE"` strings passed to PROJ's
   `proj_create_crs_to_crs_from_pj()`: `AUTHORITY`, `ACCURACY`,
