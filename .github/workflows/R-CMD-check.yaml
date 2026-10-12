@@ -33,6 +33,12 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
       PROJ_NUMBER: ${{ matrix.config.proj }}
 
+    # bash everywhere: the Windows default is PowerShell, where `R` is an
+    # alias for Invoke-History and `R CMD INSTALL` never reaches R.exe
+    defaults:
+      run:
+        shell: bash
+
     steps:
       - uses: actions/checkout@v4
 
@@ -109,7 +115,6 @@ jobs:
 
       - name: Stale proj.db dropped into inst/proj is detected and ignored (Windows)
         if: runner.os == 'Windows'
-        shell: bash
         run: |
           # Windows has no configure; overwrite the installed copy with a layout-less one.
           # sqlite3 CLI comes with Rtools.
