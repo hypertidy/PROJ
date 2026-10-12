@@ -19,7 +19,7 @@ without requiring bespoke formats for storing basic data."><!-- mathjax --><scri
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PROJ</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0.9003</span>
       </span>
     </div>
 
@@ -62,13 +62,14 @@ without requiring bespoke formats for storing basic data.</p>
 
     <div id="using-a-non-default-libproj">
     <h2>Using a non-default libproj</h2>
-    <p>When installing from source, set <code>PKG_LIBS</code> and <code>PKG_CPPFLAGS</code> to point to
-the custom PROJ library and headers. For example, on Linux:</p>
-<div class="sourceCode"><pre><code>export PKG_LIBS="-L/home/user/lib -lproj"
-export PKG_CPPFLAGS="-I/home/user/include"
-export LD_LIBRARY_PATH="/home/user/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-remotes::install_github("hypertidy/PROJ")</code></pre></div>
 
+
+<p>When installing from source, set <code>PKG_LIBS</code> and <code>PKG_CPPFLAGS</code> to point to
+the custom PROJ library and headers. For example, on Linux:</p>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">PKG_LIBS</span><span class="op">=</span><span class="st">"-L/home/user/lib -lproj"</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">PKG_CPPFLAGS</span><span class="op">=</span><span class="st">"-I/home/user/include"</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="bu">export</span> <span class="va">LD_LIBRARY_PATH</span><span class="op">=</span><span class="st">"/home/user/lib</span><span class="va">${LD_LIBRARY_PATH</span><span class="op">:+</span>:<span class="va">$LD_LIBRARY_PATH}</span><span class="st">"</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"hypertidy/PROJ"</span><span class="kw">)</span></span></code></pre><p></p></div>
 <p>The linked PROJ library must be version 6.3.1 or later.</p>
     </div>
     <div id="i-functions">
