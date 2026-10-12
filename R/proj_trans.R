@@ -62,7 +62,12 @@ proj_trans.matrix <- function(x, target_crs, source_crs = NULL, ..., use_z = NA,
   if (is.null(colnames(x)) && ncol(x) > 4L) {
     x <- x[, 1:4, drop = FALSE]
   }
-
+  if (is.null(colnames(x)) && ncol(x) == 2L)  {
+    colnames(x) <- c("x", "y")
+  }
+  if (ncol(x) == 2L && all(colnames(x) == c("lon", "lat"))) {
+    colnames(x) <- c("x", "y")
+  }
   x_trans <- proj_trans_handleable(
     wk::as_xy(x),
     target_crs, source_crs,

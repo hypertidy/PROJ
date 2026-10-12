@@ -12,16 +12,19 @@ The goal of PROJ is to provide generic coordinate system transformations in R
 without requiring bespoke formats for storing basic data.
 }
 \section{Using a non-default libproj}{
+
 When installing from source, set \code{PKG_LIBS} and \code{PKG_CPPFLAGS} to point to
 the custom PROJ library and headers. For example, on Linux:
 
-\preformatted{export PKG_LIBS="-L/home/user/lib -lproj"
+\if{html}{\out{<div class="sourceCode sh">}}\preformatted{export PKG_LIBS="-L/home/user/lib -lproj"
 export PKG_CPPFLAGS="-I/home/user/include"
-export LD_LIBRARY_PATH="/home/user/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-remotes::install_github("hypertidy/PROJ")}
+export LD_LIBRARY_PATH="/home/user/lib$\{LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH\}"
+remotes::install_github("hypertidy/PROJ")
+}\if{html}{\out{</div>}}
 
 The linked PROJ library must be version 6.3.1 or later.
 }
+
 \section{I. Functions}{
 
 \tabular{ll}{
