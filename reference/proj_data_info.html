@@ -67,7 +67,9 @@ any) is active, and the PROJ library version.</p>
 
     <div id="value">
     <h2>Value</h2>
-    <p>a list with elements 'db' (named character), 'bundled_active' (logical), 'proj_version' (character)</p>
+    <p>a list with elements 'db' (named character), 'bundled_active' (logical),
+'proj_version' (character), and 'message' (character, or NULL): the startup
+message explaining why a bundled copy was ignored, if that happened</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -93,6 +95,9 @@ other database lookups will fail, though '+proj=' strings still work.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $proj_version</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "9.4.0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $message</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
