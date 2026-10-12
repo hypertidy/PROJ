@@ -60,6 +60,20 @@ To install the development version from Github do
 remotes::install_github("hypertidy/PROJ")
 ```
 
+To build from source against a non-default PROJ installation, set `PKG_LIBS`
+and `PKG_CPPFLAGS` before installing. For example, on Linux:
+
+``` sh
+export PKG_LIBS="-L/home/user/lib -lproj"
+export PKG_CPPFLAGS="-I/home/user/include"
+export LD_LIBRARY_PATH="/home/user/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+remotes::install_github("hypertidy/PROJ")
+```
+
+The linked PROJ library must be version 6.3.1 or later. `LD_LIBRARY_PATH`
+allows the runtime loader to find the custom shared library; use the equivalent
+library search-path setting for your platform if needed.
+
 ## Example
 
 Minimal code example, two lon-lat coordinates to LAEA, and back.
