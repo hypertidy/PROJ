@@ -99,12 +99,18 @@
 <p>To install the development version from Github do</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"hypertidy/PROJ"</span><span class="op">)</span></span></code></pre></div>
+<p>To build from source against a non-default PROJ installation, set <code>PKG_LIBS</code> and <code>PKG_CPPFLAGS</code> before installing. For example, on Linux:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">PKG_LIBS</span><span class="op">=</span><span class="st">"-L/home/user/lib -lproj"</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">PKG_CPPFLAGS</span><span class="op">=</span><span class="st">"-I/home/user/include"</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="bu">export</span> <span class="va">LD_LIBRARY_PATH</span><span class="op">=</span><span class="st">"/home/user/lib</span><span class="va">${LD_LIBRARY_PATH</span><span class="op">:+</span>:<span class="va">$LD_LIBRARY_PATH}</span><span class="st">"</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="ex">remotes::install_github</span><span class="er">(</span><span class="st">"hypertidy/PROJ"</span><span class="kw">)</span></span></code></pre></div>
+<p>The linked PROJ library must be version 6.3.1 or later. <code>LD_LIBRARY_PATH</code> allows the runtime loader to find the custom shared library; use the equivalent library search-path setting for your platform if needed.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>Minimal code example, two lon-lat coordinates to LAEA, and back.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/PROJ" class="external-link">PROJ</a></span><span class="op">)</span></span>
 <span><span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">147</span><span class="op">)</span></span>
 <span><span class="va">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">42</span><span class="op">)</span></span>
@@ -134,7 +140,7 @@
 <span><span class="co">#&gt; [2,]      NaN       NaN</span></span>
 <span><span class="co">#&gt; [3,] 147.0018 -42.00038</span></span></code></pre></div>
 <p>A more realistic example with coastline map data.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hypertidy/PROJ" class="external-link">PROJ</a></span><span class="op">)</span></span>
 <span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu">PROJ</span><span class="fu">::</span><span class="va"><a href="reference/xymap.html">xymap</a></span></span>
 <span><span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
@@ -143,7 +149,7 @@
 <span><span class="va">xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>, <span class="va">dst</span>, source <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">xy</span><span class="op">[</span>,<span class="fl">1L</span><span class="op">]</span>, <span class="va">xy</span><span class="op">[</span>,<span class="fl">2L</span><span class="op">]</span>, pch <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" alt="" width="100%"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">lonlat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="va">xy</span>, <span class="va">src</span>, source <span class="op">=</span> <span class="va">dst</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lonlat</span>, pch <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
@@ -153,7 +159,7 @@
 <h2 id="convert-projection-strings">Convert projection strings<a class="anchor" aria-label="anchor" href="#convert-projection-strings"></a>
 </h2>
 <p>We can generate PROJ or within limitations WKT2 strings, format 0, 1, 2 for WKT, proj4string, projjson respectively.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">wkt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_crs_text.html">proj_crs_text</a></span><span class="op">(</span><span class="st">"EPSG:4326"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; GEOGCRS["WGS 84",</span></span>
 <span><span class="co">#&gt;     ENSEMBLE["World Geodetic System 1984 ensemble",</span></span>
@@ -189,7 +195,7 @@
 <div class="section level2">
 <h2 id="use-wk-for-xyz-and-xyzt">Use wk for xyz and xyzt<a class="anchor" aria-label="anchor" href="#use-wk-for-xyz-and-xyzt"></a>
 </h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans_create.html">proj_trans_create</a></span><span class="op">(</span><span class="st">"EPSG:3857"</span>, <span class="st">"+proj=cart"</span><span class="op">)</span></span>
 <span><span class="va">wmerc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/proj_trans.html">proj_trans</a></span><span class="op">(</span><span class="va">w</span>, <span class="st">"EPSG:3857"</span>, source <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu">wk</span><span class="fu">::</span><span class="fu"><a href="https://paleolimbot.github.io/wk/reference/wk_transform.html" class="external-link">wk_transform</a></span><span class="op">(</span><span class="fu">wk</span><span class="fu">::</span><span class="fu"><a href="https://paleolimbot.github.io/wk/reference/xy.html" class="external-link">xyz</a></span><span class="op">(</span><span class="va">wmerc</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">wmerc</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, <span class="fl">0</span><span class="op">)</span>, <span class="va">trans</span><span class="op">)</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">.1</span>, pch <span class="op">=</span> <span class="fl">19</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
