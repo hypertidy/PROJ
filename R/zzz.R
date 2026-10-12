@@ -51,8 +51,11 @@ PROJ_use_bundled_data <- function(prj) {
     "Ignoring the bundled copy and using the PROJ library defaults instead. ",
     "If this package was installed with --with-data-copy, reinstall without it."),
     proj_version(), why)
+  ## a startup message (via .onAttach) rather than a warning: the fallback
+  ## works, and a load-time warning would turn a misconfigured install into
+  ## an R CMD check WARNING. proj_data_info()$message carries it for
+  ## requireNamespace() users.
   assign(".PROJ.data_message", msg, envir = .PROJ_cache)
-  warning(msg, call. = FALSE)
   invisible(FALSE)
 }
 
@@ -73,12 +76,15 @@ PROJ_unload_proj <- function() {
 #' If `path` is NA the library cannot find a usable proj.db: EPSG codes and
 #' other database lookups will fail, though '+proj=' strings still work.
 #'
-#' @return a list with elements 'db' (named character), 'bundled_active' (logical), 'proj_version' (character)
+#' @return a list with elements 'db' (named character), 'bundled_active' (logical),
+#' 'proj_version' (character), and 'message' (character, or NULL): the startup
+#' message explaining why a bundled copy was ignored, if that happened
 #' @export
 #' @examples
 #' proj_data_info()
 proj_data_info <- function() {
   list(db = .Call("C_proj_db_info", PACKAGE = "PROJ"),
        bundled_active = isTRUE(get0(".PROJ.data_active", envir = .PROJ_cache, ifnotfound = FALSE)),
-       proj_version = proj_version())
+       proj_version = proj_version(),
+       message = get0(".PROJ.data_message", envir = .PROJ_cache, ifnotfound = NULL))
 }

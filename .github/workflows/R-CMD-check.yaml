@@ -4,43 +4,37 @@ on:
   pull_request:
     branches: [main]
 
-name: R-CMD-check-proj-cmake
+name: R-CMD-check
 
 jobs:
-  R-CMD-check-proj:
+  R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) (${{ matrix.config.PROJ_VERSION }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}) PROJ ${{ matrix.config.proj }}
 
     strategy:
       fail-fast: false
       matrix:
         config:
-      #    - {os: macos-latest,   r: 'release', PROJ_VERSION: 'cran'}
-      #    - {os: windows-latest, r: 'release', PROJ_VERSION: 'cran'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release', PROJ_VERSION: '9.3.0'}
-          - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '9.3.0'}
-#          - {os: ubuntu-latest,   r: 'oldrel-1', PROJ_VERSION: '9.3.0'}
-          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '8.2.1'}
-          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '7.2.1'}
-          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '6.3.1'}
-          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '5.2.0'}
-          # - {os: ubuntu-latest,   r: 'release', PROJ_VERSION: '4.9.3'}
+          # Windows: static libproj and share/proj from Rtools, copied into inst/proj by
+          # src/Makevars.ucrt. This is what CRAN ships, so the bundled copy MUST be active.
+          - {os: windows-latest, r: 'release', proj: 'rtools'}
+          # macOS: brew libproj (dynamic). Plain install uses the system data; a second
+          # install below with PROJ_GDAL_DATA_COPY exercises the copy path CRAN uses.
+          - {os: macos-latest,   r: 'release', proj: 'brew'}
+          # Linux: PROJ built from source with cmake, at the newest release and at the
+          # oldest version proj_factors() with a CRS supports.
+          - {os: ubuntu-latest,  r: 'devel',   proj: '9.9.0', http-user-agent: 'release'}
+          - {os: ubuntu-latest,  r: 'release', proj: '9.9.0'}
+          - {os: ubuntu-latest,  r: 'release', proj: '8.2.1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      PROJ_NUMBER: ${{ matrix.config.PROJ_VERSION }}
-      # cmake does not understand "-1" as "all cpus"
+      PROJ_NUMBER: ${{ matrix.config.proj }}
 
     steps:
-      # - name: Install macOS system dependencies
-      #   if: runner.os == 'macOS'
-      #   run: |
-      #      brew install openssl
-      #      brew install proj
-
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -50,50 +44,75 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      # - name: Install ubuntu system dependencies
-      #   if: runner.os == 'Linux'
-      #   run: |
-      #      #apt-get install libcurl4-openssl-dev libsqlite3-dev libtiff-dev
-      #      wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
-      #      tar zxvf proj-$PROJ_NUMBER.tar.gz
-      #      cd proj-$PROJ_NUMBER
-      #      ./configure --prefix /usr
-      #      make install -j4
-      #      sudo make install
-      #      sudo ldconfig
-
-      - name: Install ubuntu cmake build system dependencies
+      - name: Install PROJ from source (Linux)
         if: runner.os == 'Linux'
         run: |
-           sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev  libsqlite3-dev libtiff-dev cmake libssl-dev libxml2-dev
-           wget https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
-           tar zxvf proj-$PROJ_NUMBER.tar.gz
-           cd proj-$PROJ_NUMBER
-           mkdir build
-           cd build
-           #CMAKE_CORES=${NCPUS}
-           #if [ "${CMAKE_CORES}" = "-1" ]; then
-           #   CMAKE_CORES=$(nproc --all)
-           #fi
-           cmake .. -DCMAKE_INSTALL_PREFIX=/usr
-           sudo cmake --build . --target install  ##--parallel "$CMAKE_CORES"
-           cd ../..
-           sudo rm -rf proj-$PROJ_NUMBER
-           rm proj-$PROJ_NUMBER.tar.gz
-           sudo ldconfig
-           sudo projsync --source-id fr_ign --system-directory
+          sudo apt-get update -y
+          sudo apt-get install -y libcurl4-openssl-dev libsqlite3-dev sqlite3 libtiff-dev cmake libssl-dev
+          wget -q https://download.osgeo.org/proj/proj-$PROJ_NUMBER.tar.gz
+          tar zxf proj-$PROJ_NUMBER.tar.gz
+          cmake -S proj-$PROJ_NUMBER -B proj-build -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTING=OFF -DBUILD_APPS=OFF
+          cmake --build proj-build -j"$(nproc)"
+          sudo cmake --install proj-build
+          sudo ldconfig
+          rm -rf proj-$PROJ_NUMBER proj-$PROJ_NUMBER.tar.gz proj-build
+          echo "PROJ_DATA_DIR=/usr/share/proj" >> "$GITHUB_ENV"
 
-      #  uses: r-lib/actions/setup-r-dependencies@v2
-      #   with:
-      #     extra-packages: any::rcmdcheck
-      #     needs: check
+      - name: Install PROJ (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install proj pkg-config sqlite
+          echo "PROJ_DATA_DIR=$(brew --prefix proj)/share/proj" >> "$GITHUB_ENV"
 
-      - name: Install package installer
-        run: Rscript -e 'install.packages(c("pak"), repos = "https://cran.rstudio.com/")'
-
-      - name: Install package deps
-        run: Rscript -e 'pak::pak(c("lifecycle", "wk", "testthat", "spelling", "knitr", "rmarkdown", "rcmdcheck"))'
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: false
+
+      # ---- bundled PROJ data: the three states R/zzz.R has to get right ----
+
+      - name: Default install uses the system PROJ data (Linux, macOS)
+        if: runner.os != 'Windows'
+        run: |
+          R CMD INSTALL .
+          Rscript .github/scripts/check-proj-data.R system
+
+      - name: Default install uses the Rtools copy in inst/proj (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          R CMD INSTALL .
+          Rscript .github/scripts/check-proj-data.R bundled
+
+      - name: PROJ_GDAL_DATA_COPY install bundles a usable copy (the CRAN macOS mechanism)
+        if: runner.os != 'Windows'
+        env:
+          PROJ_GDAL_DATA_COPY: 1
+          PROJ_LIB: ${{ env.PROJ_DATA_DIR }}
+        run: |
+          R CMD INSTALL .
+          Rscript .github/scripts/check-proj-data.R bundled
+
+      - name: --with-data-copy install of a stale proj.db is detected and ignored
+        if: runner.os != 'Windows'
+        run: |
+          # fake a proj.db from "another PROJ installation" by stripping the layout
+          # version metadata, which is what PROJ checks on first database access
+          mkdir -p "$RUNNER_TEMP/stale-proj"
+          cp "$PROJ_DATA_DIR"/* "$RUNNER_TEMP/stale-proj/" || true
+          sqlite3 "$RUNNER_TEMP/stale-proj/proj.db" "DELETE FROM metadata WHERE key LIKE 'DATABASE.LAYOUT%'"
+          R CMD INSTALL --configure-args="--with-data-copy=yes --with-proj-data=$RUNNER_TEMP/stale-proj" .
+          Rscript .github/scripts/check-proj-data.R fallback
+
+      - name: Stale proj.db dropped into inst/proj is detected and ignored (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          # Windows has no configure; overwrite the installed copy with a layout-less one.
+          # sqlite3 CLI comes with Rtools.
+          LIB=$(Rscript -e 'cat(system.file("proj", package = "PROJ"))')
+          sqlite3 "$LIB/proj.db" "DELETE FROM metadata WHERE key LIKE 'DATABASE.LAYOUT%'"
+          Rscript .github/scripts/check-proj-data.R fallback

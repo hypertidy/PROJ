@@ -7,7 +7,9 @@
 proj_data_info()
 }
 \value{
-a list with elements 'db' (named character), 'bundled_active' (logical), 'proj_version' (character)
+a list with elements 'db' (named character), 'bundled_active' (logical),
+'proj_version' (character), and 'message' (character, or NULL): the startup
+message explaining why a bundled copy was ignored, if that happened
 }
 \description{
 Returns the path of the proj.db that the PROJ library resolves, its

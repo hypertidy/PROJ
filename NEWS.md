@@ -13,7 +13,8 @@
   the linked library fails silently at the first EPSG lookup with "Unknown
   error (code 2)". The package now sets the search path, forces a lookup,
   and if that fails reverts to the library defaults with a startup message
-  that quotes PROJ's own diagnostic (e.g. "lacks DATABASE.LAYOUT.VERSION
+  (also in `proj_data_info()$message`) that quotes PROJ's own diagnostic
+  (e.g. "lacks DATABASE.LAYOUT.VERSION
   metadata. It comes from another PROJ installation").
 
 * The search path is now set with `proj_context_set_search_paths()` on the
@@ -26,6 +27,13 @@
 * New `proj_data_info()` reports the proj.db the library resolves, its
   metadata (PROJ version that built it, database layout, EPSG version),
   and whether the bundled copy is active.
+
+* CI now runs on Windows (Rtools static libproj, bundled data must be
+  active), macOS (brew libproj, plus a `PROJ_GDAL_DATA_COPY` install to
+  exercise the path CRAN's macOS build uses) and Linux (PROJ 9.9.0 and
+  8.2.1 from source). Each platform also installs a deliberately stale
+  proj.db and checks it is detected and ignored. The autotools PROJ matrix
+  (PROJ 6-8, long failing) and the dead test-coverage workflow are removed.
 
 * `proj_factors()` no longer returns silent NaN when every coordinate fails:
   that is a setup problem (typically no usable proj.db), not a coordinate
