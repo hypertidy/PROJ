@@ -1,67 +1,68 @@
-
-
+#define R_NO_REMAP
 #include <R.h>
 #include <Rinternals.h>
 
 #include <proj.h>
 
+#if PROJ_VERSION_MAJOR < 8
+// proj_context_errno_string() arrived in PROJ 8; before that the
+// context-free (now deprecated) form is all there is
+#define proj_context_errno_string(ctx, err) proj_errno_string(err)
+#endif
+
+// proj_crs_text(source, format): source as WKT2 (0), PROJ string (1) or
+// PROJJSON (2). NA_character_ with a warning if PROJ cannot create the
+// object or render it in that format; never an R error, so the R wrapper
+// keeps its documented NA-on-failure behaviour.
 SEXP C_proj_crs_text(SEXP crs_, SEXP format)
 {
-  // unpack the input string
-  const char*  crs_in[] = {CHAR(STRING_ELT(crs_, 0))};
+  const char* crs_in = Rf_translateCharUTF8(STRING_ELT(crs_, 0));
+  int fmt = Rf_asInteger(format);
 
-  //unused flag
-  int success;
-  success = 0;
-  // output string assigned by proj_as_*() below
-  const char  *outstring;
+  SEXP out = PROTECT(Rf_allocVector(STRSXP, 1));
+  SET_STRING_ELT(out, 0, NA_STRING);
 
-  // which format to output
-  int fmt;
-  fmt = Rf_asInteger(format);
-
-  // allocate the R output
-  SEXP out = PROTECT(allocVector(STRSXP, 1));
-
-  PJ *pj;
-  int r;
-
-  if (!(pj =   proj_create(PJ_DEFAULT_CTX, *crs_in))){
-    r = proj_errno(pj);
-    Rprintf("Error detected, fail create crs (error code: %i)\n\n", r);
-    Rprintf("' %s\n\n '", proj_errno_string(r));
+  PJ_CONTEXT* ctx = proj_context_create();
+  if (ctx == NULL) {
+    UNPROTECT(1);
+    Rf_error("Failed to create PROJ context");
   }
 
-  if (fmt == 0L) {
-    // available types
-    // PJ_WKT1_ESRI, PJ_WKT1_GDAL, PJ_WKT2_2015, PJ_WKT2_2015_SIMPLIFIED, PJ_WKT2_2018, PJ_WKT2_2018_SIMPLIFIED;
-    outstring = proj_as_wkt(0, pj, PJ_WKT2_2019, NULL);
-    success = 1L;
+  PJ* pj = proj_create(ctx, crs_in);
+  if (pj == NULL) {
+    int err = proj_context_errno(ctx);
+    const char* msg = proj_context_errno_string(ctx, err);
+    const char* hint = proj_context_get_database_path(ctx) == NULL
+        ? " (no usable proj.db found by the PROJ library, see proj_data_info())" : "";
+    // copy before the context (which may own msg) is destroyed
+    char buf[512];
+    snprintf(buf, sizeof(buf), "%s%s", msg ? msg : "unknown PROJ error", hint);
+    proj_context_destroy(ctx);
+    UNPROTECT(1);
+    Rf_warning("proj_crs_text(): cannot create object from '%s': %s", crs_in, buf);
+    return out;
   }
-  if (fmt == 1L) {
-    //PJ_PROJ_4, PJ_PROJ_5;
-    outstring = proj_as_proj_string(0, pj, PJ_PROJ_5, NULL);
 
-    success = 1L;
+  const char* outstring = NULL;
+  switch (fmt) {
+    case 0: outstring = proj_as_wkt(ctx, pj, PJ_WKT2_2019, NULL); break;
+    case 1: outstring = proj_as_proj_string(ctx, pj, PJ_PROJ_5, NULL); break;
+    case 2: outstring = proj_as_projjson(ctx, pj, NULL); break;
+    default: break;
   }
-  if (fmt ==  2L) {
-   outstring = proj_as_projjson(0, pj, NULL);
-   success = 1L;
-  }
-  // form output as a character vector *before* destroying proj object
-  // The returned string is valid while the input obj parameter is valid, and
-  // until a next call to proj_as_*() with the same input object.
-  // https://proj.org/development/reference/functions.html#_CPPv411proj_as_wktP1                                          0PJ_CONTEXTPK2PJ11PJ_WKT_TYPEPPCKc
 
-  if (!success) {
-    SET_STRING_ELT(out, 0, NA_STRING);
-  } else {
-    SET_STRING_ELT(out, 0, mkChar(outstring));
+  // the returned string is owned by pj: copy into R before destroying it
+  if (outstring != NULL) {
+    SET_STRING_ELT(out, 0, Rf_mkCharCE(outstring, CE_UTF8));
   }
 
   proj_destroy(pj);
+  proj_context_destroy(ctx);
+
+  if (outstring == NULL) {
+    Rf_warning("proj_crs_text(): PROJ could not render '%s' in format %d", crs_in, fmt);
+  }
 
   UNPROTECT(1);
-
-  return(out);
+  return out;
 }

@@ -50,6 +50,11 @@
   proj.db and checks it is detected and ignored. The autotools PROJ matrix
   (PROJ 6-8, long failing) and the dead test-coverage workflow are removed.
 
+* `proj_crs_text()` segfaulted when PROJ could not create the object (for
+  example an EPSG code with no usable proj.db): the NULL result was passed
+  on to `proj_as_wkt()`. It now returns NA with a warning carrying PROJ's
+  error, as documented, and uses its own PROJ context.
+
 * `proj_factors()` no longer returns silent NaN when every coordinate fails:
   that is a setup problem (typically no usable proj.db), not a coordinate
   problem, and is now a warning carrying PROJ's error. Errors from
