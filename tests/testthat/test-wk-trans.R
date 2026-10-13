@@ -121,19 +121,19 @@ test_that("inverse(proj_trans) print method works", {
   expect_match(str, "source_crs.*EPSG:3112.*target_crs.*EPSG:4283")
 })
 
-## we can't use proj=longlat or OGC:CRS84 with PROJ 8.2.1 and ubuntu-asan
-# test_that("proj_trans_create() adds crs type if needed", {
-#   expect_no_error(proj_trans_create("+proj=longlat +datum=WGS84 +no_defs +type=crs", "+proj=longlat +datum=WGS84 +no_defs"))
-#
-#   info <- proj_trans_info(
-#     proj_trans_create(
-#       "+proj=longlat +datum=WGS84 +no_defs +type=crs",
-#       "+proj=longlat +datum=WGS84 +no_defs"
-#     )
-#   )
-#
-#   expect_identical(info$source_crs, info$target_crs)
-# })
+# we can't use proj=longlat or OGC:CRS84 with PROJ 8.2.1 and ubuntu-asan
+test_that("proj_trans_create() adds crs type if needed", {
+  expect_no_error(proj_trans_create("+proj=longlat +datum=WGS84 +no_defs +type=crs", "+proj=longlat +datum=WGS84 +no_defs"))
+
+  info <- proj_trans_info(
+    proj_trans_create(
+      "+proj=longlat +datum=WGS84 +no_defs +type=crs",
+      "+proj=longlat +datum=WGS84 +no_defs"
+    )
+  )
+
+  expect_identical(info$source_crs, info$target_crs)
+})
 
 test_that("proj_trans_create() options are validated", {
   expect_error(proj_trans_create("EPSG:4326", "EPSG:3857", options = "FORCE_OVER"), "KEY=VALUE")
@@ -186,7 +186,6 @@ test_that("FORCE_OVER controls antimeridian wrapping, forward and inverse", {
 })
 
 test_that("ALLOW_BALLPARK=NO refuses a ballpark-only pair", {
-  skip_if_not(proj_version() >= "7.1.0")
   # two datums with no known transformation: only a ballpark operation exists
   expect_no_error(proj_trans_create("+proj=longlat +ellps=clrk66 +type=crs", "EPSG:4326"))
   expect_error(proj_trans_create("+proj=longlat +ellps=clrk66 +type=crs", "EPSG:4326",
