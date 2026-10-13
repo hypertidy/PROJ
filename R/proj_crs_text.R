@@ -3,9 +3,6 @@
 #' Input any accepted format of 'PROJ' coordinate reference system specification.
 #' Return value is a string in the requested format.
 #'
-#' This function requires PROJ version 6.0 or higher to be useful. If not, this
-#' function simply returns 'NA'.
-#'
 #' See the [library documentation](https://proj.org/development/reference/functions.html#transformation-setup)
 #' for details on input and output formats.
 #'

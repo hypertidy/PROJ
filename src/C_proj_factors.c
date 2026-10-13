@@ -37,11 +37,7 @@ SEXP C_proj_factors(SEXP crs_, SEXP lp_) {
     PJ* pj = proj_create(ctx, crs_str);
     if (pj == NULL) {
         int err = proj_context_errno(ctx);
-#if PROJ_VERSION_MAJOR < 8
-        const char* msg = proj_errno_string(err);
-#else
         const char* msg = proj_context_errno_string(ctx, err);
-#endif
         // copy before destroying the context that may own the string
         char buf[512];
         if (proj_context_get_database_path(ctx) == NULL) {
@@ -53,21 +49,6 @@ SEXP C_proj_factors(SEXP crs_, SEXP lp_) {
         proj_context_destroy(ctx);
         Rf_error("%s", buf);
     }
-
-#if (PROJ_VERSION_MAJOR * 100 + PROJ_VERSION_MINOR) < 802
-    // proj_factors() accepts a CRS only from PROJ 8.2; older versions
-    // silently return garbage for CRS input, so require an operation
-    PJ_TYPE pj_type = proj_get_type(pj);
-    if (pj_type != PJ_TYPE_CONVERSION && pj_type != PJ_TYPE_TRANSFORMATION &&
-        pj_type != PJ_TYPE_CONCATENATED_OPERATION &&
-        pj_type != PJ_TYPE_OTHER_COORDINATE_OPERATION &&
-        pj_type != PJ_TYPE_UNKNOWN) {
-        proj_destroy(pj);
-        proj_context_destroy(ctx);
-        Rf_error("proj_factors() with a CRS requires PROJ >= 8.2 (this is PROJ %d.%d), use a '+proj=' string",
-                 PROJ_VERSION_MAJOR, PROJ_VERSION_MINOR);
-    }
-#endif
 
     R_xlen_t n = Rf_nrows(lp_);
     const double* lp = REAL_RO(lp_);
@@ -127,11 +108,7 @@ SEXP C_proj_factors(SEXP crs_, SEXP lp_) {
     // proj_factors() reports per-row through errno rather than failing
     // proj_create(). Surface that once rather than returning silent NaN.
     if (n > 0 && n_fail == n) {
-#if PROJ_VERSION_MAJOR < 8
-        const char* emsg = proj_errno_string(first_err);
-#else
         const char* emsg = proj_context_errno_string(ctx, first_err);
-#endif
         const char* hint = proj_context_get_database_path(ctx) == NULL
             ? " (no usable proj.db found by the PROJ library, see proj_data_info())" : "";
         Rf_warning("proj_factors() failed for all %lld coordinates: %s%s",

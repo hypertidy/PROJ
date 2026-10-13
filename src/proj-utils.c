@@ -6,13 +6,6 @@
 
 #include "proj-utils.h"
 
-// polyfill PJ_TYPE enums introduced in 7.2
-#if (PROJ_VERSION_MAJOR * 100 + PROJ_VERSION_MINOR) < 702
-#define PJ_TYPE_TEMPORAL_DATUM 25
-#define PJ_TYPE_ENGINEERING_DATUM 26
-#define PJ_TYPE_PARAMETRIC_DATUM 27
-#endif
-
 const char* proj_type_name(PJ_TYPE type) {
   // clang-format off
   switch (type) {
@@ -59,13 +52,6 @@ const char* proj_type_name(PJ_TYPE type) {
   }
   // clang-format on
 }
-
-#if PROJ_VERSION_MAJOR < 8
-static const char* proj_context_errno_string(PJ_CONTEXT* ctx, int err) {
-  // deprecated in proj 8
-  return proj_errno_string(err);
-}
-#endif
 
 void stop_proj_error(PJ_CONTEXT* ctx) {
   int err = proj_context_errno(ctx);

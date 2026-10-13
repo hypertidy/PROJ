@@ -4,12 +4,6 @@
 
 #include <proj.h>
 
-#if PROJ_VERSION_MAJOR < 8
-// proj_context_errno_string() arrived in PROJ 8; before that the
-// context-free (now deprecated) form is all there is
-#define proj_context_errno_string(ctx, err) proj_errno_string(err)
-#endif
-
 // proj_crs_text(source, format): source as WKT2 (0), PROJ string (1) or
 // PROJJSON (2). NA_character_ with a warning if PROJ cannot create the
 // object or render it in that format; never an R error, so the R wrapper

@@ -70,7 +70,7 @@ export LD_LIBRARY_PATH="/home/user/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 remotes::install_github("hypertidy/PROJ")
 ```
 
-The linked PROJ library must be version 6.3.1 or later.
+The linked PROJ library must be version 8.2.0 or later.
 `LD_LIBRARY_PATH` allows the runtime loader to find the custom shared
 library; use the equivalent library search-path setting for your
 platform if needed.

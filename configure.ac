@@ -42,13 +42,9 @@ else
   AC_MSG_RESULT([no])
 fi
 
-# force PROJ 6 or above
-use6=yes
-proj6api=yes
-
-
-# check PROJ6 API - it is mandatory if use6=yes
-AC_CHECK_HEADERS(proj.h,,proj6api=no)
+# PROJ >= 8.2 is required (proj_factors() with a CRS, proj_context_errno_string())
+AC_CHECK_HEADERS(proj.h,,[AC_MSG_ERROR([proj.h not found.
+*** You may need to install libproj-dev or similar, or set PKG_CPPFLAGS. ***])])
 
 AC_CHECK_LIB(proj, proj_get_source_crs,,[
     unset ac_cv_lib_proj_proj_get_source_crs
@@ -56,22 +52,19 @@ AC_CHECK_LIB(proj, proj_get_source_crs,,[
     AC_MSG_NOTICE([Retrying with pkg-config --static])
     PROJ_LIBS=`pkg-config --static --libs proj`
     LIBS="${LIBS_SAVE} ${PROJ_LIBS}"
+    AC_CHECK_LIB(proj, proj_get_source_crs,,[AC_MSG_ERROR([libproj not found or not linkable.
+*** You may need to install libproj-dev or similar, or set PKG_LIBS. ***])])
 ])
 
-vers_ge6=yes
-## specifically this is not in 5
-AC_CHECK_LIB(proj, proj_as_wkt, , proj6api=no)
-
-#AC_MSG_NOTICE([PROJ4 API available: ${proj4api}])
-AC_MSG_NOTICE([PROJ6 API available: ${proj6api}])
-
-
-if test x${use6}${proj6api} = xyesno; then
-   AC_MSG_NOTICE([Cannot find working proj.h headers and library.
-*** You may need to install libproj-dev or similar! ***
-])
-fi
-
+AC_MSG_CHECKING([PROJ version >= 8.2])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <proj.h>]],
+  [[#if (PROJ_VERSION_MAJOR * 100 + PROJ_VERSION_MINOR) < 802
+    #error PROJ too old
+    #endif]])],
+  [AC_MSG_RESULT([yes])],
+  [AC_MSG_RESULT([no])
+   AC_MSG_ERROR([PROJ >= 8.2.0 is required; the headers found report an older version.
+*** Install a newer PROJ (Ubuntu 22.04 ships 8.2.1; ubuntugis-unstable or conda-forge have current releases) ***])])
 
 # Optional local copy of the PROJ data directory into the package (inst/proj).
 # Honoured either via the PROJ_GDAL_DATA_COPY environment variable (as sf,

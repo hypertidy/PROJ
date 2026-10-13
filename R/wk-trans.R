@@ -17,7 +17,7 @@
 #' * `AUTHORITY=name` restrict candidate operations to one authority (e.g.
 #'   `"EPSG"`), or `"any"`
 #' * `ACCURACY=value` minimum desired accuracy in metres
-#' * `ALLOW_BALLPARK=YES/NO` (PROJ >= 7.1) set to `NO` to disallow ballpark
+#' * `ALLOW_BALLPARK=YES/NO` set to `NO` to disallow ballpark
 #'   transformations
 #' * `FORCE_OVER=YES/NO` (PROJ >= 9.1.1) set to `YES` to force the `+over`
 #'   flag, so longitudes are not wrapped to -180..180. This is what you want
@@ -74,14 +74,11 @@ proj_trans_create <- function(source_crs, target_crs, use_z = NA, use_m = NA,
   wk::new_wk_trans(trans, "proj_trans")
 }
 
-## the PROJ version that introduced each option to proj_create_crs_to_crs();
-## anything not listed here is left to PROJ, which errors on unknown options.
-## FORCE_OVER exists from 9.0 but proj_normalize_for_visualization() (which
-## every transformer here goes through) only honours it from 9.1.1 (#3350).
+## options newer than the PROJ 8.2 floor, with the version that introduced
+## them; anything not listed here is left to PROJ, which errors on unknown
+## options. FORCE_OVER exists from 9.0 but proj_normalize_for_visualization()
+## (which every transformer here goes through) only honours it from 9.1.1.
 .proj_trans_option_versions <- c(
-  AUTHORITY = "6.2.0",
-  ACCURACY = "6.2.0",
-  ALLOW_BALLPARK = "7.1.0",
   FORCE_OVER = "9.1.1",
   ONLY_BEST = "9.2.0"
 )

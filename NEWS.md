@@ -1,5 +1,14 @@
 # PROJ dev
 
+* The minimum PROJ library version is now 8.2.0 (was nominally 6.3.1;
+  `proj_factors()` with a CRS already needed 8.2 and nothing older much tested). 
+  This is the PROJ in Ubuntu 22.04. configure now fails
+  with a clear message on older PROJ rather than building a package that
+  partly works. Compatibility shims for PROJ 6 and 7 are removed. The
+  floor will move to 9.2 after Ubuntu 22.04 leaves standard support in
+  April 2027, at which point the remaining version gates (`FORCE_OVER`,
+  `ONLY_BEST`) go too.
+
 * sf is no longer in Suggests. The `proj_trans()` method for `sfc` remains
   (it needs sf installed at run time, since wk delegates setting an sfc's
   CRS to sf), but it is no longer tested here, so CI no longer builds sf

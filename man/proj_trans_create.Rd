@@ -36,7 +36,7 @@ pipeline.
 \item \code{AUTHORITY=name} restrict candidate operations to one authority (e.g.
 \code{"EPSG"}), or \code{"any"}
 \item \code{ACCURACY=value} minimum desired accuracy in metres
-\item \code{ALLOW_BALLPARK=YES/NO} (PROJ >= 7.1) set to \code{NO} to disallow ballpark
+\item \code{ALLOW_BALLPARK=YES/NO} set to \code{NO} to disallow ballpark
 transformations
 \item \code{FORCE_OVER=YES/NO} (PROJ >= 9.1.1) set to \code{YES} to force the \code{+over}
 flag, so longitudes are not wrapped to -180..180. This is what you want

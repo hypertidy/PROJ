@@ -26,13 +26,13 @@ NULL
 #' remotes::install_github("hypertidy/PROJ")
 #' ```
 #'
-#' The linked PROJ library must be version 6.3.1 or later.
+#' The linked PROJ library must be version 8.2.0 or later.
 #' @section I. Functions:
 #' \tabular{ll}{
 #'   \code{\link{ok_proj6}} determine if PROJ version >=6 is available
 #'   \code{\link{proj_trans}} a light wrapper around the underlying transformation functionality of PROJ version 6 (or higher)
 #'  \code{\link{proj_crs_text}} generate PROJ crs strings from input
-#'  \code{\link{proj_version}} report PROJ lib version if available _and_ >= 6.3.1
+#'  \code{\link{proj_version}} report the linked PROJ library version
 #'  }
 #' @name PROJ-package
 NULL

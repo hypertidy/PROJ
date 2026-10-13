@@ -20,9 +20,6 @@ Input any accepted format of 'PROJ' coordinate reference system specification.
 Return value is a string in the requested format.
 }
 \details{
-This function requires PROJ version 6.0 or higher to be useful. If not, this
-function simply returns 'NA'.
-
 See the \href{https://proj.org/development/reference/functions.html#transformation-setup}{library documentation}
 for details on input and output formats.
 }
